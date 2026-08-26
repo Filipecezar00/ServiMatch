@@ -27,3 +27,5 @@ app.get("/health", async (req, res) => {
 app.listen(process.env.PORT, () => {
   console.log(`Servidor rodando em porta ${process.env.PORT}`);
 });
+
+export default pool;
