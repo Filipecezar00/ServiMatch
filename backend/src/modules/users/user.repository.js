@@ -9,4 +9,13 @@ export async function buscarPorEmail(email) {
   return resultado;
 }
 
-export async function criar(dadosUsuario) {}
+export async function criar(nome, email, senha) {
+  const cadastro = await pool.query(
+    `
+    INSERT INTO users (nome,email,senha) VALUES (?,?,?)
+    `,
+    [nome, email, senha],
+  );
+  const resultado = cadastro[0].insertId;
+  return resultado;
+}
