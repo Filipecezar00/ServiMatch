@@ -44,7 +44,7 @@ export async function autenticar(email, senha) {
 
   const resposta = await buscarPorEmail(email);
   if (!resposta) {
-    throw new AppError("Email ou senha incorretos", 401);
+    throw new AppError("Email ou senha Incorretos", 401);
   }
 
   const validar_senha = await bcrypt.compare(senha, resposta.senha_hash);
@@ -65,5 +65,5 @@ export async function autenticar(email, senha) {
     expiresIn: "1h",
   });
 
-  return token_jwt;
+  return { token: token_jwt, usuario: { id, nome, email } };
 }
