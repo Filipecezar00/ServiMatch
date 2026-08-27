@@ -1,6 +1,8 @@
+import "dotenv/config";
 import AppError from "../../utils/AppError.js";
 import bcrypt from "bcrypt";
 import { buscarPorEmail, criar } from "./user.repository.js";
+import jwt from "jsonwebtoken";
 
 export async function cadastro(nome, email, senha) {
   if (!email || !senha || !nome) {
@@ -33,4 +35,35 @@ export async function cadastro(nome, email, senha) {
   const usuario = { id, nome, email };
 
   return usuario;
+}
+
+export async function autenticar(email, senha) {
+  if (!email || !senha) {
+    throw new AppError("Credenciais Incompletas", 400);
+  }
+
+  const resposta = await buscarPorEmail(email);
+  if (!resposta) {
+    throw new AppError("Email ou senha incorretos", 401);
+  }
+
+  const validar_senha = await bcrypt.compare(senha, resposta.senha_hash);
+
+  if (!validar_senha) {
+    throw new AppError("Email ou senha Incorretos", 401);
+  }
+
+  const id = resposta.id;
+  const nome = resposta.nome;
+
+  const payload = {
+    id,
+    nome,
+    email,
+  };
+  const token_jwt = jwt.sign(payload, process.env.TOKEN_JWT, {
+    expiresIn: "1h",
+  });
+
+  return token_jwt;
 }
