@@ -1,17 +1,10 @@
 import "dotenv/config";
-import mysql from "mysql2/promise";
 import express from "express";
+import pool from "./src/config/database.js";
 
 const app = express();
 
 app.use(express.json());
-
-const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
 
 app.get("/health", async (req, res) => {
   try {
@@ -27,5 +20,3 @@ app.get("/health", async (req, res) => {
 app.listen(process.env.PORT, () => {
   console.log(`Servidor rodando em porta ${process.env.PORT}`);
 });
-
-export default pool;
