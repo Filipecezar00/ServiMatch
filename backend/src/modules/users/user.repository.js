@@ -1,4 +1,4 @@
-import pool from "../../../index.js";
+import { pool } from "../../config/database.js";
 
 export async function buscarPorEmail(email) {
   const busca_email = await pool.query(`SELECT * FROM users WHERE email = ?`, [
