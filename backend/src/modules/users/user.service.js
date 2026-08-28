@@ -47,7 +47,7 @@ export async function autenticar(email, senha) {
     throw new AppError("Email ou senha Incorretos", 401);
   }
 
-  const validar_senha = await bcrypt.compare(senha, resposta.senha_hash);
+  const validar_senha = await bcrypt.compare(senha, resposta.senha);
 
   if (!validar_senha) {
     throw new AppError("Email ou senha Incorretos", 401);
