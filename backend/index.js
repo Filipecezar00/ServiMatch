@@ -1,7 +1,9 @@
 import "dotenv/config";
 import express from "express";
+import "express-async-errors";
 import { pool } from "./src/config/database.js";
-
+import errorMiddleware from "./src/middleware/error.js";
+import AppError from "./src/utils/AppError.js";
 const app = express();
 
 app.use(express.json());
@@ -17,6 +19,13 @@ app.get("/health", async (req, res) => {
       .json({ status: "error", database: "Erro ao executar servidor" });
   }
 });
+
+app.get("/teste-erro", () => {
+  throw new AppError("Teste de erro capturado", 400);
+});
+
+app.use(errorMiddleware);
+
 app.listen(process.env.PORT, () => {
   console.log(`Servidor rodando em porta ${process.env.PORT}`);
 });
