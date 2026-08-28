@@ -13,7 +13,7 @@ export async function loginUsuario(req, res) {
   const email = req.body.email;
   const senha = req.body.senha;
 
-  const usuario = await autenticar(email, senha);
+  const resultado = await autenticar(email, senha);
 
-  return res.status(200).json({ usuario });
+  return res.status(200).json(resultado);
 }
