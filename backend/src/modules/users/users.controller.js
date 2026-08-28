@@ -1,21 +1,19 @@
-//função cadastro
-//Extração do email, nome e senha no req.body(controller);
+import { cadastro, autenticar } from "./user.service.js";
 
-//validação do email se possui @ usando regex, validação do comprimento do nome, validação do comprimento da senha. se inválido lança o AppError("dados inválidos,400") (service.js)
-//Buscar email no banco (repository.js)
-//validação se email já existe no banco. se inválido lança AppError("Dados inválidos",409)(service.js)
-//criptografar senha(service.js)
-//Adicionar dados no banco(repository.js)
-//retornar o status 201 e id, nome e email (controller.js);
-// bloco catch do controller - Apenas executa next(erro) para repassar ao middleware central
+export async function criarUsuario(req, res) {
+  const nome = req.body.nome;
+  const email = req.body.email;
+  const senha = req.body.senha;
+  const usuario = await cadastro(nome, email, senha);
 
-//funcao login
-//Extrair req.email e senha no req.body (controller)
-//validar se os dados foram enviados se faltar algo lancar AppError("email e senha são obrigatorios",400) (service.js)
-//busque usuario por email no banco e retorna registro ou null(repository.js)
-//Se não for encontrado lançar AppError("Credenciais inválidas",401)(service.js)
-//Se usuario está no banco e se a senha está correta Comparar com o que tem no banco usando bcrypt.compare(service.js)
-//Se a senha estiver errada lançar um AppError("Credenciais inválidas",401);
-//Gerar token jwt com o payload incluindo -  id (service.js)
-//Retornar com status 200 e retornar JWT no frontend e id,nome e email (controller.js)
-// bloco catch do controller - Apenas executa next(erro) para repassar ao middleware central
+  return res.status(201).json(usuario);
+}
+
+export async function loginUsuario(req, res) {
+  const email = req.body.email;
+  const senha = req.body.senha;
+
+  const usuario = await autenticar(email, senha);
+
+  return res.status(200).json({ usuario });
+}

@@ -2,7 +2,6 @@ import "dotenv/config";
 import express from "express";
 import { pool } from "./src/config/database.js";
 import errorMiddleware from "./src/middleware/error.js";
-import AppError from "./src/utils/AppError.js";
 const app = express();
 
 app.use(express.json());
