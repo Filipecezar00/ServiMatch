@@ -3,9 +3,9 @@ import {
   criarUsuario,
   loginUsuario,
 } from "../../modules/users/users.controller.js";
-const app = express.Router();
+const router = express.Router();
 
-app.post("/cadastro", criarUsuario);
-app.post("/login", loginUsuario);
+router.post("/cadastro", criarUsuario);
+router.post("/login", loginUsuario);
 
-export default app;
+export default router;
