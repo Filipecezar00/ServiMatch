@@ -1,6 +1,5 @@
 import "dotenv/config";
 import express from "express";
-import "express-async-errors";
 import { pool } from "./src/config/database.js";
 import errorMiddleware from "./src/middleware/error.js";
 import AppError from "./src/utils/AppError.js";
@@ -18,10 +17,6 @@ app.get("/health", async (req, res) => {
       .status(500)
       .json({ status: "error", database: "Erro ao executar servidor" });
   }
-});
-
-app.get("/teste-erro", () => {
-  throw new AppError("Teste de erro capturado", 400);
 });
 
 app.use(errorMiddleware);
