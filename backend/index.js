@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import { pool } from "./src/config/database.js";
 import errorMiddleware from "./src/middleware/error.js";
+import user_router from "./src/modules/users/users.routes.js";
 const app = express();
 
 app.use(express.json());
@@ -17,6 +18,8 @@ app.get("/health", async (req, res) => {
       .json({ status: "error", database: "Erro ao executar servidor" });
   }
 });
+
+app.use("/api/users", user_router);
 
 app.use(errorMiddleware);
 
