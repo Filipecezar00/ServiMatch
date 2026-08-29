@@ -21,3 +21,43 @@
 //Gerar token jwt com o payload incluindo -  id (service.js)
 //Retornar com status 200 e retornar JWT no frontend e id,nome e email (controller.js)
 // bloco catch do controller - Apenas executa next(erro) para repassar ao middleware central
+
+CREATE TABLE users  (
+id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
+nome VARCHAR(100) NOT NULL, 
+email VARCHAR(250) NOT NULL UNIQUE,
+senha VARCHAR(250) NOT NULL, 
+criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE  services_offered(
+id INT AUTO_INCREMENT PRIMARY KEY, 
+user_id INT UNSIGNED NOT NULL,
+category_id INT NULL,
+titulo VARCHAR(200) NOT NULL,
+descricao TEXT NOT NULL,
+ativo BOOLEAN DEFAULT TRUE,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+CONSTRAINT fk_services_offered_user FOREIGN KEY(user_id) REFERENCES users(id),
+CONSTRAINT fk_categories_offered_user FOREIGN KEY(category_id) REFERENCES categories(id) ON DELETE SET NULL
+);
+
+CREATE TABLE  services_wanted(
+id INT AUTO_INCREMENT PRIMARY KEY, 
+user_id INT UNSIGNED NOT NULL,
+category_id INT,
+titulo VARCHAR(200) NOT NULL,
+descricao TEXT NOT NULL,
+ativo BOOLEAN DEFAULT TRUE,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+CONSTRAINT fk_services_wanted_user FOREIGN KEY(user_id) REFERENCES users(id),
+CONSTRAINT fk_categories_wanted_user FOREIGN KEY(category_id) REFERENCES categories(id) ON DELETE SET NULL
+);
+
+CREATE TABLE categories(
+id INT AUTO_INCREMENT PRIMARY KEY, 
+nome VARCHAR(100) NOT NULL UNIQUE
+);
+
+23:42:31	CREATE TABLE  services_offered( id INT AUTO_INCREMENT PRIMARY KEY,  user_id INT NOT NULL, category_id INT NULL, titulo VARCHAR(200) NOT NULL, descricao TEXT NOT NULL, ativo BOOLEAN DEFAULT TRUE, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, CONSTRAINT fk_services_offered_user FOREIGN KEY(user_id) REFERENCES users(id), CONSTRAINT fk_categories_offered_user FOREIGN KEY(category_id) REFERENCES categories(id) ON DELETE SET NULL )	Error Code: 3780. Referencing column 'user_id' and referenced column 'id' in foreign key constraint 'fk_services_offered_user' are incompatible.	0.062 sec
