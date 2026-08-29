@@ -69,18 +69,32 @@ se titulo.trim < 3 caracteres ou > 200, emita AppError("titulo deve ter entre tr
 se descricao.trim < 10 caracteres ,emita AppError("Descrição deve ter no mínimo 10 caracteres")
 
 se nao tem categoryId, considere null 
+se categoryId 
+chama funcao do repository para buscar pelo id 
+se não lança o AppError("categoria não encontrada",404); 
 
 chamar repository.salvar(userId,titulo,descricao,categoryId)
 
 
 CONTROLLER
 funcao criar_controller
+try
 extrai do body: titulo,descricao e categoryId
 extrai userId do req.usuario.id 
 chama função criar do service criar(userId,titulo,descricao,categoryId)
 retorna status(201) e json com o valor retornado da função criar do service
 
+catch
+chama next(erro) para o middleware central
+
 REPOSITORY 
 criar_service(userId,titulo,descricao,categoryId); 
-criar query de inserção no banco com base nos dados extraidos
-criar_controller(userId,titulo,descricao,categoryId)
+
+funcao buscarCategoriaPorId(categoryId)
+criar query de inserção no banco com base nos dados extraidos - SELECT COM categoryId
+retorna resultado
+
+funcao salvar(userId,titulo,descricao,categoryId)
+executar insert 
+retornar {id:resultado.insertId,userId,titulo,descricao,categoryId}
+

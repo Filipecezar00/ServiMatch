@@ -1,11 +1,10 @@
 import "dotenv/config";
 
-import { cadastro } from "./modules/users/user.service.js";
+import {
+  salvar,
+  buscarCategoriaPorId,
+} from "./modules/services_offered/service_offered_repository.js";
 
-const criar_usuario = await cadastro(
-  "teste3",
-  "teste3@gmail.com",
-  "testando@1234",
-);
-
-console.log(criar_usuario);
+buscarCategoriaPorId(2);
+buscarCategoriaPorId(1);
+salvar(1, "Meu serviço", "Descrição do serviço oferecido", 2);
