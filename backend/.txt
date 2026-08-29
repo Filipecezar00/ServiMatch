@@ -61,3 +61,26 @@ nome VARCHAR(100) NOT NULL UNIQUE
 );
 
 23:42:31	CREATE TABLE  services_offered( id INT AUTO_INCREMENT PRIMARY KEY,  user_id INT NOT NULL, category_id INT NULL, titulo VARCHAR(200) NOT NULL, descricao TEXT NOT NULL, ativo BOOLEAN DEFAULT TRUE, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, CONSTRAINT fk_services_offered_user FOREIGN KEY(user_id) REFERENCES users(id), CONSTRAINT fk_categories_offered_user FOREIGN KEY(category_id) REFERENCES categories(id) ON DELETE SET NULL )	Error Code: 3780. Referencing column 'user_id' and referenced column 'id' in foreign key constraint 'fk_services_offered_user' are incompatible.	0.062 sec
+
+SERVICE
+funcao criar_service(userId,titulo,descricao,categoryId)
+se titulo ou descricao não vierem adicionar AppError("Campos obrigatórios ausentes"); 
+se titulo.trim < 3 caracteres ou > 200, emita AppError("titulo deve ter entre três e duzentos caracteres")
+se descricao.trim < 10 caracteres ,emita AppError("Descrição deve ter no mínimo 10 caracteres")
+
+se nao tem categoryId, considere null 
+
+chamar repository.salvar(userId,titulo,descricao,categoryId)
+
+
+CONTROLLER
+funcao criar_controller
+extrai do body: titulo,descricao e categoryId
+extrai userId do req.usuario.id 
+chama função criar do service criar(userId,titulo,descricao,categoryId)
+retorna status(201) e json com o valor retornado da função criar do service
+
+REPOSITORY 
+criar_service(userId,titulo,descricao,categoryId); 
+criar query de inserção no banco com base nos dados extraidos
+criar_controller(userId,titulo,descricao,categoryId)
