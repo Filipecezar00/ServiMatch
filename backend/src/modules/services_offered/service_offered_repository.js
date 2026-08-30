@@ -28,3 +28,12 @@ export async function buscarTodosAtivos() {
     `);
   return resultado;
 }
+
+export async function buscarMeusServicos() {
+  const resultado = await pool.query(`
+    SELECT s.id,s.titulo,s.descricao,s.ativo, c.nome AS categoria
+    FROM services_offered s LEFT JOIN categories c ON s.category_id = c.id
+    WHERE s.user_id = ? 
+    `);
+  return resultado;
+}
