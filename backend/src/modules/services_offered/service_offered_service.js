@@ -1,6 +1,6 @@
 import AppError from "../../utils/AppError";
-import { buscarCategoriaPorId, salvar } from "./service_offered_repository";
-import { buscarTodosAtivos } from "./service_offered_repository";
+import { buscarCategoriaPorId, salvar } from "./service_offered_repository.js";
+import { buscarTodosAtivos } from "./service_offered_repository.js";
 
 export async function criar_service(userId, titulo, descricao, categoryId) {
   if (!titulo || !descricao) {
