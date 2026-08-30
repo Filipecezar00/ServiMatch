@@ -40,3 +40,25 @@ export async function buscarMeusServicos(userId) {
   );
   return resultado;
 }
+
+export async function buscarServicoPorId(id) {
+  const [servico] = await pool.query(
+    `
+       SELECT id,user_id FROM services_offered WHERE id = ?
+    `,
+    [id],
+  );
+
+  return servico[0];
+}
+
+export async function atualizar(id, titulo, descricao, categoryId) {
+  const [resposta] = await pool.query(
+    `
+      UPDATE services_offered SET titulo = ?,
+      descricao = ?, category_id = ? WHERE id = ?
+    `,
+    [titulo, descricao, categoryId, id],
+  );
+  return resposta;
+}
