@@ -1,5 +1,6 @@
 import {
   criar_service,
+  editarServico_service,
   listarServicosUsuario_service,
 } from "./service_offered_service";
 import { listarServicosAtivos_service } from "./service_offered_service.js";
@@ -33,6 +34,19 @@ export async function listarServicosUsuario_controller(req, res, next) {
     const usuarioId = req.usuario.id;
     const servicos = await listarServicosUsuario_service(usuarioId);
     return res.status(200).json(servicos);
+  } catch (erro) {
+    next(erro);
+  }
+}
+
+export async function editarServico_controller(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { titulo, descricao, categoryId } = req.body;
+    const usuarioId = req.usuario.id;
+
+    await editarServico_service(id, usuarioId, titulo, descricao, categoryId);
+    return res.status(200).json({ message: "Serviço atualizado com sucesso!" });
   } catch (erro) {
     next(erro);
   }
