@@ -84,4 +84,11 @@ export async function editarServico_service(
     }
   }
   await atualizar(id, tituloFinal, descricaoFinal, categoriaFinal);
+
+  return {
+    id: Number(id),
+    titulo: tituloFinal,
+    descricao: descricaoFinal,
+    categoryId: categoriaFinal,
+  };
 }

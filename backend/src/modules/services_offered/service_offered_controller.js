@@ -45,8 +45,14 @@ export async function editarServico_controller(req, res, next) {
     const { titulo, descricao, categoryId } = req.body;
     const usuarioId = req.usuario.id;
 
-    await editarServico_service(id, usuarioId, titulo, descricao, categoryId);
-    return res.status(200).json({ message: "Serviço atualizado com sucesso!" });
+    const resultado = await editarServico_service(
+      id,
+      usuarioId,
+      titulo,
+      descricao,
+      categoryId,
+    );
+    return res.status(200).json(resultado);
   } catch (erro) {
     next(erro);
   }

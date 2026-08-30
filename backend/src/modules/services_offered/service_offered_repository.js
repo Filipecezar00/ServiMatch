@@ -44,7 +44,7 @@ export async function buscarMeusServicos(userId) {
 export async function buscarServicoPorId(id) {
   const [servico] = await pool.query(
     `
-       SELECT id,user_id,category_id FROM services_offered WHERE id = ?
+       SELECT * FROM services_offered WHERE id = ?
     `,
     [id],
   );
