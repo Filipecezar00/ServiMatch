@@ -50,30 +50,38 @@ export async function editarServico_service(
   categoryId,
 ) {
   const servico = await buscarServicoPorId(id);
-  if (!servico || servico.user_id != userId) {
+  if (!servico || Number(servico.user_id) !== Number(userId)) {
     throw new AppError("Serviço não encontrado", 404);
   }
-  if (!titulo || titulo.trim().length < 3 || titulo.trim().length > 200) {
-    throw new AppError("O titulo deve conter entre 3 e 200 caracteres", 400);
-  }
-  if (
-    !descricao ||
-    descricao.trim().length < 10 ||
-    descricao.trim().length > 1000
-  ) {
-    throw new AppError(
-      "A descrição deve conter entre 10 e 1000 caracteres",
-      400,
-    );
-  }
 
+  const tituloFinal = titulo ?? servico.titulo;
+  const descricaoFinal = descricao ?? servico.descricao;
   const categoriaFinal = categoryId ?? servico.category_id;
 
-  if (categoryId) {
+  if (titulo !== undefined) {
+    if (!titulo || titulo.trim().length < 3 || titulo.trim().length > 200) {
+      throw new AppError("O titulo deve conter entre 3 e 200 caracteres", 400);
+    }
+  }
+
+  if (descricao !== undefined) {
+    if (
+      !descricao ||
+      descricao.trim().length < 10 ||
+      descricao.trim().length > 1000
+    ) {
+      throw new AppError(
+        "A descrição deve conter entre 10 e 1000 caracteres",
+        400,
+      );
+    }
+  }
+
+  if (categoryId !== undefined && categoryId !== null) {
     const categoriaExiste = await buscarCategoriaPorId(categoryId);
     if (!categoriaExiste) {
       throw new AppError("Categoria informada não existe", 400);
     }
   }
-  await atualizar(id, titulo, descricao, categoriaFinal);
+  await atualizar(id, tituloFinal, descricaoFinal, categoriaFinal);
 }
