@@ -1,5 +1,6 @@
 import AppError from "../../utils/AppError";
 import { buscarCategoriaPorId, salvar } from "./service_offered_repository";
+import { buscarTodosAtivos } from "./service_offered_repository";
 
 export async function criar_service(userId, titulo, descricao, categoryId) {
   if (!titulo || !descricao) {
@@ -21,4 +22,9 @@ export async function criar_service(userId, titulo, descricao, categoryId) {
   }
   const dados_solicitacao = await salvar(userId, titulo, descricao, categoryId);
   return dados_solicitacao;
+}
+
+export async function listarServicosAtivos_service() {
+  let servicos = await buscarTodosAtivos();
+  return servicos;
 }
