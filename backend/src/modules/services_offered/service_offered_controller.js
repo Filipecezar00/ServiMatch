@@ -1,4 +1,7 @@
-import { criar_service } from "./service_offered_service";
+import {
+  criar_service,
+  listarServicosUsuario_service,
+} from "./service_offered_service";
 import { listarServicosAtivos_service } from "./service_offered_service.js";
 export async function criar_controller(req, res, next) {
   try {
@@ -19,6 +22,16 @@ export async function criar_controller(req, res, next) {
 export async function listarAtivos_controller(req, res, next) {
   try {
     let servicos = await listarServicosAtivos_service();
+    return res.status(200).json(servicos);
+  } catch (erro) {
+    next(erro);
+  }
+}
+
+export async function listarServicosUsuario_controller(req, res, next) {
+  try {
+    const usuarioId = req.usuario.id;
+    const servicos = await listarServicosUsuario_service(usuarioId);
     return res.status(200).json(servicos);
   } catch (erro) {
     next(erro);
