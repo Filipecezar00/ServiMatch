@@ -50,7 +50,7 @@ export async function editarServico_service(
   categoryId,
 ) {
   const servico = await buscarServicoPorId(id);
-  if (!servico || servico.user_id !== userId) {
+  if (!servico || servico.user_id != userId) {
     throw new AppError("Serviço não encontrado", 404);
   }
   if (!titulo || titulo.trim().length < 3 || titulo.trim().length > 200) {
@@ -66,11 +66,14 @@ export async function editarServico_service(
       400,
     );
   }
+
+  const categoriaFinal = categoryId ?? servico.category_id;
+
   if (categoryId) {
     const categoriaExiste = await buscarCategoriaPorId(categoryId);
     if (!categoriaExiste) {
       throw new AppError("Categoria informada não existe", 400);
     }
   }
-  await atualizar(id, titulo, descricao, categoryId);
+  await atualizar(id, titulo, descricao, categoriaFinal);
 }
