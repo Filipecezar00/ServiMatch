@@ -17,3 +17,14 @@ export async function salvar(userId, titulo, descricao, categoryId) {
   );
   return { id: resultado.insertId, userId, titulo, descricao, categoryId };
 }
+
+export async function buscarTodosAtivos() {
+  const [resultado] = await pool.query(`
+        SELECT s.id,s.titulo,s.descricao,c.nome AS categoria,
+        u.nome AS prestador_nome FROM services_offered s 
+        LEFT JOIN categories c ON s.category_id = c.id
+        INNER JOIN users u ON s.user_id = u.id 
+        WHERE s.ativo = true
+    `);
+  return resultado[0];
+}
