@@ -26,5 +26,5 @@ export async function buscarTodosAtivos() {
         INNER JOIN users u ON s.user_id = u.id 
         WHERE s.ativo = true
     `);
-  return resultado[0];
+  return resultado;
 }
