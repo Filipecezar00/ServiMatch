@@ -94,7 +94,7 @@ export async function editarServico_service(
 
 export async function alterarStatusServico_service(id, userId, novoStatus) {
   const servico = await buscarServicoPorId(id);
-  if (!servico.user_id || Number(servico.user_id) !== Number(userId)) {
+  if (!servico || Number(servico.user_id) !== Number(userId)) {
     throw new AppError("Serviço não encontrado", 404);
   }
   if (typeof novoStatus !== "boolean") {
