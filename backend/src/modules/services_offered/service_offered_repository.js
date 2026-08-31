@@ -62,3 +62,13 @@ export async function atualizar(id, titulo, descricao, categoryId) {
   );
   return resposta;
 }
+
+export async function alterarStatusServico(id, novoStatus) {
+  const [resposta] = await pool.query(
+    `
+    UPDATE services_offered SET ativo = ? WHERE id = ?
+    `,
+    [novoStatus, id],
+  );
+  return resposta;
+}
