@@ -14,10 +14,10 @@ export async function criar_service(userId, titulo, descricao, categoryId) {
     throw new AppError("Campos obrigatórios ausentes", 400);
   }
   if (titulo.trim().length < 3 || titulo.trim().length > 200) {
-    throw new AppError("titulo deve ter entre 3 e 200 caracteres");
+    throw new AppError("titulo deve ter entre 3 e 200 caracteres", 400);
   }
   if (descricao.trim().length < 10) {
-    throw new AppError("Descrição deve ter no mínimo 10 caracteres");
+    throw new AppError("Descrição deve ter no mínimo 10 caracteres", 400);
   }
   if (!categoryId) {
     categoryId = null;
