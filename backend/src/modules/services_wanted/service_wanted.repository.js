@@ -32,3 +32,15 @@ export async function listar_ativos() {
   );
   return resposta;
 }
+
+export async function listar_meusServicos(userId) {
+  const [resposta] = await pool.query(
+    `
+    SELECT s.id,s.titulo,s.descricao,s.ativo, c.nome AS categoria
+    FROM services_wanted s LEFT JOIN categories c ON s.category_id = c.id 
+    WHERE s.user_id = ?    
+    `,
+    [userId],
+  );
+  return resposta;
+}
