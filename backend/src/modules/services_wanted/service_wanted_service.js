@@ -2,6 +2,7 @@ import AppError from "../../utils/AppError.js";
 import {
   buscarCategoriaPorId,
   salvar,
+  listar_ativos,
 } from "../services_wanted/service_wanted.repository.js";
 
 export async function criar_service(user_id, titulo, descricao, categoryId) {
@@ -30,4 +31,9 @@ export async function criar_service(user_id, titulo, descricao, categoryId) {
     categoryId,
   );
   return dados_solicitacao;
+}
+
+export async function listar_ativos_service() {
+  const servicos_ativos = await listar_ativos();
+  return servicos_ativos;
 }
