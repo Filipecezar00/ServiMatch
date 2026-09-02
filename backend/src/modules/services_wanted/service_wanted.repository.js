@@ -44,3 +44,13 @@ export async function listar_meusServicos(userId) {
   );
   return resposta;
 }
+
+export async function editar_servico(id, titulo, descricao, categoryId) {
+  const [resposta] = await pool.query(
+    `UPDATE services_wanted SET titulo = ?, descricao = ?,
+    category_id = ? WHERE id = ? 
+    `,
+    [titulo, descricao, categoryId, id],
+  );
+  return resposta;
+}
