@@ -21,7 +21,7 @@ export async function criar_service(user_id, titulo, descricao, categoryId) {
   if (!categoryId) {
     categoryId = null;
   } else {
-    const resposta = await buscarServicoPorId(categoryId);
+    const resposta = await buscarCategoriaPorId(categoryId);
     if (!resposta) {
       throw new AppError("Categoria não encontrada", 404);
     }
