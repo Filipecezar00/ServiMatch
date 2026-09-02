@@ -6,6 +6,7 @@ import {
   listar_ativos,
   listar_meusServicos,
   editar_servico_repository,
+  editar_statusServico_repository,
 } from "../services_wanted/service_wanted.repository.js";
 
 export async function criar_service(user_id, titulo, descricao, categoryId) {
@@ -99,4 +100,20 @@ export async function editar_servico_service(
     descricao: descricaoFinal,
     categoryId: categoriaFinal,
   };
+}
+
+export async function editar_statusServico_service(id, user_id, novoStatus) {
+  const servico = await buscarServicoPorId(id);
+  if (!servico || Number(servico.user_id) !== Number(user_id)) {
+    throw new AppError("Serviço não encontrado", 404);
+  }
+
+  if (typeof novoStatus !== "boolean") {
+    throw new AppError(
+      "O campo novoStatus deve ser um valor booleano (true ou false)",
+      400,
+    );
+  }
+  await editar_statusServico_repository(id, novoStatus);
+  return { id: Number(id), ativo: novoStatus };
 }
