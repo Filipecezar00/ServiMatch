@@ -1,13 +1,23 @@
 import { pool } from "../../config/database.js";
 
-export async function buscarCategoriaPorId(categoryId) {
+export async function buscarServicoPorId(id) {
   const [resposta] = await pool.query(
+    `
+    SELECT * FROM services_wanted WHERE id = ?
+    `,
+    [id],
+  );
+  return resposta[0];
+}
+
+export async function buscarCategoriaPorId(categoryId) {
+  const [resultado] = await pool.query(
     `
     SELECT id FROM categories WHERE id = ?
     `,
     [categoryId],
   );
-  return resposta[0];
+  return resultado[0];
 }
 
 export async function salvar(user_id, titulo, descricao, categoryId) {
@@ -45,7 +55,12 @@ export async function listar_meusServicos(userId) {
   return resposta;
 }
 
-export async function editar_servico(id, titulo, descricao, categoryId) {
+export async function editar_servico_repository(
+  id,
+  titulo,
+  descricao,
+  categoryId,
+) {
   const [resposta] = await pool.query(
     `UPDATE services_wanted SET titulo = ?, descricao = ?,
     category_id = ? WHERE id = ? 
