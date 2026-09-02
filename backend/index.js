@@ -3,6 +3,7 @@ import express from "express";
 import { pool } from "./src/config/database.js";
 import errorMiddleware from "./src/middleware/error.js";
 import user_router from "./src/modules/users/users.routes.js";
+import service_router_wanted from "./src/modules/services_wanted/service_wanted_routes.js";
 const app = express();
 
 app.use(express.json());
@@ -20,6 +21,7 @@ app.get("/health", async (req, res) => {
 });
 
 app.use("/api/users", user_router);
+app.use("/api/services-wanted", service_router_wanted);
 
 app.use(errorMiddleware);
 
