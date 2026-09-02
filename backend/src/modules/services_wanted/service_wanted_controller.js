@@ -2,6 +2,7 @@ import {
   criar_service,
   listar_ativos_service,
   listar_meusAtivos_service,
+  editar_servico_service,
 } from "./service_wanted_service.js";
 export async function criar_controller(req, res, next) {
   try {
@@ -27,6 +28,24 @@ export async function listar_meusAtivos_controller(req, res, next) {
   try {
     const userId = req.usuario.id;
     const resposta = await listar_meusAtivos_service(userId);
+    return res.status(200).json(resposta);
+  } catch (erro) {
+    next(erro);
+  }
+}
+
+export async function editar_servico_controller(req, res, next) {
+  try {
+    const user_id = req.usuario.id;
+    const { id } = req.params;
+    const { titulo, descricao, categoryId } = req.body;
+    const resposta = await editar_servico_service(
+      id,
+      user_id,
+      titulo,
+      descricao,
+      categoryId,
+    );
     return res.status(200).json(resposta);
   } catch (erro) {
     next(erro);
