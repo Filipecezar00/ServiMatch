@@ -57,13 +57,9 @@ export async function editar_statusServico_controller(req, res, next) {
   try {
     const { id } = req.params;
     const user_id = req.usuario.id;
-    const { novoStatus } = req.body;
+    const { ativo } = req.body;
 
-    const resposta = await editar_statusServico_service(
-      id,
-      user_id,
-      novoStatus,
-    );
+    const resposta = await editar_statusServico_service(id, user_id, ativo);
     return res.status(200).json(resposta);
   } catch (erro) {
     next(erro);
