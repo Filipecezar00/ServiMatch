@@ -11,11 +11,19 @@ import {
   editarServico_controller,
 } from "./service_offered_controller.js";
 
-const router = express.Router();
+const service_router_offered = express.Router();
 
-router.post("/criar", authMiddleware, criar_controller);
-router.get("/listar-ativos", listarAtivos_controller);
-router.get("/listar-minhas", authMiddleware, listarServicosUsuario_controller);
-router.put("/:id", authMiddleware, editarServico_controller);
-router.patch("/:id/status", authMiddleware, alterarStatusServico_controller);
-export default router;
+service_router_offered.post("/criar", authMiddleware, criar_controller);
+service_router_offered.get("/listar-ativos", listarAtivos_controller);
+service_router_offered.get(
+  "/listar-minhas",
+  authMiddleware,
+  listarServicosUsuario_controller,
+);
+service_router_offered.put("/:id", authMiddleware, editarServico_controller);
+service_router_offered.patch(
+  "/:id/status",
+  authMiddleware,
+  alterarStatusServico_controller,
+);
+export default service_router_offered;
