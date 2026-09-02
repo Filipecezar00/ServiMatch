@@ -1,13 +1,14 @@
 import "dotenv/config";
-import { authMiddleware } from "../../middleware/auth";
-import { express } from "express";
+import { authMiddleware } from "../../middleware/auth.js";
+import express from "express";
 import {
   criar_controller,
   listar_ativos_controller,
   listar_meusAtivos_controller,
   editar_servico_controller,
   editar_statusServico_controller,
-} from "./service_wanted_controller";
+} from "./service_wanted_controller.js";
+
 const service_router_wanted = express.Router();
 
 service_router_wanted.post("/criar", authMiddleware, criar_controller);
