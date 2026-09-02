@@ -69,3 +69,13 @@ export async function editar_servico_repository(
   );
   return resposta;
 }
+
+export async function editar_statusServico_repository(id, novoStatus) {
+  const [resultado] = await pool.query(
+    `
+    UPDATE services_wanted SET ativo = ? WHERE id = ? 
+`,
+    [novoStatus, id],
+  );
+  return resultado;
+}
