@@ -28,13 +28,18 @@ export async function cadastro(nome, email, senha) {
   if (resultado) {
     throw new AppError("Email já cadastrado", 409);
   }
+
   const senha_hash = await bcrypt.hash(senha, 10);
 
   const id = await criar(nome, email, senha_hash);
 
   const usuario = { id, nome, email };
 
-  return usuario;
+  const token = jwt.sign({ id: usuario.id }, process.env.TOKEN_JWT, {
+    expiresIn: "1d",
+  });
+
+  return { usuario, token };
 }
 
 export async function autenticar(email, senha) {
