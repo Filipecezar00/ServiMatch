@@ -10,13 +10,9 @@ import {
 } from "./service_wanted_controller";
 const router = express.Router();
 
-router.post("/criar-wanted", authMiddleware, criar_controller);
-router.get("/listar-ativos-wanted", listar_ativos_controller);
-router.get(
-  "/listar-minhas-wanted",
-  authMiddleware,
-  listar_meusAtivos_controller,
-);
+router.post("/criar", authMiddleware, criar_controller);
+router.get("/listar-ativos", listar_ativos_controller);
+router.get("/listar-minhas", authMiddleware, listar_meusAtivos_controller);
 router.put("/:id", authMiddleware, editar_servico_controller);
 router.patch("/:id/status", authMiddleware, editar_statusServico_controller);
 
