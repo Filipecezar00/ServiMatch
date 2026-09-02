@@ -4,10 +4,16 @@ import { express } from "express";
 import {
   criar_controller,
   listar_ativos_controller,
+  listar_meusAtivos_controller,
 } from "./service_wanted_controller";
 const router = express.Router();
 
 router.post("/criar-wanted", authMiddleware, criar_controller);
 router.get("/listar-ativos-wanted", listar_ativos_controller);
+router.get(
+  "/listar-minhas-wanted",
+  authMiddleware,
+  listar_meusAtivos_controller,
+);
 
 export default router;
