@@ -16,3 +16,13 @@ export async function criar(
   );
   return resultado.insertId;
 }
+
+export async function buscar_offered_service(user_id) {
+  const [resposta] = await pool.query(
+    `
+SELECT * FROM services_offered WHERE user_id = ?
+ `,
+    [user_id],
+  );
+  return resposta;
+}
