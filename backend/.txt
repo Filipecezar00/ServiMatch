@@ -98,3 +98,19 @@ funcao salvar(userId,titulo,descricao,categoryId)
 executar insert 
 retornar {id:resultado.insertId,userId,titulo,descricao,categoryId}
 
+
+CREATE TABLE exchange_proposals (
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+proposer_id INT UNSIGNED NOT NULL,
+receiver_id INT UNSIGNED NOT NULL,
+offered_service_id INT NOT NULL,
+wanted_service_id INT  NOT NULL,
+status ENUM('pending','accepted','rejected','cancelled') DEFAULT 'pending',
+mensagem VARCHAR(200),
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+CONSTRAINT fk_proposals_proposer_user FOREIGN KEY (proposer_id) REFERENCES users(id) ON DELETE CASCADE,
+CONSTRAINT fk_proposals_receiver_user FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE,
+CONSTRAINT fk_proposals_offered_service FOREIGN KEY (offered_service_id) REFERENCES services_offered(id) ON DELETE CASCADE,
+CONSTRAINT fk_proposals_wanted_service FOREIGN KEY (wanted_service_id) REFERENCES services_offered(id) ON DELETE CASCADE
+);
