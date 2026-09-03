@@ -26,3 +26,13 @@ SELECT * FROM services_offered WHERE user_id = ?
   );
   return resposta;
 }
+
+export async function buscar_wanted_service(user_id) {
+  const [resposta] = await pool.query(
+    `
+    SELECT * FROM services_wanted WHERE user_id = ? 
+    `,
+    [user_id],
+  );
+  return resposta;
+}
