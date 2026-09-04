@@ -79,4 +79,10 @@ export async function mudar_status(proposer_id, receiver_id) {
   if (proposal.receiver_id !== receiver_id) {
     throw new AppError("Você não pode alterar essa proposta", 400);
   }
+
+  if (proposal.status !== "pending") {
+    throw new AppError("Essa proposta já foi aceita ou recusada", 400);
+  }
+
+  const proposal_accepted = await aceitar_servico(proposer_id, receiver_id);
 }
