@@ -69,3 +69,5 @@ export async function criar_service(
     status: "pending",
   };
 }
+
+export async function mudar_status(proposer_id, receiver_id) {}

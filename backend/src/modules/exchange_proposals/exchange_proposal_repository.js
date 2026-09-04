@@ -47,22 +47,22 @@ export async function verify_pending(offered_service_id, wanted_service_id) {
   return resposta[0];
 }
 
-export async function aceitar_servico(proposer_id) {
+export async function aceitar_servico(proposer_id, receiver_id) {
   const [resposta] = await pool.query(
     `
-        UPDATE exchange_proposals SET status = 'accepted' WHERE proposer_id = ?
+    UPDATE exchange_proposals SET status = 'accepted' WHERE proposer_id = ?, receiver_id = ?
     `,
-    [proposer_id],
+    [proposer_id, receiver_id],
   );
   return resposta.insertId;
 }
 
-export async function rejeitar_servico(proposer_id) {
+export async function rejeitar_servico(proposer_id, receiver_id) {
   const [resposta] = await pool.query(
     `
-    UPDATE exchange_proposals SET status = 'rejected' WHERE proposer_id = ?
+    UPDATE exchange_proposals SET status = 'rejected' WHERE proposer_id = ?, receiver_id = ?
     `,
-    [proposer_id],
+    [proposer_id, receiver_id],
   );
   return resposta.insertId;
 }
