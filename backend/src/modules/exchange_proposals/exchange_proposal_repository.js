@@ -17,22 +17,32 @@ export async function criar(
   return resultado.insertId;
 }
 
-export async function buscar_offered_service(user_id) {
+export async function buscar_offered_service(offered_service_id) {
   const [resposta] = await pool.query(
     `
-SELECT * FROM services_offered WHERE user_id = ?
+    SELECT * FROM services_offered WHERE id = ?
  `,
-    [user_id],
+    [offered_service_id],
   );
-  return resposta;
+  return resposta[0];
 }
 
-export async function buscar_wanted_service(user_id) {
+export async function buscar_wanted_service(wanted_service_id) {
   const [resposta] = await pool.query(
     `
-    SELECT * FROM services_wanted WHERE user_id = ? 
+    SELECT * FROM services_offered WHERE id = ? 
     `,
-    [user_id],
+    [wanted_service_id],
   );
-  return resposta;
+  return resposta[0];
+}
+
+export async function verify_pending(offered_service_id, wanted_service_id) {
+  const [resposta] = await pool.query(
+    `
+    SELECT * FROM exchange_proposals WHERE status = 'pending' AND (offered_service_id=? AND wanted_service_id = ?)
+`,
+    [offered_service_id, wanted_service_id],
+  );
+  return resposta[0];
 }
