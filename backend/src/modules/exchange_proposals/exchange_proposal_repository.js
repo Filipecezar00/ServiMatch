@@ -47,24 +47,20 @@ export async function verify_pending(offered_service_id, wanted_service_id) {
   return resposta[0];
 }
 
-export async function alterar_status_repository(
-  proposer_id,
-  receiver_id,
-  status,
-) {
+export async function alterar_status_repository(id, status) {
   const [resposta] = await pool.query(
     `
-    UPDATE exchange_proposals SET status = ? WHERE proposer_id = ?, receiver_id = ?
+    UPDATE exchange_proposals SET status = ? WHERE id = ?
     `,
-    [status, proposer_id, receiver_id],
+    [status, id],
   );
-  return resposta.insertId;
+  return resposta.affectedRows;
 }
 
-export async function buscar_servico(receiver_id) {
+export async function buscar_servico(id) {
   const [resposta] = await pool.query(
-    `SELECT * FROM exchange_proposals WHERE receiver_id = ?`,
-    [receiver_id],
+    `SELECT * FROM exchange_proposals WHERE id = ?`,
+    [id],
   );
-  return resposta[0];
+  return resposta;
 }

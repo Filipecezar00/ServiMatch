@@ -72,22 +72,26 @@ export async function criar_service(
   };
 }
 
-export async function mudar_status(proposer_id, receiver_id, status) {
-  const proposal = await buscar_servico(proposer_id);
+export async function mudar_status(id, usuarioId, status) {
+  const proposal = await buscar_servico(id);
 
-  if (proposal.receiver_id !== receiver_id) {
+  if (!proposal) {
+    throw new AppError("Não foi possivel localizar esse serviço", 404);
+  }
+
+  if (Number(proposal.receiver_id) !== Number(usuarioId)) {
     throw new AppError("Você não pode alterar essa proposta", 400);
+  }
+
+  if (status !== "accepted" || status !== "rejected") {
+    throw new AppError("Esse status não é válido", 400);
   }
 
   if (proposal.status !== "pending") {
     throw new AppError("Essa proposta já foi aceita ou recusada", 400);
   }
 
-  const proposal_status = await alterar_status_repository(
-    proposer_id,
-    receiver_id,
-    status,
-  );
+  const proposal_status = await alterar_status_repository(id, status);
 
   return proposal_status;
 }

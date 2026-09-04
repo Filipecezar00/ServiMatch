@@ -19,10 +19,11 @@ export async function criar_controller(req, res, next) {
 
 export async function mudar_status_controller(req, res, next) {
   try {
-    const proposer_id = req.usuario.id;
-    const { receiver_id, status } = req.body;
+    const id = req.params.id;
+    const usuarioId = req.usuario.id;
+    const { status } = req.body;
 
-    const resposta = await mudar_status(proposer_id, receiver_id, status);
+    const resposta = await mudar_status(id, usuarioId, status);
 
     res.status(200).json({ resposta });
   } catch (erro) {
