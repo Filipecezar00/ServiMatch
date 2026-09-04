@@ -4,6 +4,9 @@ import {
   buscar_offered_service,
   buscar_wanted_service,
   verify_pending,
+  buscar_servico,
+  aceitar_servico,
+  rejeitar_servico,
 } from "./exchange_proposal_repository.js";
 
 export async function criar_service(
@@ -70,4 +73,10 @@ export async function criar_service(
   };
 }
 
-export async function mudar_status(proposer_id, receiver_id) {}
+export async function mudar_status(proposer_id, receiver_id) {
+  const proposal = await buscar_servico(proposer_id);
+
+  if (proposal.receiver_id !== receiver_id) {
+    throw new AppError("Você não pode alterar essa proposta", 400);
+  }
+}
