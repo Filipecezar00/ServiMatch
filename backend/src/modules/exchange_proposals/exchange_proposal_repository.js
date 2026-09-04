@@ -62,5 +62,5 @@ export async function buscar_servico(id) {
     `SELECT * FROM exchange_proposals WHERE id = ?`,
     [id],
   );
-  return resposta;
+  return resposta[0];
 }
