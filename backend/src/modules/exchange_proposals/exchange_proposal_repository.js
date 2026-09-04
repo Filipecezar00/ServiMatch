@@ -66,3 +66,11 @@ export async function rejeitar_servico(proposer_id, receiver_id) {
   );
   return resposta.insertId;
 }
+
+export async function buscar_servico(proposer_id) {
+  const [resposta] = await pool.query(
+    `SELECT * FROM exchange_proposals WHERE proposer_id = ?`,
+    [proposer_id],
+  );
+  return resposta[0];
+}
