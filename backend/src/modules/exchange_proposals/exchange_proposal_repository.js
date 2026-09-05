@@ -64,3 +64,11 @@ export async function buscar_servico(id) {
   );
   return resposta[0];
 }
+
+export async function exchange_criar(id) {
+  const [resposta] = await pool.query(
+    `INSERT INTO exchanges (proposal_id) VALUES(?)`,
+    [id],
+  );
+  return resposta;
+}

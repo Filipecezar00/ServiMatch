@@ -6,6 +6,7 @@ import {
   verify_pending,
   buscar_servico,
   alterar_status_repository,
+  exchange_criar,
 } from "./exchange_proposal_repository.js";
 
 export async function criar_service(
@@ -76,7 +77,7 @@ export async function mudar_status(id, usuarioId, status) {
   const proposal = await buscar_servico(id);
 
   if (!proposal) {
-    throw new AppError("Não foi possivel localizar esse serviço", 404);
+    throw new AppError("Não foi possivel localizar essa proposta", 404);
   }
 
   if (Number(proposal.receiver_id) !== Number(usuarioId)) {
@@ -92,6 +93,11 @@ export async function mudar_status(id, usuarioId, status) {
   }
 
   const proposal_status = await alterar_status_repository(id, status);
+
+  if (status === "accepted") {
+    const resultado = await exchange_criar(proposal.id);
+    return resultado;
+  }
 
   return proposal_status;
 }
