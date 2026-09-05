@@ -24,3 +24,25 @@ export async function buscar_dados_proposta(exchangeid, usuarioId) {
 
   return resultado[0];
 }
+
+export async function update_exchange_repository(
+  id,
+  status,
+  schedule_date,
+  location,
+  notes,
+) {
+  const [resposta] = await pool.query(
+    `
+    UPDATE exchanges
+    SET status = COALESCE(?,status),
+    schedule_date = COALESCE(?,schedule_date),
+    location = COALESCE(?,location),
+    notes = COALESCE(?,notes)
+    WHERE id = ? 
+`,
+    [status, schedule_date, location, notes, id],
+  );
+
+  return resposta.affectedRows;
+}
