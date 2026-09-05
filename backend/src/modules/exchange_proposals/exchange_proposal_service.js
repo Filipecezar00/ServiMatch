@@ -8,7 +8,7 @@ import {
   alterar_status_repository,
   exchange_criar,
 } from "./exchange_proposal_repository.js";
-import pool from "../../config/database.js";
+import { pool } from "../../config/database.js";
 
 export async function criar_service(
   proposer_id,
@@ -75,7 +75,7 @@ export async function criar_service(
 }
 
 export async function mudar_status(id, usuarioId, status) {
-  const proposal = await buscar_proposta_porId(id, connection);
+  const proposal = await buscar_proposta_porId(id);
 
   if (!proposal) {
     throw new AppError("Não foi possivel localizar essa proposta", 404);

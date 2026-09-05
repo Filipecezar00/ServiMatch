@@ -57,8 +57,8 @@ export async function alterar_status_repository(id, status, connection = pool) {
   return resposta.affectedRows;
 }
 
-export async function buscar_proposta_porId(id, connection = pool) {
-  const [resposta] = await connection.query(
+export async function buscar_proposta_porId(id) {
+  const [resposta] = await pool.query(
     `SELECT * FROM exchange_proposals WHERE id = ?`,
     [id],
   );
