@@ -1,6 +1,6 @@
 import { pool } from "../../config/database";
 
-export async function listar_exchanges(usuarioId) {
+export async function listar_exchanges_repository(usuarioId) {
   const [resposta] = await pool.query(
     `
     SELECT e.*, ep.proposer_id, ep.receiver_id
