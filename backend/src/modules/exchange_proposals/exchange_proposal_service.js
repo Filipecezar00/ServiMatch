@@ -92,12 +92,12 @@ export async function mudar_status(id, usuarioId, status) {
     throw new AppError("Essa proposta já foi aceita ou recusada", 400);
   }
 
-  const proposal_status = await alterar_status_repository(id, status);
+  await alterar_status_repository(id, status);
 
   if (status === "accepted") {
     const resultado = await exchange_criar(proposal.id);
     return resultado;
   }
 
-  return proposal_status;
+  return { id, status };
 }
