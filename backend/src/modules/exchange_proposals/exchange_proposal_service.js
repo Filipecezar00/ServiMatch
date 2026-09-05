@@ -4,10 +4,11 @@ import {
   buscar_offered_service,
   buscar_wanted_service,
   verify_pending,
-  buscar_servico,
+  buscar_proposta_porId,
   alterar_status_repository,
   exchange_criar,
 } from "./exchange_proposal_repository.js";
+import pool from "../../config/database.js";
 
 export async function criar_service(
   proposer_id,
@@ -74,7 +75,7 @@ export async function criar_service(
 }
 
 export async function mudar_status(id, usuarioId, status) {
-  const proposal = await buscar_servico(id);
+  const proposal = await buscar_proposta_porId(id, connection);
 
   if (!proposal) {
     throw new AppError("Não foi possivel localizar essa proposta", 404);
@@ -91,13 +92,27 @@ export async function mudar_status(id, usuarioId, status) {
   if (proposal.status !== "pending") {
     throw new AppError("Essa proposta já foi aceita ou recusada", 400);
   }
+  let connection;
+  try {
+    connection = await pool.getConnection();
+    await connection.beginTransaction();
 
-  await alterar_status_repository(id, status);
+    await alterar_status_repository(id, status, connection);
 
-  if (status === "accepted") {
-    const resultado = await exchange_criar(proposal.id);
-    return resultado;
+    if (status === "accepted") {
+      await exchange_criar(proposal.id, connection);
+    }
+    await connection.commit();
+  } catch (error) {
+    console.log("Erro na transação:", error);
+    if (connection) {
+      await connection.rollback();
+    }
+    throw new AppError("Erro ao atualizar o status da proposta", 500);
+  } finally {
+    if (connection) {
+      connection.release();
+    }
   }
-
   return { id, status };
 }

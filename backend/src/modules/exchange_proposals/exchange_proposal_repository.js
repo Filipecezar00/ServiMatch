@@ -47,8 +47,8 @@ export async function verify_pending(offered_service_id, wanted_service_id) {
   return resposta[0];
 }
 
-export async function alterar_status_repository(id, status) {
-  const [resposta] = await pool.query(
+export async function alterar_status_repository(id, status, connection = pool) {
+  const [resposta] = await connection.query(
     `
     UPDATE exchange_proposals SET status = ? WHERE id = ?
     `,
@@ -57,16 +57,16 @@ export async function alterar_status_repository(id, status) {
   return resposta.affectedRows;
 }
 
-export async function buscar_servico(id) {
-  const [resposta] = await pool.query(
+export async function buscar_proposta_porId(id, connection = pool) {
+  const [resposta] = await connection.query(
     `SELECT * FROM exchange_proposals WHERE id = ?`,
     [id],
   );
   return resposta[0];
 }
 
-export async function exchange_criar(id) {
-  const [resposta] = await pool.query(
+export async function exchange_criar(id, connection = pool) {
+  const [resposta] = await connection.query(
     `INSERT INTO exchanges (proposal_id) VALUES(?)`,
     [id],
   );
