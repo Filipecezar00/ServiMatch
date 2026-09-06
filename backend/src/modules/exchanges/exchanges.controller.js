@@ -19,12 +19,12 @@ export async function listar_exchange_controller(req, res, next) {
 export async function update_exchange_controller(req, res, next) {
   try {
     const exchangeId = req.params.id;
-    const { status, schedule_date, location, notes } = req.body;
+    const { status, scheduled_date, location, notes } = req.body;
     const usuarioId = req.usuario.id;
 
     const resposta = await update_exchange_service(
       status,
-      schedule_date,
+      scheduled_date,
       location,
       notes,
       exchangeId,
