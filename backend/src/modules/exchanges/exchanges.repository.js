@@ -58,6 +58,17 @@ export async function completed_exchange_repository(id) {
   return resposta.affectedRows;
 }
 
+export async function canceled_exchange_repository(id) {
+  const [resposta] = await pool.query(
+    `
+        UPDATE exchanges set status = 'cancelled' WHERE id = ?
+    `,
+    [id],
+  );
+
+  return resposta.affectedRows;
+}
+
 export async function buscar_status_exchange_repository(id, usuarioId) {
   const [resposta] = await pool.query(
     `
