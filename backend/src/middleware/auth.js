@@ -6,7 +6,7 @@ export function authMiddleware(req, res, next) {
   const bearerToken = req.headers["authorization"];
 
   if (!bearerToken) {
-    throw new AppError("Usuário não autenticado:", 401);
+    throw new AppError("Usuário não autenticado", 401);
   }
   try {
     const string_token = bearerToken.split(" ");
