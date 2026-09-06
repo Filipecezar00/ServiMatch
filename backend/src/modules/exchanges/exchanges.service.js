@@ -55,6 +55,16 @@ export async function update_exchange_service(
     throw new AppError("Essa troca não existe no banco", 404);
   }
 
+  const exchange = await buscar_status_exchange_repository(
+    exchangeId,
+    usuarioId,
+  );
+
+  const transicoesPermitidas = {
+    scheduled: ["in_progress", "cancelled"],
+    in_progress: ["completed", "cancelled"],
+  };
+
   if (status !== null && status !== undefined) {
     if (
       status !== "scheduled" &&
@@ -66,6 +76,15 @@ export async function update_exchange_service(
     }
   }
 
+  if (exchange.status === "completed" || exchange.status === "cancelled") {
+    throw new AppError("Essa solicitação já foi concluida ou cancelada", 409);
+  }
+
+  if (status && status !== exchange.status) {
+    if (!transicoesPermitidas[exchange.status]?.includes(status)) {
+      throw new AppError("Essa transição é inválida", 409);
+    }
+  }
   if (schedule_date !== null && schedule_date !== undefined) {
     const dataConvertida = new Date(schedule_date);
     if (isNaN(dataConvertida.getTime())) {
