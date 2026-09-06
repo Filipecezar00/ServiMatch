@@ -1,6 +1,7 @@
 import {
   listar_exchanges_service,
   update_exchange_service,
+  completed_exchange_service,
 } from "./exchanges.service.js";
 
 export async function listar_exchange_controller(req, res, next) {
@@ -28,6 +29,19 @@ export async function update_exchange_controller(req, res, next) {
       exchangeId,
       usuarioId,
     );
+
+    return res.status(200).json(resposta);
+  } catch (erro) {
+    next(erro);
+  }
+}
+
+export async function completed_exchange_controller(req, res, next) {
+  try {
+    const usuarioId = req.usuario.id;
+    const { id } = req.params;
+
+    const resposta = await completed_exchange_service(id, usuarioId);
 
     return res.status(200).json(resposta);
   } catch (erro) {
