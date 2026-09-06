@@ -13,12 +13,12 @@ export async function listar_exchanges_service(usuarioId) {
   return resposta;
 }
 
-export async function buscar_exchange_service(exchangeid, usuarioId) {
-  if (!exchangeid || !usuarioId) {
+export async function buscar_exchange_service(exchangeId, usuarioId) {
+  if (!exchangeId || !usuarioId) {
     throw new AppError("Não foi possivel atualizar essa troca", 400);
   }
 
-  const resposta = await buscar_dados_proposta(exchangeid, usuarioId);
+  const resposta = await buscar_dados_proposta(exchangeId, usuarioId);
 
   if (!resposta) {
     throw new AppError("Não foi possivel localizar dados dessa proposta", 404);
@@ -32,16 +32,16 @@ export async function update_exchange_service(
   schedule_date,
   location,
   notes,
-  exchangeid,
+  exchangeId,
   usuarioId,
 ) {
   if (!usuarioId) {
     throw new AppError("Usuário invalido para executar essa ação", 400);
   }
-  if (!exchangeid) {
+  if (!exchangeId) {
     throw new AppError("Troca não localizada", 404);
   }
-  const exchange_data = await buscar_dados_proposta(exchangeid, usuarioId);
+  const exchange_data = await buscar_dados_proposta(exchangeId, usuarioId);
   if (!exchange_data) {
     throw new AppError("Essa troca não existe no banco", 404);
   }
@@ -67,7 +67,7 @@ export async function update_exchange_service(
     }
   }
   const resposta = await update_exchange_repository(
-    exchangeid,
+    exchangeId,
     status,
     schedule_date,
     location,
