@@ -3,6 +3,7 @@ import {
   listar_exchanges_repository,
   buscar_dados_proposta,
   update_exchange_repository,
+  completed_exchange_repository,
 } from "./exchanges.repository.js";
 
 export async function listar_exchanges_service(usuarioId) {
@@ -73,6 +74,19 @@ export async function update_exchange_service(
     location,
     notes,
   );
+
+  return resposta;
+}
+
+export async function completed_exchange_service(id, usuarioId, status) {
+  if (status !== "scheduled" && status !== "in_progress") {
+    throw new AppError("Não é possível concluir essa solicitação", 409);
+  }
+  if (!id) {
+    throw new AppError("Troca inválida", 404);
+  }
+
+  const resposta = await completed_exchange_repository(id);
 
   return resposta;
 }

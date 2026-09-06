@@ -57,3 +57,15 @@ export async function completed_exchange_repository(id) {
   );
   return resposta.affectedRows;
 }
+
+export async function buscar_status_exchange(id, usuarioId) {
+  const [resposta] = await pool.query(
+    `
+    SELECT e.id,e.status FROM
+    exchanges e JOIN exchange_proposals ep ON e.proposal_id = ep.id
+    WHERE e.id = ? AND ep.proposer_id = ?
+    `,
+    [id, usuarioId],
+  );
+  return resposta[0];
+}
