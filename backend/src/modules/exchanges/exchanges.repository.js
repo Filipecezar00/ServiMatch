@@ -46,3 +46,14 @@ export async function update_exchange_repository(
 
   return resposta.affectedRows;
 }
+
+export async function completed_exchange_repository(id) {
+  const [resposta] = await pool.query(
+    `
+        UPDATE exchanges set status = 'completed',
+        completed_at = NOW() WHERE id = ?
+    `,
+    [id],
+  );
+  return resposta.affectedRows;
+}
