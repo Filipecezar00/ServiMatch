@@ -35,7 +35,7 @@ export async function buscar_exchange_service(exchangeId, usuarioId) {
 
 export async function update_exchange_service(
   status,
-  schedule_date,
+  scheduled_date,
   location,
   notes,
   exchangeId,
@@ -79,12 +79,12 @@ export async function update_exchange_service(
   }
 
   if (status && status !== exchange_data.status) {
-    if (!transicoesPermitidas[exchange.status]?.includes(status)) {
+    if (!transicoesPermitidas[exchange_data.status]?.includes(status)) {
       throw new AppError("Essa transição é inválida", 409);
     }
   }
-  if (schedule_date !== null && schedule_date !== undefined) {
-    const dataConvertida = new Date(schedule_date);
+  if (scheduled_date !== null && scheduled_date !== undefined) {
+    const dataConvertida = new Date(scheduled_date);
     if (isNaN(dataConvertida.getTime())) {
       throw new AppError("Formato inválido de data", 400);
     }
@@ -105,7 +105,7 @@ export async function update_exchange_service(
   const resposta = await update_exchange_repository(
     exchangeId,
     status,
-    schedule_date,
+    scheduled_date,
     location,
     notes,
   );

@@ -1,4 +1,4 @@
-import { pool } from "../../config/database";
+import { pool } from "../../config/database.js";
 
 export async function listar_exchanges_repository(usuarioId) {
   const [resposta] = await pool.query(
@@ -28,7 +28,7 @@ export async function buscar_dados_proposta_repository(exchangeId, usuarioId) {
 export async function update_exchange_repository(
   exchangeId,
   status,
-  schedule_date,
+  scheduled_date,
   location,
   notes,
 ) {
@@ -36,12 +36,12 @@ export async function update_exchange_repository(
     `
     UPDATE exchanges
     SET status = COALESCE(?,status),
-    schedule_date = COALESCE(?,schedule_date),
+    scheduled_date = COALESCE(?,scheduled_date),
     location = COALESCE(?,location),
     notes = COALESCE(?,notes)
     WHERE id = ? 
 `,
-    [status, schedule_date, location, notes, exchangeId],
+    [status, scheduled_date, location, notes, exchangeId],
   );
 
   return resposta.affectedRows;
