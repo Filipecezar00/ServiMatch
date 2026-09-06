@@ -55,11 +55,6 @@ export async function update_exchange_service(
     throw new AppError("Essa troca não existe no banco", 404);
   }
 
-  const exchange = await buscar_status_exchange_repository(
-    exchangeId,
-    usuarioId,
-  );
-
   const transicoesPermitidas = {
     scheduled: ["in_progress", "cancelled"],
     in_progress: ["completed", "cancelled"],
@@ -76,11 +71,14 @@ export async function update_exchange_service(
     }
   }
 
-  if (exchange.status === "completed" || exchange.status === "cancelled") {
+  if (
+    exchange_data.status === "completed" ||
+    exchange_data.status === "cancelled"
+  ) {
     throw new AppError("Essa solicitação já foi concluida ou cancelada", 409);
   }
 
-  if (status && status !== exchange.status) {
+  if (status && status !== exchange_data.status) {
     if (!transicoesPermitidas[exchange.status]?.includes(status)) {
       throw new AppError("Essa transição é inválida", 409);
     }
