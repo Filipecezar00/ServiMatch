@@ -5,6 +5,7 @@ import {
   listar_exchange_controller,
   update_exchange_controller,
   completed_exchange_controller,
+  canceled_exchange_controller,
 } from "./exchanges.controller.js";
 
 const exchange_router = express.Router();
@@ -19,6 +20,11 @@ exchange_router.patch(
   "/:id/concluir",
   authMiddleware,
   completed_exchange_controller,
+);
+exchange_router.patch(
+  "/:id/cancelar",
+  authMiddleware,
+  canceled_exchange_controller,
 );
 
 export default exchange_router;
