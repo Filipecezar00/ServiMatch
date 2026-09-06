@@ -56,12 +56,22 @@ export async function update_exchange_service(
   }
 
   if (status !== null && status !== undefined) {
-    if (!status) {
-      throw new AppError("Categoria de status inválida", 400);
+    if (
+      status !== "scheduled" &&
+      status !== "in_progress" &&
+      status !== "completed" &&
+      status !== "cancelled"
+    ) {
+      throw new AppError("Esse status não é válido", 400);
     }
   }
+
   if (schedule_date !== null && schedule_date !== undefined) {
-    if (!schedule_date) {
+    const dataConvertida = new Date(schedule_date);
+    if (isNaN(dataConvertida.getTime())) {
+      throw new AppError("Formato inválido de data", 400);
+    }
+    if (dataConvertida < new Date()) {
       throw new AppError("Data de agendamento inválida", 400);
     }
   }
