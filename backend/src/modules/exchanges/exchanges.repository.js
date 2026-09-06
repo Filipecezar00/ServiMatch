@@ -12,7 +12,7 @@ export async function listar_exchanges_repository(usuarioId) {
   return resposta;
 }
 
-export async function buscar_dados_proposta(exchangeId, usuarioId) {
+export async function buscar_dados_proposta_repository(exchangeId, usuarioId) {
   const [resultado] = await pool.query(
     `
     SELECT e.* , ep.proposer_id, ep.receiver_id FROM exchanges e 
@@ -58,7 +58,7 @@ export async function completed_exchange_repository(id) {
   return resposta.affectedRows;
 }
 
-export async function buscar_status_exchange(id, usuarioId) {
+export async function buscar_status_exchange_repository(id, usuarioId) {
   const [resposta] = await pool.query(
     `
     SELECT e.id,e.status FROM

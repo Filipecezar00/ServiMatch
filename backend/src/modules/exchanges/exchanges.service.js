@@ -1,9 +1,10 @@
 import AppError from "../../utils/AppError.js";
 import {
   listar_exchanges_repository,
-  buscar_dados_proposta,
+  buscar_dados_proposta_repository,
   update_exchange_repository,
   completed_exchange_repository,
+  buscar_status_exchange_repository,
 } from "./exchanges.repository.js";
 
 export async function listar_exchanges_service(usuarioId) {
@@ -19,7 +20,10 @@ export async function buscar_exchange_service(exchangeId, usuarioId) {
     throw new AppError("Não foi possivel atualizar essa troca", 400);
   }
 
-  const resposta = await buscar_dados_proposta(exchangeId, usuarioId);
+  const resposta = await buscar_dados_proposta_repository(
+    exchangeId,
+    usuarioId,
+  );
 
   if (!resposta) {
     throw new AppError("Não foi possivel localizar dados dessa proposta", 404);
@@ -42,7 +46,10 @@ export async function update_exchange_service(
   if (!exchangeId) {
     throw new AppError("Troca não localizada", 404);
   }
-  const exchange_data = await buscar_dados_proposta(exchangeId, usuarioId);
+  const exchange_data = await buscar_dados_proposta_repository(
+    exchangeId,
+    usuarioId,
+  );
   if (!exchange_data) {
     throw new AppError("Essa troca não existe no banco", 404);
   }
@@ -78,12 +85,18 @@ export async function update_exchange_service(
   return resposta;
 }
 
-export async function completed_exchange_service(id, usuarioId, status) {
-  if (status !== "scheduled" && status !== "in_progress") {
-    throw new AppError("Não é possível concluir essa solicitação", 409);
+export async function completed_exchange_service(id, usuarioId) {
+  const busca_status = await buscar_status_exchange_repository(id, usuarioId);
+
+  if (!busca_status) {
+    throw new AppError("Troca não localizada", 404);
   }
-  if (!id) {
-    throw new AppError("Troca inválida", 404);
+
+  if (
+    busca_status.status !== "in_progress" &&
+    busca_status.status !== "scheduled"
+  ) {
+    throw new AppError("Status inválido para realizar a conclusão", 409);
   }
 
   const resposta = await completed_exchange_repository(id);
