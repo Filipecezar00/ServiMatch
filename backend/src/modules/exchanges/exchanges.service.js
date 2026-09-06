@@ -28,7 +28,6 @@ export async function buscar_exchange_service(exchangeid, usuarioId) {
 }
 
 export async function update_exchange_service(
-  id,
   status,
   schedule_date,
   location,
@@ -36,9 +35,6 @@ export async function update_exchange_service(
   exchangeid,
   usuarioId,
 ) {
-  if (!id) {
-    throw new AppError("Não existe um identificador para essa proposta", 404);
-  }
   if (!usuarioId) {
     throw new AppError("Usuário invalido para executar essa ação", 400);
   }
@@ -71,7 +67,7 @@ export async function update_exchange_service(
     }
   }
   const resposta = await update_exchange_repository(
-    id,
+    exchangeid,
     status,
     schedule_date,
     location,

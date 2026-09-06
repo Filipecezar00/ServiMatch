@@ -26,7 +26,7 @@ export async function buscar_dados_proposta(exchangeid, usuarioId) {
 }
 
 export async function update_exchange_repository(
-  id,
+  exchangeId,
   status,
   schedule_date,
   location,
@@ -41,7 +41,7 @@ export async function update_exchange_repository(
     notes = COALESCE(?,notes)
     WHERE id = ? 
 `,
-    [status, schedule_date, location, notes, id],
+    [status, schedule_date, location, notes, exchangeId],
   );
 
   return resposta.affectedRows;
