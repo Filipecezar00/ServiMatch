@@ -15,3 +15,15 @@ export async function criar_review_repository(
   );
   return resultado.insertId;
 }
+
+export async function buscar_dados_review(exchangeId, usuarioId) {
+  const [resultado] = await pool.query(
+    `
+    SELECT e.*,ep.proposer_id,ep.receiver_id FROM exchanges e 
+    JOIN exchange_proposals ep ON e.proposal_id = ep.id 
+    WHERE e.id = ? AND (ep.proposer_id = ? OR ep.receiver_id = ?)
+`,
+    [exchangeId, usuarioId, usuarioId],
+  );
+  return resultado[0];
+}
