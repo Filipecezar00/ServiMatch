@@ -16,7 +16,7 @@ export async function criar_review_repository(
   return resultado.insertId;
 }
 
-export async function buscar_dados_review(exchangeId, usuarioId) {
+export async function buscar_dados_review_repository(exchangeId, usuarioId) {
   const [resultado] = await pool.query(
     `
     SELECT e.*,ep.proposer_id,ep.receiver_id FROM exchanges e 
