@@ -17,7 +17,7 @@ export async function criar_service(
   wanted_service_id,
   mensagem,
 ) {
-  if (proposer_id === receiver_id) {
+  if (Number(proposer_id) === Number(receiver_id)) {
     throw new AppError(
       "Você não pode enviar uma proposta para você mesmo",
       403,
