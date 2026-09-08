@@ -44,7 +44,8 @@ export async function buscar_review_existente_repository(
 export async function listar_review_repository(reviewedId) {
   const [resultado] = await pool.query(
     `
-        SELECT r.*, u.id, u.nome FROM reviews r
+        SELECT r.*, u.id as reviewer_id_user, u.nome as reviewer_nome
+        FROM reviews r
         JOIN users u ON r.reviewer_id = u.id WHERE
         r.reviewed_id = ?
     `,
