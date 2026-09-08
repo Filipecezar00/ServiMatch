@@ -1,2 +1,16 @@
 .env
 node_modules
+clover.xml
+Lcov.info
+base.css
+block-navigation.js
+favicon.png
+index.html
+prettify.css
+prettify.js
+sorter.js
+database.js.html
+reviews.repository.js.html
+reviews.service.js.html
+AppError.js.html
+sort-arrow-sprite.png
