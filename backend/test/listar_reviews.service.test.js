@@ -15,4 +15,10 @@ describe("listar_reviews_service", () => {
       media: { media: 5 },
     });
   });
+  test("Cenário de listas vazias", async () => {
+    reviewsRepository.listar_review_repository.mockResolvedValue([]);
+    reviewsRepository.buscar_media_repository.mockResolvedValue([]);
+    const resultado = await listar_reviews_service(1);
+    expect(resultado.reviews).toEqual([]);
+  });
 });
