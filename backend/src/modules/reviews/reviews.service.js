@@ -62,3 +62,5 @@ export async function criar_review_service(
 
   return resultado;
 }
+
+export async function listar_reviews_service(reviewedId) {}

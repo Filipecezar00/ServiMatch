@@ -28,6 +28,19 @@ export async function buscar_dados_review_repository(exchangeId, usuarioId) {
   return resultado[0];
 }
 
+export async function buscar_review_existente_repository(
+  exchangeId,
+  reviewerId,
+) {
+  const [resultado] = await pool.query(
+    `
+    SELECT * FROM reviews WHERE exchange_id = ? AND reviewer_id = ?
+    `,
+    [exchangeId, reviewerId],
+  );
+  return resultado[0];
+}
+
 export async function listar_review_repository(reviewedId) {
   const [resultado] = await pool.query(
     `
