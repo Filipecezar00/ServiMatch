@@ -8,6 +8,10 @@ import {
 
 const review_router = express.Router();
 
-review_router.post("/criar/:id", authMiddleware, criar_review_controller);
+review_router.post(
+  "/criar/:exchangeId",
+  authMiddleware,
+  criar_review_controller,
+);
 review_router.get("/:reviewedId/reviews", listar_reviews_controller);
 export default review_router;
