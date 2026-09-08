@@ -2,6 +2,8 @@ import AppError from "../../utils/AppError.js";
 import {
   buscar_dados_review_repository,
   criar_review_repository,
+  buscar_review_existente_repository,
+  listar_review_repository,
 } from "./reviews.repository.js";
 export async function criar_review_service(
   exchangeId,
@@ -14,6 +16,15 @@ export async function criar_review_service(
     exchangeId,
     reviewerId,
   );
+
+  const buscando_review = await buscar_review_existente_repository(
+    exchangeId,
+    reviewerId,
+  );
+
+  if (buscando_review) {
+    throw new AppError("Essa avaliação já foi realizada", 404);
+  }
 
   if (!dados_exchange) {
     throw new AppError("Erro ao buscar dados dessa solicitação", 404);
@@ -63,4 +74,11 @@ export async function criar_review_service(
   return resultado;
 }
 
-export async function listar_reviews_service(reviewedId) {}
+export async function listar_reviews_service(reviewedId) {
+  if (!reviewedId) {
+    throw new AppError("Usuário não localizado", 404);
+  }
+  const resposta = await listar_review_repository(reviewedId);
+
+  return resposta;
+}
