@@ -25,8 +25,8 @@ export async function criar_review_controller(req, res, next) {
 export async function listar_reviews_controller(req, res, next) {
   try {
     const { reviewedId } = req.params;
-    const resposta = await listar_reviews_service(reviewedId);
-    return res.status(200).json(resposta);
+    const review = await listar_reviews_service(reviewedId);
+    return res.status(200).json(review);
   } catch (erro) {
     next(erro);
   }
