@@ -35,6 +35,9 @@ export async function criar_review_service(
     }
   }
 
+  if (!rating) {
+    throw new AppError("É necessário enviar uma nota", 400);
+  }
   if (rating < 1 || rating > 5) {
     throw new AppError("A nota não está válida", 409);
   }
