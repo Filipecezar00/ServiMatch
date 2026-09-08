@@ -26,7 +26,7 @@ export async function cadastro(nome, email, senha) {
 
   const resultado = await buscarPorEmail(email);
   if (resultado) {
-    throw new AppError("Email já cadastrado", 409);
+    throw new AppError("Usuário já cadastrado", 409);
   }
 
   const senha_hash = await bcrypt.hash(senha, 10);

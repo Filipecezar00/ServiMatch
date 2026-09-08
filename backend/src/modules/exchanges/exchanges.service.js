@@ -52,7 +52,7 @@ export async function update_exchange_service(
     usuarioId,
   );
   if (!exchange_data) {
-    throw new AppError("Essa troca não existe no banco", 404);
+    throw new AppError("Troca não localizada", 404);
   }
 
   const transicoesPermitidas = {
@@ -145,7 +145,7 @@ export async function canceled_exchange_service(id, usuarioId) {
 
   if (busca_status.status === "completed") {
     throw new AppError(
-      "Não é possivel realizar o cancelamento de uma troca concluida",
+      "Não é possivel realizar o cancelamento dessa troca",
       409,
     );
   }
