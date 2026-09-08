@@ -23,14 +23,6 @@ export async function criar_review_service(
     throw new AppError("Essa solicitação ainda não foi concluida", 409);
   }
 
-  if (!Number(dados_exchange.proposer_id) === Number(reviewerId)) {
-    throw new AppError("Esse usuário não pode enviar o review", 403);
-  }
-
-  if (!Number(dados_exchange.receiver_id) === Number(reviewedId)) {
-    throw new AppError("Esse usuário não pode enviar o review", 403);
-  }
-
   if (Number(reviewerId) === Number(dados_exchange.proposer_id)) {
     if (Number(reviewedId) !== Number(dados_exchange.receiver_id)) {
       throw new AppError("Esse processo não é válido", 409);
