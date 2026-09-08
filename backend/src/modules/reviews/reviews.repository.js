@@ -27,3 +27,15 @@ export async function buscar_dados_review_repository(exchangeId, usuarioId) {
   );
   return resultado[0];
 }
+
+export async function listar_review_repository(reviewedId) {
+  const [resultado] = await pool.query(
+    `
+        SELECT r.*, u.id, u.nome FROM reviews r
+        JOIN users u ON r.reviewer_id = u.id WHERE
+        r.reviewed_id = ?
+    `,
+    [reviewedId],
+  );
+  return resultado;
+}
