@@ -4,6 +4,7 @@ import {
   criar_review_repository,
   buscar_review_existente_repository,
   listar_review_repository,
+  buscar_media_repository,
 } from "./reviews.repository.js";
 export async function criar_review_service(
   exchangeId,
@@ -78,7 +79,11 @@ export async function listar_reviews_service(reviewedId) {
   if (!reviewedId) {
     throw new AppError("Usuário não localizado", 404);
   }
-  const resposta = await listar_review_repository(reviewedId);
 
-  return resposta;
+  const [reviews, media_reviewed] = await Promise.all([
+    listar_review_repository(reviewedId),
+    buscar_media_repository(reviewedId),
+  ]);
+
+  return { reviews, media: media_reviewed };
 }
