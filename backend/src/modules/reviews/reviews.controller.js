@@ -1,4 +1,7 @@
-import { criar_review_service } from "./reviews.service.js";
+import {
+  criar_review_service,
+  listar_reviews_service,
+} from "./reviews.service.js";
 export async function criar_review_controller(req, res, next) {
   try {
     const { reviewedId, rating, comment } = req.body;
@@ -14,6 +17,16 @@ export async function criar_review_controller(req, res, next) {
     );
 
     return res.status(201).json(resposta);
+  } catch (erro) {
+    next(erro);
+  }
+}
+
+export async function listar_reviews_controller(req, res, next) {
+  try {
+    const { reviewedId } = req.params;
+    const resposta = await listar_reviews_service(reviewedId);
+    return res.status(200).json(resposta);
   } catch (erro) {
     next(erro);
   }
