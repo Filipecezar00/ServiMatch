@@ -110,6 +110,9 @@ export async function update_exchange_service(
     notes,
   );
 
+  if (resposta === 0) {
+    throw new AppError("Registro não encontrado em atualização", 404);
+  }
   return resposta;
 }
 
@@ -129,6 +132,9 @@ export async function completed_exchange_service(id, usuarioId) {
 
   const resposta = await completed_exchange_repository(id);
 
+  if (resposta === 0) {
+    throw new AppError("Registro não encontrado para atualização", 404);
+  }
   return resposta;
 }
 export async function canceled_exchange_service(id, usuarioId) {
@@ -149,6 +155,10 @@ export async function canceled_exchange_service(id, usuarioId) {
   }
 
   const resposta = await canceled_exchange_repository(id);
+
+  if (resposta === 0) {
+    throw new AppError("Registro não encontrado para atualização", 404);
+  }
 
   return resposta;
 }

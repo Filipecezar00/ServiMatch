@@ -63,6 +63,7 @@ export async function criar_service(
     wanted_service_id,
     mensagem,
   );
+
   return {
     id: idCriado,
     proposer_id,
@@ -97,7 +98,15 @@ export async function mudar_status(id, usuarioId, status) {
     connection = await pool.getConnection();
     await connection.beginTransaction();
 
-    await alterar_status_repository(id, status, connection);
+    const retorno_banco = await alterar_status_repository(
+      id,
+      status,
+      connection,
+    );
+
+    if (retorno_banco === 0) {
+      throw new AppError("O banco não respondeu essa consulta", 404);
+    }
 
     if (status === "accepted") {
       await exchange_criar(proposal.id, connection);
