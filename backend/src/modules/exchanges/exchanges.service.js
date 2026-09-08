@@ -10,7 +10,7 @@ import {
 
 export async function listar_exchanges_service(usuarioId) {
   if (!usuarioId) {
-    throw new AppError("Usuário não autenticado", 400);
+    throw new AppError("Usuário não autenticado", 401);
   }
   const resposta = await listar_exchanges_repository(usuarioId);
   return resposta;
@@ -18,7 +18,7 @@ export async function listar_exchanges_service(usuarioId) {
 
 export async function buscar_exchange_service(exchangeId, usuarioId) {
   if (!exchangeId || !usuarioId) {
-    throw new AppError("Não foi possivel atualizar essa troca", 400);
+    throw new AppError("Não foi possivel atualizar essa troca", 403);
   }
 
   const resposta = await buscar_dados_proposta_repository(

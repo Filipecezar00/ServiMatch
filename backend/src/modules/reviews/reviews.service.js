@@ -60,7 +60,10 @@ export async function criar_review_service(
       comment.trim().length < 10 ||
       comment === ""
     ) {
-      throw new AppError("O comentario deve ter entre 10 e 200 caracteres");
+      throw new AppError(
+        "O comentario deve ter entre 10 e 200 caracteres",
+        400,
+      );
     }
   }
 

@@ -20,7 +20,7 @@ export async function criar_service(
   if (proposer_id === receiver_id) {
     throw new AppError(
       "Você não pode enviar uma proposta para você mesmo",
-      400,
+      403,
     );
   }
   if (mensagem !== null && mensagem !== undefined) {
@@ -39,10 +39,10 @@ export async function criar_service(
     throw new AppError("Um dos serviços selecionados não existe", 404);
   }
   if (Number(busca_offered.user_id) !== Number(proposer_id)) {
-    throw new AppError("O serviço oferecido não pertence ao proponente", 400);
+    throw new AppError("O serviço oferecido não pertence ao proponente", 409);
   }
   if (Number(busca_wanted.user_id) !== Number(receiver_id)) {
-    throw new AppError("O serviço desejado não pertence ao destinatário", 400);
+    throw new AppError("O serviço desejado não pertence ao destinatário", 409);
   }
 
   const offered_pending = await verify_pending(
@@ -82,15 +82,15 @@ export async function mudar_status(id, usuarioId, status) {
   }
 
   if (Number(proposal.receiver_id) !== Number(usuarioId)) {
-    throw new AppError("Você não pode alterar essa proposta", 400);
+    throw new AppError("Você não pode alterar essa proposta", 403);
   }
 
   if (status !== "accepted" && status !== "rejected") {
-    throw new AppError("Esse status não é válido", 400);
+    throw new AppError("Esse status não é válido", 403);
   }
 
   if (proposal.status !== "pending") {
-    throw new AppError("Essa proposta já foi aceita ou recusada", 400);
+    throw new AppError("Essa proposta já foi aceita ou recusada", 409);
   }
   let connection;
   try {
