@@ -53,3 +53,16 @@ export async function listar_review_repository(reviewedId) {
   );
   return resultado;
 }
+
+export async function buscar_media_repository(reviewedId) {
+  const [resultado] = await pool.query(
+    `
+        SELECT COALESCE(AVG(rating), 0) AS media_rating,
+        count(*) AS total_reviews FROM reviews 
+        WHERE reviewed_id = ? 
+    `,
+    [reviewedId],
+  );
+
+  return resultado[0];
+}
