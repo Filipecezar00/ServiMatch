@@ -3,7 +3,6 @@ import {
   criarUsuario,
   loginUsuario,
 } from "../../modules/users/users.controller.js";
-import { authMiddleware } from "../../middleware/auth.js";
 const user_router = express.Router();
 
 user_router.post("/cadastro", criarUsuario);
