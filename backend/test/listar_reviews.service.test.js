@@ -21,4 +21,16 @@ describe("listar_reviews_service", () => {
     const resultado = await listar_reviews_service(1);
     expect(resultado.reviews).toEqual([]);
   });
+
+  test("Cenário de erro", async () => {
+    reviewsRepository.listar_review_repository.mockRejectedValue(
+      new Error("Erro de listagem de reviews"),
+    );
+    reviewsRepository.buscar_media_repository.mockRejectedValue(
+      new Error("Erro ao Processar média de reviews"),
+    );
+    await expect(listar_reviews_service(1)).rejects.toThrow(
+      "Erro de listagem de reviews",
+    );
+  });
 });
