@@ -61,4 +61,16 @@ describe("criar_reviews_service", () => {
       criar_review_service(1, 2, 3, 6, "Testando review"),
     ).rejects.toThrow("A nota não está válida");
   });
+
+  test("Rating undefined", async () => {
+    reviewsRepository.buscar_dados_review_repository.mockResolvedValue({
+      id: 1,
+      status: "completed",
+      proposer_id: 2,
+      receiver_id: 3,
+    });
+    await expect(
+      criar_review_service(1, 2, 3, undefined, "Testando review"),
+    ).rejects.toThrow("É necessário enviar uma nota");
+  });
 });
