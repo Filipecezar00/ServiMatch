@@ -39,4 +39,15 @@ describe("criar_reviews_service", () => {
       criar_review_service(1, 2, 3, 5, "Testando review"),
     ).rejects.toThrow("Essa solicitação ainda não foi concluida");
   });
+  test("Reviewed Id errado", async () => {
+    reviewsRepository.buscar_dados_review_repository.mockResolvedValue({
+      id: 1,
+      status: "completed",
+      proposer_id: 2,
+      receiver_id: 3,
+    });
+    await expect(
+      criar_review_service(1, 2, 4, 5, "Testando review"),
+    ).rejects.toThrow("Esse processo não é válido");
+  });
 });
