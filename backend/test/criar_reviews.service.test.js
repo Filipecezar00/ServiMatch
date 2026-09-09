@@ -8,11 +8,9 @@ describe("criar_reviews_service", () => {
     reviewsRepository.buscar_dados_review_repository.mockResolvedValue({
       id: 1,
       status: "completed",
+      proposer_id: 2,
+      receiver_id: 3,
     });
-
-    reviewsRepository.buscar_review_existente_repository?.mockResolvedValue(
-      null,
-    );
 
     reviewsRepository.criar_review_repository.mockResolvedValue({
       insertId: 1,
