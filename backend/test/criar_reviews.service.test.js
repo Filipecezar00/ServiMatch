@@ -50,4 +50,15 @@ describe("criar_reviews_service", () => {
       criar_review_service(1, 2, 4, 5, "Testando review"),
     ).rejects.toThrow("Esse processo não é válido");
   });
+  test("rating fora do intervalo", async () => {
+    reviewsRepository.buscar_dados_review_repository.mockResolvedValue({
+      id: 1,
+      status: "completed",
+      proposer_id: 2,
+      receiver_id: 3,
+    });
+    await expect(
+      criar_review_service(1, 2, 3, 6, "Testando review"),
+    ).rejects.toThrow("A nota não está válida");
+  });
 });
