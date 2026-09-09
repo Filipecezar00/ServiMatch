@@ -27,4 +27,16 @@ describe("criar_reviews_service", () => {
       criar_review_service(1, 2, 3, 5, "Testando review"),
     ).rejects.toThrow("Erro ao buscar dados dessa solicitação");
   });
+
+  test("Exchange que não está completed", async () => {
+    reviewsRepository.buscar_dados_review_repository.mockResolvedValue({
+      id: 1,
+      status: "scheduled",
+      proposer_id: 2,
+      receiver_id: 3,
+    });
+    await expect(
+      criar_review_service(1, 2, 3, 5, "Testando review"),
+    ).rejects.toThrow("Essa solicitação ainda não foi concluida");
+  });
 });
