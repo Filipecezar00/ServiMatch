@@ -31,4 +31,10 @@ describe("mudar_status_exchange_service", () => {
     expect(mockConnection.rollback).not.toHaveBeenCalled();
     expect(mockConnection.release).toHaveBeenCalled();
   });
+
+  test("Deve disparar erro se a proposta não for encontrada", async () => {
+    exchangesRepository.buscar_proposta_porId.mockResolvedValue(null);
+
+    await expect(mudar_status(999, 3, "accepted")).rejects.toThrow();
+  });
 });
