@@ -43,4 +43,12 @@ describe("mudar_status_exchange_service", () => {
 
     await expect(mudar_status(1, 2, "accepted")).rejects.toThrow();
   });
+
+  test("Deve disparar o erro quando o status estiver incorreto", async () => {
+    exchangesRepository.buscar_proposta_porId.mockResolvedValue({
+      id: 1,
+    });
+
+    await expect(mudar_status(1, 3, "in_progress")).rejects.toThrow();
+  });
 });
