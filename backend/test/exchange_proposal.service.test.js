@@ -45,20 +45,34 @@ describe("mudar_status_exchange_service", () => {
   test("Deve disparar erro se a proposta não for encontrada", async () => {
     exchangesRepository.buscar_proposta_porId.mockResolvedValue(null);
 
-    await expect(mudar_status(999, 3, "accepted")).rejects.toThrow();
+    await expect(mudar_status(999, 3, "accepted")).rejects.toThrow(
+      "Proposta não encontrada!",
+    );
   });
 
   test("Deve disparar erro quando o receiver_id está errado", async () => {
-    exchangesRepository.buscar_proposta_porId.mockResolvedValue({ id: 1 });
+    exchangesRepository.buscar_proposta_porId.mockResolvedValue({
+      id: 1,
+      status: "completed",
+      proposer_id: 2,
+      receiver_id: 99,
+    });
 
-    await expect(mudar_status(1, 2, "accepted")).rejects.toThrow();
+    await expect(mudar_status(1, 2, "accepted")).rejects.toThrow(
+      "Receiver id está incorreto!",
+    );
   });
 
   test("Deve disparar o erro quando o status estiver incorreto", async () => {
     exchangesRepository.buscar_proposta_porId.mockResolvedValue({
       id: 1,
+      status: "completed",
+      proposer_id: 2,
+      receiver_id: 3,
     });
 
-    await expect(mudar_status(1, 3, "in_progress")).rejects.toThrow();
+    await expect(mudar_status(1, 3, "in_progress")).rejects.toThrow(
+      "Status está incorreto!",
+    );
   });
 });
