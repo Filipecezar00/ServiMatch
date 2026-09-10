@@ -1,8 +1,9 @@
 import { pool } from "../src/config/database.js";
 import { mudar_status } from "../src/modules/exchange_proposals/exchange_proposal_service.js";
-import * as exchangesRepository from "../src/modules/exchanges/exchanges.repository.js";
+import * as exchangesRepository from "../src/modules/exchange_proposals/exchange_proposal_repository.js";
 
 jest.mock("../src/config/database.js");
+jest.mock("../src/modules/exchange_proposals/exchange_proposal_repository.js");
 
 const mockConnection = {
   beginTransaction: jest.fn().mockResolvedValue(),
@@ -13,3 +14,21 @@ const mockConnection = {
 };
 
 pool.getConnection.mockResolvedValue(mockConnection);
+
+describe("mudar_status_exchange_service", () => {
+  test("Deve alterar o status da proposta com sucesso", async () => {
+    exchangesRepository.buscar_proposta_porId.mockResolvedValue({
+      id: 1,
+      status: "pending",
+      proposer_id: 2,
+      receiver_id: 3,
+    });
+
+    const resultado = await mudar_status(1, 3, "accepted");
+
+    expect(resultado).toBeDefined();
+    expect(mockConnection.commit).toHaveBeenCalled();
+    expect(mockConnection.rollback).not.toHaveBeenCalled();
+    expect(mockConnection.release).toHaveBeenCalled();
+  });
+});
