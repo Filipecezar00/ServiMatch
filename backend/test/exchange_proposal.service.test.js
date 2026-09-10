@@ -13,9 +13,11 @@ const mockConnection = {
   query: jest.fn().mockResolvedValue([{ affectedRows: 1 }]),
 };
 
-pool.getConnection.mockResolvedValue(mockConnection);
-
 describe("mudar_status_exchange_service", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    pool.getConnection.mockResolvedValue(mockConnection);
+  });
   test("Deve alterar o status da proposta com sucesso", async () => {
     exchangesRepository.buscar_proposta_porId.mockResolvedValue({
       id: 1,
