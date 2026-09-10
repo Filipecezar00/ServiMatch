@@ -24,12 +24,22 @@ describe("mudar_status_exchange_service", () => {
       receiver_id: 3,
     });
 
+    exchangesRepository.alterar_status_repository.mockResolvedValue({
+      affectedRows: 1,
+    });
+
     const resultado = await mudar_status(1, 3, "accepted");
 
     expect(resultado).toBeDefined();
     expect(mockConnection.commit).toHaveBeenCalled();
     expect(mockConnection.rollback).not.toHaveBeenCalled();
     expect(mockConnection.release).toHaveBeenCalled();
+
+    expect(exchangesRepository.alterar_status_repository).toHaveBeenCalledWith(
+      1,
+      "accepted",
+      mockConnection,
+    );
   });
 
   test("Deve disparar erro se a proposta não for encontrada", async () => {
