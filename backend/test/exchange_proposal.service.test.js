@@ -37,4 +37,10 @@ describe("mudar_status_exchange_service", () => {
 
     await expect(mudar_status(999, 3, "accepted")).rejects.toThrow();
   });
+
+  test("Deve disparar erro quando o receiver_id está errado", async () => {
+    exchangesRepository.buscar_proposta_porId.mockResolvedValue({ id: 1 });
+
+    await expect(mudar_status(1, 2, "accepted")).rejects.toThrow();
+  });
 });
