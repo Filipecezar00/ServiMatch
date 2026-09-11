@@ -48,33 +48,53 @@ describe("mudar_status_exchange_service", () => {
     exchangesRepository.buscar_proposta_porId.mockResolvedValue(null);
 
     await expect(mudar_status(999, 3, "accepted")).rejects.toThrow(
-      "Proposta não encontrada!",
+      "Não foi possivel localizar essa proposta",
     );
   });
 
   test("Deve disparar erro quando o receiver_id está errado", async () => {
     exchangesRepository.buscar_proposta_porId.mockResolvedValue({
       id: 1,
-      status: "completed",
+      status: "pending",
       proposer_id: 2,
-      receiver_id: 99,
+      receiver_id: 3,
     });
 
     await expect(mudar_status(1, 2, "accepted")).rejects.toThrow(
-      "Receiver id está incorreto!",
+      "Você não pode alterar essa proposta",
     );
   });
 
   test("Deve disparar o erro quando o status estiver incorreto", async () => {
     exchangesRepository.buscar_proposta_porId.mockResolvedValue({
       id: 1,
-      status: "completed",
+      status: "pending",
       proposer_id: 2,
       receiver_id: 3,
     });
 
     await expect(mudar_status(1, 3, "in_progress")).rejects.toThrow(
-      "Status está incorreto!",
+      "Esse status não é válido",
     );
+  });
+
+  test("Testando execução rollback e não comitar se a query falhar", async () => {
+    exchangesRepository.buscar_proposta_porId.mockResolvedValue({
+      id: 1,
+      status: "pending",
+      proposer_id: 2,
+      receiver_id: 3,
+    });
+
+    exchangesRepository.alterar_status_repository.mockRejectedValueOnce(
+      new Error("Erro ao atualizar o status da proposta"),
+    );
+
+    await expect(mudar_status(1, 3, "accepted")).rejects.toThrow(
+      "Erro ao atualizar o status da proposta",
+    );
+    expect(mockConnection.rollback).toHaveBeenCalled();
+    expect(mockConnection.commit).not.toHaveBeenCalled();
+    expect(mockConnection.release).toHaveBeenCalled();
   });
 });
