@@ -42,6 +42,11 @@ describe("mudar_status_exchange_service", () => {
       "accepted",
       mockConnection,
     );
+
+    expect(exchangesRepository.exchange_criar).toHaveBeenCalledWith(
+      1,
+      mockConnection,
+    );
   });
 
   test("Deve disparar erro se a proposta não for encontrada", async () => {
