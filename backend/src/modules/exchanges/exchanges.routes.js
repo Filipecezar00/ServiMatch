@@ -52,6 +52,52 @@ const exchange_router = express.Router();
  *          description: Token ausente ou inválido
  */
 exchange_router.get("/listar", authMiddleware, listar_exchange_controller);
+
+/**
+ * @openapi
+ * /api/exchange/{id}/editar:
+ *    patch:
+ *     summary: Edição de propostas
+ *     tags:
+ *       - Propostas
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID da proposta a ser atualizada
+ *         schema:
+ *           type: integer
+ *    requestBody:
+ *      required:  true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              offered_service_id:
+ *                type: integer
+ *                description: ID do serviço oferecido atualizado
+ *              requested_service_id:
+ *                type: integer
+ *                description: ID do serviço solicitado atualizado
+ *              description:
+ *                type: string
+ *                description: Detalhes ou observações atualizadas
+ *    responses:
+ *      200:
+ *        description: Proposta atualizada com sucesso
+ *      400:
+ *        description: Dados fornecidos inválidos
+ *      401:
+ *        description: Token ausente ou inválido
+ *      403:
+ *        description: Sem permissão para alterar esta proposta
+ *      404:
+ *        description: Proposta não encontrada
+ *
+ */
 exchange_router.patch(
   "/:id/editar",
   authMiddleware,
