@@ -7,8 +7,7 @@ import service_router_wanted from "./src/modules/services_wanted/service_wanted_
 import service_router_offered from "./src/modules/services_offered/service_offered_routes.js";
 import exchange_proposal_router from "./src/modules/exchange_proposals/exchange_proposal_routes.js";
 import exchange_router from "./src/modules/exchanges/exchanges.routes.js";
-import review_router from "./src/modules/exchanges/exchanges.routes.js";
-import express from "express";
+import review_router from "./src/modules/reviews/reviews.routes.js";
 import { setupSwagger } from "./src/config/swagger.js";
 const app = express();
 

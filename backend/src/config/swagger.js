@@ -15,6 +15,15 @@ const options = {
         description: "Servidor local de Desenvolvimento",
       },
     ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
   },
   apis: ["./src/modules/**/*.js", "./src/routes/*.js"],
 };
