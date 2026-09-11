@@ -8,9 +8,13 @@ import service_router_offered from "./src/modules/services_offered/service_offer
 import exchange_proposal_router from "./src/modules/exchange_proposals/exchange_proposal_routes.js";
 import exchange_router from "./src/modules/exchanges/exchanges.routes.js";
 import review_router from "./src/modules/exchanges/exchanges.routes.js";
+import express from "express";
+import { setupSwagger } from "./src/config/swagger.js";
 const app = express();
 
 app.use(express.json());
+
+setupSwagger(app);
 
 app.get("/health", async (req, res) => {
   try {
