@@ -1,6 +1,6 @@
 import "dotenv/config";
 import express from "express";
-import authMiddleware from "../../middleware/auth.js";
+import { authMiddleware } from "../../middleware/auth.js";
 import {
   criar_review_controller,
   listar_reviews_controller,
