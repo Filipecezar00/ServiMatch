@@ -8,6 +8,49 @@ import { authMiddleware } from "../../middleware/auth.js";
 
 const exchange_proposal_router = express.Router();
 
+/**
+ * @openapi
+ * /api/exchange-proposals/criar:
+ *   post:
+ *     summary: Cria uma nova proposta de troca
+ *     tags:
+ *       - Propostas
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - receiver_id
+ *               - offered_service_id
+ *               - requested_service_id
+ *             properties:
+ *               receiver_id:
+ *                 type: integer
+ *                 description: ID do usuário receptor da proposta
+ *               offered_service_id:
+ *                 type: integer
+ *                 description: ID do serviço oferecido
+ *               requested_service_id:
+ *                 type: integer
+ *                 description: ID do serviço desejado
+ *               description:
+ *                 type: string
+ *                 description: Mensagem ou detalhes adicionais da troca
+ *     responses:
+ *       201:
+ *         description: Proposta criada com sucesso
+ *       400:
+ *         description: Dados de entrada inválidos
+ *       401:
+ *         description: Token ausente ou inválido
+ *       404:
+ *         description: Usuário receptor ou serviço não encontrado
+ *
+ */
 exchange_proposal_router.post("/criar", authMiddleware, criar_controller);
 
 /**
