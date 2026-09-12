@@ -98,11 +98,41 @@ exchange_router.get("/listar", authMiddleware, listar_exchange_controller);
  *        description: Proposta não encontrada
  *
  */
+
 exchange_router.patch(
   "/:id/editar",
   authMiddleware,
   update_exchange_controller,
 );
+
+/**
+ * @openapi
+ * /api/exchange/{id}/concluir:
+ *   patch:
+ *      summary: Concluir proposta
+ *      tags:
+ *        - Proposta
+ *      security:
+ *        - bearerAuth: []
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          description: ID da proposta a ser concluida
+ *          schema:
+ *            type: integer
+ *      responses:
+ *        200:
+ *          description: Proposta concluída com sucesso
+ *        400:
+ *          description: A proposta não pode ser concluída no status atual
+ *        401:
+ *          description: Token ausente ou inválido
+ *        403:
+ *          description: Sem permissão para concluir esta proposta
+ *        404:
+ *          description: Proposta não encontrada
+ */
 exchange_router.patch(
   "/:id/concluir",
   authMiddleware,
