@@ -56,7 +56,7 @@ service_router_offered.post("/criar", authMiddleware, criar_controller);
  * @openapi
  * /api/services-offered/listar-ativos:
  *   get:
- *     summary: Lista serviços oferecidos ativos
+ *     summary: Lista serviços ativos de outros usuarios
  *     tags:
  *       - services-offered
  *     security:
@@ -84,6 +84,38 @@ service_router_offered.post("/criar", authMiddleware, criar_controller);
  *          description: Token ausente ou inválido
  */
 service_router_offered.get("/listar-ativos", listarAtivos_controller);
+
+/**
+ * @openapi
+ * /api/services-offered/listar-minhas:
+ *   get:
+ *     summary: Lista meus serviços ativos
+ *     tags:
+ *       - services-offered
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lista de meus serviços retornada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   title:
+ *                     type: string
+ *                   description:
+ *                     type: string
+ *                   created_at:
+ *                     type: string
+ *                     format : date-time
+ *       401:
+ *         description: Token ausente ou inválido
+ */
 service_router_offered.get(
   "/listar-minhas",
   authMiddleware,
