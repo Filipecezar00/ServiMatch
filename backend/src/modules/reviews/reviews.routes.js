@@ -60,5 +60,49 @@ review_router.post(
   authMiddleware,
   criar_review_controller,
 );
+
+/**
+ * @openapi
+ * /api/reviews/{reviewedId}/reviews:
+ *   get:
+ *     summary: Lista reviews de um usuário
+ *     tags:
+ *       - Avaliações
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: reviewedId
+ *         required: true
+ *         description: ID do usuário avaliado
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Lista de avaliações retornada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   exchange_id:
+ *                     type: integer
+ *                   reviewer_id:
+ *                     type: integer
+ *                   rating:
+ *                     type: integer
+ *                   comment:
+ *                     type: string
+ *                   created_at:
+ *                     type: string
+ *                     format: date-time
+ *         404:
+ *           description: Usuário não encontrado
+ */
+
 review_router.get("/:reviewedId/reviews", listar_reviews_controller);
 export default review_router;
