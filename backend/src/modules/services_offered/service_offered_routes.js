@@ -121,6 +121,51 @@ service_router_offered.get(
   authMiddleware,
   listarServicosUsuario_controller,
 );
+
+/**
+ * @openapi
+ * /api/services-offered/{id}:
+ *  put:
+ *    summary: Atualiza um serviço oferecido
+ *    tags:
+ *      - services-offered
+ *    security:
+ *      - bearerAuth: []
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        description: ID do serviço oferecido a ser atualizado
+ *        schema:
+ *          type: integer
+ *    requestBody:
+ *      required: true
+ *      content:
+ *       application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: Titulo atualizado do serviço
+ *               description:
+ *                 type: string
+ *                 description: Detalhes atualizado do serviço
+ *               categoryId:
+ *                 type: integer
+ *                 description: ID da categoria
+ *      responses:
+ *        200:
+ *          description: Serviço atualizado com sucesso
+ *        400:
+ *          description: Dados fornecidos inválidos
+ *        401:
+ *          description: Token ausente ou inválido
+ *        403:
+ *          description: Sem permissão para alterar este serviço
+ *        404:
+ *          description: Serviço não encontrado
+ */
 service_router_offered.put("/:id", authMiddleware, editarServico_controller);
 service_router_offered.patch(
   "/:id/status",
