@@ -13,6 +13,43 @@ import {
 
 const service_router_offered = express.Router();
 
+/**
+ * @openapi
+ * /api/services-offered/criar:
+ *   post:
+ *     summary: Cria serviço oferecido
+ *     tags:
+ *       - Serviços
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *               - description
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: Título ou nome do serviço
+ *               description:
+ *                 type: string
+ *                 description: Detalhes sobre o serviço prestado
+ *               category_id:
+ *                 type: integer
+ *                 description: ID da categoria relacionada (opcional)
+ *     responses:
+ *       200:
+ *         description: Serviço cadastrado com sucesso
+ *       400:
+ *         description: Dados de entrada inválidos ou ausentes
+ *       401:
+ *         description: Token ausente ou inválido
+ *
+ */
 service_router_offered.post("/criar", authMiddleware, criar_controller);
 service_router_offered.get("/listar-ativos", listarAtivos_controller);
 service_router_offered.get(
