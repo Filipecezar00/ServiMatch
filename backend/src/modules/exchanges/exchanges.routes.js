@@ -138,6 +138,36 @@ exchange_router.patch(
   authMiddleware,
   completed_exchange_controller,
 );
+
+/**
+ * @openapi
+ * /api/exchange/{id}/cancelar:
+ *   patch:
+ *      summary: Cancelar Proposta
+ *      tags:
+ *        - Proposta
+ *      security:
+ *        - bearerAuth: []
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          description: ID da proposta a ser concluida
+ *          schema:
+ *            type: integer
+ *      responses:
+ *        200:
+ *          description: Proposta cancelada com Sucesso
+ *        400:
+ *          description: A proposta já foi cancelada
+ *        401:
+ *          description: Token ausente ou inválido
+ *        403:
+ *          description: Sem permissão para cancelar essa troca
+ *        404:
+ *          description: Proposta não encontra
+ *
+ */
 exchange_router.patch(
   "/:id/cancelar",
   authMiddleware,
