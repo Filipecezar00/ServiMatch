@@ -72,11 +72,12 @@ export async function canceled_exchange_repository(id) {
 export async function buscar_status_exchange_repository(id, usuarioId) {
   const [resposta] = await pool.query(
     `
-    SELECT e.id,e.status FROM
-    exchanges e JOIN exchange_proposals ep ON e.proposal_id = ep.id
+    SELECT e.id,e.status
+    FROM exchanges e
+    JOIN exchange_proposals ep ON e.proposal_id = ep.id
     WHERE e.id = ? AND (ep.proposer_id = ? OR ep.receiver_id = ?) 
     `,
-    [id, usuarioId],
+    [id, usuarioId, usuarioId],
   );
   return resposta[0];
 }

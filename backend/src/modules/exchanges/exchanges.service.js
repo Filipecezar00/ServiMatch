@@ -117,6 +117,12 @@ export async function update_exchange_service(
 }
 
 export async function completed_exchange_service(id, usuarioId) {
+  if (!id || !usuarioId) {
+    throw new AppError(
+      "Ids necessários para a consulta não foram fornecidos.",
+      403,
+    );
+  }
   const busca_status = await buscar_status_exchange_repository(id, usuarioId);
 
   if (!busca_status) {
