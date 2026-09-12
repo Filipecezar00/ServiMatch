@@ -19,7 +19,7 @@ const service_router_offered = express.Router();
  *   post:
  *     summary: Cria serviço oferecido
  *     tags:
- *       - Serviços
+ *       - services-offered
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -51,6 +51,38 @@ const service_router_offered = express.Router();
  *
  */
 service_router_offered.post("/criar", authMiddleware, criar_controller);
+
+/**
+ * @openapi
+ * /api/services-offered/listar-ativos:
+ *   get:
+ *     summary: Lista serviços oferecidos ativos
+ *     tags:
+ *       - services-offered
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *        200:
+ *         description: Lista de serviços retornada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   title:
+ *                     type: string
+ *                   description:
+ *                     type: string
+ *                   created_at:
+ *                     type: string
+ *                     format: date-time
+ *         401:
+ *          description: Token ausente ou inválido
+ */
 service_router_offered.get("/listar-ativos", listarAtivos_controller);
 service_router_offered.get(
   "/listar-minhas",

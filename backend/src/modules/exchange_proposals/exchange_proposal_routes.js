@@ -14,7 +14,7 @@ const exchange_proposal_router = express.Router();
  *   post:
  *     summary: Cria uma nova proposta de troca
  *     tags:
- *       - Propostas
+ *       - exchange-proposals
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -59,7 +59,7 @@ exchange_proposal_router.post("/criar", authMiddleware, criar_controller);
  *   patch:
  *     summary: Altera o status de uma proposta de troca
  *     tags:
- *       - Propostas
+ *       - exchange-proposals
  *     security:
  *       - bearerAuth: []
  *     parameters:

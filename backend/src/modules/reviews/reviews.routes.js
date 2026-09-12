@@ -14,7 +14,7 @@ const review_router = express.Router();
  *   post:
  *     summary: Cria uma avaliação para uma troca concluída
  *     tags:
- *       - Avaliações
+ *       - reviews
  *     security:
  *       - bearerAuth: []
  *     paramaters:
@@ -67,7 +67,7 @@ review_router.post(
  *   get:
  *     summary: Lista reviews de um usuário
  *     tags:
- *       - Avaliações
+ *       - reviews
  *     security:
  *       - bearerAuth: []
  *     parameters:

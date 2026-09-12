@@ -16,7 +16,7 @@ const exchange_router = express.Router();
  *   get:
  *     summary: Lista as propostas de troca do usuário autenticado
  *     tags:
- *       - Propostas
+ *       - exchange
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -59,7 +59,7 @@ exchange_router.get("/listar", authMiddleware, listar_exchange_controller);
  *    patch:
  *     summary: Edição de propostas
  *     tags:
- *       - Propostas
+ *       - exchange
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -111,7 +111,7 @@ exchange_router.patch(
  *   patch:
  *      summary: Concluir proposta
  *      tags:
- *        - Proposta
+ *        - exchange
  *      security:
  *        - bearerAuth: []
  *      parameters:
@@ -145,7 +145,7 @@ exchange_router.patch(
  *   patch:
  *      summary: Cancelar Proposta
  *      tags:
- *        - Proposta
+ *        - exchange
  *      security:
  *        - bearerAuth: []
  *      parameters:
