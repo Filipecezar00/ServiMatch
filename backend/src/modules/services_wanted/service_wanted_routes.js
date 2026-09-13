@@ -119,6 +119,51 @@ service_router_wanted.get(
   authMiddleware,
   listar_meusAtivos_controller,
 );
+/**
+ * @openapi
+ * /api/services-wanted/{id}:
+ *   put:
+ *     summary: Editar serviço que quero
+ *     tags:
+ *       - services-wanted
+ *     security:
+ *      - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID do serviço oferecido a ser atualizado
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: Titulo atualizado do serviço
+ *               description:
+ *                 type: string
+ *                 description: Detalhes atualizado do serviço
+ *               category_id:
+ *                 type: integer
+ *                 description: ID da categoria
+ *     responses:
+ *       200:
+ *         description: Serviço atualizado com sucesso
+ *       400:
+ *         description: Dados fornecidos inválidos
+ *       401:
+ *         description: Token ausente ou inválido
+ *       403:
+ *         description: Sem permissão para alterar este serviço
+ *       404:
+ *         description: Serviço não encontrado
+ */
+
 service_router_wanted.put("/:id", authMiddleware, editar_servico_controller);
 service_router_wanted.patch(
   "/:id/status",
