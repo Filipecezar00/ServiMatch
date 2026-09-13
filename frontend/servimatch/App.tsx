@@ -1,11 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import RootNavigator from "../servimatch/src/navigation/RootNavigator";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>hello word</Text>
-      <StatusBar style="auto" />
+      <RootNavigator />
     </View>
   );
 }
