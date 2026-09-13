@@ -167,6 +167,46 @@ service_router_offered.get(
  *          description: Serviço não encontrado
  */
 service_router_offered.put("/:id", authMiddleware, editarServico_controller);
+/**
+ * @openapi
+ * /api/services-offered/{id}/status:
+ *   patch:
+ *     summary: Altera o status de um serviço oferecido
+ *     tags:
+ *       - services-offered
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID do serviço oferecido a ter o status atualizado
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - ativo
+ *            properties:
+ *              ativo:
+ *                type: boolean
+ *                description: Indica se o serviço está ativo (true) ou inativo (falso)
+ *      responses:
+ *       200:
+ *         description: Status do serviço atualizado
+ *       400:
+ *         description: Status inválido
+ *       401:
+ *         description: Token ausente ou invalido
+ *       403:
+ *         description: Sem permissão para alterar este serviço
+ *       404:
+ *         description: Serviço não encontrado
+ */
 service_router_offered.patch(
   "/:id/status",
   authMiddleware,
