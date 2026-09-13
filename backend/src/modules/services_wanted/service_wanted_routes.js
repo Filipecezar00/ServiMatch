@@ -48,6 +48,39 @@ const service_router_wanted = express.Router();
  *         description: Token ausente ou inválido
  */
 service_router_wanted.post("/criar", authMiddleware, criar_controller);
+
+/**
+ * @openapi
+ * /api/services-wanted/listar-ativos:
+ *   get:
+ *     summary: Lista serviços ativos
+ *     tags:
+ *       - services-wanted
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lista de serviços retornada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   title:
+ *                     type: string
+ *                   description:
+ *                     type: string
+ *                   created_at:
+ *                     type: string
+ *                     format: date-time
+ *         401:
+ *          description: Token ausente ou inválido
+ */
+
 service_router_wanted.get("/listar-ativos", listar_ativos_controller);
 service_router_wanted.get(
   "/listar-minhas",
