@@ -8,7 +8,7 @@ type RegisterScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
   "Register"
 >;
-export function RegisterScreen() {
+export default function RegisterScreen() {
   const navigation = useNavigation<RegisterScreenNavigationProp>();
   return (
     <View>
