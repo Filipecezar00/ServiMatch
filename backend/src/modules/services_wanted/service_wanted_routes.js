@@ -11,6 +11,42 @@ import {
 
 const service_router_wanted = express.Router();
 
+/**
+ * @openapi
+ * /api/services-wanted/criar:
+ *   post:
+ *     summary: Cria um serviço desejado
+ *     tags:
+ *       - services-wanted
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *               - description
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: Titulo do serviço desejado
+ *               description:
+ *                 type: string
+ *                 description: Descrição do serviço desejado
+ *               categoryId:
+ *                 type: integer
+ *                 description: ID da categoria
+ *     responses:
+ *       201:
+ *         description: Serviço adicionado com sucesso
+ *       400:
+ *         description: Dados fornecidos inválidos
+ *       401:
+ *         description: Token ausente ou inválido
+ */
 service_router_wanted.post("/criar", authMiddleware, criar_controller);
 service_router_wanted.get("/listar-ativos", listar_ativos_controller);
 service_router_wanted.get(
