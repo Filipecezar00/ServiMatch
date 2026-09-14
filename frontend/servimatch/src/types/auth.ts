@@ -10,3 +10,8 @@ export interface AuthState {
   login: (usuario: Usuario, token: string) => void;
   logout: () => void;
 }
+
+export interface LoginResponse {
+  token: string;
+  usuario: Usuario;
+}
