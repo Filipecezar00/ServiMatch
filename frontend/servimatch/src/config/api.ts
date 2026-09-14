@@ -1,4 +1,10 @@
-export const API_CONFIG = {
-  BASE_URL: "http://192.168.15.6",
-  TIMEOUT: 10000,
-};
+import axios from "axios";
+import { API_CONFIG } from "./env";
+
+export const api = axios.create({
+  baseURL: API_CONFIG.BASE_URL,
+  timeout: 10000,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
