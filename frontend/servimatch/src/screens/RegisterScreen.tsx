@@ -1,12 +1,17 @@
 import React, { useState } from "react";
-import { View, Text, Button, TextInput, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+} from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../types/types";
 import { useNavigation } from "@react-navigation/native";
 import { register } from "../api/auth";
 import { useAuthStore } from "../stores/useAuthStore";
-import { KeyboardAvoidingView } from "react-native/types_generated/index";
-import { ActivityIndicator } from "react-native/types_generated/index";
 
 type RegisterScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
