@@ -27,8 +27,12 @@ export default function LoginScreen() {
   const global_session = useAuthStore((state) => state.login);
 
   const handleLogin = async () => {
+    setErrorMessage("");
     if (!email) {
       return setErrorMessage("Preencha todos os campos");
+    }
+    if (!email.trim()) {
+      return setErrorMessage("O email é obrigatorio");
     }
     if (!senha || senha.trim().length < 8) {
       return setErrorMessage("A senha precisa ter no mínimo 8 caracteres");
@@ -53,7 +57,7 @@ export default function LoginScreen() {
   return (
     <KeyboardAvoidingView>
       <View>
-        <Text>{errorMessage}</Text>
+        {errorMessage && <Text>{errorMessage}</Text>}
         <TextInput
           placeholder="E-mail"
           value={email}
