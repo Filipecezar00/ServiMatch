@@ -28,13 +28,11 @@ export default function LoginScreen() {
 
   const handleLogin = async () => {
     setErrorMessage("");
-    if (!email) {
-      return setErrorMessage("Preencha todos os campos");
+    if (!email || !email.trim()) {
+      return setErrorMessage("É necessário adicionar um Email");
     }
-    if (!email.trim()) {
-      return setErrorMessage("O email é obrigatorio");
-    }
-    if (!senha || senha.trim().length < 8) {
+
+    if (!senha || senha.length < 8) {
       return setErrorMessage("A senha precisa ter no mínimo 8 caracteres");
     }
     setLoading(true);
