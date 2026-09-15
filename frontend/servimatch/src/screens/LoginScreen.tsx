@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
   View,
   Text,
-  Alert,
   TextInput,
   Pressable,
   KeyboardAvoidingView,
@@ -20,34 +19,33 @@ type LoginScreenNavigationProp = NativeStackNavigationProp<
 >;
 
 export default function LoginScreen() {
-  const [isEmail, setIsEmail] = useState("");
-  const [isSenha, setIsSenha] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const global_session = useAuthStore((state) => state.login);
 
   const handleLogin = async () => {
-    if (!isEmail || isEmail.trim().length < 10) {
-      Alert.alert("Preencha todos os campos");
-      return setErrorMessage(
-        "ERRO: O email precisa ter no mínimo 10 caracteres",
-      );
+    if (!email) {
+      return setErrorMessage("Preencha todos os campos");
     }
-    if (!isSenha || isSenha.trim().length < 8) {
-      console.log("Preencha todos os campos");
+    if (!senha || senha.trim().length < 8) {
       return setErrorMessage("A senha precisa ter no mínimo 8 caracteres");
     }
-    setIsLoading(true);
+    setLoading(true);
     try {
-      const req_login = await login(isEmail, isSenha);
+      const req_login = await login(email, senha);
 
       global_session(req_login.usuario, req_login.token);
-    } catch (error) {
-      Alert.alert("Erro ao realizar login");
-      console.log(error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage("Ocorreu um erro inesperado");
+      }
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
@@ -55,22 +53,26 @@ export default function LoginScreen() {
   return (
     <KeyboardAvoidingView>
       <View>
+        <Text>{errorMessage}</Text>
         <TextInput
           placeholder="E-mail"
-          value={isEmail}
-          onChangeText={setIsEmail}
+          value={email}
+          onChangeText={setEmail}
           keyboardType="email-address"
           autoCapitalize="none"
         />
         <TextInput
           placeholder="Senha"
-          value={isSenha}
-          onChangeText={setIsSenha}
+          value={senha}
+          onChangeText={setSenha}
           secureTextEntry={true}
         />
 
-        <Pressable onPress={handleLogin} disabled={isLoading}>
-          {isLoading ? <ActivityIndicator /> : <Text>Entrar</Text>}
+        <Pressable onPress={handleLogin} disabled={loading}>
+          {loading ? <ActivityIndicator /> : <Text>Entrar</Text>}
+        </Pressable>
+        <Pressable onPress={() => navigation.navigate("Register")}>
+          <Text>Não tem conta ?</Text>
         </Pressable>
       </View>
     </KeyboardAvoidingView>
