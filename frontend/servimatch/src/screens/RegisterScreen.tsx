@@ -12,7 +12,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../types/types";
 import { useNavigation } from "@react-navigation/native";
 import { register } from "../api/auth";
-import { useAuthStore } from "../stores/useAuthStore";
 
 type RegisterScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
