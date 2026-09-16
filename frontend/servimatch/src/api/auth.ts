@@ -1,6 +1,6 @@
 import { LoginResponse, RegisterResponse } from "../types/auth";
 import { api } from "../config/api";
-import axios from "axios";
+import { extractErrorMessage } from "./utils";
 
 export async function login(
   email: string,
@@ -13,19 +13,7 @@ export async function login(
     });
     return response.data;
   } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      const errorMessage =
-        error.response?.data?.message ||
-        error.response?.data?.mensagem ||
-        "Erro ao realizar login. Tente novamente";
-
-      throw new Error(errorMessage);
-    }
-
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    }
-    throw new Error("Ocorreu um erro inesperado.");
+    throw new Error(extractErrorMessage(error));
   }
 }
 
@@ -42,16 +30,6 @@ export async function register(
     });
     return resposta_api.data;
   } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      const errorMessage =
-        error.response?.data?.message ||
-        error.response?.data?.mensagem ||
-        "Erro ao realizar cadastro";
-      throw new Error(errorMessage);
-    }
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    }
-    throw new Error("Ocorreu um erro inesperado.");
+    throw new Error(extractErrorMessage(error));
   }
 }
