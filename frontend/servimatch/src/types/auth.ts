@@ -8,15 +8,10 @@ export interface AuthState {
   usuario: Usuario | null;
   token: string | null;
   login: (usuario: Usuario, token: string) => void;
-  register: (usuario: Usuario) => void;
   logout: () => void;
 }
 
 export interface LoginResponse {
   token: string;
-  usuario: Usuario;
-}
-
-export interface RegisterResponse {
   usuario: Usuario;
 }

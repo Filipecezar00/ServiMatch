@@ -25,10 +25,7 @@ export default function RegisterScreen() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const global_session = useAuthStore((state) => state.register);
   const navigation = useNavigation<RegisterScreenNavigationProp>();
-
-  navigation.navigate("Login");
 
   const handleRegister = async () => {
     setErrorMessage("");
@@ -37,7 +34,7 @@ export default function RegisterScreen() {
       return setErrorMessage("É necessário adicionar um Email");
     }
 
-    if (!nome || nome.length < 3) {
+    if (!nome || nome.trim().length < 3) {
       return setErrorMessage("O nome deve possuir no mínimo 3 caracteres");
     }
 
@@ -46,11 +43,18 @@ export default function RegisterScreen() {
     }
     setLoading(true);
     try {
-      const resposta_api = await register(email, nome, senha);
+      await register(email, nome, senha);
 
-      global_session(resposta_api.usuario);
-
-      Alert.alert("Conta criada com sucesso!");
+      Alert.alert(
+        "Conta criada com sucesso!",
+        "Realize o login para acessar sua conta.",
+        [
+          {
+            text: "Ir para login",
+            onPress: () => navigation.navigate("Login"),
+          },
+        ],
+      );
     } catch (error: unknown) {
       if (error instanceof Error) {
         setErrorMessage(error.message);
