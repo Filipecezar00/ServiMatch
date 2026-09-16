@@ -6,6 +6,7 @@ import {
   Pressable,
   ActivityIndicator,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../types/types";
@@ -25,6 +26,10 @@ export default function RegisterScreen() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const global_session = useAuthStore((state) => state.register);
+  const navigation = useNavigation<RegisterScreenNavigationProp>();
+
+  navigation.navigate("Login");
+
   const handleRegister = async () => {
     setErrorMessage("");
 
@@ -44,6 +49,8 @@ export default function RegisterScreen() {
       const resposta_api = await register(email, nome, senha);
 
       global_session(resposta_api.usuario);
+
+      Alert.alert("Conta criada com sucesso!");
     } catch (error: unknown) {
       if (error instanceof Error) {
         setErrorMessage(error.message);
@@ -54,7 +61,6 @@ export default function RegisterScreen() {
       setLoading(false);
     }
   };
-  const navigation = useNavigation<RegisterScreenNavigationProp>();
   return (
     <KeyboardAvoidingView>
       <View>
