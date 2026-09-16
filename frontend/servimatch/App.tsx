@@ -1,11 +1,15 @@
-import { StyleSheet, Text, View } from "react-native";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NavigationContainer } from "@react-navigation/native";
 import RootNavigator from "../servimatch/src/navigation/RootNavigator";
 
+const queryClient = new QueryClient();
 export default function App() {
   return (
-    <NavigationContainer>
-      <RootNavigator />;
-    </NavigationContainer>
+    <QueryClientProvider client={queryClient}>
+      <NavigationContainer>
+        <RootNavigator />;
+      </NavigationContainer>
+    </QueryClientProvider>
   );
 }
+a;
