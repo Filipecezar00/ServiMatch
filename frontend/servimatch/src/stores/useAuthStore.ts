@@ -10,6 +10,7 @@ export const useAuthStore = create<AuthState>()(
       token: null,
 
       login: (usuario, token) => set({ usuario, token }),
+      register: (usuario) => set({ usuario }),
       logout: () => set({ usuario: null, token: null }),
     }),
     {
