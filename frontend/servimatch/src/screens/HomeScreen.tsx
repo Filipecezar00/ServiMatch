@@ -1,8 +1,15 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
+import { useAuthStore } from "../stores/useAuthStore";
 
 export function HomeScreen() {
-  <View>
-    <Text>Tela Home</Text>
-  </View>;
+  const logout = useAuthStore((state) => state.logout);
+  return (
+    <View>
+      <Text>Tela Home</Text>
+      <Pressable onPress={logout}>
+        <Text>Sair</Text>
+      </Pressable>
+    </View>
+  );
 }
