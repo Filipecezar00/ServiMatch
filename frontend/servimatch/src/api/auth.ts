@@ -1,5 +1,4 @@
-import { LoginResponse, RegisterResponse } from "../types/auth";
-import HomeResponse from "../types/auth";
+import { LoginResponse, RegisterResponse, HomeResponse } from "../types/auth";
 import { api } from "../config/api";
 import { extractErrorMessage } from "./utils";
 
