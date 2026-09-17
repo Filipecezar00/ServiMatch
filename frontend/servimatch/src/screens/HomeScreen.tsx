@@ -31,7 +31,7 @@ export function HomeScreen() {
       <View>
         <Text>{error.message}</Text>
         <Pressable onPress={() => refetch()}>
-          <Text>Fechar erro</Text>
+          <Text>Tentar Novamente</Text>
         </Pressable>
       </View>
     );
@@ -41,10 +41,11 @@ export function HomeScreen() {
     <View>
       <FlatList
         data={servicos}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <Text>
-            {item.nome} - {item.descricao}
+            {item.titulo} - {item.descricao} - {item.prestador_nome} -{" "}
+            {item.categoria}
           </Text>
         )}
       />
