@@ -1,18 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
-import { View, Text, Pressable, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  ActivityIndicator,
+  FlatList,
+} from "react-native";
 import { useAuthStore } from "../stores/useAuthStore";
 import { getHome } from "../api/auth";
 export function HomeScreen() {
   const logout = useAuthStore((state) => state.logout);
 
   const {
-    data: usuario,
+    data: servicos,
     isLoading,
     isError,
     error,
     refetch,
   } = useQuery({
-    queryKey: ["perfilUsuario"],
+    queryKey: ["homeAtivos"],
     queryFn: getHome,
   });
 
@@ -24,16 +30,25 @@ export function HomeScreen() {
     return (
       <View>
         <Text>{error.message}</Text>
-        <Pressable onPress={refetch}>Fechar erro</Pressable>
+        <Pressable onPress={() => refetch()}>
+          <Text>Fechar erro</Text>
+        </Pressable>
       </View>
     );
   }
 
   return (
     <View>
-      <Text>Bem vindo, {usuario?.nome}</Text>
-      <Text>Email: {usuario?.email}</Text>
-      <Pressable onPress={logout}>
+      <FlatList
+        data={servicos}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <Text>
+            {item.nome} - {item.descricao}
+          </Text>
+        )}
+      />
+      <Pressable onPress={() => logout()}>
         <Text>Sair</Text>
       </Pressable>
     </View>
