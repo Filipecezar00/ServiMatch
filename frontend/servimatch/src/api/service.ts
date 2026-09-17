@@ -1,6 +1,6 @@
 import { api } from "../config/api";
 import { extractErrorMessage } from "./utils";
-import { HomeResponse } from "../types/auth";
+import { HomeResponse } from "../types/service";
 
 export async function getHome(): Promise<HomeResponse[]> {
   try {

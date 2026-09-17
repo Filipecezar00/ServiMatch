@@ -19,11 +19,3 @@ export interface LoginResponse {
 export interface RegisterResponse {
   usuario: Usuario;
 }
-
-export interface HomeResponse {
-  id: number;
-  titulo: string;
-  descricao: string;
-  categoria: string | null;
-  prestador_nome: string;
-}
