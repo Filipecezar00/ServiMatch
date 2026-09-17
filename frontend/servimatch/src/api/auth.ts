@@ -34,7 +34,7 @@ export async function register(
   }
 }
 
-export async function getHome() {
+export default async function getHome() {
   try {
     const resposta_api = await api.get("/listar-ativos");
     return resposta_api.data;
