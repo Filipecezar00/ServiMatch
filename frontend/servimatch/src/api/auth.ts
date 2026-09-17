@@ -1,4 +1,4 @@
-import { LoginResponse, RegisterResponse, HomeResponse } from "../types/auth";
+import { LoginResponse, RegisterResponse } from "../types/auth";
 import { api } from "../config/api";
 import { extractErrorMessage } from "./utils";
 
@@ -28,17 +28,6 @@ export async function register(
       nome: nome,
       senha: senha,
     });
-    return resposta_api.data;
-  } catch (error: unknown) {
-    throw new Error(extractErrorMessage(error));
-  }
-}
-
-export async function getHome(): Promise<HomeResponse[]> {
-  try {
-    const resposta_api = await api.get<HomeResponse[]>(
-      "/services-offered/listar-ativos",
-    );
     return resposta_api.data;
   } catch (error: unknown) {
     throw new Error(extractErrorMessage(error));

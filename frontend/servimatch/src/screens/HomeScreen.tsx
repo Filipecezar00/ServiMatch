@@ -7,7 +7,7 @@ import {
   FlatList,
 } from "react-native";
 import { useAuthStore } from "../stores/useAuthStore";
-import { getHome } from "../api/auth";
+import { getHome } from "../api/service";
 export function HomeScreen() {
   const logout = useAuthStore((state) => state.logout);
 
