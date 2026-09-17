@@ -21,7 +21,9 @@ export interface RegisterResponse {
 }
 
 export interface HomeResponse {
-  id: string;
-  nome: string;
+  id: number;
+  titulo: string;
   descricao: string;
+  categoria: string | null;
+  prestador_nome: string;
 }
