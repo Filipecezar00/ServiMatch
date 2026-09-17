@@ -33,3 +33,12 @@ export async function register(
     throw new Error(extractErrorMessage(error));
   }
 }
+
+export async function getHome() {
+  try {
+    const resposta_api = await api.get("/listar-ativos");
+    return resposta_api.data;
+  } catch (error: unknown) {
+    throw new Error(extractErrorMessage(error));
+  }
+}
