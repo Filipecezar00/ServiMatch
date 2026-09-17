@@ -1,4 +1,5 @@
 import { LoginResponse, RegisterResponse } from "../types/auth";
+import HomeResponse from "../types/auth";
 import { api } from "../config/api";
 import { extractErrorMessage } from "./utils";
 
@@ -34,9 +35,9 @@ export async function register(
   }
 }
 
-export default async function getHome() {
+export async function getHome(): Promise<HomeResponse[]> {
   try {
-    const resposta_api = await api.get("/listar-ativos");
+    const resposta_api = await api.get<HomeResponse[]>("/listar-ativos");
     return resposta_api.data;
   } catch (error: unknown) {
     throw new Error(extractErrorMessage(error));

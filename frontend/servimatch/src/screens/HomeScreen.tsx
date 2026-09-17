@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { View, Text, Pressable, ActivityIndicator } from "react-native";
 import { useAuthStore } from "../stores/useAuthStore";
-import getHome from "../api/auth";
+import { getHome } from "../api/auth";
 export function HomeScreen() {
   const logout = useAuthStore((state) => state.logout);
 

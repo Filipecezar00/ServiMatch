@@ -19,3 +19,9 @@ export interface LoginResponse {
 export interface RegisterResponse {
   usuario: Usuario;
 }
+
+export interface HomeResponse {
+  id: string | number;
+  nome: string;
+  descricao: string;
+}
