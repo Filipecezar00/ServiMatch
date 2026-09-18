@@ -1,6 +1,6 @@
 import { api } from "../config/api";
 import { extractErrorMessage } from "./utils";
-import { HomeResponse, CriarServico } from "../types/service";
+import { HomeResponse, CriarServico, ServicoCriado } from "../types/service";
 
 export async function getHome(): Promise<HomeResponse[]> {
   try {
@@ -13,9 +13,14 @@ export async function getHome(): Promise<HomeResponse[]> {
   }
 }
 
-export async function criarServico(payload: CriarServico) {
+export async function criarServico(
+  payload: CriarServico,
+): Promise<ServicoCriado> {
   try {
-    const resposta_api = await api.post("/services-offered/criar", payload);
+    const resposta_api = await api.post<ServicoCriado>(
+      "/services-offered/criar",
+      payload,
+    );
     return resposta_api.data;
   } catch (error: unknown) {
     throw new Error(extractErrorMessage(error));

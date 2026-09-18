@@ -11,3 +11,11 @@ export interface CriarServico {
   descricao: string;
   categoriaId: string;
 }
+
+export interface ServicoCriado {
+  id: number;
+  titulo: string;
+  descricao: string;
+  userId: number;
+  categoryId: number;
+}

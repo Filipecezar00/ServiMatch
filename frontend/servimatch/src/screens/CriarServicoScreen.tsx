@@ -25,6 +25,7 @@ export function CriarServicoScreen() {
     },
   });
   function handleSubmit() {
+    //CORRIGIR O SELETOR DE CATEGORIA APÓS IMPLEMENTAÇÃO DAS CATEGORIAS
     mutate({ titulo, descricao, categoriaId: "1" });
   }
 
