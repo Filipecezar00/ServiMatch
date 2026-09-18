@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 export function CriarServicoScreen() {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
+  const [erroLocal, setErrolocal] = useState("");
   const queryClient = useQueryClient();
 
   const navigation = useNavigation();
@@ -24,7 +25,16 @@ export function CriarServicoScreen() {
       navigation.navigate("Home");
     },
   });
+
   function handleSubmit() {
+    setErrolocal("");
+    if (!titulo.trim() || titulo.trim().length < 5) {
+      setErrolocal("Preencha o Campo de titulo");
+    }
+
+    if (!descricao.trim() || descricao.trim().length < 10) {
+      setErrolocal("Preencha o Campo de descrição");
+    }
     //CORRIGIR O SELETOR DE CATEGORIA APÓS IMPLEMENTAÇÃO DAS CATEGORIAS
     mutate({ titulo, descricao, categoriaId: "1" });
   }
@@ -32,6 +42,7 @@ export function CriarServicoScreen() {
   return (
     <View>
       {isError && <Text>{error?.message}</Text>}
+      {erroLocal && <Text>{erroLocal}</Text>}
       <Text>Titulo do Serviço</Text>
       <TextInput
         placeholder="Digite o Titulo"
