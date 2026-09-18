@@ -15,13 +15,7 @@ export async function getHome(): Promise<HomeResponse[]> {
 
 export async function criarServico(payload: CriarServico) {
   try {
-    const resposta_api = await api.post("/services-offered/criar", {
-      body: {
-        titulo: payload.titulo,
-        descricao: payload.descricao,
-        categoriaId: payload.categoriaId,
-      },
-    });
+    const resposta_api = await api.post("/services-offered/criar", payload);
     return resposta_api.data;
   } catch (error: unknown) {
     throw new Error(extractErrorMessage(error));
