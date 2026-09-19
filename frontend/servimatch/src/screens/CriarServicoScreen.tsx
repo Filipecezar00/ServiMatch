@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
-import { criarServico } from "../api/serviceOffered";
+import { criarServico, listarCategorias } from "../api/serviceOffered";
 import {
   Pressable,
   View,
@@ -17,6 +17,17 @@ export function CriarServicoScreen() {
   const queryClient = useQueryClient();
 
   const navigation = useNavigation();
+
+  const {
+    data: categorias,
+    isLoading,
+    isError: isErrorCategorias,
+  } = useQuery({
+    queryKey: ["listarCategorias"],
+    queryFn: listarCategorias,
+    staleTime: 1000 * 60 * 5,
+  });
+
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: criarServico,
     onSuccess: () => {
