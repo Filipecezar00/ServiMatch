@@ -14,6 +14,7 @@ export function CriarServicoScreen() {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [erroLocal, setErrolocal] = useState("");
+  const [categoryId, setCategoryId] = useState(null);
   const queryClient = useQueryClient();
 
   const navigation = useNavigation();
