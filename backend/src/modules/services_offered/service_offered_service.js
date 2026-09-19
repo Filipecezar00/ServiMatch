@@ -7,7 +7,10 @@ import {
   buscarTodosAtivos,
   buscarMeusServicos,
   alterarStatusServico,
+  listarCategorias_repository,
 } from "./service_offered_repository.js";
+
+let categoriasCache = null;
 
 export async function criar_service(userId, titulo, descricao, categoryId) {
   if (!titulo || !descricao) {
@@ -90,6 +93,17 @@ export async function editarServico_service(
     descricao: descricaoFinal,
     categoryId: categoriaFinal,
   };
+}
+
+export async function listarCategorias_service() {
+  if (categoriasCache) {
+    return categoriasCache;
+  }
+
+  const lista_categorias = await listarCategorias_repository();
+  categoriasCache = lista_categorias;
+
+  return categoriasCache;
 }
 
 export async function alterarStatusServico_service(id, userId, novoStatus) {

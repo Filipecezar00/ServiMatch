@@ -8,7 +8,7 @@ export async function buscarCategoriaPorId(categoryId) {
   return resultado[0];
 }
 
-export async function listarCategorias() {
+export async function listarCategorias_repository() {
   const [resultado] = await pool.query(
     `SELECT id,nome FROM categories ORDER BY nome ASC`,
   );
