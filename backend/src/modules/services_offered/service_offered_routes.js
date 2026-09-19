@@ -212,6 +212,33 @@ service_router_offered.patch(
   alterarStatusServico_controller,
 );
 
+/**
+ * @openapi
+ * /api/services-offered/categorias:
+ *   get:
+ *     summary: Lista de categorias ativas
+ *     tags:
+ *       - services-offered
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lista de categorias retornada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                 id:
+ *                   type: integer
+ *                 nome:
+ *                   type: string
+ *       401:
+ *         description: Token ausente ou inválido
+ */
+
 service_router_offered.get(
   "/categorias",
   authMiddleware,
