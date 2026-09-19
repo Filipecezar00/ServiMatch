@@ -14,6 +14,7 @@ export function CriarServicoScreen() {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [erroLocal, setErroLocal] = useState("");
+  const [categoryId, setCategoryId] = useState(0);
   const queryClient = useQueryClient();
 
   const navigation = useNavigation();
@@ -46,7 +47,6 @@ export function CriarServicoScreen() {
     if (!descricao.trim() || descricao.trim().length < 10) {
       return setErroLocal("Preencha o Campo de descrição");
     }
-    //CORRIGIR O SELETOR DE CATEGORIA APÓS IMPLEMENTAÇÃO DAS CATEGORIAS
     mutate({ titulo, descricao, categoriaId: "1" });
   }
 
@@ -67,6 +67,24 @@ export function CriarServicoScreen() {
         value={descricao}
         onChangeText={setDescricao}
       />
+
+      <Text>Categorias Disponiveis</Text>
+      <View>
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          categorias?.map((categoria) => {
+            const isSelected = categoria.id === categoryId;
+            return (
+              <View key={categoria.id}>
+                <Pressable onPress={() => setCategoryId(categoria.id)}>
+                  <Text>{categoria.nome}</Text>
+                </Pressable>
+              </View>
+            );
+          })
+        )}
+      </View>
 
       <Pressable onPress={handleSubmit} disabled={isPending}>
         {isPending ? (
