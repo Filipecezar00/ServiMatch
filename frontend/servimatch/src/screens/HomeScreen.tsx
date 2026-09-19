@@ -8,8 +8,10 @@ import {
 } from "react-native";
 import { useAuthStore } from "../stores/useAuthStore";
 import { getHome } from "../api/serviceOffered";
+import { useNavigation } from "@react-navigation/native";
 export function HomeScreen() {
   const logout = useAuthStore((state) => state.logout);
+  const navigation = useNavigation();
 
   const {
     data: servicos,
@@ -51,6 +53,9 @@ export function HomeScreen() {
       />
       <Pressable onPress={() => logout()}>
         <Text>Sair</Text>
+      </Pressable>
+      <Pressable onPress={() => navigation.navigate("CriarServico")}>
+        <Text>Criar Serviço</Text>
       </Pressable>
     </View>
   );
