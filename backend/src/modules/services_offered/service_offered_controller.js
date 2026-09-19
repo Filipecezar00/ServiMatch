@@ -4,6 +4,7 @@ import {
   listarServicosUsuario_service,
   alterarStatusServico_service,
   listarServicosAtivos_service,
+  listarCategorias_service,
 } from "./service_offered_service.js";
 export async function criar_controller(req, res, next) {
   try {
@@ -65,6 +66,16 @@ export async function alterarStatusServico_controller(req, res, next) {
     const { ativo } = req.body;
     const userId = req.usuario.id;
     const resposta = await alterarStatusServico_service(id, userId, ativo);
+    return res.status(200).json(resposta);
+  } catch (erro) {
+    next(erro);
+  }
+}
+
+export async function listarCategorias_controller(req, res, next) {
+  try {
+    const resposta = await listarCategorias_service();
+    res.setHeader("Cache-Control", "public, max-age=3600");
     return res.status(200).json(resposta);
   } catch (erro) {
     next(erro);
