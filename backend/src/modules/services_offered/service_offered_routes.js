@@ -2,13 +2,12 @@ import "dotenv/config";
 import express from "express";
 import { authMiddleware } from "../../middleware/auth.js";
 import {
-  alterarStatusServico_controller,
-  criar_controller,
-} from "./service_offered_controller.js";
-import {
   listarAtivos_controller,
   listarServicosUsuario_controller,
   editarServico_controller,
+  listarCategorias_controller,
+  alterarStatusServico_controller,
+  criar_controller,
 } from "./service_offered_controller.js";
 
 const service_router_offered = express.Router();
@@ -211,5 +210,11 @@ service_router_offered.patch(
   "/:id/status",
   authMiddleware,
   alterarStatusServico_controller,
+);
+
+service_router_offered.get(
+  "/categorias",
+  authMiddleware,
+  listarCategorias_controller,
 );
 export default service_router_offered;
