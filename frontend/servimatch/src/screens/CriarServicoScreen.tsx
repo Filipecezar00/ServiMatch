@@ -14,7 +14,7 @@ export function CriarServicoScreen() {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [erroLocal, setErroLocal] = useState("");
-  const [categoryId, setCategoryId] = useState(0);
+  const [categoryId, setCategoryId] = useState<number | null>(null);
   const queryClient = useQueryClient();
 
   const navigation = useNavigation();
@@ -47,7 +47,12 @@ export function CriarServicoScreen() {
     if (!descricao.trim() || descricao.trim().length < 10) {
       return setErroLocal("Preencha o Campo de descrição");
     }
-    mutate({ titulo, descricao, categoriaId: "1" });
+
+    if (categoryId === null) {
+      return setErroLocal("Preencha uma categoria antes de criar o Serviço");
+    }
+
+    mutate({ titulo, descricao, categoriaId: categoryId });
   }
 
   return (
