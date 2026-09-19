@@ -19,3 +19,8 @@ export interface ServicoCriado {
   userId: number;
   categoryId: number;
 }
+
+export interface Categoria {
+  id: number;
+  nome: string;
+}
