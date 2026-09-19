@@ -1,6 +1,11 @@
 import { api } from "../config/api";
 import { extractErrorMessage } from "./utils";
-import { HomeResponse, CriarServico, ServicoCriado } from "../types/service";
+import {
+  HomeResponse,
+  CriarServico,
+  ServicoCriado,
+  Categoria,
+} from "../types/service";
 
 export async function getHome(): Promise<HomeResponse[]> {
   try {
@@ -21,6 +26,15 @@ export async function criarServico(
       "/services-offered/criar",
       payload,
     );
+    return resposta_api.data;
+  } catch (error: unknown) {
+    throw new Error(extractErrorMessage(error));
+  }
+}
+
+export async function listarCategorias(): Promise<Categoria[]> {
+  try {
+    const resposta_api = await api.get<Categoria[]>("/categorias");
     return resposta_api.data;
   } catch (error: unknown) {
     throw new Error(extractErrorMessage(error));
