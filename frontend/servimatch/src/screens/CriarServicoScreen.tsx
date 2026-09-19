@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { criarServico } from "../api/serviceOffered";
 import {
   Pressable,
@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 export function CriarServicoScreen() {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
-  const [erroLocal, setErrolocal] = useState("");
+  const [erroLocal, setErroLocal] = useState("");
   const [categoryId, setCategoryId] = useState(null);
   const queryClient = useQueryClient();
 
@@ -28,13 +28,13 @@ export function CriarServicoScreen() {
   });
 
   function handleSubmit() {
-    setErrolocal("");
+    setErroLocal("");
     if (!titulo.trim() || titulo.trim().length < 5) {
-      setErrolocal("Preencha o Campo de titulo");
+      return setErroLocal("Preencha o Campo de titulo");
     }
 
     if (!descricao.trim() || descricao.trim().length < 10) {
-      setErrolocal("Preencha o Campo de descrição");
+      return setErroLocal("Preencha o Campo de descrição");
     }
     //CORRIGIR O SELETOR DE CATEGORIA APÓS IMPLEMENTAÇÃO DAS CATEGORIAS
     mutate({ titulo, descricao, categoriaId: "1" });
