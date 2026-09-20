@@ -57,6 +57,9 @@ export function HomeScreen() {
       <Pressable onPress={() => navigation.navigate("CriarServico")}>
         <Text>Criar Serviço</Text>
       </Pressable>
+      <Pressable onPress={() => navigation.navigate("ListarMeusServicos")}>
+        <Text>Listar meus Serviços</Text>
+      </Pressable>
     </View>
   );
 }
