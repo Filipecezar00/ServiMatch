@@ -5,6 +5,7 @@ import {
   CriarServico,
   ServicoCriado,
   Categoria,
+  StatusServico,
 } from "../types/service";
 
 export async function getHome(): Promise<HomeResponse[]> {
