@@ -20,6 +20,13 @@ export interface ServicoCriado {
   categoryId: number;
 }
 
+export interface Servico {
+  id: number;
+  titulo: string;
+  descricao: string;
+  ativo: boolean;
+}
+
 export interface Categoria {
   id: number;
   nome: string;

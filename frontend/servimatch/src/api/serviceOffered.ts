@@ -6,6 +6,7 @@ import {
   ServicoCriado,
   Categoria,
   StatusServico,
+  Servico,
 } from "../types/service";
 
 export async function getHome(): Promise<HomeResponse[]> {
@@ -44,9 +45,9 @@ export async function listarCategorias(): Promise<Categoria[]> {
   }
 }
 
-export async function listaMeusServicos(): Promise<ServicoCriado[]> {
+export async function listaMeusServicos(): Promise<Servico[]> {
   try {
-    const resposta_api = await api.get<ServicoCriado[]>(
+    const resposta_api = await api.get<Servico[]>(
       "/services-offered/listar-minhas",
     );
     return resposta_api.data;
