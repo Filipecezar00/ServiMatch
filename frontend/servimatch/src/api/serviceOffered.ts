@@ -33,8 +33,12 @@ export async function criarServico(
 }
 
 export async function listarCategorias(): Promise<Categoria[]> {
+  console.log("Executando chamada axios para /categorias");
   try {
-    const resposta_api = await api.get<Categoria[]>("/categorias");
+    const resposta_api = await api.get<Categoria[]>(
+      "/services-offered/categorias",
+    );
+    console.log("Resposta axios: ", resposta_api.data);
     return resposta_api.data;
   } catch (error: unknown) {
     throw new Error(extractErrorMessage(error));

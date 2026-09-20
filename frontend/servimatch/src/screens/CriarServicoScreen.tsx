@@ -81,7 +81,13 @@ export function CriarServicoScreen() {
           categorias?.map((categoria) => {
             const isSelected = categoria.id === categoryId;
             return (
-              <View key={categoria.id}>
+              <View
+                key={categoria.id}
+                style={{
+                  backgroundColor: isSelected ? "#007AFF" : "#e5e5ea",
+                  borderColor: isSelected ? "#0056b3" : "#c7c7cc",
+                }}
+              >
                 <Pressable onPress={() => setCategoryId(categoria.id)}>
                   <Text>{categoria.nome}</Text>
                 </Pressable>
