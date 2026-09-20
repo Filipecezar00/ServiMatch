@@ -54,3 +54,16 @@ export async function listaMeusServicos(): Promise<ServicoCriado[]> {
     throw new Error(extractErrorMessage(error));
   }
 }
+export async function editarStatusServico(
+  payload: StatusServico,
+): Promise<StatusServico> {
+  try {
+    const resposta_api = await api.patch<StatusServico>(
+      `/services-offered/${payload.id}/status`,
+      { ativo: payload.ativo },
+    );
+    return resposta_api.data;
+  } catch (error) {
+    throw new Error(extractErrorMessage(error));
+  }
+}

@@ -27,6 +27,5 @@ export interface Categoria {
 
 export interface StatusServico {
   id: number;
-  userId: number;
-  novoStatus: string;
+  ativo: boolean;
 }
