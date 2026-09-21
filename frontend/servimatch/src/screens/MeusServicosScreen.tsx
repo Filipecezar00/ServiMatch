@@ -11,9 +11,18 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { ServiceStackParamList } from "../navigation/ServicesStack";
+import { CompositeNavigationProp } from "@react-navigation/native";
 
 export function MeusServicos() {
-  const navigation = useNavigation<DrawerNavigationProp<any>>();
+  type ListarServicosNavigationProp = CompositeNavigationProp<
+    NativeStackNavigationProp<ServiceStackParamList, "ListarMeusServicos">,
+    DrawerNavigationProp<any>
+  >;
+
+  const navigation = useNavigation<ListarServicosNavigationProp>();
+
   const queryClient = useQueryClient();
   const {
     data: servicos = [],

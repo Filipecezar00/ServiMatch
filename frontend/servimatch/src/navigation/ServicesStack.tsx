@@ -2,7 +2,7 @@ import { MeusServicos } from "../screens/MeusServicosScreen";
 import { CriarServicoScreen } from "../screens/CriarServicoScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-type ServiceStackParamList = {
+export type ServiceStackParamList = {
   ListarMeusServicos: undefined;
   CriarServico: undefined;
 };
