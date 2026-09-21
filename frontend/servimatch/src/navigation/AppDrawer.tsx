@@ -41,6 +41,10 @@ export function AppDrawer() {
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...props} />}
+      screenOptions={{
+        drawerActiveTintColor: "#b3ff80",
+        drawerType: "slide",
+      }}
     >
       <Drawer.Screen component={HomeScreen} name="Home" />
       <Drawer.Screen
