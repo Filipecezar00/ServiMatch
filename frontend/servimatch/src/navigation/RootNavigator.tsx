@@ -1,4 +1,4 @@
-import { AppNavigator } from "./AppStack";
+import { AppDrawer } from "../navigation/AppDrawer";
 import { AuthNavigator } from "./AuthStack";
 import { View, ActivityIndicator } from "react-native";
 import { useAuthStore } from "../stores/useAuthStore";
@@ -26,5 +26,5 @@ export default function RootNavigator() {
     );
   }
 
-  return token ? <AppNavigator /> : <AuthNavigator />;
+  return token ? <AppDrawer /> : <AuthNavigator />;
 }
