@@ -42,7 +42,7 @@ export function AppDrawer() {
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={{
-        drawerActiveTintColor: "#b3ff80",
+        drawerActiveTintColor: "#4a5344",
         drawerType: "slide",
       }}
     >

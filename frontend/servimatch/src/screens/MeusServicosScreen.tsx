@@ -8,8 +8,12 @@ import {
   Pressable,
   FlatList,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export function MeusServicos() {
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   const queryClient = useQueryClient();
   const {
     data: servicos = [],
@@ -38,6 +42,11 @@ export function MeusServicos() {
 
   return (
     <View>
+      <View>
+        <Pressable onPress={() => navigation.openDrawer()}>
+          <MaterialCommunityIcons name="menu" size={24} />
+        </Pressable>
+      </View>
       {isError && (
         <View>
           <Text>Erro ao realizar operação</Text>
