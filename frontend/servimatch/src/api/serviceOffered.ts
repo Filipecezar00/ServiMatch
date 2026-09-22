@@ -76,3 +76,15 @@ export async function obterServicoPorId(id: number) {
     throw new Error(extractErrorMessage(error));
   }
 }
+
+export async function EditarServico(payload: Servico): Promise<Servico> {
+  try {
+    const resposta_api = await api.put(
+      `/services-offered/${payload.id}`,
+      payload,
+    );
+    return resposta_api.data;
+  } catch (error) {
+    throw new Error(extractErrorMessage(error));
+  }
+}
