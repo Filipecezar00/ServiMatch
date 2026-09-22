@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 export type ServiceStackParamList = {
   ListarMeusServicos: undefined;
   CriarServico: undefined;
+  EditarServico: { id: number };
 };
 
 const Stack = createNativeStackNavigator<ServiceStackParamList>();
