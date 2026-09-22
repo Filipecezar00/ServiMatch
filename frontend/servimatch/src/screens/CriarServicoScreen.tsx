@@ -42,11 +42,15 @@ export function CriarServicoScreen() {
   function handleSubmit() {
     setErroLocal("");
     if (!titulo.trim() || titulo.trim().length < 5) {
-      return setErroLocal("Preencha o Campo de titulo");
+      return setErroLocal(
+        "O campo de titulo deve possuir no mínimo cinco caracteres",
+      );
     }
 
     if (!descricao.trim() || descricao.trim().length < 10) {
-      return setErroLocal("Preencha o Campo de descrição");
+      return setErroLocal(
+        "O campo de descrição deve possuir no mínimo dez caracteres",
+      );
     }
 
     if (categoryId === null) {

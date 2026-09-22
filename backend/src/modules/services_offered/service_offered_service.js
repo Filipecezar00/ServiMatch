@@ -120,3 +120,11 @@ export async function alterarStatusServico_service(id, userId, novoStatus) {
   await alterarStatusServico(id, novoStatus);
   return { id: Number(id), ativo: novoStatus };
 }
+
+export async function buscarServicoPorId_service(id) {
+  if (!id) {
+    throw new AppError("Serviço não encontrado", 404);
+  }
+  const servico = await buscarServicoPorId(id);
+  return servico;
+}
