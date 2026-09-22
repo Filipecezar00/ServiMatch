@@ -33,10 +33,10 @@ export function EditarServico() {
   const route = useRoute<EditarServicoRouteProp>();
   const { categoryId } = route.params;
 
-  const {} = useQuery({
-    queryKey: [categoryId],
-    queryFn:
-  });
+  //   const {} = useQuery({
+  //     queryKey: [categoryId],
+  //     queryFn:
+  //   });
 
   const handleSubmit = () => {
     setErroLocal("");
