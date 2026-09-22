@@ -6,9 +6,9 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { listarCategorias, obterServicoPorId } from "../api/serviceOffered";
 import { ServiceStackParamList } from "../navigation/ServicesStack";
 export function EditarServico() {
@@ -56,6 +56,14 @@ export function EditarServico() {
       return setErroLocal("Preencha uma categoria antes de criar o Serviço");
     }
   };
+
+  useEffect(() => {
+    if (servico) {
+      setTitulo(servico.titulo);
+      setDescricao(servico.descricao);
+      setCategoriaId(servico.id);
+    }
+  }, [servico]);
 
   return (
     <View>
