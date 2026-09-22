@@ -8,6 +8,7 @@ import {
   listarCategorias_controller,
   alterarStatusServico_controller,
   criar_controller,
+  buscarServicoPorId_controller,
 } from "./service_offered_controller.js";
 
 const service_router_offered = express.Router();
@@ -243,5 +244,11 @@ service_router_offered.get(
   "/categorias",
   authMiddleware,
   listarCategorias_controller,
+);
+
+service_router_offered.get(
+  "/:id/servico",
+  authMiddleware,
+  buscarServicoPorId_controller,
 );
 export default service_router_offered;
