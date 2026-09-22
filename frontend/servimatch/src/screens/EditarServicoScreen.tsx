@@ -8,8 +8,12 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
-import { useQuery } from "@tanstack/react-query";
-import { listarCategorias, obterServicoPorId } from "../api/serviceOffered";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  listarCategorias,
+  obterServicoPorId,
+  editarServico,
+} from "../api/serviceOffered";
 import { ServiceStackParamList } from "../navigation/ServicesStack";
 export function EditarServico() {
   const [titulo, setTitulo] = useState("");
@@ -18,11 +22,23 @@ export function EditarServico() {
   const [categoriaId, setCategoriaId] = useState<number | null>(null);
 
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
 
   const { data: categorias, isLoading } = useQuery({
     queryKey: ["listarCategorias"],
     queryFn: listarCategorias,
     staleTime: 1000 * 60 * 5,
+  });
+
+  const { mutate } = useMutation({
+    mutationFn: editarServico,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["listarMeusServicos"] });
+      navigation.goBack();
+    },
+    onError: (error) => {
+      setErroLocal(`Erro ao realizar mutate: ${error}`);
+    },
   });
 
   type EditarServicoRouteProp = RouteProp<

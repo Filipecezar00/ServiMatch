@@ -77,7 +77,7 @@ export async function obterServicoPorId(id: number) {
   }
 }
 
-export async function EditarServico(payload: Servico): Promise<Servico> {
+export async function editarServico(payload: Servico): Promise<Servico> {
   try {
     const resposta_api = await api.put(
       `/services-offered/${payload.id}`,
