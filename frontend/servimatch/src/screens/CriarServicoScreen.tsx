@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export function CriarServicoScreen() {
   const [titulo, setTitulo] = useState("");
@@ -57,6 +58,12 @@ export function CriarServicoScreen() {
 
   return (
     <View>
+      <View>
+        <Pressable onPress={() => navigation.goBack()}>
+          <MaterialCommunityIcons name="arrow-left" size={18} />
+          <Text>Voltar</Text>
+        </Pressable>
+      </View>
       {isError && <Text>{error?.message}</Text>}
       {erroLocal && <Text>{erroLocal}</Text>}
       <Text>Titulo do Serviço</Text>
