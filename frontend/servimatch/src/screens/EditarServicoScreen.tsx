@@ -9,7 +9,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { listarCategorias } from "../api/serviceOffered";
+import { listarCategorias, obterServicoPorId } from "../api/serviceOffered";
 import { ServiceStackParamList } from "../navigation/ServicesStack";
 export function EditarServico() {
   const [titulo, setTitulo] = useState("");
@@ -31,12 +31,13 @@ export function EditarServico() {
   >;
 
   const route = useRoute<EditarServicoRouteProp>();
-  const { categoryId } = route.params;
+  const { id } = route.params;
 
-  //   const {} = useQuery({
-  //     queryKey: [categoryId],
-  //     queryFn:
-  //   });
+  const { data: servico } = useQuery({
+    queryKey: ["servico", id],
+    queryFn: () => obterServicoPorId(id),
+    enabled: !!id,
+  });
 
   const handleSubmit = () => {
     setErroLocal("");
@@ -89,7 +90,7 @@ export function EditarServico() {
       ) : (
         <View>
           {categorias?.map((categoria) => {
-            const isSelected = categoria.id === categoryId;
+            const isSelected = categoria.id === id;
             return (
               <View
                 key={categoria.id}
