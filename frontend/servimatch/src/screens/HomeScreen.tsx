@@ -6,13 +6,8 @@ import {
   ActivityIndicator,
   FlatList,
 } from "react-native";
-import { useAuthStore } from "../stores/useAuthStore";
 import { getHome } from "../api/serviceOffered";
-import { useNavigation } from "@react-navigation/native";
 export function HomeScreen() {
-  const logout = useAuthStore((state) => state.logout);
-  const navigation = useNavigation();
-
   const {
     data: servicos,
     isLoading,
@@ -41,6 +36,7 @@ export function HomeScreen() {
 
   return (
     <View>
+      <Text>Principais serviços</Text>
       <FlatList
         data={servicos}
         keyExtractor={(item) => item.id.toString()}
@@ -51,15 +47,6 @@ export function HomeScreen() {
           </Text>
         )}
       />
-      <Pressable onPress={() => logout()}>
-        <Text>Sair</Text>
-      </Pressable>
-      <Pressable onPress={() => navigation.navigate("CriarServico")}>
-        <Text>Criar Serviço</Text>
-      </Pressable>
-      <Pressable onPress={() => navigation.navigate("ListarMeusServicos")}>
-        <Text>Listar meus Serviços</Text>
-      </Pressable>
     </View>
   );
 }
