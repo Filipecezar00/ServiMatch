@@ -56,6 +56,12 @@ export function MeusServicos() {
           <MaterialCommunityIcons name="menu" size={24} />
         </Pressable>
       </View>
+      <View>
+        <Pressable onPress={() => navigation.navigate("CriarServico")}>
+          <MaterialCommunityIcons name="plus" size={18} />
+          <Text>Criar novo serviço</Text>
+        </Pressable>
+      </View>
       {isError && (
         <View>
           <Text>Erro ao realizar operação</Text>
