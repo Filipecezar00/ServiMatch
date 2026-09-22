@@ -68,10 +68,11 @@ export async function editarStatusServico(
     throw new Error(extractErrorMessage(error));
   }
 }
-// export async function obterServicoPorId(id: number) {
-//   try {
-//     const resposta_api = await api.get(`/services-offered/${id}/`);
-//   } catch (error) {
-//     throw new Error(extractErrorMessage(error));
-//   }
-// }
+export async function obterServicoPorId(id: number) {
+  try {
+    const resposta_api = await api.get(`/services-offered/${id}/servico`);
+    return resposta_api.data;
+  } catch (error) {
+    throw new Error(extractErrorMessage(error));
+  }
+}
