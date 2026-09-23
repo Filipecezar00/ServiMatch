@@ -31,6 +31,7 @@ export interface ServicoEditado {
   id: number;
   titulo: string;
   descricao: string;
+  categoryId: number;
 }
 
 export interface Categoria {

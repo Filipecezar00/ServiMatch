@@ -19,7 +19,7 @@ export function EditarServico() {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [erroLocal, setErroLocal] = useState("");
-  const [categoriaId, setCategoriaId] = useState<number | null>(null);
+  const [categoryId, setCategoryId] = useState<number | null>(null);
 
   const navigation = useNavigation();
   const queryClient = useQueryClient();
@@ -68,18 +68,18 @@ export function EditarServico() {
       );
     }
 
-    if (categoriaId == null) {
+    if (categoryId == null) {
       return setErroLocal("Preencha uma categoria antes de criar o Serviço");
     }
 
-    mutate({ id, titulo, descricao });
+    mutate({ id, titulo, descricao, categoryId });
   };
 
   useEffect(() => {
     if (servico) {
       setTitulo(servico.titulo);
       setDescricao(servico.descricao);
-      setCategoriaId(servico.id);
+      setCategoryId(servico.categoryId);
     }
   }, [servico]);
 
@@ -116,7 +116,7 @@ export function EditarServico() {
       ) : (
         <View>
           {categorias?.map((categoria) => {
-            const isSelected = categoria.id === id;
+            const isSelected = categoria.id === categoryId;
             return (
               <View
                 key={categoria.id}
@@ -125,7 +125,7 @@ export function EditarServico() {
                   borderColor: isSelected ? "#0056b3" : "#c7c7cc",
                 }}
               >
-                <Pressable onPress={() => setCategoriaId(categoria.id)}>
+                <Pressable onPress={() => setCategoryId(categoria.id)}>
                   <Text>{categoria.nome}</Text>
                 </Pressable>
               </View>
