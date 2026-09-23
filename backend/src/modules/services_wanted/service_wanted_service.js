@@ -120,8 +120,16 @@ export async function editar_statusServico_service(id, user_id, novoStatus) {
 
 export async function buscarServicoPorId_service(id) {
   if (!id) {
-    throw new AppError("Categoria não existente");
+    throw new AppError("Serviço não existente");
   }
   const servico = await buscarServicoPorId(id);
   return servico;
+}
+
+export async function buscarCategoriaPorId_service(categoryId) {
+  if (!categoryId) {
+    throw new AppError("Categoria não existente");
+  }
+  const categoria = await buscarCategoriaPorId(categoryId);
+  return categoria;
 }

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
-import { criarServico, listarCategorias } from "../api/serviceOffered";
+import { criarServico, listarCategorias } from "../../api/serviceOffered";
 import {
   Pressable,
   View,
@@ -57,7 +57,7 @@ export function CriarServicoScreen() {
       return setErroLocal("Preencha uma categoria antes de criar o Serviço");
     }
 
-    mutate({ titulo, descricao, categoriaId: categoryId });
+    mutate({ titulo, descricao, categoryId: categoryId });
   }
 
   return (

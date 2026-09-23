@@ -5,6 +5,7 @@ import {
   Servico,
   ServicoEditado,
   StatusServico,
+  Categoria,
 } from "../types/service";
 
 export async function criarServicoWanted(
@@ -63,3 +64,9 @@ export async function obterServicoWantedId(id: number) {
     throw new Error(extractErrorMessage(erro));
   }
 }
+// export async function listarCategorias():Promise<Categoria[]> {
+
+//     try{
+//         const resposta_api = await api.get(``)
+//     }
+// }
