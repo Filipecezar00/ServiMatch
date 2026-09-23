@@ -1,5 +1,5 @@
 import { MeusServicos } from "../screens/services_offered/MeusServicosScreen";
-import { CriarServicoScreen } from "../screens/CriarServicoScreen";
+import { CriarServicoScreen } from "../screens/services_offered/CriarServicoScreen";
 import { EditarServico } from "../screens/services_offered/EditarServicoScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -7,6 +7,9 @@ export type ServiceStackParamList = {
   ListarMeusServicos: undefined;
   CriarServico: undefined;
   EditarServico: { id: number };
+  ListarServicosProcurados: undefined;
+  CriarServicoProcurado: undefined;
+  EditarServicoProcurado: { id: number };
 };
 
 const Stack = createNativeStackNavigator<ServiceStackParamList>();
