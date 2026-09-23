@@ -55,8 +55,10 @@ export async function editarStatusServicoWanted(
   }
 }
 
-export async function obterServicoWantedId() {
+export async function obterServicoWantedId(id: number) {
   try {
+    const resposta_api = await api.get(`/services-wanted/${id}`);
+    return resposta_api.data;
   } catch (erro) {
     throw new Error(extractErrorMessage(erro));
   }
