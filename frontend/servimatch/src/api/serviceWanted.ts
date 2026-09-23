@@ -1,6 +1,11 @@
 import { extractErrorMessage } from "../api/utils";
 import { api } from "../config/api";
-import { CriarServico, Servico, ServicoEditado } from "../types/service";
+import {
+  CriarServico,
+  Servico,
+  ServicoEditado,
+  StatusServico,
+} from "../types/service";
 
 export async function criarServicoWanted(
   payload: CriarServico,
@@ -22,12 +27,26 @@ export async function listarServicoWanted(): Promise<Servico> {
   }
 }
 
-export async function atualizarServicoWanted(
+export async function editarServicoWanted(
   payload: ServicoEditado,
 ): Promise<ServicoEditado> {
   try {
     const resposta_api = await api.put(
       `/services-wanted/${payload.id}`,
+      payload,
+    );
+    return resposta_api.data;
+  } catch (erro) {
+    throw new Error(extractErrorMessage(erro));
+  }
+}
+
+export async function editarStatusServicoWanted(
+  payload: StatusServico,
+): Promise<StatusServico> {
+  try {
+    const resposta_api = await api.patch(
+      `/services-wanted/${payload.id}/status`,
       payload,
     );
     return resposta_api.data;
