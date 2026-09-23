@@ -18,7 +18,7 @@ export async function criarServicoWanted(
   }
 }
 
-export async function listarServicoWanted(): Promise<Servico> {
+export async function listarServicoWanted(): Promise<Servico[]> {
   try {
     const resposta_api = await api.get("/services-wanted/listar-minhas");
     return resposta_api.data;
