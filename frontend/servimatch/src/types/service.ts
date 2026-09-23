@@ -9,7 +9,7 @@ export interface HomeResponse {
 export interface CriarServico {
   titulo: string;
   descricao: string;
-  categoriaId: number;
+  categoryId: number;
 }
 
 export interface ServicoCriado {
