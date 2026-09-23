@@ -1,6 +1,6 @@
-import { MeusServicos } from "../screens/MeusServicosScreen";
+import { MeusServicos } from "../screens/services_offered/MeusServicosScreen";
 import { CriarServicoScreen } from "../screens/CriarServicoScreen";
-import { EditarServico } from "../screens/EditarServicoScreen";
+import { EditarServico } from "../screens/services_offered/EditarServicoScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 export type ServiceStackParamList = {

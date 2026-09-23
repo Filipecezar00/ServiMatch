@@ -1,5 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { listaMeusServicos, editarStatusServico } from "../api/serviceOffered";
+import {
+  listaMeusServicos,
+  editarStatusServico,
+} from "../../api/serviceOffered";
 import {
   Alert,
   View,
@@ -12,7 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ServiceStackParamList } from "../navigation/ServicesStack";
+import { ServiceStackParamList } from "../../navigation/ServicesStack";
 import { CompositeNavigationProp } from "@react-navigation/native";
 
 export function MeusServicos() {

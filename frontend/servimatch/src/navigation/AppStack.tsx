@@ -1,8 +1,8 @@
 import { AppStackParamList } from "../types/types";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { HomeScreen } from "../screens/HomeScreen";
-import { CriarServicoScreen } from "../screens/CriarServicoScreen";
-import { MeusServicos } from "../screens/MeusServicosScreen";
+import { CriarServicoScreen } from "../screens/services_offered/CriarServicoScreen";
+import { MeusServicos } from "../screens/services_offered/MeusServicosScreen";
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
 

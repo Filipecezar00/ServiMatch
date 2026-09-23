@@ -13,8 +13,8 @@ import {
   listarCategorias,
   obterServicoPorId,
   editarServico,
-} from "../api/serviceOffered";
-import { ServiceStackParamList } from "../navigation/ServicesStack";
+} from "../../api/serviceOffered";
+import { ServiceStackParamList } from "../../navigation/ServicesStack";
 export function EditarServico() {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
