@@ -27,6 +27,12 @@ export interface Servico {
   ativo: boolean;
 }
 
+export interface ServicoEditado {
+  id: number;
+  titulo: string;
+  descricao: string;
+}
+
 export interface Categoria {
   id: number;
   nome: string;

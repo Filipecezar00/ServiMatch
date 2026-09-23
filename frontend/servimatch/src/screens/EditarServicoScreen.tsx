@@ -30,7 +30,7 @@ export function EditarServico() {
     staleTime: 1000 * 60 * 5,
   });
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: editarServico,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["listarMeusServicos"] });
@@ -71,6 +71,8 @@ export function EditarServico() {
     if (categoriaId == null) {
       return setErroLocal("Preencha uma categoria antes de criar o Serviço");
     }
+
+    mutate({ id, titulo, descricao });
   };
 
   useEffect(() => {
@@ -131,9 +133,9 @@ export function EditarServico() {
           })}
         </View>
       )}
-      <Pressable onPress={handleSubmit} disabled={isLoading}>
+      <Pressable onPress={handleSubmit} disabled={isPending}>
         <Text>
-          {isLoading ? <ActivityIndicator /> : <Text>Editar Serviço</Text>}
+          {isPending ? <ActivityIndicator /> : <Text>Editar Serviço</Text>}
         </Text>
       </Pressable>
     </View>

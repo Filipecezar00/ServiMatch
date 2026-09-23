@@ -7,6 +7,7 @@ import {
   Categoria,
   StatusServico,
   Servico,
+  ServicoEditado,
 } from "../types/service";
 
 export async function getHome(): Promise<HomeResponse[]> {
@@ -77,7 +78,9 @@ export async function obterServicoPorId(id: number) {
   }
 }
 
-export async function editarServico(payload: Servico): Promise<Servico> {
+export async function editarServico(
+  payload: ServicoEditado,
+): Promise<ServicoEditado> {
   try {
     const resposta_api = await api.put(
       `/services-offered/${payload.id}`,
