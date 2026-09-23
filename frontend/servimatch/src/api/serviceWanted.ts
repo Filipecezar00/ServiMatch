@@ -54,3 +54,10 @@ export async function editarStatusServicoWanted(
     throw new Error(extractErrorMessage(erro));
   }
 }
+
+export async function obterServicoWantedId() {
+  try {
+  } catch (erro) {
+    throw new Error(extractErrorMessage(erro));
+  }
+}

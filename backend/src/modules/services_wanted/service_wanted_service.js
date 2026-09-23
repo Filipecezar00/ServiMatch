@@ -117,3 +117,11 @@ export async function editar_statusServico_service(id, user_id, novoStatus) {
   await editar_statusServico_repository(id, novoStatus);
   return { id: Number(id), ativo: novoStatus };
 }
+
+export async function buscarServicoPorId_service(id) {
+  if (!id) {
+    throw new AppError("Categoria não existente");
+  }
+  const servico = await buscarServicoPorId(id);
+  return servico;
+}
