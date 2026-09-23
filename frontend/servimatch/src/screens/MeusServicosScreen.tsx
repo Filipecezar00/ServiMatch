@@ -92,6 +92,13 @@ export function MeusServicos() {
                     {item.ativo ? "Desativar serviço" : "Ativar serviço"}
                   </Text>
                 </Pressable>
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate("EditarServico", { id: item.id })
+                  }
+                >
+                  <Text>Editar Serviço</Text>
+                </Pressable>
               </View>
             )}
           />

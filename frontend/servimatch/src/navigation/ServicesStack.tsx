@@ -1,5 +1,6 @@
 import { MeusServicos } from "../screens/MeusServicosScreen";
 import { CriarServicoScreen } from "../screens/CriarServicoScreen";
+import { EditarServico } from "../screens/EditarServicoScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 export type ServiceStackParamList = {
@@ -15,6 +16,7 @@ export function ServicesStack() {
     <Stack.Navigator initialRouteName="ListarMeusServicos">
       <Stack.Screen component={CriarServicoScreen} name="CriarServico" />
       <Stack.Screen component={MeusServicos} name="ListarMeusServicos" />
+      <Stack.Screen component={EditarServico} name="EditarServico" />
     </Stack.Navigator>
   );
 }
