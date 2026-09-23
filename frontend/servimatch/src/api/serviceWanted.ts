@@ -1,8 +1,8 @@
 import { extractErrorMessage } from "../api/utils";
 import { api } from "../config/api";
-import { CriarServico, Servico } from "../types/service";
+import { CriarServico, Servico, ServicoEditado } from "../types/service";
 
-export async function CriarServicoWanted(
+export async function criarServicoWanted(
   payload: CriarServico,
 ): Promise<CriarServico> {
   try {
@@ -13,9 +13,23 @@ export async function CriarServicoWanted(
   }
 }
 
-export async function ListarServicoWante(): Promise<Servico> {
+export async function listarServicoWanted(): Promise<Servico> {
   try {
     const resposta_api = await api.get("/services-wanted/listar-minhas");
+    return resposta_api.data;
+  } catch (erro) {
+    throw new Error(extractErrorMessage(erro));
+  }
+}
+
+export async function atualizarServicoWanted(
+  payload: ServicoEditado,
+): Promise<ServicoEditado> {
+  try {
+    const resposta_api = await api.put(
+      `/services-wanted/${payload.id}`,
+      payload,
+    );
     return resposta_api.data;
   } catch (erro) {
     throw new Error(extractErrorMessage(erro));
