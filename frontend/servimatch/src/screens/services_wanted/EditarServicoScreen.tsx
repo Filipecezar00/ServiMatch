@@ -1,9 +1,4 @@
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  dataTagErrorSymbol,
-} from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   editarServicoWanted,
   obterServicoWantedId,
@@ -21,7 +16,6 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { FlatList } from "react-native-gesture-handler";
 
 export function EditarServico() {
   const [titulo, setTitulo] = useState("");
@@ -143,6 +137,13 @@ export function EditarServico() {
           );
         })
       )}
+      <Pressable onPress={handleSubmit} disabled={isLoading}>
+        {isLoading ? (
+          <ActivityIndicator size={"small"} />
+        ) : (
+          <Text>Confirmar</Text>
+        )}
+      </Pressable>
     </View>
   );
 }
