@@ -13,8 +13,15 @@ import { useState, useEffect } from "react";
 import { RouteProp, useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
 import { ServiceStackParamList } from "../../navigation/ServicesStack";
-import { View, Text, Pressable, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { FlatList } from "react-native-gesture-handler";
 
 export function EditarServico() {
   const [titulo, setTitulo] = useState("");
@@ -85,4 +92,57 @@ export function EditarServico() {
       setCategoryId(servico.categoryId);
     }
   }, [servico]);
+  return (
+    <View>
+      {erroLocal && (
+        <View>
+          <Text>Erro ao Editar serviço: {erroLocal}</Text>
+        </View>
+      )}
+
+      <View>
+        <Pressable onPress={() => navigation.goBack()}>
+          <MaterialCommunityIcons name="arrow-left" size={18} />
+          <Text>Voltar</Text>
+        </Pressable>
+      </View>
+
+      <Text>Editar Titulo</Text>
+      <TextInput
+        placeholder="Digite o titulo"
+        value={titulo}
+        onChangeText={setTitulo}
+      />
+
+      <Text>Editar a Descrição</Text>
+      <TextInput
+        placeholder="Digite a Descrição"
+        value={descricao}
+        onChangeText={setDescricao}
+      />
+
+      <Text>Editar Categoria</Text>
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        categorias?.map((categoria) => {
+          const isSelected = categoria.id === categoryId;
+          return (
+            <View
+              key={categoria.id}
+              style={{
+                backgroundColor: isSelected ? "#007Aff" : "#e5e5ea",
+                borderColor: isSelected ? "#0056b3" : "#c7c7cc",
+              }}
+            >
+              <Text>{categoria.nome}</Text>
+              <Pressable onPress={() => setCategoryId(categoryId)}>
+                <Text>Escolher Categoria</Text>
+              </Pressable>
+            </View>
+          );
+        })
+      )}
+    </View>
+  );
 }
