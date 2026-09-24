@@ -1,14 +1,23 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { criarServicoWanted, listarCategorias } from "../../api/serviceWanted";
-import { CriarServico } from "../../types/service";
 import { useState } from "react";
-import { extractErrorMessage } from "../../api/utils";
+import {
+  Pressable,
+  View,
+  Text,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export async function criarServico() {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [erroLocal, setErroLocal] = useState("");
+
+  const navigation = useNavigation();
 
   const queryClient = useQueryClient();
   const {
@@ -26,7 +35,7 @@ export async function criarServico() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["listarServicosProcurados"] });
 
-      navigation.back();
+      navigation.goBack();
     },
     onError: (erro: string) => {
       setErroLocal(erro);
@@ -55,5 +64,60 @@ export async function criarServico() {
     mutate({ titulo, descricao, categoryId: categoryId });
   };
 
-  return <View></View>;
+  return (
+    <View>
+      <View>
+        <Pressable onPress={() => navigation.goBack()}>
+          <MaterialCommunityIcons name="arrow-left" size={18} />
+          <Text>Voltar</Text>
+        </Pressable>
+      </View>
+      {erroLocal.length > 0 && <Text>{erroLocal}</Text>}
+
+      <Text>Titulo do Serviço</Text>
+      <TextInput
+        placeholder="Digite o titulo"
+        value={titulo}
+        onChangeText={setTitulo}
+      />
+
+      <Text>Descrição do Serviço</Text>
+      <TextInput
+        placeholder="Digite a Descrição"
+        value={descricao}
+        onChangeText={setTitulo}
+      />
+
+      <Text>Categorias Disponiveis</Text>
+      <View>
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          categorias?.map((categoria) => {
+            const isSelected = categoria.id === categoryId;
+            return (
+              <View
+                key={categoria.id}
+                style={{
+                  backgroundColor: isSelected ? "#007AFF" : "#e5e5ea",
+                  borderColor: isSelected ? "#0056b3" : "#c7c7cc",
+                }}
+              >
+                <Pressable onPress={() => setCategoryId(categoria.id)}>
+                  <Text>{categoria.nome}</Text>
+                </Pressable>
+              </View>
+            );
+          })
+        )}
+      </View>
+      <Pressable onPress={handleSubmit} disabled={isPending}>
+        {isPending ? (
+          <ActivityIndicator size="small" />
+        ) : (
+          <Text>Cadastrar Serviço</Text>
+        )}
+      </Pressable>
+    </View>
+  );
 }
