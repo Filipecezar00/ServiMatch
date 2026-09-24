@@ -79,3 +79,10 @@ export async function editar_statusServico_repository(id, novoStatus) {
   );
   return resultado;
 }
+
+export async function listar_Categorias_repository() {
+  const [resultado] = await pool.query(
+    `SELECT id,nome FROM categories ORDER BY nome ASC`,
+  );
+  return resultado;
+}

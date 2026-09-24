@@ -215,7 +215,7 @@ service_router_wanted.patch(
 
 service_router_wanted.get("/:id", authMiddleware, buscar_servico_controller);
 service_router_wanted.get(
-  "/:categoryId",
+  "/categorias",
   authMiddleware,
   listar_categorias_controller,
 );

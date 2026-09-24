@@ -80,8 +80,7 @@ export async function buscar_servico_controller(req, res, next) {
 
 export async function listar_categorias_controller(req, res, next) {
   try {
-    const { categoryId } = req.body;
-    const resposta = await buscarCategoriaPorId_service(categoryId);
+    const resposta = await buscarCategoriaPorId_service();
     return res.status(200).json(resposta);
   } catch (erro) {
     next(erro);

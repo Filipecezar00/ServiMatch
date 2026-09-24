@@ -126,10 +126,7 @@ export async function buscarServicoPorId_service(id) {
   return servico;
 }
 
-export async function buscarCategoriaPorId_service(categoryId) {
-  if (!categoryId) {
-    throw new AppError("Categoria não existente");
-  }
-  const categoria = await buscarCategoriaPorId(categoryId);
+export async function buscarCategoriaPorId_service() {
+  const categoria = await buscarCategoriaPorId();
   return categoria;
 }
