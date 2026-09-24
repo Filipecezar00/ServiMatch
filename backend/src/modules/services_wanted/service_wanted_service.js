@@ -10,6 +10,8 @@ import {
   listar_Categorias_repository,
 } from "../services_wanted/service_wanted.repository.js";
 
+let categoriasCache = null;
+
 export async function criar_service(user_id, titulo, descricao, categoryId) {
   if (!titulo || !descricao) {
     throw new AppError("Campos obrigatórios ausentes", 400);
@@ -127,7 +129,11 @@ export async function buscarServicoPorId_service(id) {
   return servico;
 }
 
-export async function buscarCategoriaPorId_service() {
-  const categoria = await listar_Categorias_repository();
-  return categoria;
+export async function listarCategorias_service() {
+  if (categoriasCache) {
+    return categoriasCache;
+  }
+  const lista_categorias = await listar_Categorias_repository();
+  categoriasCache = lista_categorias;
+  return categoriasCache;
 }
