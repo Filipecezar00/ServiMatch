@@ -11,7 +11,7 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-export async function criarServico() {
+export function criarServico() {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [categoryId, setCategoryId] = useState<number | null>(null);
@@ -37,21 +37,21 @@ export async function criarServico() {
 
       navigation.goBack();
     },
-    onError: (erro: string) => {
-      setErroLocal(erro);
+    onError: (erro: Error) => {
+      setErroLocal(erro.message);
     },
   });
 
   const handleSubmit = () => {
     setErroLocal("");
 
-    if (!titulo || titulo.length < 5) {
+    if (!titulo || titulo.trim().length < 5) {
       return setErroLocal(
         "O campo de titulo deve possuir no mínimo cinco caracteres",
       );
     }
 
-    if (!descricao || descricao.length < 10) {
+    if (!descricao || descricao.trim().length < 10) {
       return setErroLocal(
         "O campo de descrição deve possuir no mínimo dez caracteres",
       );
@@ -85,7 +85,7 @@ export async function criarServico() {
       <TextInput
         placeholder="Digite a Descrição"
         value={descricao}
-        onChangeText={setTitulo}
+        onChangeText={setDescricao}
       />
 
       <Text>Categorias Disponiveis</Text>
