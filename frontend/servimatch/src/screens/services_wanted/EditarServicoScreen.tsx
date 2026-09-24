@@ -24,7 +24,7 @@ export function EditarServico() {
   const queryClient = useQueryClient();
   const navigation = useNavigation();
 
-  const { data: categorias } = useQuery({
+  const { data: servico } = useQuery({
     queryKey: ["servicoWanted", id],
     queryFn: () => obterServicoWantedId(id),
     enabled: !!id,
@@ -60,4 +60,12 @@ export function EditarServico() {
 
     mutate({ id, titulo, descricao, categoryId: categoryId });
   };
+
+  useEffect(() => {
+    if (servico) {
+      setTitulo(servico.titulo);
+      setDescricao(servico.descricao);
+      setCategoryId(servico.categoryId);
+    }
+  }, [servico]);
 }
