@@ -64,11 +64,9 @@ export async function obterServicoWantedId(id: number) {
     throw new Error(extractErrorMessage(erro));
   }
 }
-export async function listarCategorias(
-  categoryId: number,
-): Promise<Categoria[]> {
+export async function listarCategorias(): Promise<Categoria[]> {
   try {
-    const resposta_api = await api.get(`/services-wanted/${categoryId}`);
+    const resposta_api = await api.get(`/services-wanted/categorias`);
     return resposta_api.data;
   } catch (erro) {
     throw new Error(extractErrorMessage(erro));

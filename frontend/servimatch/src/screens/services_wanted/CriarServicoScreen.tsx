@@ -11,7 +11,11 @@ export async function criarServico() {
   const [erroLocal, setErroLocal] = useState("");
 
   const queryClient = useQueryClient();
-  const { isLoading } = useQuery({
+  const {
+    data: categorias,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["listarCategorias"],
     queryFn: listarCategorias,
     staleTime: 1000 * 60 * 5,
@@ -50,4 +54,6 @@ export async function criarServico() {
 
     mutate({ titulo, descricao, categoryId: categoryId });
   };
+
+  return <View></View>;
 }
