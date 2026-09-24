@@ -5,7 +5,7 @@ import {
   editar_servico_service,
   editar_statusServico_service,
   buscarServicoPorId_service,
-  buscarCategoriaPorId_service,
+  listarCategorias_service,
 } from "./service_wanted_service.js";
 export async function criar_controller(req, res, next) {
   try {
@@ -80,7 +80,8 @@ export async function buscar_servico_controller(req, res, next) {
 
 export async function listar_categorias_controller(req, res, next) {
   try {
-    const resposta = await buscarCategoriaPorId_service();
+    const resposta = await listarCategorias_service();
+    res.setHeader("Cache-Control", "public, max-age=3600");
     return res.status(200).json(resposta);
   } catch (erro) {
     next(erro);
