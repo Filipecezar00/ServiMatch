@@ -9,9 +9,9 @@ import {
   Alert,
 } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { AuthStackParamList } from "../types/types";
+import { AuthStackParamList } from "../../types/types";
 import { useNavigation } from "@react-navigation/native";
-import { register } from "../api/auth";
+import { register } from "../../api/auth";
 
 type RegisterScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,

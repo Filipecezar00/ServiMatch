@@ -7,11 +7,11 @@ import {
   KeyboardAvoidingView,
   ActivityIndicator,
 } from "react-native";
-import { login } from "../api/auth";
+import { login } from "../../api/auth";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { AuthStackParamList } from "../types/types";
+import { AuthStackParamList } from "../../types/types";
 import { useNavigation } from "@react-navigation/native";
-import { useAuthStore } from "../stores/useAuthStore";
+import { useAuthStore } from "../../stores/useAuthStore";
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
