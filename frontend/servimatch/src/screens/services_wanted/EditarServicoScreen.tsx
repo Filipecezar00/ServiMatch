@@ -1,13 +1,20 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  dataTagErrorSymbol,
+} from "@tanstack/react-query";
 import {
   editarServicoWanted,
   obterServicoWantedId,
+  listarCategorias,
 } from "../../api/serviceWanted";
 import { useState, useEffect } from "react";
 import { RouteProp, useNavigation } from "@react-navigation/native";
-import { ServicoEditado } from "../../types/service";
 import { useRoute } from "@react-navigation/native";
 import { ServiceStackParamList } from "../../navigation/ServicesStack";
+import { View, Text, Pressable, TextInput } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export function EditarServico() {
   const [titulo, setTitulo] = useState("");
@@ -23,6 +30,16 @@ export function EditarServico() {
   const { id } = route.params;
   const queryClient = useQueryClient();
   const navigation = useNavigation();
+
+  const {
+    data: categorias,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["listarCategorias"],
+    queryFn: listarCategorias,
+    staleTime: 1000 * 60 * 5,
+  });
 
   const { data: servico } = useQuery({
     queryKey: ["servicoWanted", id],
