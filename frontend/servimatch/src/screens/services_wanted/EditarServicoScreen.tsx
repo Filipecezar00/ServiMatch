@@ -17,7 +17,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-export function EditarServico() {
+export function EditarServicoWanted() {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [categoryId, setCategoryId] = useState<number | null>(null);
@@ -48,7 +48,7 @@ export function EditarServico() {
     enabled: !!id,
   });
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationKey: ["editarServicoWanted"],
     mutationFn: editarServicoWanted,
 
@@ -130,15 +130,15 @@ export function EditarServico() {
               }}
             >
               <Text>{categoria.nome}</Text>
-              <Pressable onPress={() => setCategoryId(categoryId)}>
+              <Pressable onPress={() => setCategoryId(categoria.id)}>
                 <Text>Escolher Categoria</Text>
               </Pressable>
             </View>
           );
         })
       )}
-      <Pressable onPress={handleSubmit} disabled={isLoading}>
-        {isLoading ? (
+      <Pressable onPress={handleSubmit} disabled={isPending}>
+        {isPending ? (
           <ActivityIndicator size={"small"} />
         ) : (
           <Text>Confirmar</Text>
