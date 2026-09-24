@@ -7,6 +7,7 @@ import {
   listar_meusServicos,
   editar_servico_repository,
   editar_statusServico_repository,
+  listar_Categorias_repository,
 } from "../services_wanted/service_wanted.repository.js";
 
 export async function criar_service(user_id, titulo, descricao, categoryId) {
@@ -127,6 +128,6 @@ export async function buscarServicoPorId_service(id) {
 }
 
 export async function buscarCategoriaPorId_service() {
-  const categoria = await buscarCategoriaPorId();
+  const categoria = await listar_Categorias_repository();
   return categoria;
 }
