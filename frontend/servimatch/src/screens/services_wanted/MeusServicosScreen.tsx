@@ -1,8 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { listarServicoWanted } from "../../api/serviceWanted";
 import { View, ActivityIndicator, Text, FlatList } from "react-native";
+import { CompositeNavigationProp } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { ServiceStackWantedParamList } from "../../navigation/ServicesStack";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
 
 export function ListarServicosProcurados() {
+  type ListarServicosWantedNavigationProp = CompositeNavigationProp<
+    NativeStackNavigationProp<
+      ServiceStackWantedParamList,
+      "ListarServicosProcurados"
+    >,
+    DrawerNavigationProp<any>
+  >;
+
   const {
     data: servicos,
     isError,
