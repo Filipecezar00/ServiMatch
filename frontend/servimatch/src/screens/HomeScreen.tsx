@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { getHome } from "../api/serviceOffered";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 export function HomeScreen() {
   const {
     data: servicos,
@@ -19,6 +20,8 @@ export function HomeScreen() {
     queryKey: ["homeAtivos"],
     queryFn: getHome,
   });
+
+  const navigation = useNavigation();
 
   if (isLoading) {
     return <ActivityIndicator />;
@@ -37,10 +40,6 @@ export function HomeScreen() {
 
   return (
     <View>
-      <Pressable onPress={() => navigation.navigate("CriarServicoProcurado")}>
-        <MaterialCommunityIcons name="plus" />
-        <Text>Criar Serviço desejado</Text>
-      </Pressable>
       <Text>Principais serviços</Text>
       <FlatList
         data={servicos}
