@@ -21,7 +21,7 @@ export type ServiceStackWantedParamList = {
 const Stack = createNativeStackNavigator<ServiceStackParamList>();
 const Stack_Wanted = createNativeStackNavigator<ServiceStackWantedParamList>();
 
-export function ServicesStack() {
+export function ServicesOfferedStack() {
   return (
     <Stack.Navigator initialRouteName="ListarMeusServicos">
       <Stack.Screen component={CriarServicoScreen} name="CriarServico" />
@@ -31,7 +31,7 @@ export function ServicesStack() {
   );
 }
 
-export function ServiceWantedStack() {
+export function ServicesWantedStack() {
   return (
     <Stack_Wanted.Navigator initialRouteName="ListarServicosProcurados">
       <Stack_Wanted.Screen
