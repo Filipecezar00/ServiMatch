@@ -6,7 +6,7 @@ import { ListarServicosProcurados } from "../screens/services_wanted/MeusServico
 import { CriarServicoWanted } from "../screens/services_wanted/CriarServicoScreen";
 import { EditarServicoWanted } from "../screens/services_wanted/EditarServicoScreen";
 
-export type ServiceStackParamList = {
+export type ServiceStackOfferedParamList = {
   ListarMeusServicos: undefined;
   CriarServico: undefined;
   EditarServico: { id: number };
@@ -18,7 +18,7 @@ export type ServiceStackWantedParamList = {
   EditarServicoProcurado: { id: number };
 };
 
-const Stack = createNativeStackNavigator<ServiceStackParamList>();
+const Stack = createNativeStackNavigator<ServiceStackOfferedParamList>();
 const Stack_Wanted = createNativeStackNavigator<ServiceStackWantedParamList>();
 
 export function ServicesOfferedStack() {
