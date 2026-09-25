@@ -98,7 +98,7 @@ export function ListarServicosProcurados() {
                 <Text>Status Atual: {item.ativo ? "Ativo" : "Inativo"}</Text>
                 <Pressable onPress={() => handleSubmit(item.id, item.ativo)}>
                   <Text>
-                    {item.ativo ? "Não Desejo o Serviço" : "Desejo o Serviço"}
+                    {item.ativo ? "Desativar Serviço" : "Ativar Serviço"}
                   </Text>
                 </Pressable>
                 <Pressable
