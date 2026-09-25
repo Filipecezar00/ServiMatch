@@ -6,21 +6,31 @@ import {
   ActivityIndicator,
   FlatList,
 } from "react-native";
-import { getHome } from "../api/serviceOffered";
+// import { getHome } from "../api/serviceOffered";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
+import { listarCategorias, listarServicoWanted } from "../api/serviceWanted";
 export function HomeScreen() {
   const {
-    data: servicos,
+    data: categorias,
     isLoading,
     isError,
     error,
     refetch,
   } = useQuery({
-    queryKey: ["homeAtivos"],
-    queryFn: getHome,
+    queryKey: ["ListarCategorias"],
+    queryFn: listarCategorias,
   });
 
+  const { data: servicos } = useQuery({
+    queryKey: ["listarServicosProcurados"],
+    queryFn: listarServicoWanted,
+  });
+
+  const [termoBusca, setTermoBusca] = useState("");
+  const [categoriaSelecionadaId, setCategoriaSelecionadaId] =
+    useState<Number | null>(null);
   const navigation = useNavigation();
 
   if (isLoading) {
@@ -39,33 +49,19 @@ export function HomeScreen() {
   }
 
   return (
-    <View>
-      <Pressable onPress={() => navigation.navigate("CriarServicoProcurado")}>
-        <MaterialCommunityIcons name="plus" />
-        <Text>Criar Serviço desejado</Text>
-      </Pressable>
-
-      <Text>Principais serviços</Text>
-      <FlatList
-        data={servicos}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View>
-            <Text>
-              {item.titulo} - {item.descricao} - {item.prestador_nome} -{" "}
-              {item.categoria}
-            </Text>
-            <Pressable
-              onPress={() =>
-                navigation.navigate("EditarServicoProcurado", { id: item.id })
-              }
-            >
-              <MaterialCommunityIcons name="brush" size={20} />
-              <Text>Editar Servico</Text>
-            </Pressable>
-          </View>
-        )}
-      />
-    </View>
+    <FlatList
+      data={servicos}
+      renderItem={({ item }) => (
+        <View>
+          <Text>{item.titulo}</Text>
+          <Text>{item.descricao}</Text>
+        </View>
+      )}
+      ListHeaderComponent={() => (
+        <View>
+          <Text>Serviços localizados: </Text>
+        </View>
+      )}
+    />
   );
 }
