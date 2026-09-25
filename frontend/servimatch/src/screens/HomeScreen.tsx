@@ -50,18 +50,20 @@ export function HomeScreen() {
         data={servicos}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <Text>
-            {item.titulo} - {item.descricao} - {item.prestador_nome} -{" "}
-            {item.categoria}
+          <View>
+            <Text>
+              {item.titulo} - {item.descricao} - {item.prestador_nome} -{" "}
+              {item.categoria}
+            </Text>
             <Pressable
               onPress={() =>
                 navigation.navigate("EditarServicoProcurado", { id: item.id })
               }
             >
-              <MaterialCommunityIcons name="brush" />
+              <MaterialCommunityIcons name="brush" size={20} />
               <Text>Editar Servico</Text>
             </Pressable>
-          </Text>
+          </View>
         )}
       />
     </View>
