@@ -10,12 +10,16 @@ export type ServiceStackParamList = {
   ListarMeusServicos: undefined;
   CriarServico: undefined;
   EditarServico: { id: number };
+};
+
+export type ServiceStackWantedParamList = {
   ListarServicosProcurados: undefined;
   CriarServicoProcurado: undefined;
   EditarServicoProcurado: { id: number };
 };
 
 const Stack = createNativeStackNavigator<ServiceStackParamList>();
+const Stack_Wanted = createNativeStackNavigator<ServiceStackWantedParamList>();
 
 export function ServicesStack() {
   return (
@@ -23,18 +27,26 @@ export function ServicesStack() {
       <Stack.Screen component={CriarServicoScreen} name="CriarServico" />
       <Stack.Screen component={MeusServicos} name="ListarMeusServicos" />
       <Stack.Screen component={EditarServico} name="EditarServico" />
-      <Stack.Screen
-        component={ListarServicosProcurados}
-        name="ListarServicosProcurados"
-      />
-      <Stack.Screen
+    </Stack.Navigator>
+  );
+}
+
+export function ServiceWantedStack() {
+  return (
+    <Stack_Wanted.Navigator initialRouteName="ListarServicosProcurados">
+      <Stack_Wanted.Screen
         component={CriarServicoWanted}
         name="CriarServicoProcurado"
       />
-      <Stack.Screen
+      <Stack_Wanted.Screen
         component={EditarServicoWanted}
         name="EditarServicoProcurado"
       />
-    </Stack.Navigator>
+
+      <Stack_Wanted.Screen
+        component={ListarServicosProcurados}
+        name="ListarServicosProcurados"
+      />
+    </Stack_Wanted.Navigator>
   );
 }
