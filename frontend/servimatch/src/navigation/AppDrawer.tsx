@@ -7,12 +7,16 @@ import {
 import { Pressable, Text, View } from "react-native";
 import { useAuthStore } from "../stores/useAuthStore";
 import { HomeScreen } from "../screens/HomeScreen";
-import { ServicesStack } from "../navigation/ServicesStack";
+import {
+  ServicesOfferedStack,
+  ServicesWantedStack,
+} from "../navigation/ServicesStack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 type AppDrawerParamList = {
   Home: undefined;
-  Servicos: undefined;
+  MeusServicosOffered: undefined;
+  MeusServicosWanted: undefined;
 };
 
 const Drawer = createDrawerNavigator<AppDrawerParamList>();
@@ -48,9 +52,14 @@ export function AppDrawer() {
     >
       <Drawer.Screen component={HomeScreen} name="Home" />
       <Drawer.Screen
-        component={ServicesStack}
-        name="Servicos"
-        options={{ headerShown: false }}
+        component={ServicesOfferedStack}
+        name="MeusServicosOffered"
+        options={{ headerShown: false, title: "Meus Serviços Oferecidos" }}
+      />
+      <Drawer.Screen
+        component={ServicesWantedStack}
+        name="MeusServicosWanted"
+        options={{ headerShown: false, title: "Meus Serviços Desejados" }}
       />
     </Drawer.Navigator>
   );
