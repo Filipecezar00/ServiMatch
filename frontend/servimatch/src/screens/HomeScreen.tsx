@@ -40,12 +40,11 @@ export function HomeScreen() {
 
   return (
     <View>
-      <Pressable onPress={() => navigation.navigate()}>
+      <Pressable onPress={() => navigation.navigate("CriarServicoProcurado")}>
         <MaterialCommunityIcons name="plus" />
         <Text>Criar Serviço desejado</Text>
       </Pressable>
 
-      <Pressable onPress={(item) => navigation.navigate()}></Pressable>
       <Text>Principais serviços</Text>
       <FlatList
         data={servicos}
@@ -54,6 +53,14 @@ export function HomeScreen() {
           <Text>
             {item.titulo} - {item.descricao} - {item.prestador_nome} -{" "}
             {item.categoria}
+            <Pressable
+              onPress={() =>
+                navigation.navigate("EditarServicoProcurado", { id: item.id })
+              }
+            >
+              <MaterialCommunityIcons name="brush" />
+              <Text>Editar Servico</Text>
+            </Pressable>
           </Text>
         )}
       />
