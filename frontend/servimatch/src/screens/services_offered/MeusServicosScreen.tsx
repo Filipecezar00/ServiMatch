@@ -15,12 +15,15 @@ import { useNavigation } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ServiceStackWantedParamList } from "../../navigation/ServicesStack";
+import { ServiceStackOfferedParamList } from "../../navigation/ServicesStack";
 import { CompositeNavigationProp } from "@react-navigation/native";
 
 export function MeusServicos() {
   type ListarServicosNavigationProp = CompositeNavigationProp<
-    NativeStackNavigationProp<ServiceStackParamList, "ListarMeusServicos">,
+    NativeStackNavigationProp<
+      ServiceStackOfferedParamList,
+      "ListarMeusServicos"
+    >,
     DrawerNavigationProp<any>
   >;
 
