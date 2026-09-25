@@ -14,7 +14,7 @@ import {
   obterServicoPorId,
   editarServico,
 } from "../../api/serviceOffered";
-import { ServiceStackParamList } from "../../navigation/ServicesStack";
+import { ServiceStackOfferedParamList } from "../../navigation/ServicesStack";
 export function EditarServico() {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
@@ -42,7 +42,7 @@ export function EditarServico() {
   });
 
   type EditarServicoRouteProp = RouteProp<
-    ServiceStackParamList,
+    ServiceStackOfferedParamList,
     "EditarServico"
   >;
 

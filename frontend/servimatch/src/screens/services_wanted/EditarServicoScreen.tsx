@@ -7,7 +7,7 @@ import {
 import { useState, useEffect } from "react";
 import { RouteProp, useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
-import { ServiceStackParamList } from "../../navigation/ServicesStack";
+import { ServiceStackWantedParamList } from "../../navigation/ServicesStack";
 import {
   View,
   Text,
@@ -24,7 +24,7 @@ export function EditarServicoWanted() {
   const [erroLocal, setErroLocal] = useState("");
 
   type EditarServicoWantedRouter = RouteProp<
-    ServiceStackParamList,
+    ServiceStackWantedParamList,
     "EditarServicoProcurado"
   >;
   const route = useRoute<EditarServicoWantedRouter>();
@@ -129,9 +129,8 @@ export function EditarServicoWanted() {
                 borderColor: isSelected ? "#0056b3" : "#c7c7cc",
               }}
             >
-              <Text>{categoria.nome}</Text>
               <Pressable onPress={() => setCategoryId(categoria.id)}>
-                <Text>Escolher Categoria</Text>
+                <Text>{categoria.nome}</Text>
               </Pressable>
             </View>
           );
