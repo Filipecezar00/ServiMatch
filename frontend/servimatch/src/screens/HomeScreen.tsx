@@ -5,6 +5,7 @@ import {
   Pressable,
   ActivityIndicator,
   FlatList,
+  TextInput,
 } from "react-native";
 // import { getHome } from "../api/serviceOffered";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -51,17 +52,36 @@ export function HomeScreen() {
   return (
     <FlatList
       data={servicos}
-      renderItem={({ item }) => (
-        <View>
-          <Text>{item.titulo}</Text>
-          <Text>{item.descricao}</Text>
-        </View>
-      )}
       ListHeaderComponent={() => (
         <View>
-          <Text>Serviços localizados: </Text>
+          <View>
+            <TextInput
+              placeholder="Procurar Serviço"
+              value={termoBusca}
+              onChangeText={setTermoBusca}
+            >
+              <MaterialCommunityIcons name="magnify" size={24} />
+            </TextInput>
+          </View>
+          <Text>Serviços localizados:</Text>
         </View>
       )}
+      renderItem={({ item }) => {
+        const isSelected = categoriaSelecionadaId === item.id;
+        return (
+          <View
+            style={{
+              backgroundColor: isSelected ? "#007Aff" : "#e5e5ea",
+              borderColor: isSelected ? "#0056b3" : "#c7c7cc",
+            }}
+          >
+            <Text>{item.titulo}</Text>
+            <Text>{item.descricao}</Text>
+          </View>
+        );
+      }}
+      horizontal={true}
+      showsHorizontalScrollIndicator={false}
     />
   );
 }
