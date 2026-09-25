@@ -78,6 +78,7 @@ export function ListarServicosProcurados() {
             onPress={() => navigation.navigate("CriarServicoProcurado")}
           >
             <MaterialCommunityIcons name="plus" size={18} />
+            <Text>Adicionar novo serviço desejado</Text>
           </Pressable>
           <FlatList
             data={servicos}
@@ -107,7 +108,7 @@ export function ListarServicosProcurados() {
                     })
                   }
                 >
-                  <Text>Editar Serviço</Text>
+                  <Text>Editar Serviço desejado</Text>
                 </Pressable>
               </View>
             )}
