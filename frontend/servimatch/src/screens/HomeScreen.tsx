@@ -7,6 +7,7 @@ import {
   FlatList,
 } from "react-native";
 import { getHome } from "../api/serviceOffered";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 export function HomeScreen() {
   const {
     data: servicos,
@@ -36,6 +37,10 @@ export function HomeScreen() {
 
   return (
     <View>
+      <Pressable onPress={() => navigation.navigate("CriarServicoProcurado")}>
+        <MaterialCommunityIcons name="plus" />
+        <Text>Criar Serviço desejado</Text>
+      </Pressable>
       <Text>Principais serviços</Text>
       <FlatList
         data={servicos}
