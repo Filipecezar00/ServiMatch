@@ -40,6 +40,12 @@ export function HomeScreen() {
 
   return (
     <View>
+      <Pressable onPress={() => navigation.navigate()}>
+        <MaterialCommunityIcons name="plus" />
+        <Text>Criar Serviço desejado</Text>
+      </Pressable>
+
+      <Pressable onPress={(item) => navigation.navigate()}></Pressable>
       <Text>Principais serviços</Text>
       <FlatList
         data={servicos}
