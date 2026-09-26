@@ -86,3 +86,18 @@ export async function listar_Categorias_repository() {
   );
   return resultado;
 }
+
+export async function filtro_listar_servicos_wanted_repository(
+  busca,
+  categoriaId,
+) {
+  const [resultado] = await pool.query(
+    `
+    SELECT titulo,categoryId FROM services_wanted
+    WHERE (? IS NULL OR LOWER(titulo) LIKE LOWER(CONCAT('%',?,'%'))) AND
+    (? IS NULL OR categoryId=?);  
+    `,
+    [busca, busca, categoriaId, categoriaId],
+  );
+  return resultado;
+}
