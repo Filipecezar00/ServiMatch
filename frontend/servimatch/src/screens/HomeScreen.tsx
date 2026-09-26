@@ -11,7 +11,7 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import { listarCategorias, listarServicoWanted } from "../api/serviceWanted";
+import { listarCategorias, BuscarServicoWanted } from "../api/serviceWanted";
 export function HomeScreen() {
   const {
     data: categorias,
@@ -32,7 +32,7 @@ export function HomeScreen() {
 
   const { data: servicos, isLoading: isLoadingServicos } = useQuery({
     queryKey: ["listarServicosProcurados", termoBusca, categoriaSelecionadaId],
-    queryFn: () => listarServicoWanted(termoBusca, categoriaSelecionadaId),
+    queryFn: () => BuscarServicoWanted(termoBusca, categoriaSelecionadaId),
   });
 
   if (isLoading) {
@@ -61,7 +61,7 @@ export function HomeScreen() {
           <Text>Nenhum serviço encontrado</Text>
         );
       }}
-      ListHeaderComponent={() => (
+      ListHeaderComponent={
         <View>
           <View style={{ flexDirection: "row" }}>
             <TextInput
@@ -100,7 +100,7 @@ export function HomeScreen() {
           />
           <Text>Serviços localizados:</Text>
         </View>
-      )}
+      }
       renderItem={({ item }) => {
         return (
           <View>
