@@ -119,10 +119,12 @@ export function HomeScreen() {
       }
       renderItem={({ item }) => {
         return (
-          <View>
-            <Text>{item.titulo}</Text>
-            <Text>{item.descricao}</Text>
-          </View>
+          <Pressable style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}>
+            <View>
+              <Text>{item.titulo}</Text>
+              <Text>{item.descricao}</Text>
+            </View>
+          </Pressable>
         );
       }}
       horizontal={false}
