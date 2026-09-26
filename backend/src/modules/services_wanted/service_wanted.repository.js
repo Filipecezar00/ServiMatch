@@ -89,15 +89,15 @@ export async function listar_Categorias_repository() {
 
 export async function filtro_listar_servicos_wanted_repository(
   busca,
-  categoriaId,
+  categoryId,
 ) {
   const [resultado] = await pool.query(
     `
-    SELECT titulo,categoryId FROM services_wanted
+    SELECT id,titulo,descricao, category_id FROM services_wanted
     WHERE (? IS NULL OR LOWER(titulo) LIKE LOWER(CONCAT('%',?,'%'))) AND
-    (? IS NULL OR categoryId=?);  
+    (? IS NULL OR category_id=?);  
     `,
-    [busca, busca, categoriaId, categoriaId],
+    [busca, busca, categoryId, categoryId],
   );
   return resultado;
 }

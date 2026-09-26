@@ -26,8 +26,8 @@ export async function BuscarServicoWanted(
   try {
     const resposta_api = await api.get("/services-wanted/buscar-servicos", {
       params: {
-        busca: busca,
-        categoryId: categoryId,
+        busca: busca && busca.trim() !== "" ? busca : undefined,
+        categoryId: categoryId ?? undefined,
       },
     });
     return resposta_api.data;

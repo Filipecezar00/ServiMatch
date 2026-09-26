@@ -53,7 +53,7 @@ export function HomeScreen() {
   return (
     <FlatList
       data={servicos}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={(item) => item?.id?.toString() ?? String(Math.random())}
       ListEmptyComponent={() => {
         return isLoadingServicos ? (
           <ActivityIndicator />
@@ -75,7 +75,9 @@ export function HomeScreen() {
           <FlatList
             data={categorias}
             horizontal={true}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) =>
+              item?.id?.toString() ?? String(Math.random())
+            }
             renderItem={({ item }) => {
               const isSelected = categoriaSelecionadaId === item.id;
               return (

@@ -92,8 +92,6 @@ export async function listar_categorias_controller(req, res, next) {
 export async function filtro_listar_servicos_wanted_controller(req, res, next) {
   try {
     const { busca, categoryId } = req.query;
-    console.log("Query recebida:", req.query);
-
     const resposta = await filtro_listar_servicos_wanted_service(
       busca,
       categoryId,
