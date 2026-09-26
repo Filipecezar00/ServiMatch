@@ -30,8 +30,9 @@ export function HomeScreen() {
   });
 
   const [termoBusca, setTermoBusca] = useState("");
-  const [categoriaSelecionadaId, setCategoriaSelecionadaId] =
-    useState<Number | null>(null);
+  const [categoriaSelecionadaId, setCategoriaSelecionadaId] = useState<
+    number | null
+  >(null);
   const navigation = useNavigation();
 
   if (isLoading) {
@@ -53,34 +54,53 @@ export function HomeScreen() {
     <FlatList
       data={servicos}
       ListHeaderComponent={() => (
-        <View>
-          <View>
-            <TextInput
-              placeholder="Procurar Serviço"
-              value={termoBusca}
-              onChangeText={setTermoBusca}
-            >
+        <FlatList
+          data={categorias}
+          horizontal={true}
+          ListHeaderComponent={() => (
+            <View style={{ flexDirection: "row" }}>
+              <TextInput
+                placeholder="Procurar Serviço"
+                value={termoBusca}
+                onChangeText={setTermoBusca}
+              ></TextInput>
               <MaterialCommunityIcons name="magnify" size={24} />
-            </TextInput>
-          </View>
-          <Text>Serviços localizados:</Text>
-        </View>
+            </View>
+          )}
+          renderItem={({ item }) => {
+            const isSelected = categoriaSelecionadaId === item.id;
+            return (
+              <View
+                style={{
+                  backgroundColor: isSelected ? "#007Aff" : "#e5e5ea",
+                  borderColor: isSelected ? "#0056b3" : "#c7c7cc",
+                }}
+              >
+                <Pressable
+                  onPress={() =>
+                    categoriaSelecionadaId === item.id
+                      ? setCategoriaSelecionadaId(null)
+                      : setCategoriaSelecionadaId(item.id)
+                  }
+                >
+                  <Text>{item.nome}</Text>
+                </Pressable>
+
+                <Text>Serviços localizados:</Text>
+              </View>
+            );
+          }}
+        />
       )}
       renderItem={({ item }) => {
-        const isSelected = categoriaSelecionadaId === item.id;
         return (
-          <View
-            style={{
-              backgroundColor: isSelected ? "#007Aff" : "#e5e5ea",
-              borderColor: isSelected ? "#0056b3" : "#c7c7cc",
-            }}
-          >
+          <View>
             <Text>{item.titulo}</Text>
             <Text>{item.descricao}</Text>
           </View>
         );
       }}
-      horizontal={true}
+      horizontal={false}
       showsHorizontalScrollIndicator={false}
     />
   );
