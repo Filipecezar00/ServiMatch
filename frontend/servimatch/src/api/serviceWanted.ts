@@ -19,9 +19,17 @@ export async function criarServicoWanted(
   }
 }
 
-export async function listarServicoWanted(): Promise<Servico[]> {
+export async function listarServicoWanted(
+  busca?: string,
+  categoryId?: number | null,
+): Promise<Servico[]> {
   try {
-    const resposta_api = await api.get("/services-wanted/listar-minhas");
+    const resposta_api = await api.get("/services-wanted/buscar-servicos", {
+      params: {
+        busca: busca,
+        categoryId: categoryId,
+      },
+    });
     return resposta_api.data;
   } catch (erro) {
     throw new Error(extractErrorMessage(erro));
