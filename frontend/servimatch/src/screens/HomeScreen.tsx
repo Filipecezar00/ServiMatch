@@ -24,16 +24,16 @@ export function HomeScreen() {
     queryFn: listarCategorias,
   });
 
-  const { data: servicos } = useQuery({
-    queryKey: ["listarServicosProcurados"],
-    queryFn: listarServicoWanted,
-  });
-
   const [termoBusca, setTermoBusca] = useState("");
   const [categoriaSelecionadaId, setCategoriaSelecionadaId] = useState<
     number | null
   >(null);
   const navigation = useNavigation();
+
+  const { data: servicos } = useQuery({
+    queryKey: ["listarServicosProcurados", termoBusca, categoriaSelecionadaId],
+    queryFn: () => listarServicoWanted(termoBusca, categoriaSelecionadaId),
+  });
 
   if (isLoading) {
     return <ActivityIndicator />;
