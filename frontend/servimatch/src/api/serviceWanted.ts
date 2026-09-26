@@ -91,3 +91,12 @@ export async function listarCategorias(): Promise<Categoria[]> {
     throw new Error(extractErrorMessage(erro));
   }
 }
+
+export async function obterDetalhesServico(id: number) {
+  try {
+    const resposta_api = await api.get(`/services-wanted/${id}`);
+    return resposta_api.data;
+  } catch (error) {
+    throw new Error(extractErrorMessage(error));
+  }
+}
