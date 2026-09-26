@@ -39,10 +39,6 @@ export function HomeScreen() {
     return <ActivityIndicator />;
   }
 
-  if (isLoadingServicos) {
-    return <ActivityIndicator />;
-  }
-
   if (isError) {
     return (
       <View>
@@ -57,6 +53,14 @@ export function HomeScreen() {
   return (
     <FlatList
       data={servicos}
+      keyExtractor={(item) => item.id.toString()}
+      ListEmptyComponent={() => {
+        return isLoadingServicos ? (
+          <ActivityIndicator />
+        ) : (
+          <Text>Nenhum serviço encontrado</Text>
+        );
+      }}
       ListHeaderComponent={() => (
         <View>
           <View style={{ flexDirection: "row" }}>
@@ -71,6 +75,7 @@ export function HomeScreen() {
           <FlatList
             data={categorias}
             horizontal={true}
+            keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => {
               const isSelected = categoriaSelecionadaId === item.id;
               return (
