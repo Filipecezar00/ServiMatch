@@ -52,6 +52,18 @@ const service_router_wanted = express.Router();
  */
 service_router_wanted.post("/criar", authMiddleware, criar_controller);
 
+service_router_wanted.get(
+  "/categorias",
+  authMiddleware,
+  listar_categorias_controller,
+);
+
+service_router_wanted.get(
+  "/buscar-servicos",
+  authMiddleware,
+  filtro_listar_servicos_wanted_controller,
+);
+
 /**
  * @openapi
  * /api/services-wanted/listar-ativos:
@@ -217,16 +229,4 @@ service_router_wanted.patch(
 //DOCUMENTAÇÃO PENDENTE
 service_router_wanted.get("/:id", authMiddleware, buscar_servico_controller);
 
-//DOCUMENTAÇÃO PENDENTE
-service_router_wanted.get(
-  "/categorias",
-  authMiddleware,
-  listar_categorias_controller,
-);
-
-service_router_wanted.get(
-  "/buscar-servicos",
-  authMiddleware,
-  filtro_listar_servicos_wanted_controller,
-);
 export default service_router_wanted;

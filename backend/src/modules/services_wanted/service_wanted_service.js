@@ -142,7 +142,7 @@ export async function listarCategorias_service() {
 export async function filtro_listar_servicos_wanted_service(busca, categoryId) {
   let numero_categoryId = null;
 
-  if (busca && busca.trim().length > 4) {
+  if (busca && busca.trim().length >= 2) {
     busca = busca.trim();
   } else {
     busca = null;
