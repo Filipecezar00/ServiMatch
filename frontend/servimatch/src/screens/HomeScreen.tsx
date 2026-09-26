@@ -30,12 +30,16 @@ export function HomeScreen() {
   >(null);
   const navigation = useNavigation();
 
-  const { data: servicos } = useQuery({
+  const { data: servicos, isLoading: isLoadingServicos } = useQuery({
     queryKey: ["listarServicosProcurados", termoBusca, categoriaSelecionadaId],
     queryFn: () => listarServicoWanted(termoBusca, categoriaSelecionadaId),
   });
 
   if (isLoading) {
+    return <ActivityIndicator />;
+  }
+
+  if (isLoadingServicos) {
     return <ActivityIndicator />;
   }
 
