@@ -10,7 +10,7 @@ import {
 // import { getHome } from "../api/serviceOffered";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { listarCategorias, BuscarServicoWanted } from "../api/serviceWanted";
 export function HomeScreen() {
   const {
@@ -28,11 +28,25 @@ export function HomeScreen() {
   const [categoriaSelecionadaId, setCategoriaSelecionadaId] = useState<
     number | null
   >(null);
+  const [termoDebounced, setTermoDebounced] = useState("");
   const navigation = useNavigation();
 
+  useEffect(() => {
+    const temporizador_debounce = setTimeout(() => {
+      setTermoDebounced(termoBusca);
+    }, 400);
+    return () => {
+      clearTimeout(temporizador_debounce);
+    };
+  }, [termoBusca]);
+
   const { data: servicos, isLoading: isLoadingServicos } = useQuery({
-    queryKey: ["listarServicosProcurados", termoBusca, categoriaSelecionadaId],
-    queryFn: () => BuscarServicoWanted(termoBusca, categoriaSelecionadaId),
+    queryKey: [
+      "listarServicosProcurados",
+      termoDebounced,
+      categoriaSelecionadaId,
+    ],
+    queryFn: () => BuscarServicoWanted(termoDebounced, categoriaSelecionadaId),
   });
 
   if (isLoading) {
