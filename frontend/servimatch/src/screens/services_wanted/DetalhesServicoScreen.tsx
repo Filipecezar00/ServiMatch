@@ -60,16 +60,22 @@ export function DetalhesServico() {
   });
 
   const handleSubmit = (
-    ServicoDesejadoId: number,
-    ServicoOferecidoId: number | null,
+    wanted_service_id: number,
+    offered_service_id: number | null,
     mensagem: string,
   ) => {
-    if (!ServicoDesejadoId) {
+    const receiver_id = detalhes.receiver_id;
+
+    if (!receiver_id) {
+      Alert.alert("Usuário sem Permissão");
+      return;
+    }
+    if (!wanted_service_id) {
       Alert.alert("Informe o serviço desejado");
       return;
     }
 
-    if (!ServicoOferecidoId) {
+    if (!offered_service_id) {
       Alert.alert("Informe o serviço oferecido");
       return;
     }
@@ -78,7 +84,7 @@ export function DetalhesServico() {
       Alert.alert("Escreva os detalhes da proposta");
       return;
     }
-    mutate({ ServicoDesejadoId, ServicoOferecidoId, mensagem });
+    mutate({ receiver_id, wanted_service_id, offered_service_id, mensagem });
   };
 
   if (isLoading) {
