@@ -12,7 +12,7 @@ import {
   FlatList,
   TextInput,
 } from "react-native";
-import { obterDetalhesServico } from "../../api/serviceWanted";
+import { obterDetalhesServico } from "../../api/serviceOffered";
 import { listaMeusServicos } from "../../api/serviceOffered";
 import { criarProposta } from "../../api/exchangeProposals";
 

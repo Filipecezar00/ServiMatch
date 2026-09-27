@@ -226,7 +226,4 @@ service_router_wanted.patch(
   editar_statusServico_controller,
 );
 
-//DOCUMENTAÇÃO PENDENTE
-service_router_wanted.get("/:id", authMiddleware, buscar_servico_controller);
-
 export default service_router_wanted;
