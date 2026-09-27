@@ -50,7 +50,11 @@ export function AppDrawer() {
         drawerType: "slide",
       }}
     >
-      <Drawer.Screen component={HomeStack} name="HomeStack" />
+      <Drawer.Screen
+        component={HomeStack}
+        name="HomeStack"
+        options={{ headerShown: false, title: "Home" }}
+      />
       <Drawer.Screen
         component={ServicesOfferedStack}
         name="MeusServicosOffered"
