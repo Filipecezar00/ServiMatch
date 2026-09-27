@@ -11,6 +11,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { listarCategorias, BuscarServicoWanted } from "../api/serviceWanted";
+import { DetalhesServico } from "../screens/services_wanted/DetalhesServicoScreen";
 export function HomeScreen() {
   const {
     data: categorias,
@@ -117,7 +118,10 @@ export function HomeScreen() {
       }
       renderItem={({ item }) => {
         return (
-          <Pressable style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}>
+          <Pressable
+            style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}
+            onPress={() => navigation.navigate("DetalhesServico")}
+          >
             <View>
               <Text>{item.titulo}</Text>
               <Text>{item.descricao}</Text>

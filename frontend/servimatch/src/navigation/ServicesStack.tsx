@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ListarServicosProcurados } from "../screens/services_wanted/MeusServicosScreen";
 import { CriarServicoWanted } from "../screens/services_wanted/CriarServicoScreen";
 import { EditarServicoWanted } from "../screens/services_wanted/EditarServicoScreen";
+import { DetalhesServico } from "../screens/services_wanted/DetalhesServicoScreen";
 
 export type ServiceStackOfferedParamList = {
   ListarMeusServicos: undefined;
@@ -16,6 +17,7 @@ export type ServiceStackWantedParamList = {
   ListarServicosProcurados: undefined;
   CriarServicoProcurado: undefined;
   EditarServicoProcurado: { id: number };
+  DetalhesServico: undefined;
 };
 
 const Stack = createNativeStackNavigator<ServiceStackOfferedParamList>();
@@ -47,6 +49,7 @@ export function ServicesWantedStack() {
         component={ListarServicosProcurados}
         name="ListarServicosProcurados"
       />
+      <Stack_Wanted.Screen component={DetalhesServico} name="DetalhesServico" />
     </Stack_Wanted.Navigator>
   );
 }

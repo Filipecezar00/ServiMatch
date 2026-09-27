@@ -6,6 +6,7 @@ import { MeusServicos } from "../screens/services_offered/MeusServicosScreen";
 import { CriarServicoWanted } from "../screens/services_wanted/CriarServicoScreen";
 import { EditarServicoWanted } from "../screens/services_wanted/EditarServicoScreen";
 import { ListarServicosProcurados } from "../screens/services_wanted/MeusServicosScreen";
+import { DetalhesServico } from "../screens/services_wanted/DetalhesServicoScreen";
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
 
@@ -27,6 +28,7 @@ export function AppNavigator() {
         name="ListarServicosProcurados"
         component={ListarServicosProcurados}
       />
+      <Stack.Screen name="DetalhesServico" component={DetalhesServico} />
     </Stack.Navigator>
   );
 }
