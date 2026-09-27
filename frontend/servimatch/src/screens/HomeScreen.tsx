@@ -11,7 +11,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { listarCategorias, BuscarServicoWanted } from "../api/serviceWanted";
-import { DetalhesServico } from "../screens/services_wanted/DetalhesServicoScreen";
+import { useAuthStore } from "../stores/useAuthStore";
 export function HomeScreen() {
   const {
     data: categorias,
@@ -30,6 +30,7 @@ export function HomeScreen() {
   const [termoDebounced, setTermoDebounced] = useState("");
   const navigation = useNavigation();
 
+  const logout = useAuthStore((state) => state.logout);
   useEffect(() => {
     const temporizador_debounce = setTimeout(() => {
       setTermoDebounced(termoBusca);
@@ -48,6 +49,11 @@ export function HomeScreen() {
     queryFn: () => BuscarServicoWanted(termoDebounced, categoriaSelecionadaId),
   });
 
+  const handleOptionsDetails = (id: number) => {
+    navigation.navigate("DetalhesServico", { id });
+    console.log(navigation.getState());
+  };
+
   if (isLoading) {
     return <ActivityIndicator />;
   }
@@ -56,8 +62,9 @@ export function HomeScreen() {
     return (
       <View>
         <Text>{error.message}</Text>
-        <Pressable onPress={() => refetch()}>
-          <Text>Tentar Novamente</Text>
+
+        <Pressable onPress={logout}>
+          <Text>Deslogar</Text>
         </Pressable>
       </View>
     );
@@ -120,7 +127,7 @@ export function HomeScreen() {
         return (
           <Pressable
             style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}
-            onPress={() => navigation.navigate("DetalhesServico")}
+            onPress={() => handleOptionsDetails(item.id)}
           >
             <View>
               <Text>{item.titulo}</Text>

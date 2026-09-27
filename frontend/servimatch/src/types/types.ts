@@ -10,5 +10,5 @@ export type AppStackParamList = {
   ListarServicosProcurados: undefined;
   CriarServicoProcurado: undefined;
   EditarServicoProcurado: { id: number };
-  DetalhesServico: undefined;
+  DetalhesServico: { id: number };
 };
