@@ -12,7 +12,7 @@ import {
   FlatList,
   TextInput,
 } from "react-native";
-import { obterDetalhesServico } from "../../api/serviceOffered";
+import { obterServicoPorId } from "../../api/serviceOffered";
 import { listaMeusServicos } from "../../api/serviceOffered";
 import { criarProposta } from "../../api/exchangeProposals";
 
@@ -33,7 +33,7 @@ export function DetalhesServico() {
     refetch,
   } = useQuery({
     queryKey: ["detalhesServicos", id],
-    queryFn: () => obterDetalhesServico(id),
+    queryFn: () => obterServicoPorId(id),
     enabled: !!id,
   });
   const { data: servicos, isLoading: LoadingServices } = useQuery({
