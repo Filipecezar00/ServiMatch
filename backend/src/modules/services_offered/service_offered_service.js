@@ -8,6 +8,7 @@ import {
   buscarMeusServicos,
   alterarStatusServico,
   listarCategorias_repository,
+  buscaDetalhesServico,
 } from "./service_offered_repository.js";
 
 let categoriasCache = null;
@@ -127,4 +128,12 @@ export async function buscarServicoPorId_service(id) {
   }
   const servico = await buscarServicoPorId(id);
   return servico;
+}
+
+export async function buscarDetalhesServico(id) {
+  if (!id) {
+    throw new AppError("Serviço não encontrado");
+  }
+  const detalhesServico = await buscaDetalhesServico(id);
+  return detalhesServico;
 }
