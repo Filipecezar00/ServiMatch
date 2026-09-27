@@ -1,6 +1,6 @@
 import { useRoute } from "@react-navigation/native";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   View,
   ActivityIndicator,
@@ -8,17 +8,21 @@ import {
   Text,
   Modal,
   ScrollView,
+  Alert,
+  FlatList,
+  TextInput,
 } from "react-native";
 import { obterDetalhesServico } from "../../api/serviceWanted";
 import { listaMeusServicos } from "../../api/serviceOffered";
-import { FlatList } from "react-native-gesture-handler";
+import { criarProposta } from "../../api/exchangeProposals";
 
 export function DetalhesServico() {
   const route = useRoute();
   const [modalVisual, setModalVisual] = useState(false);
+  const [mensagem, setMensagem] = useState("");
   const [servicoSelecionadoId, setServicoSelecionadoId] = useState<
     number | null
-  >();
+  >(null);
   const { id } = route.params as { id: number };
 
   const {
@@ -32,12 +36,50 @@ export function DetalhesServico() {
     queryFn: () => obterDetalhesServico(id),
     enabled: !!id,
   });
-
   const { data: servicos, isLoading: LoadingServices } = useQuery({
     queryKey: ["meusServicos"],
     queryFn: listaMeusServicos,
     enabled: modalVisual,
   });
+
+  const {
+    mutate,
+    isPending,
+    error: erroMutation,
+  } = useMutation({
+    mutationFn: criarProposta,
+    onSuccess: () => {
+      Alert.alert("Proposta enviada!");
+      setModalVisual(false);
+      setMensagem("");
+      setServicoSelecionadoId(null);
+    },
+    onError: (error) => {
+      Alert.alert("Erro ao enviar Proposta", error?.message);
+    },
+  });
+
+  const handleSubmit = (
+    ServicoDesejadoId: number,
+    ServicoOferecidoId: number | null,
+    mensagem: string,
+  ) => {
+    if (!ServicoDesejadoId) {
+      Alert.alert("Informe o serviço desejado");
+      return;
+    }
+
+    if (!ServicoOferecidoId) {
+      Alert.alert("Informe o serviço oferecido");
+      return;
+    }
+
+    if (!mensagem) {
+      Alert.alert("Escreva os detalhes da proposta");
+      return;
+    }
+    mutate({ ServicoDesejadoId, ServicoOferecidoId, mensagem });
+  };
 
   if (isLoading) {
     return <ActivityIndicator />;
@@ -76,31 +118,53 @@ export function DetalhesServico() {
             {LoadingServices ? (
               <ActivityIndicator size={"small"} />
             ) : (
-              <Pressable
-                onPress={(item: any) => setServicoSelecionadoId(item?.id)}
-              >
+              <View>
+                <TextInput
+                  value={mensagem}
+                  placeholder="Detalhes da Proposta"
+                  onChangeText={setMensagem}
+                />
                 <FlatList
                   data={servicos}
+                  keyExtractor={(item) => String(item.id)}
                   renderItem={({ item }) => {
                     return (
                       <View>
-                        <View>
-                          <Text>{item.titulo}</Text>
-                          <Text>{item.descricao}</Text>
-                        </View>
+                        <Pressable
+                          onPress={() => setServicoSelecionadoId(item?.id)}
+                        >
+                          <View
+                            style={{
+                              backgroundColor:
+                                servicoSelecionadoId === item.id
+                                  ? "#007Aff"
+                                  : "#e5e5ea",
+                            }}
+                          >
+                            <Text>{item.titulo}</Text>
+                            <Text>{item.descricao}</Text>
+                          </View>
+                        </Pressable>
                       </View>
                     );
                   }}
                 />
-              </Pressable>
+              </View>
             )}
           </View>
         </View>
         <Pressable onPress={() => setModalVisual(false)}>
           <Text>Cancelar</Text>
         </Pressable>
-        <Pressable>
-          <Text>Enviar Proposta</Text>
+        <Pressable
+          onPress={() => handleSubmit(id, servicoSelecionadoId, mensagem)}
+          disabled={isPending}
+        >
+          {isPending ? (
+            <ActivityIndicator size={"small"} />
+          ) : (
+            <Text>Enviar Proposta</Text>
+          )}
         </Pressable>
       </Modal>
     </View>
