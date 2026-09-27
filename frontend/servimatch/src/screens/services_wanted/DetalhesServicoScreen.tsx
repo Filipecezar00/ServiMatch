@@ -12,7 +12,7 @@ import {
   FlatList,
   TextInput,
 } from "react-native";
-import { obterServicoPorId } from "../../api/serviceOffered";
+import { obterDetalhesServicoPorId } from "../../api/serviceOffered";
 import { listaMeusServicos } from "../../api/serviceOffered";
 import { criarProposta } from "../../api/exchangeProposals";
 
@@ -33,7 +33,7 @@ export function DetalhesServico() {
     refetch,
   } = useQuery({
     queryKey: ["detalhesServicos", id],
-    queryFn: () => obterServicoPorId(id),
+    queryFn: () => obterDetalhesServicoPorId(id),
     enabled: !!id,
   });
   const { data: servicos, isLoading: LoadingServices } = useQuery({
@@ -64,8 +64,7 @@ export function DetalhesServico() {
     offered_service_id: number | null,
     mensagem: string,
   ) => {
-    const receiver_id =
-      detalhes?.receiver_id || detalhes?.user_id || detalhes?.usuario_id;
+    const receiver_id = detalhes?.user_id;
 
     if (!receiver_id) {
       Alert.alert("Usuário sem Permissão");
