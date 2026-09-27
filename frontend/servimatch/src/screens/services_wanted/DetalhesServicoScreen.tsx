@@ -64,7 +64,8 @@ export function DetalhesServico() {
     offered_service_id: number | null,
     mensagem: string,
   ) => {
-    const receiver_id = detalhes.receiver_id;
+    const receiver_id =
+      detalhes?.receiver_id || detalhes?.user_id || detalhes?.usuario_id;
 
     if (!receiver_id) {
       Alert.alert("Usuário sem Permissão");
