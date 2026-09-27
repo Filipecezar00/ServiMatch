@@ -246,9 +246,5 @@ service_router_offered.get(
   listarCategorias_controller,
 );
 
-service_router_offered.get(
-  "/:id/servico",
-  authMiddleware,
-  buscarServicoPorId_controller,
-);
+service_router_offered.get("/:id/servico", buscarServicoPorId_controller);
 export default service_router_offered;
