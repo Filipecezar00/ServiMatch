@@ -7,7 +7,6 @@ import {
   FlatList,
   TextInput,
 } from "react-native";
-// import { getHome } from "../api/serviceOffered";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
@@ -23,7 +22,6 @@ export function HomeScreen() {
     queryKey: ["ListarCategorias"],
     queryFn: listarCategorias,
   });
-
   const [termoBusca, setTermoBusca] = useState("");
   const [categoriaSelecionadaId, setCategoriaSelecionadaId] = useState<
     number | null
