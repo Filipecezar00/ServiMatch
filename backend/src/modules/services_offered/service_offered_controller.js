@@ -98,6 +98,7 @@ export async function buscarDetalhesServico_controller(req, res, next) {
   const { id } = req.params;
   try {
     const resposta = await buscarDetalhesServico(id);
+    console.log(resposta);
     return res.status(200).json(resposta);
   } catch (error) {
     next(error);

@@ -68,7 +68,7 @@ export async function buscaDetalhesServico(id) {
     `,
     [id],
   );
-  return servico[0];
+  return servico;
 }
 
 export async function atualizar(id, titulo, descricao, categoryId) {
