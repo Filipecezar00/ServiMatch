@@ -9,6 +9,7 @@ import {
   alterarStatusServico,
   listarCategorias_repository,
   buscaDetalhesServico,
+  filtro_listar_servicos_offered_repository,
 } from "./service_offered_repository.js";
 
 let categoriasCache = null;
