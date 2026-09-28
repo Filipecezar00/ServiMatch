@@ -130,7 +130,7 @@ service_router_offered.get(
   listarCategorias_controller,
 );
 
-service_router_wanted.get(
+service_router_offered.get(
   "/buscar-servicos",
   authMiddleware,
   filtro_listar_servicos_offered_controller,
