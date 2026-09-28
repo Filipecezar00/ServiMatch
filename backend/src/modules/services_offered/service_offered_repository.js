@@ -59,6 +59,18 @@ export async function buscarServicoPorId(id) {
   return servico[0];
 }
 
+export async function buscaDetalhesServico(id) {
+  const [servico] = await pool.query(
+    `
+    SELECT s.id, s.titulo, s.descricao, s.category_id, c.nome AS categoria, 
+    s.user_id, u.nome AS prestador_nome FROM services_offered s LEFT JOIN categories c 
+    ON s.category_id = c.id INNER JOIN users u ON s.user_id = u.id WHERE s.id = ? 
+    `,
+    [id],
+  );
+  return servico[0];
+}
+
 export async function atualizar(id, titulo, descricao, categoryId) {
   const [resposta] = await pool.query(
     `
@@ -78,4 +90,19 @@ export async function alterarStatusServico(id, novoStatus) {
     [novoStatus, id],
   );
   return resposta;
+}
+
+export async function filtro_listar_servicos_offered_repository(
+  busca,
+  categoryId,
+) {
+  const [resultado] = await pool.query(
+    `
+    SELECT id,titulo,descricao, category_id FROM services_offered
+    WHERE (? IS NULL OR LOWER(titulo) LIKE LOWER(CONCAT('%',?,'%'))) AND
+    (? IS NULL OR category_id=?);  
+    `,
+    [busca, busca, categoryId, categoryId],
+  );
+  return resultado;
 }

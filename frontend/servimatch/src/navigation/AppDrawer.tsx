@@ -6,15 +6,15 @@ import {
 } from "@react-navigation/drawer";
 import { Pressable, Text, View } from "react-native";
 import { useAuthStore } from "../stores/useAuthStore";
-import { HomeScreen } from "../screens/HomeScreen";
 import {
   ServicesOfferedStack,
   ServicesWantedStack,
+  HomeStack,
 } from "../navigation/ServicesStack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 type AppDrawerParamList = {
-  Home: undefined;
+  HomeStack: undefined;
   MeusServicosOffered: undefined;
   MeusServicosWanted: undefined;
 };
@@ -50,7 +50,11 @@ export function AppDrawer() {
         drawerType: "slide",
       }}
     >
-      <Drawer.Screen component={HomeScreen} name="Home" />
+      <Drawer.Screen
+        component={HomeStack}
+        name="HomeStack"
+        options={{ headerShown: false, title: "Home" }}
+      />
       <Drawer.Screen
         component={ServicesOfferedStack}
         name="MeusServicosOffered"

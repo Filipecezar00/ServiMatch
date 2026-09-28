@@ -8,6 +8,8 @@ import {
   buscarMeusServicos,
   alterarStatusServico,
   listarCategorias_repository,
+  buscaDetalhesServico,
+  filtro_listar_servicos_offered_repository,
 } from "./service_offered_repository.js";
 
 let categoriasCache = null;
@@ -127,4 +129,40 @@ export async function buscarServicoPorId_service(id) {
   }
   const servico = await buscarServicoPorId(id);
   return servico;
+}
+
+export async function buscarDetalhesServico(id) {
+  if (!id) {
+    throw new AppError("Serviço não encontrado");
+  }
+  const detalhesServico = await buscaDetalhesServico(id);
+  return detalhesServico;
+}
+
+export async function filtro_listar_servicos_offered_service(
+  busca,
+  categoryId,
+) {
+  let numero_categoryId = null;
+
+  if (busca && busca.trim().length >= 2) {
+    busca = busca.trim();
+  } else {
+    busca = null;
+  }
+  if (categoryId) {
+    let conversao = Number(categoryId);
+    if (!isNaN(conversao)) {
+      numero_categoryId = conversao;
+    }
+  } else {
+    numero_categoryId = null;
+  }
+
+  let string_busca = busca;
+
+  return await filtro_listar_servicos_offered_repository(
+    string_busca,
+    numero_categoryId,
+  );
 }

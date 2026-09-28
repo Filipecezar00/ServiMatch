@@ -58,9 +58,13 @@ export async function editarStatusServico(
     throw new Error(extractErrorMessage(error));
   }
 }
-export async function obterServicoPorId(id: number) {
+export async function obterDetalhesServicoPorId(id: number) {
+  console.log("Chamando", `${api.defaults.baseURL}/services-offered/${id}`);
   try {
-    const resposta_api = await api.get(`/services-offered/${id}/servico`);
+    const resposta_api = await api.get(`/services-offered/${id}`);
+    console.log("Resposta requisição axios:", resposta_api);
+    console.log("status:", resposta_api.status);
+    console.log("data:", resposta_api.data);
     return resposta_api.data;
   } catch (error) {
     throw new Error(extractErrorMessage(error));
@@ -78,5 +82,22 @@ export async function editarServico(
     return resposta_api.data;
   } catch (error) {
     throw new Error(extractErrorMessage(error));
+  }
+}
+
+export async function BuscarServicoOffered(
+  busca?: string,
+  categoryId?: number | null,
+): Promise<Servico[]> {
+  try {
+    const resposta_api = await api.get("/services-offered/buscar-servicos", {
+      params: {
+        busca: busca && busca.trim() !== "" ? busca : undefined,
+        categoryId: categoryId ?? undefined,
+      },
+    });
+    return resposta_api.data;
+  } catch (erro) {
+    throw new Error(extractErrorMessage(erro));
   }
 }

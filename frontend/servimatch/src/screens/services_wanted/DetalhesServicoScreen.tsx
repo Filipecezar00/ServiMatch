@@ -12,7 +12,7 @@ import {
   FlatList,
   TextInput,
 } from "react-native";
-import { obterDetalhesServico } from "../../api/serviceWanted";
+import { obterDetalhesServicoPorId } from "../../api/serviceOffered";
 import { listaMeusServicos } from "../../api/serviceOffered";
 import { criarProposta } from "../../api/exchangeProposals";
 
@@ -25,6 +25,8 @@ export function DetalhesServico() {
   >(null);
   const { id } = route.params as { id: number };
 
+  console.log(id);
+
   const {
     data: detalhes,
     isLoading,
@@ -33,14 +35,17 @@ export function DetalhesServico() {
     refetch,
   } = useQuery({
     queryKey: ["detalhesServicos", id],
-    queryFn: () => obterDetalhesServico(id),
+    queryFn: () => obterDetalhesServicoPorId(id),
     enabled: !!id,
   });
+
+  console.log(detalhes);
   const { data: servicos, isLoading: LoadingServices } = useQuery({
     queryKey: ["meusServicos"],
     queryFn: listaMeusServicos,
     enabled: modalVisual,
   });
+  console.log(servicos);
 
   const {
     mutate,
@@ -60,16 +65,22 @@ export function DetalhesServico() {
   });
 
   const handleSubmit = (
-    ServicoDesejadoId: number,
-    ServicoOferecidoId: number | null,
+    wanted_service_id: number,
+    offered_service_id: number | null,
     mensagem: string,
   ) => {
-    if (!ServicoDesejadoId) {
+    const receiver_id = detalhes?.user_id;
+
+    if (!receiver_id) {
+      Alert.alert("Usuário sem Permissão");
+      return;
+    }
+    if (!wanted_service_id) {
       Alert.alert("Informe o serviço desejado");
       return;
     }
 
-    if (!ServicoOferecidoId) {
+    if (!offered_service_id) {
       Alert.alert("Informe o serviço oferecido");
       return;
     }
@@ -78,7 +89,7 @@ export function DetalhesServico() {
       Alert.alert("Escreva os detalhes da proposta");
       return;
     }
-    mutate({ ServicoDesejadoId, ServicoOferecidoId, mensagem });
+    mutate({ receiver_id, wanted_service_id, offered_service_id, mensagem });
   };
 
   if (isLoading) {

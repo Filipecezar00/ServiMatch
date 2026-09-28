@@ -5,6 +5,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ListarServicosProcurados } from "../screens/services_wanted/MeusServicosScreen";
 import { CriarServicoWanted } from "../screens/services_wanted/CriarServicoScreen";
 import { EditarServicoWanted } from "../screens/services_wanted/EditarServicoScreen";
+import { DetalhesServico } from "../screens/services_wanted/DetalhesServicoScreen";
+import { HomeScreen } from "../screens/HomeScreen";
 
 export type ServiceStackOfferedParamList = {
   ListarMeusServicos: undefined;
@@ -18,8 +20,14 @@ export type ServiceStackWantedParamList = {
   EditarServicoProcurado: { id: number };
 };
 
+export type HomeStack = {
+  Home: undefined;
+  DetalhesServico: { id: number };
+};
+
 const Stack = createNativeStackNavigator<ServiceStackOfferedParamList>();
 const Stack_Wanted = createNativeStackNavigator<ServiceStackWantedParamList>();
+const Stack_Home = createNativeStackNavigator<HomeStack>();
 
 export function ServicesOfferedStack() {
   return (
@@ -48,5 +56,14 @@ export function ServicesWantedStack() {
         name="ListarServicosProcurados"
       />
     </Stack_Wanted.Navigator>
+  );
+}
+
+export function HomeStack() {
+  return (
+    <Stack_Home.Navigator initialRouteName="Home">
+      <Stack_Home.Screen component={HomeScreen} name="Home" />
+      <Stack_Home.Screen component={DetalhesServico} name="DetalhesServico" />
+    </Stack_Home.Navigator>
   );
 }
