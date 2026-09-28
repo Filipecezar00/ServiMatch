@@ -1,4 +1,9 @@
-import { criar_service, mudar_status } from "./exchange_proposal_service.js";
+import {
+  criar_service,
+  mudar_status,
+  listaPropostasRecebidas_service,
+  listarPropostasEnviadas_service,
+} from "./exchange_proposal_service.js";
 export async function criar_controller(req, res, next) {
   try {
     const { receiver_id, offered_service_id, wanted_service_id, mensagem } =
@@ -28,5 +33,26 @@ export async function mudar_status_controller(req, res, next) {
     res.status(200).json({ resposta });
   } catch (erro) {
     next(erro);
+  }
+}
+
+export async function listaPropostasRecebidas_controller(req, res, next) {
+  try {
+    const usuarioId = req.usuario.id;
+    const resposta = await listaPropostasRecebidas_service(usuarioId);
+    return res.status(200).json({ resposta });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function listaPropostasRecebidas_controller(req, res, next) {
+  try {
+    const usuarioId = req.usuario.id;
+    const resposta = await listarPropostasEnviadas_service(usuarioId);
+
+    return res.status(200).json({ resposta });
+  } catch (error) {
+    next(error);
   }
 }

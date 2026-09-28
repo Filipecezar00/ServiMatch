@@ -137,7 +137,7 @@ export async function listarPropostasEnviadas_service(usuarioId) {
   return resposta;
 }
 
-export async function listaPropostasRecebidas_repository(usuarioId) {
+export async function listaPropostasRecebidas_service(usuarioId) {
   if (!usuarioId) {
     throw new AppError("Nenhum usuário está vinculado a essa proposta!");
   }
