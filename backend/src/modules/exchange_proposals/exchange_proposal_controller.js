@@ -46,7 +46,7 @@ export async function listaPropostasRecebidas_controller(req, res, next) {
   }
 }
 
-export async function listaPropostasRecebidas_controller(req, res, next) {
+export async function listaPropostasEnviadas_controller(req, res, next) {
   try {
     const usuarioId = req.usuario.id;
     const resposta = await listarPropostasEnviadas_service(usuarioId);
