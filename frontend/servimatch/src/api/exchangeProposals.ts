@@ -7,11 +7,11 @@ export async function criarProposta(
 ): Promise<PropostaTroca> {
   try {
     const resposta_api = await api.post<PropostaTroca>(
-      `/exchanges/criar`,
+      `/exchange-proposals/criar`,
       payload,
     );
     return resposta_api.data;
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(extractErrorMessage(error));
   }
 }
