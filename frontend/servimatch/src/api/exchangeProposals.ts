@@ -15,3 +15,11 @@ export async function criarProposta(
     throw new Error(extractErrorMessage(error));
   }
 }
+
+export async function listaPropostasRecebidas() {
+  try {
+    const resposta_api = await api.get(`/exchanges-proposals/listar-recebidas`);
+  } catch (error) {
+    throw new Error(extractErrorMessage(error));
+  }
+}
