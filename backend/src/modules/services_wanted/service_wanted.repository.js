@@ -87,17 +87,17 @@ export async function listar_Categorias_repository() {
   return resultado;
 }
 
-export async function filtro_listar_servicos_wanted_repository(
-  busca,
-  categoryId,
-) {
-  const [resultado] = await pool.query(
-    `
-    SELECT id,titulo,descricao, category_id FROM services_wanted
-    WHERE (? IS NULL OR LOWER(titulo) LIKE LOWER(CONCAT('%',?,'%'))) AND
-    (? IS NULL OR category_id=?);  
-    `,
-    [busca, busca, categoryId, categoryId],
-  );
-  return resultado;
-}
+// export async function filtro_listar_servicos_wanted_repository(
+//   busca,
+//   categoryId,
+// ) {
+//   const [resultado] = await pool.query(
+//     `
+//     SELECT id,titulo,descricao, category_id FROM services_wanted
+//     WHERE (? IS NULL OR LOWER(titulo) LIKE LOWER(CONCAT('%',?,'%'))) AND
+//     (? IS NULL OR category_id=?);
+//     `,
+//     [busca, busca, categoryId, categoryId],
+//   );
+//   return resultado;
+// }

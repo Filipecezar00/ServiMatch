@@ -10,6 +10,7 @@ import {
   criar_controller,
   buscarServicoPorId_controller,
   buscarDetalhesServico_controller,
+  filtro_listar_servicos_offered_controller,
 } from "./service_offered_controller.js";
 
 const service_router_offered = express.Router();
@@ -123,6 +124,17 @@ service_router_offered.get(
   listarServicosUsuario_controller,
 );
 
+service_router_offered.get(
+  "/categorias",
+  authMiddleware,
+  listarCategorias_controller,
+);
+
+service_router_wanted.get(
+  "/buscar-servicos",
+  authMiddleware,
+  filtro_listar_servicos_offered_controller,
+);
 /**
  * @openapi
  * /api/services-offered/{id}:
@@ -240,12 +252,6 @@ service_router_offered.patch(
  *       401:
  *         description: Token ausente ou inválido
  */
-
-service_router_offered.get(
-  "/categorias",
-  authMiddleware,
-  listarCategorias_controller,
-);
 
 service_router_offered.get(
   "/:id/servico",

@@ -68,7 +68,7 @@ export async function buscaDetalhesServico(id) {
     `,
     [id],
   );
-  return servico;
+  return servico[0];
 }
 
 export async function atualizar(id, titulo, descricao, categoryId) {
@@ -90,4 +90,19 @@ export async function alterarStatusServico(id, novoStatus) {
     [novoStatus, id],
   );
   return resposta;
+}
+
+export async function filtro_listar_servicos_offered_repository(
+  busca,
+  categoryId,
+) {
+  const [resultado] = await pool.query(
+    `
+    SELECT id,titulo,descricao, category_id FROM services_offered
+    WHERE (? IS NULL OR LOWER(titulo) LIKE LOWER(CONCAT('%',?,'%'))) AND
+    (? IS NULL OR category_id=?);  
+    `,
+    [busca, busca, categoryId, categoryId],
+  );
+  return resultado;
 }

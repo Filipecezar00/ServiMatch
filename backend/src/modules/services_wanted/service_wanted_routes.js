@@ -58,11 +58,11 @@ service_router_wanted.get(
   listar_categorias_controller,
 );
 
-service_router_wanted.get(
-  "/buscar-servicos",
-  authMiddleware,
-  filtro_listar_servicos_wanted_controller,
-);
+// service_router_wanted.get(
+//   "/buscar-servicos",
+//   authMiddleware,
+//   filtro_listar_servicos_wanted_controller,
+// );
 
 /**
  * @openapi
