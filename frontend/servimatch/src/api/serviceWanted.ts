@@ -19,23 +19,6 @@ export async function criarServicoWanted(
   }
 }
 
-export async function BuscarServicoWanted(
-  busca?: string,
-  categoryId?: number | null,
-): Promise<Servico[]> {
-  try {
-    const resposta_api = await api.get("/services-wanted/buscar-servicos", {
-      params: {
-        busca: busca && busca.trim() !== "" ? busca : undefined,
-        categoryId: categoryId ?? undefined,
-      },
-    });
-    return resposta_api.data;
-  } catch (erro) {
-    throw new Error(extractErrorMessage(erro));
-  }
-}
-
 export async function listarServicoWanted(): Promise<Servico[]> {
   try {
     const resposta_api = await api.get("/services-wanted/listar-minhas");

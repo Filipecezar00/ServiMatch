@@ -10,7 +10,8 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { listarCategorias, BuscarServicoWanted } from "../api/serviceWanted";
+import { listarCategorias } from "../api/serviceWanted";
+import { BuscarServicoOffered } from "../api/serviceOffered";
 import { useAuthStore } from "../stores/useAuthStore";
 export function HomeScreen() {
   const {
@@ -46,7 +47,7 @@ export function HomeScreen() {
       termoDebounced,
       categoriaSelecionadaId,
     ],
-    queryFn: () => BuscarServicoWanted(termoDebounced, categoriaSelecionadaId),
+    queryFn: () => BuscarServicoOffered(termoDebounced, categoriaSelecionadaId),
   });
 
   const handleOptionsDetails = (id: number) => {

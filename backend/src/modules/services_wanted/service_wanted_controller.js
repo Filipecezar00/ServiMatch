@@ -6,7 +6,6 @@ import {
   editar_statusServico_service,
   buscarServicoPorId_service,
   listarCategorias_service,
-  filtro_listar_servicos_wanted_service,
 } from "./service_wanted_service.js";
 export async function criar_controller(req, res, next) {
   try {
@@ -88,16 +87,3 @@ export async function listar_categorias_controller(req, res, next) {
     next(erro);
   }
 }
-
-// export async function filtro_listar_servicos_wanted_controller(req, res, next) {
-//   try {
-//     const { busca, categoryId } = req.query;
-//     const resposta = await filtro_listar_servicos_wanted_service(
-//       busca,
-//       categoryId,
-//     );
-//     return res.status(200).json(resposta);
-//   } catch (erro) {
-//     next(erro);
-//   }
-// }

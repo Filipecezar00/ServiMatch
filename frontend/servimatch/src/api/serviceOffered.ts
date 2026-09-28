@@ -84,3 +84,20 @@ export async function editarServico(
     throw new Error(extractErrorMessage(error));
   }
 }
+
+export async function BuscarServicoOffered(
+  busca?: string,
+  categoryId?: number | null,
+): Promise<Servico[]> {
+  try {
+    const resposta_api = await api.get("/services-offered/buscar-servicos", {
+      params: {
+        busca: busca && busca.trim() !== "" ? busca : undefined,
+        categoryId: categoryId ?? undefined,
+      },
+    });
+    return resposta_api.data;
+  } catch (erro) {
+    throw new Error(extractErrorMessage(erro));
+  }
+}

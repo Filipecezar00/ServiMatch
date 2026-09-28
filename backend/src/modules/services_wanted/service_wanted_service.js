@@ -8,7 +8,6 @@ import {
   editar_servico_repository,
   editar_statusServico_repository,
   listar_Categorias_repository,
-  filtro_listar_servicos_wanted_repository,
 } from "../services_wanted/service_wanted.repository.js";
 
 let categoriasCache = null;
@@ -138,28 +137,3 @@ export async function listarCategorias_service() {
   categoriasCache = lista_categorias;
   return categoriasCache;
 }
-
-// export async function filtro_listar_servicos_wanted_service(busca, categoryId) {
-//   let numero_categoryId = null;
-
-//   if (busca && busca.trim().length >= 2) {
-//     busca = busca.trim();
-//   } else {
-//     busca = null;
-//   }
-//   if (categoryId) {
-//     let conversao = Number(categoryId);
-//     if (!isNaN(conversao)) {
-//       numero_categoryId = conversao;
-//     }
-//   } else {
-//     numero_categoryId = null;
-//   }
-
-//   let string_busca = busca;
-
-//   return await filtro_listar_servicos_wanted_repository(
-//     string_busca,
-//     numero_categoryId,
-//   );
-// }

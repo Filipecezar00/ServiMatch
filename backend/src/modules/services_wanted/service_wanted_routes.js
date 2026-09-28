@@ -7,9 +7,7 @@ import {
   listar_meusAtivos_controller,
   editar_servico_controller,
   editar_statusServico_controller,
-  buscar_servico_controller,
   listar_categorias_controller,
-  filtro_listar_servicos_wanted_controller,
 } from "./service_wanted_controller.js";
 
 const service_router_wanted = express.Router();
@@ -57,12 +55,6 @@ service_router_wanted.get(
   authMiddleware,
   listar_categorias_controller,
 );
-
-// service_router_wanted.get(
-//   "/buscar-servicos",
-//   authMiddleware,
-//   filtro_listar_servicos_wanted_controller,
-// );
 
 /**
  * @openapi
