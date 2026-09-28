@@ -1,6 +1,10 @@
 import { api } from "../config/api";
 import { extractErrorMessage } from "./utils";
-import { PropostaTroca } from "../types/exchangeTypes";
+import {
+  PropostaTroca,
+  PropostaEnviada,
+  PropostaRecebida,
+} from "../types/exchangeTypes";
 
 export async function criarProposta(
   payload: PropostaTroca,
@@ -16,9 +20,19 @@ export async function criarProposta(
   }
 }
 
-export async function listaPropostasRecebidas() {
+export async function listaPropostasRecebidas(): Promise<PropostaRecebida> {
   try {
     const resposta_api = await api.get(`/exchanges-proposals/listar-recebidas`);
+    return resposta_api.data;
+  } catch (error) {
+    throw new Error(extractErrorMessage(error));
+  }
+}
+
+export async function listaPropostasEnviadas(): Promise<PropostaEnviada> {
+  try {
+    const resposta_api = await api.get(`/exchange-proposals/listar-enviadas`);
+    return resposta_api.data;
   } catch (error) {
     throw new Error(extractErrorMessage(error));
   }
