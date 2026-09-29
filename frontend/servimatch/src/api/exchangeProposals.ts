@@ -20,16 +20,16 @@ export async function criarProposta(
   }
 }
 
-export async function listaPropostasRecebidas(): Promise<PropostaRecebida> {
+export async function listaPropostasRecebidas(): Promise<PropostaRecebida[]> {
   try {
-    const resposta_api = await api.get(`/exchanges-proposals/listar-recebidas`);
+    const resposta_api = await api.get(`/exchange-proposals/listar-recebidas`);
     return resposta_api.data;
   } catch (error) {
     throw new Error(extractErrorMessage(error));
   }
 }
 
-export async function listaPropostasEnviadas(): Promise<PropostaEnviada> {
+export async function listaPropostasEnviadas(): Promise<PropostaEnviada[]> {
   try {
     const resposta_api = await api.get(`/exchange-proposals/listar-enviadas`);
     return resposta_api.data;
