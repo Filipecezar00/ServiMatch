@@ -114,6 +114,8 @@ export function DetalhesServico() {
         <View>
           <Text>{detalhes.titulo}</Text>
           <Text>{detalhes.descricao}</Text>
+          <Text>{detalhes.categoria}</Text>
+          <Text>{detalhes.prestador_nome}</Text>
         </View>
       </ScrollView>
 

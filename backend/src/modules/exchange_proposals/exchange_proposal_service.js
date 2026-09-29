@@ -7,6 +7,8 @@ import {
   buscar_proposta_porId,
   alterar_status_repository,
   exchange_criar,
+  listarPropostasEnviadas_repository,
+  listaPropostasRecebidas_repository,
 } from "./exchange_proposal_repository.js";
 import { pool } from "../../config/database.js";
 
@@ -124,4 +126,21 @@ export async function mudar_status(id, usuarioId, status) {
     }
   }
   return { id, status };
+}
+
+export async function listarPropostasEnviadas_service(usuarioId) {
+  if (!usuarioId) {
+    throw new AppError("Nenhum usuário está vinculado a essa proposta!");
+  }
+
+  const resposta = await listarPropostasEnviadas_repository(usuarioId);
+  return resposta;
+}
+
+export async function listaPropostasRecebidas_service(usuarioId) {
+  if (!usuarioId) {
+    throw new AppError("Nenhum usuário está vinculado a essa proposta!");
+  }
+  const resposta = await listaPropostasRecebidas_repository(usuarioId);
+  return resposta;
 }

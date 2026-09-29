@@ -72,3 +72,44 @@ export async function exchange_criar(id, connection = pool) {
   );
   return resposta;
 }
+
+export async function listarPropostasEnviadas_repository(usuarioId) {
+  const [resposta] = await pool.query(
+    `
+    SELECT ep.id, ep.status, ep.mensagem,
+    ep.created_at, ep.receiver_id, 
+    u.nome AS outro_usuario_nome, 
+    so.titulo AS servico_oferecido_titulo, 
+    sw.titulo AS servico_desejado_titulo, 
+    FROM exchange_proposals ep 
+    JOIN users u ON ep.receiver_id = u.id 
+    JOIN services_offered so ON ep.offered_service_id = so.id 
+    JOIN services_offered sw ON ep.wanted_service_id = sw.id
+    WHERE ep.proposer_id = ? 
+    ORDER BY ep.created_at DESC
+  `,
+    [usuarioId],
+  );
+  return resposta;
+}
+
+export async function listaPropostasRecebidas_repository(usuarioId) {
+  const [resposta] = await pool.query(
+    `
+  SELECT ep.id,ep.status, ep.mensagem,
+  ep.created_at, ep.proposer_id, 
+  u.nome AS outro_usuario_nome, 
+  so.titulo AS servico_oferecido_titulo, 
+  sw.titulo AS servico_desejado_titulo, 
+  FROM exchange_proposals ep 
+  JOIN users u ON ep.proposer_id = u.id 
+  JOIN services_offered so ON ep.offered_service_id = so.id
+  JOIN services_offered sw ON ep.wanted_service_id = sw.id
+  WHERE ep.receiver_id = ?
+  ORDER BY CASE WHEN ep.status = 'pending' THEN 1 ELSE 2 END, 
+  ep.created_at DESC  
+  `,
+    [usuarioId],
+  );
+  return resposta;
+}
