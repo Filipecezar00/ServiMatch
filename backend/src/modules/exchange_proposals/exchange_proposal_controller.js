@@ -26,9 +26,9 @@ export async function mudar_status_controller(req, res, next) {
   try {
     const id = req.params.id;
     const usuarioId = req.usuario.id;
-    const { status } = req.body;
+    const { statusProposta } = req.body;
 
-    const resposta = await mudar_status(id, usuarioId, status);
+    const resposta = await mudar_status(id, usuarioId, statusProposta);
 
     res.status(200).json({ resposta });
   } catch (erro) {

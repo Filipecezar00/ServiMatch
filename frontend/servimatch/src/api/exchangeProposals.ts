@@ -4,6 +4,7 @@ import {
   PropostaTroca,
   PropostaEnviada,
   PropostaRecebida,
+  StatusProposta,
 } from "../types/exchangeTypes";
 
 export async function criarProposta(
@@ -20,18 +21,32 @@ export async function criarProposta(
   }
 }
 
-export async function listaPropostasRecebidas(): Promise<PropostaRecebida> {
+export async function listaPropostasRecebidas(): Promise<PropostaRecebida[]> {
   try {
-    const resposta_api = await api.get(`/exchanges-proposals/listar-recebidas`);
+    const resposta_api = await api.get(`/exchange-proposals/listar-recebidas`);
     return resposta_api.data;
   } catch (error) {
     throw new Error(extractErrorMessage(error));
   }
 }
 
-export async function listaPropostasEnviadas(): Promise<PropostaEnviada> {
+export async function listaPropostasEnviadas(): Promise<PropostaEnviada[]> {
   try {
     const resposta_api = await api.get(`/exchange-proposals/listar-enviadas`);
+    return resposta_api.data;
+  } catch (error) {
+    throw new Error(extractErrorMessage(error));
+  }
+}
+
+export async function alterarStatusProposta(
+  payload: StatusProposta,
+): Promise<StatusProposta> {
+  try {
+    const resposta_api = await api.patch(
+      `/exchange-proposals/${payload.id}/status`,
+      { statusProposta: payload.statusProposta },
+    );
     return resposta_api.data;
   } catch (error) {
     throw new Error(extractErrorMessage(error));

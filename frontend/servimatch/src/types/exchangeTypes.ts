@@ -5,22 +5,20 @@ export interface PropostaTroca {
   mensagem: string;
 }
 
-export interface PropostaRecebida {
+export interface Proposta {
   id: number;
+  titulo: string;
   status: "pending" | "accepted" | "rejected" | "cancelled";
   mensagem: string;
-  created_at: number;
+  created_at: string;
   outro_usuario_nome: string;
   servico_oferecido_titulo: string;
   servico_desejado_titulo: string;
 }
 
-export interface PropostaEnviada {
+export interface StatusProposta {
   id: number;
-  status: "pending" | "accepted" | "rejected" | "cancelled";
-  mensagem: string;
-  created_at: number;
-  outro_usuario_nome: string;
-  servico_oferecido_titulo: string;
-  servico_desejado_titulo: string;
+  statusProposta: "accepted" | "rejected";
 }
+export type PropostaRecebida = Proposta;
+export type PropostaEnviada = Proposta;

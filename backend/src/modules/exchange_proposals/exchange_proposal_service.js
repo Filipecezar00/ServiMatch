@@ -77,7 +77,7 @@ export async function criar_service(
   };
 }
 
-export async function mudar_status(id, usuarioId, status) {
+export async function mudar_status(id, usuarioId, statusProposta) {
   const proposal = await buscar_proposta_porId(id);
 
   if (!proposal) {
@@ -88,7 +88,7 @@ export async function mudar_status(id, usuarioId, status) {
     throw new AppError("Você não pode alterar essa proposta", 403);
   }
 
-  if (status !== "accepted" && status !== "rejected") {
+  if (statusProposta !== "accepted" && status !== "rejected") {
     throw new AppError("Esse status não é válido", 403);
   }
 
@@ -102,7 +102,7 @@ export async function mudar_status(id, usuarioId, status) {
 
     const retorno_banco = await alterar_status_repository(
       id,
-      status,
+      statusProposta,
       connection,
     );
 
@@ -110,7 +110,7 @@ export async function mudar_status(id, usuarioId, status) {
       throw new AppError("O banco não respondeu essa consulta", 404);
     }
 
-    if (status === "accepted") {
+    if (statusProposta === "accepted") {
       await exchange_criar(proposal.id, connection);
     }
     await connection.commit();
@@ -125,7 +125,7 @@ export async function mudar_status(id, usuarioId, status) {
       connection.release();
     }
   }
-  return { id, status };
+  return { id, statusProposta };
 }
 
 export async function listarPropostasEnviadas_service(usuarioId) {
