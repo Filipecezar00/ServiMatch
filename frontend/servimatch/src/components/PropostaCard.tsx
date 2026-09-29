@@ -1,17 +1,20 @@
 import { View, Text, Pressable } from "react-native";
+import { PropostaEnviada, PropostaRecebida } from "../types/exchangeTypes";
 
-export function propostaCardEnviada(
-  outro_usuario_nome: string,
-  created_at: number,
-  mensagem: string,
-  status: "pending" | "accepted" | "rejected" | "cancelled",
-) {
+export function PropostaCardEnviada({
+  outro_usuario_nome,
+  mensagem,
+  status,
+  servico_oferecido_titulo,
+  servico_desejado_titulo,
+}: PropostaEnviada) {
   return (
     <View>
       <Text>Proposta Enviada</Text>
       <View>
+        <Text>Serviço Oferecido: {servico_oferecido_titulo}</Text>
+        <Text>Serviço Desejado: {servico_desejado_titulo}</Text>
         <Text>Destinatario da proposta: {outro_usuario_nome}</Text>
-        <Text>Data de Envio: {created_at}</Text>
         <Text>Observações:{mensagem}</Text>
         <Text>Status Atual: {status}</Text>
       </View>
@@ -19,21 +22,23 @@ export function propostaCardEnviada(
   );
 }
 
-export function propostaCardRecebida(
-  outro_usuario_nome: string,
-  created_at: number,
-  mensagem: string,
-  status: "pending" | "accepted" | "rejected" | "cancelled",
-) {
+export function PropostaCardRecebida({
+  outro_usuario_nome,
+  mensagem,
+  status,
+  servico_desejado_titulo,
+  servico_oferecido_titulo,
+}: PropostaRecebida) {
   return (
     <View>
       <Text>Proposta Recebida</Text>
       <View>
-        <Text>Destinatario da proposta: {outro_usuario_nome}</Text>
-        <Text>Data de Envio: {created_at}</Text>
+        <Text>Serviço desejado: {servico_desejado_titulo}</Text>
+        <Text>Serviço oferecido: {servico_oferecido_titulo}</Text>
+        <Text>Remetente da proposta: {outro_usuario_nome}</Text>
         <Text>Observações:{mensagem}</Text>
         <View>
-          Status Atual:{" "}
+          <Text>Status Atual: </Text>
           {status === "pending" ? (
             <View>
               <Pressable>
