@@ -40,7 +40,7 @@ export async function listaPropostasRecebidas_controller(req, res, next) {
   try {
     const usuarioId = req.usuario.id;
     const resposta = await listaPropostasRecebidas_service(usuarioId);
-    return res.status(200).json({ resposta });
+    return res.status(200).json(resposta);
   } catch (error) {
     next(error);
   }
@@ -51,7 +51,7 @@ export async function listaPropostasEnviadas_controller(req, res, next) {
     const usuarioId = req.usuario.id;
     const resposta = await listarPropostasEnviadas_service(usuarioId);
 
-    return res.status(200).json({ resposta });
+    return res.status(200).json(resposta);
   } catch (error) {
     next(error);
   }

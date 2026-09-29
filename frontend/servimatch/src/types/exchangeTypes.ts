@@ -22,3 +22,24 @@ export interface StatusProposta {
 }
 export type PropostaRecebida = Proposta;
 export type PropostaEnviada = Proposta;
+
+export interface Troca {
+  id: number;
+  status: "scheduled" | "in_progress" | "completed" | "cancelled" | "disputed";
+  created_at: string;
+  completed_at: string | null;
+  outro_usuario_nome: string;
+  servico_oferecido_titulo: string;
+  servico_desejado_titulo: string;
+}
+
+export interface TrocaCardProps {
+  troca: Troca;
+  onConcluir: (id: number) => void;
+  isLoading: boolean;
+}
+
+export interface ConcluirTrocaParams {
+  trocaId: number;
+  avaliacao: number | null;
+}

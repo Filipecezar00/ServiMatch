@@ -80,7 +80,7 @@ export async function listarPropostasEnviadas_repository(usuarioId) {
     ep.created_at, ep.receiver_id, 
     u.nome AS outro_usuario_nome, 
     so.titulo AS servico_oferecido_titulo, 
-    sw.titulo AS servico_desejado_titulo, 
+    sw.titulo AS servico_desejado_titulo 
     FROM exchange_proposals ep 
     JOIN users u ON ep.receiver_id = u.id 
     JOIN services_offered so ON ep.offered_service_id = so.id 
@@ -100,7 +100,7 @@ export async function listaPropostasRecebidas_repository(usuarioId) {
   ep.created_at, ep.proposer_id, 
   u.nome AS outro_usuario_nome, 
   so.titulo AS servico_oferecido_titulo, 
-  sw.titulo AS servico_desejado_titulo, 
+  sw.titulo AS servico_desejado_titulo 
   FROM exchange_proposals ep 
   JOIN users u ON ep.proposer_id = u.id 
   JOIN services_offered so ON ep.offered_service_id = so.id
