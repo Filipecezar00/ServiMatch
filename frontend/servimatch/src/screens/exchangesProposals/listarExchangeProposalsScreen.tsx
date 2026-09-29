@@ -59,6 +59,23 @@ export function MinhasPropostas() {
         <Text>Oferecidas</Text>
       </Pressable>
 
+      {isError && (
+        <View>
+          <Text>Erro durante Execução</Text>
+          <Pressable onPress={() => refetch}>
+            <Text>Tente Novamente</Text>
+          </Pressable>
+        </View>
+      )}
+
+      {erroPropostaEnviada && (
+        <View>
+          <Text>Erro durante Execução</Text>
+          <Pressable onPress={() => refetch}>
+            <Text>Tente Novamente</Text>
+          </Pressable>
+        </View>
+      )}
       {abaAtiva == "oferecidas" ? (
         <FlatList
           data={propostasEnviadas}
