@@ -4,7 +4,13 @@ import {
   listaPropostasRecebidas,
 } from "../../api/exchangeProposals";
 import { useState } from "react";
-import { Pressable, View, Text, FlatList } from "react-native";
+import {
+  Pressable,
+  View,
+  Text,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import {
   PropostaCardEnviada,
   PropostaCardRecebida,
@@ -18,6 +24,8 @@ export function MinhasPropostasScreen() {
     data: propostasRecebidas,
     isError,
     isLoading,
+    refetch,
+    isFetching,
   } = useQuery({
     queryKey: ["PropostasRecebidas"],
     queryFn: listaPropostasRecebidas,
@@ -27,11 +35,20 @@ export function MinhasPropostasScreen() {
     data: propostasEnviadas,
     isError: erroPropostaEnviada,
     isLoading: carregamentoPropostaEnviada,
+    refetch: refetchPropostasEnviadas,
+    isFetching: isFetchingPropostasEnviadas,
   } = useQuery({
     queryKey: ["PropostasEnviadas"],
     queryFn: listaPropostasEnviadas,
   });
 
+  if (isLoading || carregamentoPropostaEnviada) {
+    return (
+      <View>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
   return (
     <View>
       <Pressable onPress={() => setAbaAtiva("recebidas")}>
@@ -45,38 +62,20 @@ export function MinhasPropostasScreen() {
         <FlatList
           data={propostasEnviadas}
           keyExtractor={(item) => String(item?.id)}
+          refreshing={isFetchingPropostasEnviadas}
+          onRefresh={refetchPropostasEnviadas}
           renderItem={({ item }) => {
-            return (
-              <PropostaCardEnviada
-                id={item.id}
-                outro_usuario_nome={item.outro_usuario_nome}
-                mensagem={item.mensagem}
-                status={item.status}
-                servico_desejado_titulo={item.servico_desejado_titulo}
-                servico_oferecido_titulo={item.servico_oferecido_titulo}
-                titulo={item.titulo}
-                created_at={item.created_at}
-              />
-            );
+            return <PropostaCardEnviada {...item} />;
           }}
         />
       ) : (
         <FlatList
           data={propostasRecebidas}
           keyExtractor={(item) => String(item?.id)}
+          refreshing={isFetching}
+          onRefresh={refetch}
           renderItem={({ item }) => {
-            return (
-              <PropostaCardRecebida
-                id={item.id}
-                outro_usuario_nome={item.outro_usuario_nome}
-                mensagem={item.mensagem}
-                status={item.status}
-                servico_desejado_titulo={item.servico_desejado_titulo}
-                servico_oferecido_titulo={item.servico_oferecido_titulo}
-                titulo={item.titulo}
-                created_at={item.created_at}
-              />
-            );
+            return <PropostaCardRecebida {...item} />;
           }}
         />
       )}
