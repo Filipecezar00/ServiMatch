@@ -18,7 +18,7 @@ export interface Proposta {
 
 export interface StatusProposta {
   id: number;
-  status: "accepted | rejected";
+  statusProposta: "accepted" | "rejected";
 }
 export type PropostaRecebida = Proposta;
 export type PropostaEnviada = Proposta;

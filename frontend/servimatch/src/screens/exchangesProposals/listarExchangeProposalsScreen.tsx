@@ -20,6 +20,7 @@ export function MinhasPropostasScreen() {
   const [abaAtiva, setAbaAtiva] = useState<"recebidas" | "oferecidas">(
     "recebidas",
   );
+
   const {
     data: propostasRecebidas,
     isError,

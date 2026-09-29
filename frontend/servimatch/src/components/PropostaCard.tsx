@@ -1,5 +1,7 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, Alert } from "react-native";
 import { PropostaEnviada, PropostaRecebida } from "../types/exchangeTypes";
+import { alterarStatusProposta } from "../api/exchangeProposals";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function PropostaCardEnviada({
   outro_usuario_nome,
@@ -23,6 +25,7 @@ export function PropostaCardEnviada({
 }
 
 export function PropostaCardRecebida({
+  id,
   outro_usuario_nome,
   mensagem,
   status,
@@ -31,6 +34,34 @@ export function PropostaCardRecebida({
   titulo,
   created_at,
 }: PropostaRecebida) {
+  const queryClient = useQueryClient();
+
+  const { mutate, isPending, isError, error } = useMutation({
+    mutationKey: ["statusProposta"],
+    mutationFn: alterarStatusProposta,
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["PropostasRecebidas"] });
+      Alert.alert("Status alterado com sucesso");
+    },
+    onError: () => {
+      Alert.alert("Erro ao alterar Status da Proposta");
+    },
+  });
+
+  const handleStatus = (
+    id: number,
+    statusProposta: "accepted" | "rejected",
+  ) => {
+    if (!id) {
+      return;
+    }
+    if (!statusProposta) {
+      return;
+    }
+    mutate({ id, statusProposta });
+  };
+
   return (
     <View>
       <Text>Proposta Recebida</Text>
@@ -43,10 +74,16 @@ export function PropostaCardRecebida({
           <Text>Status Atual: </Text>
           {status === "pending" ? (
             <View>
-              <Pressable>
+              <Pressable
+                onPress={() => handleStatus(id, "accepted")}
+                disabled={isPending}
+              >
                 <Text>Aceitar</Text>
               </Pressable>
-              <Pressable>
+              <Pressable
+                onPress={() => handleStatus(id, "rejected")}
+                disabled={isPending}
+              >
                 <Text>Recusar</Text>
               </Pressable>
             </View>

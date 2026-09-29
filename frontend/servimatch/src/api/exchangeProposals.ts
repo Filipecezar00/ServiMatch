@@ -4,6 +4,7 @@ import {
   PropostaTroca,
   PropostaEnviada,
   PropostaRecebida,
+  StatusProposta,
 } from "../types/exchangeTypes";
 
 export async function criarProposta(
@@ -38,4 +39,16 @@ export async function listaPropostasEnviadas(): Promise<PropostaEnviada[]> {
   }
 }
 
-export async function alterarStatusProposta();
+export async function alterarStatusProposta(
+  payload: StatusProposta,
+): Promise<StatusProposta> {
+  try {
+    const resposta_api = await api.patch(
+      `/exchange-proposals/${payload.id}/status`,
+      { statusProposta: payload.statusProposta },
+    );
+    return resposta_api.data;
+  } catch (error) {
+    throw new Error(extractErrorMessage(error));
+  }
+}
