@@ -37,3 +37,5 @@ export async function listaPropostasEnviadas(): Promise<PropostaEnviada[]> {
     throw new Error(extractErrorMessage(error));
   }
 }
+
+export async function alterarStatusProposta();

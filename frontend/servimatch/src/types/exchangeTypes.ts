@@ -16,5 +16,9 @@ export interface Proposta {
   servico_desejado_titulo: string;
 }
 
+export interface StatusProposta {
+  id: number;
+  status: "accepted | rejected";
+}
 export type PropostaRecebida = Proposta;
 export type PropostaEnviada = Proposta;
