@@ -16,7 +16,7 @@ import {
   PropostaCardRecebida,
 } from "../../components/PropostaCard";
 
-export function MinhasPropostasScreen() {
+export function MinhasPropostas() {
   const [abaAtiva, setAbaAtiva] = useState<"recebidas" | "oferecidas">(
     "recebidas",
   );

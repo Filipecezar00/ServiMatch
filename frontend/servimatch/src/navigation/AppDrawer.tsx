@@ -10,6 +10,7 @@ import {
   ServicesOfferedStack,
   ServicesWantedStack,
   HomeStack,
+  ExchangeStack,
 } from "../navigation/ServicesStack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -17,6 +18,7 @@ type AppDrawerParamList = {
   HomeStack: undefined;
   MeusServicosOffered: undefined;
   MeusServicosWanted: undefined;
+  ExchangeStack: undefined;
 };
 
 const Drawer = createDrawerNavigator<AppDrawerParamList>();
@@ -64,6 +66,11 @@ export function AppDrawer() {
         component={ServicesWantedStack}
         name="MeusServicosWanted"
         options={{ headerShown: false, title: "Meus Serviços Desejados" }}
+      />
+      <Drawer.Screen
+        component={ExchangeStack}
+        name="ExchangeStack"
+        options={{ headerShown: false, title: "Minhas Propostas" }}
       />
     </Drawer.Navigator>
   );

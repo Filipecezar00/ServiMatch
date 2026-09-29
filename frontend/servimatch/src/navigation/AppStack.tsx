@@ -7,6 +7,7 @@ import { CriarServicoWanted } from "../screens/services_wanted/CriarServicoScree
 import { EditarServicoWanted } from "../screens/services_wanted/EditarServicoScreen";
 import { ListarServicosProcurados } from "../screens/services_wanted/MeusServicosScreen";
 import { DetalhesServico } from "../screens/services_wanted/DetalhesServicoScreen";
+import { MinhasPropostas } from "../screens/exchangesProposals/listarExchangeProposalsScreen";
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
 
@@ -29,6 +30,7 @@ export function AppNavigator() {
         component={ListarServicosProcurados}
       />
       <Stack.Screen name="DetalhesServico" component={DetalhesServico} />
+      <Stack.Screen name="MinhasPropostas" component={MinhasPropostas} />
     </Stack.Navigator>
   );
 }
