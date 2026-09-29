@@ -7,6 +7,7 @@ export interface PropostaTroca {
 
 export interface Proposta {
   id: number;
+  titulo: string;
   status: "pending" | "accepted" | "rejected" | "cancelled";
   mensagem: string;
   created_at: string;

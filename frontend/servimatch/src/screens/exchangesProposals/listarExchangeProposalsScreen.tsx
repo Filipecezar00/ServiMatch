@@ -5,9 +5,15 @@ import {
 } from "../../api/exchangeProposals";
 import { useState } from "react";
 import { Pressable, View, Text, FlatList } from "react-native";
+import {
+  PropostaCardEnviada,
+  PropostaCardRecebida,
+} from "../../components/PropostaCard";
 
-export function listarExchangesProposals() {
-  const [isMenu, setIsMenu] = useState(false);
+export function MinhasPropostasScreen() {
+  const [abaAtiva, setAbaAtiva] = useState<"recebidas" | "oferecidas">(
+    "recebidas",
+  );
   const {
     data: propostasRecebidas,
     isError,
@@ -26,52 +32,50 @@ export function listarExchangesProposals() {
     queryFn: listaPropostasEnviadas,
   });
 
-  const handleMenu = () => {
-    setMenu(!isMenu);
-  };
-
   return (
     <View>
-      <Pressable onPress={handleMenu}>
+      <Pressable onPress={() => setAbaAtiva("recebidas")}>
         <Text>Recebidas</Text>
       </Pressable>
-      <Pressable onPress={handleMenu}>
+      <Pressable onPress={() => setAbaAtiva("oferecidas")}>
         <Text>Oferecidas</Text>
       </Pressable>
 
-      {isMenu ? (
+      {abaAtiva == "oferecidas" ? (
         <FlatList
-          data={[propostasEnviadas]}
-          keyExtractor={(item) => item?.id}
+          data={propostasEnviadas}
+          keyExtractor={(item) => String(item?.id)}
           renderItem={({ item }) => {
             return (
-              <View>
-                <Text>{item?.titulo}</Text>
-                <Text>{item?.status}</Text>
-                <Text>{item?.mensagem}</Text>
-                <Text>{item?.created_at}</Text>
-                <Text>{item?.outro_usuario_nome}</Text>
-                <Text>{item?.servico_oferecido_titulo}</Text>
-                <Text>{item?.servico_desejado_titulo}</Text>
-              </View>
+              <PropostaCardEnviada
+                id={item.id}
+                outro_usuario_nome={item.outro_usuario_nome}
+                mensagem={item.mensagem}
+                status={item.status}
+                servico_desejado_titulo={item.servico_desejado_titulo}
+                servico_oferecido_titulo={item.servico_oferecido_titulo}
+                titulo={item.titulo}
+                created_at={item.created_at}
+              />
             );
           }}
         />
       ) : (
         <FlatList
-          data={[propostasRecebidas]}
-          keyExtractor={(item) => item?.id}
+          data={propostasRecebidas}
+          keyExtractor={(item) => String(item?.id)}
           renderItem={({ item }) => {
             return (
-              <View>
-                <Text>{item?.titulo}</Text>
-                <Text>{item?.status}</Text>
-                <Text>{item?.mensagem}</Text>
-                <Text>{item?.created_at}</Text>
-                <Text>{item?.outro_usuario_nome}</Text>
-                <Text>{item?.servico_oferecido_titulo}</Text>
-                <Text>{item?.servico_desejado_titulo}</Text>
-              </View>
+              <PropostaCardRecebida
+                id={item.id}
+                outro_usuario_nome={item.outro_usuario_nome}
+                mensagem={item.mensagem}
+                status={item.status}
+                servico_desejado_titulo={item.servico_desejado_titulo}
+                servico_oferecido_titulo={item.servico_oferecido_titulo}
+                titulo={item.titulo}
+                created_at={item.created_at}
+              />
             );
           }}
         />

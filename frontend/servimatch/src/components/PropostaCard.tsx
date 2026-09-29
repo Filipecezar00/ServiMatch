@@ -28,6 +28,8 @@ export function PropostaCardRecebida({
   status,
   servico_desejado_titulo,
   servico_oferecido_titulo,
+  titulo,
+  created_at,
 }: PropostaRecebida) {
   return (
     <View>
