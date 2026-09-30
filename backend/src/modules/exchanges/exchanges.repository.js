@@ -4,17 +4,21 @@ export async function listar_exchanges_repository(usuarioId) {
   const [resposta] = await pool.query(
     `
      SELECT e.*, ep.proposer_id, ep.receiver_id,
-     u.nome AS outro_usuario_nome,
      so.titulo AS servico_oferecido_titulo,
-     sw.titulo AS servico_desejado_titulo
+     sw.titulo AS servico_desejado_titulo,
+     CASE 
+       WHEN ep.proposer_id = ? THEN u_receiver.nome
+     ELSE u_proposer.nome
+     END AS outro_usuario_nome
      FROM exchanges e JOIN exchange_proposals ep ON e.proposal_id = ep.id
-     JOIN users u ON ep.proposer_id = u.id
+     JOIN users u_proposer ON ep.proposer_id = u_proposer.id
+     JOIN users u_receiver ON ep.receiver_id = u_receiver.id
      JOIN services_offered so ON ep.offered_service_id = so.id
      JOIN services_wanted sw ON ep.wanted_service_id = sw.id
      WHERE ep.proposer_id = ? OR ep.receiver_id = ?
-
+     
     `,
-    [usuarioId, usuarioId],
+    [usuarioId, usuarioId, usuarioId],
   );
   return resposta;
 }
