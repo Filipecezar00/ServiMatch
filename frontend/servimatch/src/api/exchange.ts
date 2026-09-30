@@ -2,7 +2,7 @@ import { api } from "../config/api";
 import { extractErrorMessage } from "./utils";
 import { Troca } from "../types/exchangeTypes";
 
-export async function Troca() {
+export async function listarTrocas(): Promise<Troca[]> {
   try {
     const resposta = await api.get("/exchange/listar");
     return resposta.data;
