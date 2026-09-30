@@ -1,6 +1,8 @@
 import { useFocusEffect } from "@react-navigation/native";
-import { useQuery } from "@tanstack/react-query";
-import { listarTrocas } from "../../api/exchange";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { listarTrocas, cancelarTroca, concluirTroca } from "../../api/exchange";
 import React from "react";
 import {
   View,
@@ -8,6 +10,7 @@ import {
   Text,
   FlatList,
   Pressable,
+  Alert,
 } from "react-native";
 
 export function MinhasTrocas() {
@@ -20,6 +23,38 @@ export function MinhasTrocas() {
   } = useQuery({
     queryKey: ["MinhasTrocas"],
     queryFn: listarTrocas,
+  });
+  const [isStatus, setIsStatus] = useState<"cancelled" | "completed" | null>(
+    null,
+  );
+  const queryClient = useQueryClient();
+
+  const {
+    mutate,
+    isError: errorConcluir,
+    isPending: carregandoConclusao,
+  } = useMutation({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["MinhasTrocas"] });
+      Alert.alert("Troca concluida com Sucesso");
+    },
+    onError: (error) => {
+      return Alert.alert("Erro ao Concluir Troca:", error?.message);
+    },
+  });
+
+  const {
+    mutate: mutateCancelar,
+    isError: errorCancelar,
+    isPending: carregandoCancelar,
+  } = useMutation({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["MinhasTrocas"] });
+      Alert.alert("Troca cancelada com Sucesso");
+    },
+    onError: (error) => {
+      return Alert.alert("Erro ao Cancelar Troca:", error?.message);
+    },
   });
 
   useFocusEffect(
