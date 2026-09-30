@@ -3,9 +3,16 @@ import { pool } from "../../config/database.js";
 export async function listar_exchanges_repository(usuarioId) {
   const [resposta] = await pool.query(
     `
-    SELECT e.*, ep.proposer_id, ep.receiver_id
-    FROM exchanges e JOIN exchange_proposals ep ON e.proposal_id = ep.id
-    WHERE ep.proposer_id = ? OR ep.receiver_id = ? 
+     SELECT e.*, ep.proposer_id, ep.receiver_id,
+     u.nome AS outro_usuario_nome,
+     so.titulo AS servico_oferecido_titulo,
+     sw.titulo AS servico_desejado_titulo
+     FROM exchanges e JOIN exchange_proposals ep ON e.proposal_id = ep.id
+     JOIN users u ON ep.proposer_id = u.id
+     JOIN services_offered so ON ep.offered_service_id = so.id
+     JOIN services_wanted sw ON ep.wanted_service_id = sw.id
+     WHERE ep.proposer_id = ? OR ep.receiver_id = ?
+
     `,
     [usuarioId, usuarioId],
   );
