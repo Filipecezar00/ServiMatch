@@ -21,3 +21,14 @@ export async function concluirTroca(
     throw new Error(extractErrorMessage(error));
   }
 }
+
+export async function cancelarTroca(
+  payload: FinalizarTroca,
+): Promise<FinalizarTroca> {
+  try {
+    const resposta = await api.patch(`/exchange/${payload.id}/cancelar`);
+    return resposta.data;
+  } catch (error) {
+    throw new Error(extractErrorMessage(error));
+  }
+}
