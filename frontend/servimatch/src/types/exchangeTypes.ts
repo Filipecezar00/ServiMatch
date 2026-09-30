@@ -36,13 +36,19 @@ export interface Troca {
   servico_oferecido_titulo: string;
   servico_desejado_titulo: string;
 }
-export interface TrocaCardProps {
-  troca: Troca;
-  onConcluir: (id: number) => void;
-  isLoading: boolean;
+
+export interface FinalizarTroca {
+  id: number;
+  status: "cancelled" | "completed";
 }
 
-export interface ConcluirTrocaParams {
-  trocaId: number;
-  avaliacao: number | null;
-}
+// export interface TrocaCardProps {
+//   troca: Troca;
+//   onConcluir: (id: number) => void;
+//   isLoading: boolean;
+// }
+
+// export interface ConcluirTrocaParams {
+//   trocaId: number;
+//   avaliacao: number | null;
+// }
