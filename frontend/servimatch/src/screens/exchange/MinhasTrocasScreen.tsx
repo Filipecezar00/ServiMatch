@@ -24,16 +24,16 @@ export function MinhasTrocas() {
     queryKey: ["MinhasTrocas"],
     queryFn: listarTrocas,
   });
-  const [isStatus, setIsStatus] = useState<"cancelled" | "completed" | null>(
-    null,
-  );
+
   const queryClient = useQueryClient();
 
   const {
     mutate,
     isError: errorConcluir,
     isPending: carregandoConclusao,
+    variables: variablesConcluir,
   } = useMutation({
+    mutationFn: concluirTroca,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["MinhasTrocas"] });
       Alert.alert("Troca concluida com Sucesso");
@@ -47,7 +47,9 @@ export function MinhasTrocas() {
     mutate: mutateCancelar,
     isError: errorCancelar,
     isPending: carregandoCancelar,
+    variables,
   } = useMutation({
+    mutationFn: cancelarTroca,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["MinhasTrocas"] });
       Alert.alert("Troca cancelada com Sucesso");
@@ -59,11 +61,18 @@ export function MinhasTrocas() {
 
   useFocusEffect(
     React.useCallback(() => {
-      return () => {
-        refetch();
-      };
-    }, []),
+      refetch();
+      return () => {};
+    }, [refetch]),
   );
+
+  const handleStatusTroca = (id: number, status: "cancelled" | "completed") => {
+    if (status === "completed") {
+      mutate({ id, status: "completed" });
+    } else {
+      mutateCancelar({ id, status: "cancelled" });
+    }
+  };
 
   if (isPending) {
     return (
@@ -79,7 +88,7 @@ export function MinhasTrocas() {
       {isError && (
         <View>
           <Text>Erro durante Processamento</Text>
-          <Pressable onPress={() => refetch}>
+          <Pressable onPress={() => refetch()}>
             <Text>Tente Novamente</Text>
           </Pressable>
         </View>
@@ -106,6 +115,29 @@ export function MinhasTrocas() {
                 <Text>Completado em: {item.completed_at}</Text>
               )}
               {item.notes && <Text>Avalição: {item?.notes}</Text>}
+
+              {item.status == "scheduled" && (
+                <View>
+                  <Pressable
+                    onPress={() => handleStatusTroca(item.id, "completed")}
+                    disabled={
+                      carregandoConclusao && variablesConcluir?.id === item.id
+                    }
+                  >
+                    {carregandoConclusao && (
+                      <ActivityIndicator size={"small"} />
+                    )}
+                    Completar Troca
+                  </Pressable>
+                  <Pressable
+                    onPress={() => handleStatusTroca(item.id, "cancelled")}
+                    disabled={carregandoCancelar && variables?.id === item.id}
+                  >
+                    {carregandoCancelar && <ActivityIndicator size={"small"} />}
+                    Cancelar Troca
+                  </Pressable>
+                </View>
+              )}
             </View>
           );
         }}
