@@ -26,20 +26,29 @@ export type PropostaEnviada = Proposta;
 export interface Troca {
   id: number;
   status: "scheduled" | "in_progress" | "completed" | "cancelled" | "disputed";
-  created_at: string;
+  scheduled_date: string | null;
+  location: string | null;
+  notes: string | null;
   completed_at: string | null;
+  proposer_id: number;
+  receiver_id: number;
   outro_usuario_nome: string;
   servico_oferecido_titulo: string;
   servico_desejado_titulo: string;
 }
 
-export interface TrocaCardProps {
-  troca: Troca;
-  onConcluir: (id: number) => void;
-  isLoading: boolean;
+export interface FinalizarTroca {
+  id: number;
+  status: "cancelled" | "completed";
 }
 
-export interface ConcluirTrocaParams {
-  trocaId: number;
-  avaliacao: number | null;
-}
+// export interface TrocaCardProps {
+//   troca: Troca;
+//   onConcluir: (id: number) => void;
+//   isLoading: boolean;
+// }
+
+// export interface ConcluirTrocaParams {
+//   trocaId: number;
+//   avaliacao: number | null;
+// }
