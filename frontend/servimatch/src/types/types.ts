@@ -12,4 +12,5 @@ export type AppStackParamList = {
   EditarServicoProcurado: { id: number };
   DetalhesServico: { id: number };
   MinhasPropostas: { id: number };
+  MinhasTrocas: undefined;
 };

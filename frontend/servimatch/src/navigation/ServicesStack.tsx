@@ -8,6 +8,7 @@ import { EditarServicoWanted } from "../screens/services_wanted/EditarServicoScr
 import { DetalhesServico } from "../screens/services_wanted/DetalhesServicoScreen";
 import { HomeScreen } from "../screens/HomeScreen";
 import { MinhasPropostas } from "../screens/exchangesProposals/listarExchangeProposalsScreen";
+import { MinhasTrocas } from "../screens/exchange/MinhasTrocasScreen";
 
 export type ServiceStackOfferedParamList = {
   ListarMeusServicos: undefined;
@@ -28,12 +29,13 @@ export type HomeStack = {
 
 export type ExchangeStack = {
   MinhasPropostas: { id: number };
+  MinhasTrocas: undefined;
 };
 
 const Stack = createNativeStackNavigator<ServiceStackOfferedParamList>();
 const Stack_Wanted = createNativeStackNavigator<ServiceStackWantedParamList>();
 const Stack_Home = createNativeStackNavigator<HomeStack>();
-const Exchange_Stack = createNativeStackNavigator<ExchangeStack>();
+const Exchange_stack = createNativeStackNavigator<ExchangeStack>();
 
 export function ServicesOfferedStack() {
   return (
@@ -76,11 +78,12 @@ export function HomeStack() {
 
 export function ExchangeStack() {
   return (
-    <Exchange_Stack.Navigator initialRouteName="MinhasPropostas">
-      <Exchange_Stack.Screen
+    <Exchange_stack.Navigator initialRouteName="MinhasPropostas">
+      <Exchange_stack.Screen
         component={MinhasPropostas}
         name="MinhasPropostas"
       />
-    </Exchange_Stack.Navigator>
+      <Exchange_stack.Screen component={MinhasTrocas} name="MinhasTrocas" />
+    </Exchange_stack.Navigator>
   );
 }

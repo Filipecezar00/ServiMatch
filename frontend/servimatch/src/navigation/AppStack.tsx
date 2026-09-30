@@ -8,6 +8,7 @@ import { EditarServicoWanted } from "../screens/services_wanted/EditarServicoScr
 import { ListarServicosProcurados } from "../screens/services_wanted/MeusServicosScreen";
 import { DetalhesServico } from "../screens/services_wanted/DetalhesServicoScreen";
 import { MinhasPropostas } from "../screens/exchangesProposals/listarExchangeProposalsScreen";
+import { MinhasTrocas } from "../screens/exchange/MinhasTrocasScreen";
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
 
@@ -31,6 +32,7 @@ export function AppNavigator() {
       />
       <Stack.Screen name="DetalhesServico" component={DetalhesServico} />
       <Stack.Screen name="MinhasPropostas" component={MinhasPropostas} />
+      <Stack.Screen name="MinhasTrocas" component={MinhasTrocas} />
     </Stack.Navigator>
   );
 }

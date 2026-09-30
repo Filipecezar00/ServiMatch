@@ -1,6 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { listarTrocas, cancelarTroca, concluirTroca } from "../../api/exchange";
 import React from "react";
