@@ -1,10 +1,10 @@
 .env
-node_modules
+node_modules/
 clover.xml
 Lcov.info
 base.css
 block-navigation.js
-favicon.png
+favicon.pngS
 index.html
 prettify.css
 prettify.js
