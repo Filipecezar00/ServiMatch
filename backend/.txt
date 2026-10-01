@@ -1,5 +1,4 @@
 
-
 //função cadastro
 //Extração do email, nome e senha no req.body(controller);
 
