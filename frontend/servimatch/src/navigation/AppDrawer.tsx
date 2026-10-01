@@ -9,8 +9,9 @@ import { useAuthStore } from "../stores/useAuthStore";
 import {
   ServicesOfferedStack,
   ServicesWantedStack,
-  HomeStack,
-  ExchangeStack,
+  HomeScreenStack,
+  ProposalsStack,
+  Exchanges_stack
 } from "../navigation/ServicesStack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -18,7 +19,8 @@ type AppDrawerParamList = {
   HomeStack: undefined;
   MeusServicosOffered: undefined;
   MeusServicosWanted: undefined;
-  ExchangeStack: undefined;
+  ProposalStack: undefined;
+  ExchangesStack:undefined;
 };
 
 const Drawer = createDrawerNavigator<AppDrawerParamList>();
@@ -53,7 +55,7 @@ export function AppDrawer() {
       }}
     >
       <Drawer.Screen
-        component={HomeStack}
+        component={HomeScreenStack}
         name="HomeStack"
         options={{ headerShown: false, title: "Home" }}
       />
@@ -68,9 +70,14 @@ export function AppDrawer() {
         options={{ headerShown: false, title: "Meus Serviços Desejados" }}
       />
       <Drawer.Screen
-        component={ExchangeStack}
-        name="ExchangeStack"
+        component={ProposalsStack}
+        name="ProposalStack"
         options={{ headerShown: false, title: "Minhas Propostas" }}
+      />
+      <Drawer.Screen
+      component={Exchanges_stack}
+      name="ExchangesStack"
+      options={{headerShown:false,title:"Minhas Trocas"}}
       />
     </Drawer.Navigator>
   );

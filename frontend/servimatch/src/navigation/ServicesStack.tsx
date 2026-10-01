@@ -27,15 +27,20 @@ export type HomeStack = {
   DetalhesServico: { id: number };
 };
 
-export type ExchangeStack = {
+export type ProposalStack = {
   MinhasPropostas: { id: number };
-  MinhasTrocas: undefined;
 };
+
+export type ExchangesStack = {
+  MinhasTrocas: undefined;
+}
 
 const Stack = createNativeStackNavigator<ServiceStackOfferedParamList>();
 const Stack_Wanted = createNativeStackNavigator<ServiceStackWantedParamList>();
 const Stack_Home = createNativeStackNavigator<HomeStack>();
-const Exchange_stack = createNativeStackNavigator<ExchangeStack>();
+const Proposal_stack = createNativeStackNavigator<ProposalStack>();
+const Exchange_stack = createNativeStackNavigator<ExchangesStack>();
+
 
 export function ServicesOfferedStack() {
   return (
@@ -67,7 +72,7 @@ export function ServicesWantedStack() {
   );
 }
 
-export function HomeStack() {
+export function HomeScreenStack() {
   return (
     <Stack_Home.Navigator initialRouteName="Home">
       <Stack_Home.Screen component={HomeScreen} name="Home" />
@@ -76,14 +81,21 @@ export function HomeStack() {
   );
 }
 
-export function ExchangeStack() {
+export function ProposalsStack() {
   return (
-    <Exchange_stack.Navigator initialRouteName="MinhasPropostas">
-      <Exchange_stack.Screen
+    <Proposal_stack.Navigator initialRouteName="MinhasPropostas">
+      <Proposal_stack.Screen
         component={MinhasPropostas}
         name="MinhasPropostas"
       />
-      <Exchange_stack.Screen component={MinhasTrocas} name="MinhasTrocas" />
-    </Exchange_stack.Navigator>
+    </Proposal_stack.Navigator>
   );
+}
+
+export function Exchanges_stack(){
+  return(
+    <Exchange_stack.Navigator initialRouteName="MinhasTrocas">
+      <Exchange_stack.Screen component={MinhasTrocas} name="MinhasTrocas"/>
+    </Exchange_stack.Navigator> 
+  )
 }
