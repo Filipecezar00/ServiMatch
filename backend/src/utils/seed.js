@@ -1,4 +1,4 @@
-import { pool } from "../config/database";
+import { pool } from "../config/database.js";
 
 async function runSeeder(){
     try{
@@ -10,9 +10,10 @@ async function runSeeder(){
         await pool.query(`TRUNCATE TABLE exchange_proposals`);
         await pool.query(`TRUNCATE TABLE services_offered`);
         await pool.query(`TRUNCATE TABLE services_wanted`);
-        await pool.query(`TRUNCATE TABLE FROM users`);
+        await pool.query(`TRUNCATE TABLE categories`); 
+        await pool.query(`TRUNCATE TABLE users`);
 
-        await pool.query(`SET FOREIGN_KEYS_CHECKS = 1`); 
+        await pool.query(`SET FOREIGN_KEY_CHECKS = 1`); 
 
         await pool.query(`INSERT INTO users (nome,email,senha) VALUES('Carlos','carlos@gmail.com','Carlos@22')`);
         await pool.query(`INSERT INTO users (nome,email,senha) VALUES('Ana','ana@gmail.com','Ana@22')`);
