@@ -37,18 +37,17 @@ export interface Troca {
   servico_desejado_titulo: string;
 }
 
+
+export interface TrocaEditada{
+  status:"scheduled" | "in_progress" | "completed" | "cancelled" | "disputed";
+  schedule_date:string; 
+  location:string;
+  notes:string;
+  exchangeId:number; 
+  usuarioId:number;
+}
+
 export interface FinalizarTroca {
   id: number;
   status: "cancelled" | "completed";
 }
-
-// export interface TrocaCardProps {
-//   troca: Troca;
-//   onConcluir: (id: number) => void;
-//   isLoading: boolean;
-// }
-
-// export interface ConcluirTrocaParams {
-//   trocaId: number;
-//   avaliacao: number | null;
-// }
