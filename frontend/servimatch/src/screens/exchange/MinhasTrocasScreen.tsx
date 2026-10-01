@@ -126,14 +126,15 @@ export function MinhasTrocas() {
                     {carregandoConclusao && (
                       <ActivityIndicator size={"small"} />
                     )}
-                    Completar Troca
+                    <Text>Completar Troca</Text>
+                    
                   </Pressable>
                   <Pressable
                     onPress={() => handleStatusTroca(item.id, "cancelled")}
                     disabled={carregandoCancelar && variables?.id === item.id}
                   >
                     {carregandoCancelar && <ActivityIndicator size={"small"} />}
-                    Cancelar Troca
+                    <Text>Cancelar Troca</Text>
                   </Pressable>
                 </View>
               )}
