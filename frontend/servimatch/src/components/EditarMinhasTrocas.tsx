@@ -124,6 +124,9 @@ export function EditarMinhaTroca({visible,troca,onClose}:EditarMinhaTroca){
             onCancel={()=>setDatePickerVisibility(false)}
             confirmTextIOS="Confirmar"
             cancelTextIOS="Cancelar"
+            textColor="#000000"
+            themeVariant="light"
+            isDarkModeEnabled={false}
             />
 
             <Pressable onPress={handleUpdate} disabled={isPending} style={{padding:10,backgroundColor:"#0284c7",marginBottom:8}}>
