@@ -58,13 +58,15 @@ export async function update_exchange_repository(
   return resposta.affectedRows;
 }
 
-export async function completed_exchange_repository(id) {
+export async function completed_exchange_repository(id,rating,notes) {
   const [resposta] = await pool.query(
     `
         UPDATE exchanges set status = 'completed',
+        rating = COALESCE(?,'Não informado'),
+        notes = COALESCE(?,'Não informado'), 
         completed_at = NOW() WHERE id = ?
     `,
-    [id],
+    [rating,notes,id],
   );
   return resposta.affectedRows;
 }

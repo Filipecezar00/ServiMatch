@@ -41,8 +41,9 @@ export async function completed_exchange_controller(req, res, next) {
   try {
     const usuarioId = req.usuario.id;
     const { id } = req.params;
+    const {rating,notes} = req.body; 
 
-    const resposta = await completed_exchange_service(id, usuarioId);
+    const resposta = await completed_exchange_service(id, usuarioId,rating,notes);
 
     return res.status(200).json(resposta);
   } catch (erro) {

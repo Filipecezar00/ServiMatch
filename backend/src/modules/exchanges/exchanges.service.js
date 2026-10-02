@@ -116,7 +116,7 @@ export async function update_exchange_service(
   return resposta;
 }
 
-export async function completed_exchange_service(id, usuarioId) {
+export async function completed_exchange_service(id, usuarioId,rating,notes) {
   if (!id || !usuarioId) {
     throw new AppError(
       "Ids necessários para a consulta não foram fornecidos.",
@@ -136,7 +136,7 @@ export async function completed_exchange_service(id, usuarioId) {
     throw new AppError("Status inválido para realizar a conclusão", 409);
   }
 
-  const resposta = await completed_exchange_repository(id);
+  const resposta = await completed_exchange_repository(id,rating,notes);
 
   if (resposta === 0) {
     throw new AppError("Registro não encontrado para atualização", 404);
