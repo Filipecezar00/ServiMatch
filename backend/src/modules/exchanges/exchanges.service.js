@@ -136,6 +136,19 @@ export async function completed_exchange_service(id, usuarioId,rating,notes) {
     throw new AppError("Status inválido para realizar a conclusão", 409);
   }
 
+if(rating!=null){
+  if(rating<1 || rating>6){
+    throw new AppError("Nota inválida"); 
+   }
+ }
+
+ if(notes!=null){
+    if(notes.trim().length<10){
+    throw new AppError("A avaliação deve possuir no mínimo 10 caracteres")
+  }
+ }
+
+
   const resposta = await completed_exchange_repository(id,rating,notes);
 
   if (resposta === 0) {
