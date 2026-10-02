@@ -5,9 +5,10 @@ import { TrocaEditada } from "../types/exchangeTypes";
 import { Alert,View,Pressable,Text ,TextInput,Modal} from "react-native";
 
 
+
 interface EditarMinhaTroca {
 visible:boolean; 
-troca:{id:number; location:string; scheduled_date:string} | null; 
+troca:{id:number | null; location:string | null; scheduled_date:string | null} | null; 
 onClose:()=>void; 
 }
 

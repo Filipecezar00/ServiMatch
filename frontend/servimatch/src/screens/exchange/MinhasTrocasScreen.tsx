@@ -2,7 +2,8 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { listarTrocas, cancelarTroca, concluirTroca } from "../../api/exchange";
-import React from "react";
+import React,{ useState } from "react";
+
 import {
   View,
   ActivityIndicator,
@@ -11,8 +12,11 @@ import {
   Pressable,
   Alert,
 } from "react-native";
-
+import {EditarMinhaTroca} from "../../components/EditarMinhasTrocas"
+import {Troca} from "../../types/exchangeTypes"
 export function MinhasTrocas() {
+  const [isModalOpen,setIsModalOpen] = useState(false); 
+  const [isTrocaSelecionada,setIsTrocaSelecionada] = useState<Troca|null>(null)
   const {
     data: trocas,
     isError,
@@ -73,6 +77,15 @@ export function MinhasTrocas() {
     }
   };
 
+  const handleEditar = (item:Troca)=>{
+    setIsTrocaSelecionada(item)
+    setIsModalOpen(true)
+  }
+
+  const handleClose = ()=>{
+    setIsModalOpen(false); 
+    setIsTrocaSelecionada(null)
+  }
   if (isPending) {
     return (
       <View>
@@ -108,8 +121,18 @@ export function MinhasTrocas() {
               <Text>Servico Desejado: {item.servico_desejado_titulo}</Text>
               <Text>Usuario: {item.outro_usuario_nome}</Text>
               <Text>Status Atual: {item.status}</Text>
-              <Text>Localização: {item.location}</Text>
-              <Text>Data de Agendamento: {item.scheduled_date}</Text>
+              <View>
+              {!item.location || item.location.trim()==="" ?(
+              <Text>localização não definida</Text>  
+              ):(
+               <Text>Localização: {item.location}</Text>
+              )}
+              {!item.scheduled_date ||item.scheduled_date.trim()==="" ? (
+                <Text>Data não definida</Text>
+              ):(
+                <Text>Data: {item.scheduled_date}</Text>
+              )}
+              </View>
               {item?.completed_at && (
                 <Text>Completado em: {item.completed_at}</Text>
               )}
@@ -136,12 +159,21 @@ export function MinhasTrocas() {
                     {carregandoCancelar && <ActivityIndicator size={"small"} />}
                     <Text>Cancelar Troca</Text>
                   </Pressable>
+                  <Pressable onPress={()=>handleEditar(item)}>
+                    <Text>Editar local e Agendamento</Text>
+                  </Pressable>
                 </View>
               )}
             </View>
           );
         }}
       />
+        <EditarMinhaTroca
+      visible={isModalOpen}
+      troca={isTrocaSelecionada}
+      onClose={handleClose}
+      />
+    
     </View>
   );
 }
