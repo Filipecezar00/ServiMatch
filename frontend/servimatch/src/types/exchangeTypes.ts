@@ -50,4 +50,6 @@ export interface TrocaEditada{
 export interface FinalizarTroca {
   id: number;
   status: "cancelled" | "completed";
+  rating:number | null; 
+  notes:string | null; 
 }
