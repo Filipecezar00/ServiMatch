@@ -40,7 +40,7 @@ export interface Troca {
 
 export interface TrocaEditada{
   status:"scheduled" | "in_progress" | "completed" | "cancelled" | "disputed";
-  schedule_date:string; 
+  scheduled_date:string; 
   location:string;
   notes:string;
   exchangeId:number; 

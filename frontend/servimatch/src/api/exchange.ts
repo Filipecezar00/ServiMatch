@@ -34,9 +34,9 @@ export async function cancelarTroca(
 }
 
 
-export async function updateTroca(payload:TrocaEditada):Promise<TrocaEditada>{
+export async function updateTroca(exchangeId:number,payload:{location:string,scheduled_date:string}):Promise<TrocaEditada>{
   try{
-    const resposta = await api.patch(`/exchange/${payload.exchangeId}/editar`,payload)
+    const resposta = await api.patch(`/exchange/${exchangeId}/editar`,payload)
     return resposta.data
   }catch(error){
     throw new Error(extractErrorMessage(error))
