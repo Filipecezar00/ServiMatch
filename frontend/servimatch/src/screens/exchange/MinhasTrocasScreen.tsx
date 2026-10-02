@@ -87,7 +87,7 @@ export function MinhasTrocas() {
     setIsTrocaSelecionada(null)
   }
 
-  function formatarDataBr(dataIso:string|null):string{
+function formatarDataBr(dataIso:string|null):string{
       if(!dataIso || dataIso.trim()===""){
           return "Data não definida"; 
       }
@@ -105,7 +105,8 @@ export function MinhasTrocas() {
       }
   
       return `${dia}/${mes}/${ano} às ${horas}:${minutos}`
-     }
+  }
+
   if (isPending) {
     return (
       <View>
@@ -150,7 +151,7 @@ export function MinhasTrocas() {
               {!item.scheduled_date ||item.scheduled_date.trim()==="" ? (
                 <Text>Data não definida</Text>
               ):(
-                <Text>Data: {item.scheduled_date}</Text>
+                <Text>Data: {formatarDataBr(item.scheduled_date)}</Text>
               )}
               </View>
               {item?.completed_at && (
