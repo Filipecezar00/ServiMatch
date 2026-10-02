@@ -53,3 +53,9 @@ export interface FinalizarTroca {
   rating:number | null; 
   notes:string | null; 
 }
+
+export interface AvaliarTrocaProps{
+  visible:boolean;
+  troca:Troca|null; 
+  onClose:()=>void;
+}
