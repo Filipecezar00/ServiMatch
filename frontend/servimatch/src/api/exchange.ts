@@ -13,9 +13,10 @@ export async function listarTrocas(): Promise<Troca[]> {
 
 export async function concluirTroca(
   payload: FinalizarTroca,
+  body:{rating:number|null,notes:string|null}
 ): Promise<FinalizarTroca> {
   try {
-    const resposta = await api.patch(`/exchange/${payload.id}/concluir`);
+    const resposta = await api.patch(`/exchange/${payload.id}/concluir`,body);
     return resposta.data;
   } catch (error) {
     throw new Error(extractErrorMessage(error));
