@@ -59,24 +59,36 @@ export function EditarMinhaTroca({visible,troca,onClose}:EditarMinhaTroca){
     
 
   return(
-    <Modal visible={visible} animationType="slide" transparent>
-         <View>
+    <Modal visible={visible} animationType="slide" transparent={true} style={{padding:20}}>
+         <View style={{
+            width:"90%",
+            backgroundColor:"#fff",
+            padding:20,
+            borderRadius:8,
+         }}>
+            <Text>
+                Editar Agendamento
+            </Text>
             <TextInput
             value={location}
             onChangeText={setLocation}
             placeholder="Editar Localização"
+            placeholderTextColor="#838383"
+            style={{borderWidth:1,borderColor:"#ccc",padding:8,marginBottom:12}}
             />
             <TextInput
             value={scheduled_date}
             onChangeText={setScheduled_date}
             placeholder="Editar data de agendamento"
+            placeholderTextColor="#838383"
+            style={{borderWidth:1,borderColor:"#ccc",padding:8,marginBottom:12}}
             />
-            <Pressable onPress={handleUpdate} disabled={isPending}>
+            <Pressable onPress={handleUpdate} disabled={isPending} style={{padding:10,backgroundColor:"#0284c7",marginBottom:8}}>
                 <Text>{isPending ? "Salvando...":"Salvar Alterações"}</Text>
             </Pressable>
             
-            <Pressable onPress={onClose}>
-                <Text>Cancelar</Text>
+            <Pressable onPress={onClose} style={{padding:10}}>
+                <Text style={{textAlign:"center",color:"#666"}}>Cancelar</Text>
             </Pressable>
         </View>
     </Modal>
