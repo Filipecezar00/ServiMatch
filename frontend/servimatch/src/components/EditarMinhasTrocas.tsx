@@ -78,6 +78,26 @@ export function EditarMinhaTroca({visible,troca,onClose}:EditarMinhaTroca){
     },150); 
    }; 
 
+function formatarDataBr(dataIso:string|null):string{
+    if(!dataIso || dataIso.trim()===""){
+        return "Data não definida"; 
+    }
+    const data = new Date(dataIso); 
+    if(isNaN(data.getTime()))return dataIso;
+
+    const ano = data.getFullYear(); 
+    const mes = String(data.getMonth()+1).padStart(2,"0"); 
+    const dia = String(data.getDate()).padStart(2,"0"); 
+    const horas = String(data.getHours()).padStart(2,"0"); 
+    const minutos = String(data.getMinutes()).padStart(2,"0"); 
+
+    if(horas==="00" && minutos ==="00"){
+        return `${dia}/${mes}/${ano}`; 
+    }
+
+    return `${dia}/${mes}/${ano} às ${horas}:${minutos}`
+   }
+
   return(
     <Modal visible={visible} animationType="slide" transparent={true}>
         <View style={{
