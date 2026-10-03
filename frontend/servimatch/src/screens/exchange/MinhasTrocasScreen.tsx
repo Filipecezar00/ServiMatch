@@ -198,6 +198,7 @@ export function MinhasTrocas() {
                     const isSelected = estrela <= (item?.rating ?? 0);
                     return (
                       <MaterialCommunityIcons
+                        key={estrela}
                         name="star"
                         color={isSelected ? "#c8ce1a" : "#a09f9f"}
                       />
