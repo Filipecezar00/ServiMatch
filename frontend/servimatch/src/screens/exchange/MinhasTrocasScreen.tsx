@@ -77,12 +77,28 @@ export function MinhasTrocas() {
   );
 
   const handleCancelar = (id: number) => {
-    mutateCancelar({
-      id,
-      status: "cancelled",
-      rating: null,
-      notes: null,
-    });
+    Alert.alert(
+      "confirmar cancelamento",
+      "Deseja realmente cancelar ?",
+      [
+        {
+          text: "voltar",
+          style: "cancel",
+        },
+        {
+          text: "Sim, cancelar",
+          style: "destructive",
+          onPress: () =>
+            mutateCancelar({
+              id,
+              status: "cancelled",
+              rating: null,
+              notes: null,
+            }),
+        },
+      ],
+      { cancelable: true },
+    );
   };
 
   const handleEditar = (item: Troca) => {
