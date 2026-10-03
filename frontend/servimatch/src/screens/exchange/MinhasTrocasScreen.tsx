@@ -13,7 +13,8 @@ import {
   Alert,
 } from "react-native";
 import { EditarMinhaTroca } from "../../components/EditarMinhasTrocas";
-import { Troca } from "../../types/exchangeTypes";
+import { Troca, FinalizarTroca } from "../../types/exchangeTypes";
+import { AvaliarTroca } from "../../components/AvaliarTroca";
 export function MinhasTrocas() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTrocaSelecionada, setIsTrocaSelecionada] = useState<Troca | null>(
@@ -74,12 +75,13 @@ export function MinhasTrocas() {
     }, [refetch]),
   );
 
-  const handleStatusTroca = (id: number, status: "cancelled" | "completed") => {
-    if (status === "completed") {
-      mutate({ id, status: "completed" });
-    } else {
-      mutateCancelar({ id, status: "cancelled" });
-    }
+  const handleCancelar = (id: number) => {
+    mutateCancelar({
+      id,
+      status: "cancelled",
+      rating: null,
+      notes: null,
+    });
   };
 
   const handleEditar = (item: Troca) => {
@@ -92,6 +94,10 @@ export function MinhasTrocas() {
     setIsTrocaSelecionada(null);
   };
 
+  const handleCloseCompleted = () => {
+    setIsModalCompleted(false);
+    setIsTrocaSelecionada(null);
+  };
   const handleAvaliar = (troca: Troca) => {
     setIsTrocaSelecionada(troca);
     setIsModalCompleted(true);
@@ -172,7 +178,7 @@ export function MinhasTrocas() {
               {item.status == "scheduled" && (
                 <View>
                   <Pressable
-                    onPress={() => handleStatusTroca(item.id, "completed")}
+                    onPress={() => handleAvaliar(item)}
                     disabled={
                       carregandoConclusao && variablesConcluir?.id === item.id
                     }
@@ -183,7 +189,7 @@ export function MinhasTrocas() {
                     <Text>Completar Troca</Text>
                   </Pressable>
                   <Pressable
-                    onPress={() => handleStatusTroca(item.id, "cancelled")}
+                    onPress={() => handleCancelar(item.id)}
                     disabled={carregandoCancelar && variables?.id === item.id}
                   >
                     {carregandoCancelar && <ActivityIndicator size={"small"} />}
@@ -202,6 +208,11 @@ export function MinhasTrocas() {
         visible={isModalOpen}
         troca={isTrocaSelecionada}
         onClose={handleClose}
+      />
+      <AvaliarTroca
+        visible={isModalCompleted}
+        troca={isTrocaSelecionada}
+        onClose={handleCloseCompleted}
       />
     </View>
   );
