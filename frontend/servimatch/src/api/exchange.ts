@@ -1,6 +1,11 @@
 import { api } from "../config/api";
 import { extractErrorMessage } from "./utils";
-import { Troca, FinalizarTroca, TrocaEditada } from "../types/exchangeTypes";
+import {
+  Troca,
+  FinalizarTroca,
+  TrocaEditada,
+  UpdateStatusPayload,
+} from "../types/exchangeTypes";
 
 export async function listarTrocas(): Promise<Troca[]> {
   try {
@@ -47,11 +52,13 @@ export async function updateTroca(
 }
 
 export async function updateStatus(
-  exchangeId: number,
-  status: "scheduled" | "in_progress" | "completed" | "cancelled" | "disputed",
-): Promise<TrocaEditada> {
+  payload: UpdateStatusPayload,
+): Promise<UpdateStatusPayload> {
   try {
-    const resposta = await api.patch(`/exchange/${exchangeId}/editar`, status);
+    const resposta = await api.patch(
+      `/exchange/${payload.exchangeId}/editar`,
+      payload,
+    );
     return resposta.data;
   } catch (error) {
     throw new Error(extractErrorMessage(error));

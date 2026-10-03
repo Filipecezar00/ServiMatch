@@ -47,6 +47,15 @@ export interface TrocaEditada {
   usuarioId: number;
 }
 
+export interface UpdateStatusPayload {
+  exchangeId: number;
+  status: "scheduled" | "in_progress" | "completed" | "cancelled" | "disputed";
+  scheduled_date?: string;
+  location?: string;
+  notes?: string | null;
+  rating?: number | null;
+}
+
 export interface FinalizarTroca {
   id: number;
   status: "cancelled" | "completed";

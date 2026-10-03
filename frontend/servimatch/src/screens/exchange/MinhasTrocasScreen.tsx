@@ -1,9 +1,13 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
-import { listarTrocas, cancelarTroca, concluirTroca } from "../../api/exchange";
+import {
+  listarTrocas,
+  cancelarTroca,
+  concluirTroca,
+  updateStatus,
+} from "../../api/exchange";
 import React, { useState } from "react";
-
 import {
   View,
   ActivityIndicator,
@@ -98,6 +102,30 @@ export function MinhasTrocas() {
         },
       ],
       { cancelable: true },
+    );
+  };
+
+  const { mutate: mutateUpdateStatus } = useMutation({
+    mutationFn: updateStatus,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["MinhasTrocas"] });
+    },
+    onError: () => {
+      return Alert.alert("Erro ao atualizar status do serviço!");
+    },
+  });
+
+  const handleIniciarServico = (id: number) => {
+    mutateUpdateStatus(
+      {
+        exchangeId: id,
+        status: "in_progress",
+      },
+      {
+        onSuccess: () => {
+          Alert.alert("Sucesso", "Serviço iniciado com sucesso!");
+        },
+      },
     );
   };
 
