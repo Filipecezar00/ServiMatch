@@ -283,6 +283,18 @@ export function MinhasTrocas() {
                   <Text>Completar Troca</Text>
                 </Pressable>
               )}
+              <Pressable
+                onPress={() => handleCancelar(item.id)}
+                disabled={carregandoCancelar && variables?.id === item.id}
+              >
+                {carregandoCancelar && variables?.id === item.id && (
+                  <ActivityIndicator size={"small"} />
+                )}
+                <Text>Cancelar Troca</Text>
+              </Pressable>
+              <Pressable onPress={() => handleEditar(item)}>
+                <Text>Editar local e Agendamento</Text>
+              </Pressable>
             </View>
           );
         }}
