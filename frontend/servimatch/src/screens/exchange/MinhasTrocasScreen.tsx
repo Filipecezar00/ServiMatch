@@ -176,7 +176,6 @@ export function MinhasTrocas() {
               {item?.completed_at && (
                 <Text>Completado em: {formatarDataBr(item.completed_at)}</Text>
               )}
-              {item.notes && <Text>Avaliação: {item?.notes}</Text>}
               {item.status === "completed" && item.rating != null && (
                 <View style={{ flexDirection: "row" }}>
                   {estrelas.map((estrela) => {
@@ -187,6 +186,11 @@ export function MinhasTrocas() {
                       />
                     );
                   })}
+                  {item.notes && (
+                    <Text style={{ fontStyle: "italic" }}>
+                      Avaliação: {item?.notes}
+                    </Text>
+                  )}
                 </View>
               )}
 
