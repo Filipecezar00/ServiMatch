@@ -15,6 +15,7 @@ import {
 import { EditarMinhaTroca } from "../../components/EditarMinhasTrocas";
 import { Troca, FinalizarTroca } from "../../types/exchangeTypes";
 import { AvaliarTroca } from "../../components/AvaliarTroca";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 export function MinhasTrocas() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTrocaSelecionada, setIsTrocaSelecionada] = useState<Troca | null>(
@@ -152,6 +153,8 @@ export function MinhasTrocas() {
         onRefresh={refetch}
         refreshing={isFetching}
         renderItem={({ item }) => {
+          const estrelas = [1, 2, 3, 4, 5];
+
           return (
             <View>
               <Text>Meu Serviço: {item.servico_oferecido_titulo}</Text>
@@ -175,7 +178,16 @@ export function MinhasTrocas() {
               )}
               {item.notes && <Text>Avaliação: {item?.notes}</Text>}
               {item.status === "completed" && item.rating != null && (
-                <Text>{item.rating} Estrelas</Text>
+                <View style={{ flexDirection: "row" }}>
+                  {estrelas.map((estrela) => {
+                    const isSelected = estrela <= (item?.rating ?? 0);
+                    return (
+                      <MaterialCommunityIcons
+                        color={isSelected ? "#eef600" : "#a09f9f"}
+                      />
+                    );
+                  })}
+                </View>
               )}
 
               {item.status == "scheduled" && (
