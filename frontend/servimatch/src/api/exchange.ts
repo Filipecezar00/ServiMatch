@@ -1,6 +1,6 @@
 import { api } from "../config/api";
 import { extractErrorMessage } from "./utils";
-import { Troca, FinalizarTroca,TrocaEditada } from "../types/exchangeTypes";
+import { Troca, FinalizarTroca, TrocaEditada } from "../types/exchangeTypes";
 
 export async function listarTrocas(): Promise<Troca[]> {
   try {
@@ -13,10 +13,10 @@ export async function listarTrocas(): Promise<Troca[]> {
 
 export async function concluirTroca(
   payload: FinalizarTroca,
-  body:{rating:number|null,notes:string|null}
 ): Promise<FinalizarTroca> {
   try {
-    const resposta = await api.patch(`/exchange/${payload.id}/concluir`,body);
+    const { id, ...dadosBody } = payload;
+    const resposta = await api.patch(`/exchange/${id}/concluir`, dadosBody);
     return resposta.data;
   } catch (error) {
     throw new Error(extractErrorMessage(error));
@@ -34,13 +34,14 @@ export async function cancelarTroca(
   }
 }
 
-
-export async function updateTroca(exchangeId:number,payload:{location:string,scheduled_date:string}):Promise<TrocaEditada>{
-  try{
-    const resposta = await api.patch(`/exchange/${exchangeId}/editar`,payload)
-    return resposta.data
-  }catch(error){
-    throw new Error(extractErrorMessage(error))
+export async function updateTroca(
+  exchangeId: number,
+  payload: { location: string; scheduled_date: string },
+): Promise<TrocaEditada> {
+  try {
+    const resposta = await api.patch(`/exchange/${exchangeId}/editar`, payload);
+    return resposta.data;
+  } catch (error) {
+    throw new Error(extractErrorMessage(error));
   }
-
 }
