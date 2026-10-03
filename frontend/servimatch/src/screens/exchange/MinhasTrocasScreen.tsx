@@ -105,7 +105,11 @@ export function MinhasTrocas() {
     );
   };
 
-  const { mutate: mutateUpdateStatus } = useMutation({
+  const {
+    mutate: mutateUpdateStatus,
+    isPending: carregandoIniciar,
+    variables: variablesIniciar,
+  } = useMutation({
     mutationFn: updateStatus,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["MinhasTrocas"] });
@@ -243,27 +247,41 @@ export function MinhasTrocas() {
               {item.status == "scheduled" && (
                 <View>
                   <Pressable
-                    onPress={() => handleAvaliar(item)}
+                    onPress={() => handleIniciarServico(item.id)}
                     disabled={
-                      carregandoConclusao && variablesConcluir?.id === item.id
+                      carregandoIniciar &&
+                      variablesIniciar?.exchangeId === item.id
                     }
                   >
-                    {carregandoConclusao && (
-                      <ActivityIndicator size={"small"} />
-                    )}
-                    <Text>Completar Troca</Text>
+                    <Text>Iniciar Serviço</Text>
                   </Pressable>
+
                   <Pressable
                     onPress={() => handleCancelar(item.id)}
                     disabled={carregandoCancelar && variables?.id === item.id}
                   >
-                    {carregandoCancelar && <ActivityIndicator size={"small"} />}
+                    {carregandoCancelar && variables?.id === item.id && (
+                      <ActivityIndicator size={"small"} />
+                    )}
                     <Text>Cancelar Troca</Text>
                   </Pressable>
                   <Pressable onPress={() => handleEditar(item)}>
                     <Text>Editar local e Agendamento</Text>
                   </Pressable>
                 </View>
+              )}
+              {item.status == "in_progress" && (
+                <Pressable
+                  onPress={() => handleAvaliar(item)}
+                  disabled={
+                    carregandoConclusao && variablesConcluir?.id === item.id
+                  }
+                >
+                  {carregandoConclusao && variablesConcluir?.id === item.id && (
+                    <ActivityIndicator size={"small"} />
+                  )}
+                  <Text>Completar Troca</Text>
+                </Pressable>
               )}
             </View>
           );
