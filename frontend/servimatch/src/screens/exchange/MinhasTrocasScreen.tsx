@@ -2,7 +2,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { listarTrocas, cancelarTroca, concluirTroca } from "../../api/exchange";
-import React,{ useState } from "react";
+import React, { useState } from "react";
 
 import {
   View,
@@ -12,11 +12,16 @@ import {
   Pressable,
   Alert,
 } from "react-native";
-import {EditarMinhaTroca} from "../../components/EditarMinhasTrocas"
-import {Troca} from "../../types/exchangeTypes"
+import { EditarMinhaTroca } from "../../components/EditarMinhasTrocas";
+import { Troca } from "../../types/exchangeTypes";
 export function MinhasTrocas() {
-  const [isModalOpen,setIsModalOpen] = useState(false); 
-  const [isTrocaSelecionada,setIsTrocaSelecionada] = useState<Troca|null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTrocaSelecionada, setIsTrocaSelecionada] = useState<Troca | null>(
+    null,
+  );
+
+  const [isModalCompleted, setIsModalCompleted] = useState(false);
+
   const {
     data: trocas,
     isError,
@@ -77,34 +82,34 @@ export function MinhasTrocas() {
     }
   };
 
-  const handleEditar = (item:Troca)=>{
-    setIsTrocaSelecionada(item)
-    setIsModalOpen(true)
-  }
+  const handleEditar = (item: Troca) => {
+    setIsTrocaSelecionada(item);
+    setIsModalOpen(true);
+  };
 
-  const handleClose = ()=>{
-    setIsModalOpen(false); 
-    setIsTrocaSelecionada(null)
-  }
+  const handleClose = () => {
+    setIsModalOpen(false);
+    setIsTrocaSelecionada(null);
+  };
 
-function formatarDataBr(dataIso:string|null):string{
-      if(!dataIso || dataIso.trim()===""){
-          return "Data não definida"; 
-      }
-      const data = new Date(dataIso); 
-      if(isNaN(data.getTime()))return dataIso;
-  
-      const ano = data.getFullYear(); 
-      const mes = String(data.getMonth()+1).padStart(2,"0"); 
-      const dia = String(data.getDate()).padStart(2,"0"); 
-      const horas = String(data.getHours()).padStart(2,"0"); 
-      const minutos = String(data.getMinutes()).padStart(2,"0"); 
-  
-      if(horas==="00" && minutos ==="00"){
-          return `${dia}/${mes}/${ano}`; 
-      }
-  
-      return `${dia}/${mes}/${ano} às ${horas}:${minutos}`
+  function formatarDataBr(dataIso: string | null): string {
+    if (!dataIso || dataIso.trim() === "") {
+      return "Data não definida";
+    }
+    const data = new Date(dataIso);
+    if (isNaN(data.getTime())) return dataIso;
+
+    const ano = data.getFullYear();
+    const mes = String(data.getMonth() + 1).padStart(2, "0");
+    const dia = String(data.getDate()).padStart(2, "0");
+    const horas = String(data.getHours()).padStart(2, "0");
+    const minutos = String(data.getMinutes()).padStart(2, "0");
+
+    if (horas === "00" && minutos === "00") {
+      return `${dia}/${mes}/${ano}`;
+    }
+
+    return `${dia}/${mes}/${ano} às ${horas}:${minutos}`;
   }
 
   if (isPending) {
@@ -143,16 +148,16 @@ function formatarDataBr(dataIso:string|null):string{
               <Text>Usuario: {item.outro_usuario_nome}</Text>
               <Text>Status Atual: {item.status}</Text>
               <View>
-              {!item.location || item.location.trim()==="" ?(
-              <Text>localização não definida</Text>  
-              ):(
-               <Text>Localização: {item.location}</Text>
-              )}
-              {!item.scheduled_date ||item.scheduled_date.trim()==="" ? (
-                <Text>Data não definida</Text>
-              ):(
-                <Text>Data: {formatarDataBr(item.scheduled_date)}</Text>
-              )}
+                {!item.location || item.location.trim() === "" ? (
+                  <Text>localização não definida</Text>
+                ) : (
+                  <Text>Localização: {item.location}</Text>
+                )}
+                {!item.scheduled_date || item.scheduled_date.trim() === "" ? (
+                  <Text>Data não definida</Text>
+                ) : (
+                  <Text>Data: {formatarDataBr(item.scheduled_date)}</Text>
+                )}
               </View>
               {item?.completed_at && (
                 <Text>Completado em: {item.completed_at}</Text>
@@ -171,7 +176,6 @@ function formatarDataBr(dataIso:string|null):string{
                       <ActivityIndicator size={"small"} />
                     )}
                     <Text>Completar Troca</Text>
-                    
                   </Pressable>
                   <Pressable
                     onPress={() => handleStatusTroca(item.id, "cancelled")}
@@ -180,7 +184,7 @@ function formatarDataBr(dataIso:string|null):string{
                     {carregandoCancelar && <ActivityIndicator size={"small"} />}
                     <Text>Cancelar Troca</Text>
                   </Pressable>
-                  <Pressable onPress={()=>handleEditar(item)}>
+                  <Pressable onPress={() => handleEditar(item)}>
                     <Text>Editar local e Agendamento</Text>
                   </Pressable>
                 </View>
@@ -189,12 +193,11 @@ function formatarDataBr(dataIso:string|null):string{
           );
         }}
       />
-        <EditarMinhaTroca
-      visible={isModalOpen}
-      troca={isTrocaSelecionada}
-      onClose={handleClose}
+      <EditarMinhaTroca
+        visible={isModalOpen}
+        troca={isTrocaSelecionada}
+        onClose={handleClose}
       />
-    
     </View>
   );
 }
