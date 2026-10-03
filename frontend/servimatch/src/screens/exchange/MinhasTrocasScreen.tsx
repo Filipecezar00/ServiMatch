@@ -171,9 +171,12 @@ export function MinhasTrocas() {
                 )}
               </View>
               {item?.completed_at && (
-                <Text>Completado em: {item.completed_at}</Text>
+                <Text>Completado em: {formatarDataBr(item.completed_at)}</Text>
               )}
-              {item.notes && <Text>Avalição: {item?.notes}</Text>}
+              {item.notes && <Text>Avaliação: {item?.notes}</Text>}
+              {item.status === "completed" && item.rating != null && (
+                <Text>{item.rating} Estrelas</Text>
+              )}
 
               {item.status == "scheduled" && (
                 <View>

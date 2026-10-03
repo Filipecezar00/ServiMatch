@@ -35,27 +35,27 @@ export interface Troca {
   outro_usuario_nome: string;
   servico_oferecido_titulo: string;
   servico_desejado_titulo: string;
+  rating: number | null;
 }
 
-
-export interface TrocaEditada{
-  status:"scheduled" | "in_progress" | "completed" | "cancelled" | "disputed";
-  scheduled_date:string; 
-  location:string;
-  notes:string;
-  exchangeId:number; 
-  usuarioId:number;
+export interface TrocaEditada {
+  status: "scheduled" | "in_progress" | "completed" | "cancelled" | "disputed";
+  scheduled_date: string;
+  location: string;
+  notes: string;
+  exchangeId: number;
+  usuarioId: number;
 }
 
 export interface FinalizarTroca {
   id: number;
   status: "cancelled" | "completed";
-  rating:number | null; 
-  notes:string | null; 
+  rating: number | null;
+  notes: string | null;
 }
 
-export interface AvaliarTrocaProps{
-  visible:boolean;
-  troca:Troca|null; 
-  onClose:()=>void;
+export interface AvaliarTrocaProps {
+  visible: boolean;
+  troca: Troca | null;
+  onClose: () => void;
 }
