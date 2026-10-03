@@ -218,29 +218,40 @@ export function MinhasTrocas() {
                 {!item.scheduled_date || item.scheduled_date.trim() === "" ? (
                   <Text>Data não definida</Text>
                 ) : (
-                  <Text>Data: {formatarDataBr(item.scheduled_date)}</Text>
+                  <Text>
+                    Data do serviço: {formatarDataBr(item.scheduled_date)}
+                  </Text>
                 )}
               </View>
               {item?.completed_at && (
                 <Text>Completado em: {formatarDataBr(item.completed_at)}</Text>
               )}
               {item.status === "completed" && item.rating != null && (
-                <View style={{ flexDirection: "row" }}>
-                  {estrelas.map((estrela) => {
-                    const isSelected = estrela <= (item?.rating ?? 0);
-                    return (
-                      <MaterialCommunityIcons
-                        key={estrela}
-                        name="star"
-                        color={isSelected ? "#c8ce1a" : "#a09f9f"}
-                      />
-                    );
-                  })}
-                  {item.notes && (
-                    <Text style={{ fontStyle: "italic" }}>
-                      Avaliação: {item?.notes}
-                    </Text>
-                  )}
+                <View>
+                  <Text>Solicitação completada com sucesso!</Text>
+                  <View style={{ flexDirection: "row" }}>
+                    {estrelas.map((estrela) => {
+                      const isSelected = estrela <= (item?.rating ?? 0);
+                      return (
+                        <MaterialCommunityIcons
+                          key={estrela}
+                          name="star"
+                          color={isSelected ? "#c8ce1a" : "#a09f9f"}
+                        />
+                      );
+                    })}
+                    {item.notes && (
+                      <Text style={{ fontStyle: "italic" }}>
+                        Avaliação: {item?.notes}
+                      </Text>
+                    )}
+                  </View>
+                </View>
+              )}
+
+              {item.status === "cancelled" && (
+                <View>
+                  <Text>Solicitação cancelada com sucesso ! </Text>
                 </View>
               )}
 
@@ -283,18 +294,6 @@ export function MinhasTrocas() {
                   <Text>Completar Troca</Text>
                 </Pressable>
               )}
-              <Pressable
-                onPress={() => handleCancelar(item.id)}
-                disabled={carregandoCancelar && variables?.id === item.id}
-              >
-                {carregandoCancelar && variables?.id === item.id && (
-                  <ActivityIndicator size={"small"} />
-                )}
-                <Text>Cancelar Troca</Text>
-              </Pressable>
-              <Pressable onPress={() => handleEditar(item)}>
-                <Text>Editar local e Agendamento</Text>
-              </Pressable>
             </View>
           );
         }}
