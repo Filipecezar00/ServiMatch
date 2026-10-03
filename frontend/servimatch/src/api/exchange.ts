@@ -45,3 +45,15 @@ export async function updateTroca(
     throw new Error(extractErrorMessage(error));
   }
 }
+
+export async function updateStatus(
+  exchangeId: number,
+  status: "scheduled" | "in_progress" | "completed" | "cancelled" | "disputed",
+): Promise<TrocaEditada> {
+  try {
+    const resposta = await api.patch(`/exchange/${exchangeId}/editar`, status);
+    return resposta.data;
+  } catch (error) {
+    throw new Error(extractErrorMessage(error));
+  }
+}
