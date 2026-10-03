@@ -92,6 +92,11 @@ export function MinhasTrocas() {
     setIsTrocaSelecionada(null);
   };
 
+  const handleAvaliar = (troca: Troca) => {
+    setIsTrocaSelecionada(troca);
+    setIsModalCompleted(true);
+  };
+
   function formatarDataBr(dataIso: string | null): string {
     if (!dataIso || dataIso.trim() === "") {
       return "Data não definida";
