@@ -20,8 +20,7 @@ export async function concluirTroca(
   payload: FinalizarTroca,
 ): Promise<FinalizarTroca> {
   try {
-    const { id, ...dadosBody } = payload;
-    const resposta = await api.patch(`/exchange/${id}/concluir`, dadosBody);
+    const resposta = await api.patch(`/exchange/${payload.id}/concluir`);
     return resposta.data;
   } catch (error) {
     throw new Error(extractErrorMessage(error));
