@@ -59,7 +59,10 @@ export async function updateStatus(
       payload,
     );
     return resposta.data;
-  } catch (error) {
+  } catch (error: any) {
+    console.log("Status:", error.response?.status);
+    console.log("Data do Backend:", error.response?.data);
+    console.log("URL chamada:", error.config?.url);
     throw new Error(extractErrorMessage(error));
   }
 }

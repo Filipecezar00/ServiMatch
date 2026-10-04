@@ -49,7 +49,7 @@ export async function update_exchange_repository(
     UPDATE exchanges
     SET status = COALESCE(?,status),
     scheduled_date = COALESCE(?,scheduled_date),
-    location = COALESCE(?,location),
+    location = COALESCE(?,location)
     WHERE id = ? 
 `,
     [status, scheduled_date, location, exchangeId],

@@ -37,7 +37,6 @@ export async function update_exchange_service(
   status,
   scheduled_date,
   location,
-  notes,
   exchangeId,
   usuarioId,
 ) {
@@ -54,6 +53,21 @@ export async function update_exchange_service(
   if (!exchange_data) {
     throw new AppError("Troca não localizada", 404);
   }
+
+  console.log("usuarioId:", usuarioId, "Tipo:", typeof usuarioId);
+  console.log("exchangeId:", exchangeId, "Tipo:", typeof exchangeId);
+  console.log(
+    "proposer_id:",
+    exchange_data.proposer_id,
+    "Tipo:",
+    typeof exchange_data.proposer_id,
+  );
+  console.log(
+    "receiver_id:",
+    exchange_data.receiver_id,
+    "Tipo:",
+    typeof exchange_data.receiver_id,
+  );
 
   const transicoesPermitidas = {
     scheduled: ["in_progress", "cancelled"],
@@ -95,11 +109,6 @@ export async function update_exchange_service(
   if (location !== null && location !== undefined) {
     if (!location) {
       throw new AppError("Localização inválida", 400);
-    }
-  }
-  if (notes !== null && notes !== undefined) {
-    if (!notes) {
-      throw new AppError("Descrição inválida", 400);
     }
   }
   const resposta = await update_exchange_repository(
