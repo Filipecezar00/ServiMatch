@@ -27,7 +27,7 @@ export function AvaliarTroca({
     }) => avaliarTroca(exchangeId, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["MinhasTrocas"] });
-      Alert.alert("Sucesso", "Avalição bem sucedida!");
+      Alert.alert("Sucesso", "Avaliação bem sucedida!");
       onSuccess();
       onClose();
     },

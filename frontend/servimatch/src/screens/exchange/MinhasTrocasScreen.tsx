@@ -27,6 +27,10 @@ export function MinhasTrocas() {
   );
 
   const [isModalAvaliarOpen, setIsModalAvaliarOpen] = useState(false);
+  const [exchangeToReviewId, setExchangeToReviewId] = useState<number | null>(
+    null,
+  );
+  const [isTrocaAvaliada, setIsTrocaAvaliada] = useState<Troca | null>(null);
 
   const {
     data: trocas,
@@ -146,9 +150,23 @@ export function MinhasTrocas() {
     setIsTrocaSelecionada(null);
   };
 
-  const handleAvaliar = (troca: Troca) => {
-    setIsTrocaSelecionada(troca);
-    setIsModalAvaliarOpen(true);
+  const handleCompletar = (item: Troca) => {
+    mutate(
+      { id: item.id, status: "completed" },
+      {
+        onSuccess: () => {
+          setIsTrocaAvaliada(item);
+
+          setIsModalAvaliarOpen(true);
+        },
+        onError: (error) => {
+          Alert.alert(
+            "Erro",
+            "Não foi possível concluir a troca. Tente novamente",
+          );
+        },
+      },
+    );
   };
 
   const handleSuccessAvaliar = () => {
@@ -286,7 +304,7 @@ export function MinhasTrocas() {
               {item.status == "in_progress" && (
                 <View>
                   <Pressable
-                    onPress={() => handleAvaliar(item)}
+                    onPress={() => handleCompletar(item)}
                     disabled={
                       carregandoConclusao && variablesConcluir?.id === item.id
                     }
@@ -320,7 +338,7 @@ export function MinhasTrocas() {
       />
       <AvaliarTroca
         visible={isModalAvaliarOpen}
-        troca={isTrocaSelecionada}
+        troca={isTrocaAvaliada}
         onClose={handleCloseAvaliar}
         onSuccess={handleCloseAvaliar}
       />
