@@ -125,6 +125,24 @@ completed_at TIMESTAMP NULL DEFAULT NULL,
 CONSTRAINT fk_exchange_proposal FOREIGN KEY (proposal_id) REFERENCES exchange_proposals(id) ON DELETE CASCADE
 ); 
 
+CREATE TABLE reviews (
+id int not null AUTO_INCREMENT PRIMARY KEY, 
+exchange_id int not null, 
+reviewer_id int unsigned,
+reviewed_id int unsigned, 
+rating int CHECK (rating >= 1 AND rating <=5),
+comment VARCHAR(255), 
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+
+CONSTRAINT review_validation CHECK(reviewer_id<>reviewed_id),
+CONSTRAINT review_users UNIQUE(exchange_id, reviewer_id),
+CONSTRAINT exchangeKey FOREIGN KEY (exchange_id)
+REFERENCES exchanges (id), 
+CONSTRAINT reviewerKey FOREIGN KEY (reviewer_id) REFERENCES
+users(id), 
+CONSTRAINT reviewedKey FOREIGN KEY (reviewed_id) REFERENCES 
+users(id)
+);
 
 repository criar 
 funcao (proposer_id,receiver_id_offered_service_id,wanted_service_id,mensagem)
