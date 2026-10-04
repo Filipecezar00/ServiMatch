@@ -26,7 +26,7 @@ export function MinhasTrocas() {
     null,
   );
 
-  const [isModalCompleted, setIsModalCompleted] = useState(false);
+  const [isModalAvaliarOpen, setIsModalAvaliarOpen] = useState(false);
 
   const {
     data: trocas,
@@ -141,13 +141,18 @@ export function MinhasTrocas() {
     setIsTrocaSelecionada(null);
   };
 
-  const handleCloseCompleted = () => {
-    setIsModalCompleted(false);
+  const handleCloseAvaliar = () => {
+    setIsModalAvaliarOpen(false);
     setIsTrocaSelecionada(null);
   };
+
   const handleAvaliar = (troca: Troca) => {
     setIsTrocaSelecionada(troca);
-    setIsModalCompleted(true);
+    setIsModalAvaliarOpen(true);
+  };
+
+  const handleSuccessAvaliar = () => {
+    handleCloseAvaliar();
   };
 
   function formatarDataBr(dataIso: string | null): string {
@@ -320,9 +325,10 @@ export function MinhasTrocas() {
         onClose={handleClose}
       />
       <AvaliarTroca
-        visible={isModalCompleted}
+        visible={isModalAvaliarOpen}
         troca={isTrocaSelecionada}
-        onClose={handleCloseCompleted}
+        onClose={handleCloseAvaliar}
+        onSuccess={handleCloseAvaliar}
       />
     </View>
   );
