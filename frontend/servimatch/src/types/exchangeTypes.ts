@@ -60,9 +60,3 @@ export interface FinalizarTroca {
   id: number;
   status: "cancelled" | "completed";
 }
-
-export interface AvaliarTrocaProps {
-  visible: boolean;
-  troca: Troca | null;
-  onClose: () => void;
-}

@@ -1,23 +1,19 @@
 import { useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { View, Modal, Text, Pressable, TextInput, Alert } from "react-native";
-import { concluirTroca } from "../api/exchange";
-import { AvaliarTrocaProps, FinalizarTroca } from "../types/exchangeTypes";
+import { avaliarTroca } from "../api/reviews";
+import { AvaliarTrocaProps, Review } from "../types/reviews";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 export function AvaliarTroca({ visible, troca, onClose }: AvaliarTrocaProps) {
   const [isRating, setIsRating] = useState<number | null>(null);
   const [isNotes, setIsNotes] = useState("");
 
   const queryClient = useQueryClient();
-  const { mutate, isPending, isError } = useMutation<
-    FinalizarTroca,
-    Error,
-    FinalizarTroca
-  >({
-    mutationFn: concluirTroca,
+  const { mutate, isPending, isError } = useMutation({
+    mutationFn: avaliarTroca,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["MinhasTrocas"] });
-      Alert.alert("Concluido com Sucesso");
+      Alert.alert("Avalição bem sucedida!");
       onClose();
     },
     onError: (erro) => {
@@ -32,7 +28,7 @@ export function AvaliarTroca({ visible, troca, onClose }: AvaliarTrocaProps) {
     }
   }, [visible, troca]);
 
-  const handleConfirmar = () => {
+  const handleAvaliar = () => {
     if (!troca?.id) {
       return Alert.alert("Selecione uma troca");
     }
@@ -41,8 +37,9 @@ export function AvaliarTroca({ visible, troca, onClose }: AvaliarTrocaProps) {
     }
 
     mutate({
-      id: troca.id,
-      status: "completed",
+      reviewedId: troca.receiver_id,
+      rating: isRating,
+      comment: isNotes,
     });
   };
 
@@ -87,8 +84,8 @@ export function AvaliarTroca({ visible, troca, onClose }: AvaliarTrocaProps) {
             maxLength={250}
           />
         </View>
-        <Pressable onPress={handleConfirmar} disabled={isPending}>
-          <Text>{isPending ? "Salvando..." : "Confirmar conclusão"}</Text>
+        <Pressable onPress={handleAvaliar} disabled={isPending}>
+          <Text>{isPending ? "Salvando..." : "Confirmar Avaliação"}</Text>
         </Pressable>
         <Pressable onPress={() => onClose()}>
           <Text>Cancelar</Text>
