@@ -7,6 +7,7 @@ import {
   concluirTroca,
   updateStatus,
 } from "../../api/exchange";
+import { avaliarTroca } from "../../api/reviews";
 import React, { useState } from "react";
 import {
   View,
@@ -41,6 +42,30 @@ export function MinhasTrocas() {
   } = useQuery({
     queryKey: ["MinhasTrocas"],
     queryFn: listarTrocas,
+  });
+
+  const { mutate: executarAvaliacao, isPending: pendingReview } = useMutation({
+    mutationFn: ({
+      exchangeId,
+      payload,
+    }: {
+      exchangeId: number;
+      payload: { reviewedId: number; rating: number; comment?: string };
+    }) => avaliarTroca(exchangeId, payload),
+
+    onSuccess: () => {
+      Alert.alert("Sucesso", "Avaliação enviada com sucesso!");
+
+      queryClient.invalidateQueries({ queryKey: ["MinhasTrocas"] });
+
+      setIsModalAvaliarOpen(false);
+    },
+    onError: (error: Error) => {
+      Alert.alert(
+        "Erro",
+        error.message || "Não foi possível enviar a avaliação",
+      );
+    },
   });
 
   const queryClient = useQueryClient();
