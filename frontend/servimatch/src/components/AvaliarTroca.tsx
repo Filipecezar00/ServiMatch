@@ -4,16 +4,31 @@ import { View, Modal, Text, Pressable, TextInput, Alert } from "react-native";
 import { avaliarTroca } from "../api/reviews";
 import { AvaliarTrocaProps, Review } from "../types/reviews";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-export function AvaliarTroca({ visible, troca, onClose }: AvaliarTrocaProps) {
+import { useAuthStore } from "../stores/useAuthStore";
+export function AvaliarTroca({
+  visible,
+  troca,
+  onClose,
+  onSuccess,
+}: AvaliarTrocaProps) {
   const [isRating, setIsRating] = useState<number | null>(null);
   const [isNotes, setIsNotes] = useState("");
 
+  const usuarioLogadoId = useAuthStore((auth) => auth.usuario?.id);
+
   const queryClient = useQueryClient();
   const { mutate, isPending, isError } = useMutation({
-    mutationFn: avaliarTroca,
+    mutationFn: ({
+      exchangeId,
+      payload,
+    }: {
+      exchangeId: number;
+      payload: { reviewedId: number; rating: number; comment?: string };
+    }) => avaliarTroca(exchangeId, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["MinhasTrocas"] });
-      Alert.alert("Avalição bem sucedida!");
+      Alert.alert("Sucesso", "Avalição bem sucedida!");
+      onSuccess();
       onClose();
     },
     onError: (erro) => {
@@ -36,10 +51,25 @@ export function AvaliarTroca({ visible, troca, onClose }: AvaliarTrocaProps) {
       return Alert.alert("Selecione uma nota de 1 a 5 estrelas");
     }
 
+    if (!usuarioLogadoId) {
+      return Alert.alert(
+        "Atenção",
+        "Sessão do usuário não encontrada.Faça login novamente",
+      );
+    }
+
+    const reviewedId =
+      usuarioLogadoId === troca.proposer_id
+        ? troca.receiver_id
+        : troca.proposer_id;
+
     mutate({
-      reviewedId: troca.receiver_id,
-      rating: isRating,
-      comment: isNotes,
+      exchangeId: troca.id,
+      payload: {
+        reviewedId,
+        rating: isRating,
+        comment: isNotes,
+      },
     });
   };
 
