@@ -202,7 +202,12 @@ export function MinhasTrocas() {
         refreshing={isFetching}
         renderItem={({ item }) => {
           const estrelas = [1, 2, 3, 4, 5];
-
+          console.log("Payload da troca:", {
+            id: item.id,
+            oferecido: item.servico_oferecido_titulo,
+            desejado: item.servico_desejado_titulo,
+            status: item.status,
+          });
           return (
             <View>
               <Text>Meu Serviço: {item.servico_oferecido_titulo}</Text>
@@ -282,17 +287,30 @@ export function MinhasTrocas() {
                 </View>
               )}
               {item.status == "in_progress" && (
-                <Pressable
-                  onPress={() => handleAvaliar(item)}
-                  disabled={
-                    carregandoConclusao && variablesConcluir?.id === item.id
-                  }
-                >
-                  {carregandoConclusao && variablesConcluir?.id === item.id && (
-                    <ActivityIndicator size={"small"} />
-                  )}
-                  <Text>Completar Troca</Text>
-                </Pressable>
+                <View>
+                  <Pressable
+                    onPress={() => handleAvaliar(item)}
+                    disabled={
+                      carregandoConclusao && variablesConcluir?.id === item.id
+                    }
+                  >
+                    {carregandoConclusao &&
+                      variablesConcluir?.id === item.id && (
+                        <ActivityIndicator size={"small"} />
+                      )}
+                    <Text>Completar Troca</Text>
+                  </Pressable>
+
+                  <Pressable
+                    onPress={() => handleCancelar(item.id)}
+                    disabled={carregandoCancelar && variables?.id === item.id}
+                  >
+                    {carregandoCancelar && variables?.id === item.id && (
+                      <ActivityIndicator size={"small"} />
+                    )}
+                    <Text>Cancelar Troca</Text>
+                  </Pressable>
+                </View>
               )}
             </View>
           );

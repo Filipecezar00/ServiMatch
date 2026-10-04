@@ -18,7 +18,14 @@ async function runSeeder() {
     const senhaAna = await bcrypt.hash("AnaSenha@22", 10);
     await pool.query(
       `INSERT INTO users (nome,email,senha) VALUES(?,?,?),(?,?,?)`,
-      ['Carlos','carlos@gmail.com',senhaCarlos,'Ana','ana@gmail.com',senhaAna]
+      [
+        "Carlos",
+        "carlos@gmail.com",
+        senhaCarlos,
+        "Ana",
+        "ana@gmail.com",
+        senhaAna,
+      ],
     );
     await pool.query(
       `INSERT INTO categories(nome) VALUES('esporte'),('tecnologia')`,
@@ -33,10 +40,10 @@ async function runSeeder() {
       `INSERT INTO services_wanted (user_id,titulo,descricao,ativo) VALUES(1,'aulas de java','aulas de springboot',1) `,
     );
     await pool.query(
-      `INSERT INTO services_wanted (user_id,titulo,descricao,ativo) VALUES (2,'aulas de dança','aulas de zumba online',1)`,
+      `INSERT INTO services_wanted (user_id,titulo,descricao,ativo) VALUES (2,'aulas de danca','aulas de zumba online',1)`,
     );
     await pool.query(
-      `INSERT INTO exchange_proposals(proposer_id,receiver_id,offered_service_id,wanted_service_id,status,mensagem) VALUES(1,2,1,2,'accepted','desejo aprender java, tem interesse em trocar ?')`,
+      `INSERT INTO exchange_proposals(proposer_id,receiver_id,offered_service_id,wanted_service_id,status,mensagem) VALUES(1,2,1,1,'accepted','desejo aprender java, tem interesse em trocar ?')`,
     );
     await pool.query(
       `INSERT INTO exchanges (proposal_id,status) VALUES(1,'scheduled')`,
