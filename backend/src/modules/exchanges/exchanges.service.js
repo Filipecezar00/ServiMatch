@@ -107,7 +107,6 @@ export async function update_exchange_service(
     status,
     scheduled_date,
     location,
-    notes,
   );
 
   if (resposta === 0) {

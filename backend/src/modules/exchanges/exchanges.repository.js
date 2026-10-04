@@ -43,7 +43,6 @@ export async function update_exchange_repository(
   status,
   scheduled_date,
   location,
-  notes,
 ) {
   const [resposta] = await pool.query(
     `
@@ -51,10 +50,9 @@ export async function update_exchange_repository(
     SET status = COALESCE(?,status),
     scheduled_date = COALESCE(?,scheduled_date),
     location = COALESCE(?,location),
-    notes = COALESCE(?,notes)
     WHERE id = ? 
 `,
-    [status, scheduled_date, location, notes, exchangeId],
+    [status, scheduled_date, location, exchangeId],
   );
 
   return resposta.affectedRows;
