@@ -11,6 +11,7 @@ async function runSeeder() {
     await pool.query(`TRUNCATE TABLE services_wanted`);
     await pool.query(`TRUNCATE TABLE categories`);
     await pool.query(`TRUNCATE TABLE users`);
+    await pool.query(`TRUNCATE TABLE reviews`);
 
     await pool.query(`SET FOREIGN_KEY_CHECKS = 1`);
 

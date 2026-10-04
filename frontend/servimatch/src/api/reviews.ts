@@ -14,9 +14,12 @@ export async function avaliarTroca(
   }
 }
 
-export async function listarTroca(): Promise<Review> {
+export async function listarTroca(
+  reviewedId: number | null,
+): Promise<Review[]> {
+  if (!reviewedId) return [];
   try {
-    const resposta = await api.get("reviews/listar");
+    const resposta = await api.get(`reviews/${reviewedId}/reviews`);
     return resposta.data;
   } catch (error) {
     throw new Error(extractErrorMessage(error));

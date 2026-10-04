@@ -45,12 +45,13 @@ export function MinhasTrocas() {
   });
 
   const {
-    data: reviews,
+    data: reviews = [],
     isError: erroReview,
     isPending: pendingReview,
   } = useQuery({
-    queryKey: ["MeusReviews"],
-    queryFn: listarTroca,
+    queryKey: ["MeusReviews", exchangeToReviewId],
+    queryFn: () => listarTroca(exchangeToReviewId),
+    enabled: !!exchangeToReviewId,
   });
 
   const queryClient = useQueryClient();
@@ -160,6 +161,11 @@ export function MinhasTrocas() {
     setIsTrocaSelecionada(null);
   };
 
+  const handleAvaliar = (item: Troca) => {
+    setIsModalAvaliarOpen(true);
+    setIsTrocaAvaliada(item);
+  };
+
   const handleCompletar = (item: Troca) => {
     mutate(
       { id: item.id, status: "completed" },
@@ -232,7 +238,14 @@ export function MinhasTrocas() {
         onRefresh={refetch}
         refreshing={isFetching}
         renderItem={({ item }) => {
+          const reviewDaTroca = Array.isArray(reviews)
+            ? reviews.find(
+                (r) => Number(r.reviewed_id) === Number(item.proposer_id),
+              )
+            : undefined;
           const estrelas = [1, 2, 3, 4, 5];
+          console.log("ARRAY REVIEWS:", reviews);
+          console.log("ID DA TROCA ATUAL:", item.id);
           return (
             <View>
               <Text>Meu Serviço: {item.servico_oferecido_titulo}</Text>
@@ -256,26 +269,52 @@ export function MinhasTrocas() {
               {item?.completed_at && (
                 <Text>Completado em: {formatarDataBr(item.completed_at)}</Text>
               )}
-              {item.status === "completed" && item.rating != null && (
+              {item.status === "completed" && (
                 <View>
                   <Text>Solicitação completada com sucesso!</Text>
-                  <View style={{ flexDirection: "row" }}>
-                    {estrelas.map((estrela) => {
-                      const isSelected = estrela <= (item?.rating ?? 0);
-                      return (
-                        <MaterialCommunityIcons
-                          key={estrela}
-                          name="star"
-                          color={isSelected ? "#c8ce1a" : "#a09f9f"}
-                        />
-                      );
-                    })}
-                    {item.notes && (
-                      <Text style={{ fontStyle: "italic" }}>
-                        Avaliação: {item?.notes}
-                      </Text>
-                    )}
-                  </View>
+                  {reviewDaTroca ? (
+                    <View>
+                      <Text>Detalhes da Avaliação</Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: 4,
+                        }}
+                      >
+                        <Text style={{ marginRight: 6 }}>
+                          Nota: {reviewDaTroca.rating}
+                        </Text>
+                        {estrelas.map((estrela) => {
+                          const isSelected = estrela <= reviewDaTroca.rating;
+                          return (
+                            <MaterialCommunityIcons
+                              key={estrela}
+                              name="star"
+                              size={18}
+                              color={isSelected ? "#c8ce1a" : "#a09f9f"}
+                            />
+                          );
+                        })}
+                      </View>
+                      {reviewDaTroca.comment && (
+                        <Text>Comentário:{reviewDaTroca.comment}</Text>
+                      )}
+
+                      {reviewDaTroca.created_at && (
+                        <Text>
+                          Data de Criação:{" "}
+                          {formatarDataBr(reviewDaTroca.created_at)}
+                        </Text>
+                      )}
+                    </View>
+                  ) : (
+                    <View>
+                      <Pressable onPress={() => handleAvaliar(item)}>
+                        <Text>Avaliar</Text>
+                      </Pressable>
+                    </View>
+                  )}
                 </View>
               )}
 
