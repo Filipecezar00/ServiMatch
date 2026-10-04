@@ -59,12 +59,8 @@ export async function editarStatusServico(
   }
 }
 export async function obterDetalhesServicoPorId(id: number) {
-  console.log("Chamando", `${api.defaults.baseURL}/services-offered/${id}`);
   try {
     const resposta_api = await api.get(`/services-offered/${id}`);
-    console.log("Resposta requisição axios:", resposta_api);
-    console.log("status:", resposta_api.status);
-    console.log("data:", resposta_api.data);
     return resposta_api.data;
   } catch (error) {
     throw new Error(extractErrorMessage(error));

@@ -25,8 +25,6 @@ export function DetalhesServico() {
   >(null);
   const { id } = route.params as { id: number };
 
-  console.log(id);
-
   const {
     data: detalhes,
     isLoading,
@@ -39,13 +37,11 @@ export function DetalhesServico() {
     enabled: !!id,
   });
 
-  console.log(detalhes);
   const { data: servicos, isLoading: LoadingServices } = useQuery({
     queryKey: ["meusServicos"],
     queryFn: listaMeusServicos,
     enabled: modalVisual,
   });
-  console.log(servicos);
 
   const {
     mutate,

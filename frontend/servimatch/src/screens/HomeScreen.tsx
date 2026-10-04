@@ -52,7 +52,6 @@ export function HomeScreen() {
 
   const handleOptionsDetails = (id: number) => {
     navigation.navigate("DetalhesServico", { id });
-    console.log(navigation.getState());
   };
 
   if (isLoading) {
