@@ -4,7 +4,7 @@ import { Review } from "../types/reviews";
 
 export async function avaliarTroca(
   exchangeId: number,
-  payload: { reviewedId: number; rating: number; comment: string },
+  payload: { reviewedId: number; rating: number; comment?: string },
 ): Promise<Review> {
   try {
     const resposta = await api.post(`/reviews/criar/${exchangeId}`, payload);
