@@ -43,8 +43,6 @@ export function AvaliarTroca({ visible, troca, onClose }: AvaliarTrocaProps) {
     mutate({
       id: troca.id,
       status: "completed",
-      rating: isRating,
-      notes: isNotes,
     });
   };
 

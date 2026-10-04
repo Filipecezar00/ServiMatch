@@ -82,22 +82,20 @@ export function MinhasTrocas() {
 
   const handleCancelar = (id: number) => {
     Alert.alert(
-      "confirmar cancelamento",
+      "Confirmar cancelamento",
       "Deseja realmente cancelar ?",
       [
         {
-          text: "voltar",
+          text: "Voltar",
           style: "cancel",
         },
         {
-          text: "Sim, cancelar",
+          text: "Sim, Cancelar",
           style: "destructive",
           onPress: () =>
             mutateCancelar({
               id,
               status: "cancelled",
-              rating: null,
-              notes: null,
             }),
         },
       ],
