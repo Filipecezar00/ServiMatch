@@ -44,28 +44,13 @@ export function MinhasTrocas() {
     queryFn: listarTrocas,
   });
 
-  const { mutate: executarAvaliacao, isPending: pendingReview } = useMutation({
-    mutationFn: ({
-      exchangeId,
-      payload,
-    }: {
-      exchangeId: number;
-      payload: { reviewedId: number; rating: number; comment?: string };
-    }) => avaliarTroca(exchangeId, payload),
-
-    onSuccess: () => {
-      Alert.alert("Sucesso", "Avaliação enviada com sucesso!");
-
-      queryClient.invalidateQueries({ queryKey: ["MinhasTrocas"] });
-
-      setIsModalAvaliarOpen(false);
-    },
-    onError: (error: Error) => {
-      Alert.alert(
-        "Erro",
-        error.message || "Não foi possível enviar a avaliação",
-      );
-    },
+  const {
+    data: reviews,
+    isError: erroReview,
+    isPending: pendingReview,
+  } = useQuery({
+    queryKey: ["MeusReviews"],
+    queryFn: avaliarTroca,
   });
 
   const queryClient = useQueryClient();

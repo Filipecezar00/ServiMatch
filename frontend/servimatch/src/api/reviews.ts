@@ -13,3 +13,12 @@ export async function avaliarTroca(
     throw new Error(extractErrorMessage(error));
   }
 }
+
+export async function listarTroca(): Promise<Review> {
+  try {
+    const resposta = await api.get("reviews/listar");
+    return resposta.data;
+  } catch (error) {
+    throw new Error(extractErrorMessage(error));
+  }
+}
