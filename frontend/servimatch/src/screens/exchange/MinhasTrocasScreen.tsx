@@ -205,12 +205,6 @@ export function MinhasTrocas() {
         refreshing={isFetching}
         renderItem={({ item }) => {
           const estrelas = [1, 2, 3, 4, 5];
-          console.log("Payload da troca:", {
-            id: item.id,
-            oferecido: item.servico_oferecido_titulo,
-            desejado: item.servico_desejado_titulo,
-            status: item.status,
-          });
           return (
             <View>
               <Text>Meu Serviço: {item.servico_oferecido_titulo}</Text>
