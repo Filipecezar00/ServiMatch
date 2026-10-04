@@ -7,7 +7,7 @@ import {
   concluirTroca,
   updateStatus,
 } from "../../api/exchange";
-import { avaliarTroca } from "../../api/reviews";
+import { avaliarTroca, listarTroca } from "../../api/reviews";
 import React, { useState } from "react";
 import {
   View,
@@ -50,7 +50,7 @@ export function MinhasTrocas() {
     isPending: pendingReview,
   } = useQuery({
     queryKey: ["MeusReviews"],
-    queryFn: avaliarTroca,
+    queryFn: listarTroca,
   });
 
   const queryClient = useQueryClient();
