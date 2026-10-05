@@ -11,4 +11,4 @@ profile_router.get(
   Informacoes_profile_controller,
 );
 
-return profile_router;
+export default profile_router;
