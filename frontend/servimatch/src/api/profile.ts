@@ -3,7 +3,7 @@ import { extractErrorMessage } from "./utils";
 import { PerfilResponse } from "../types/profile";
 
 export async function profile_informations(
-  usuarioId: number,
+  usuarioId?: number,
 ): Promise<PerfilResponse> {
   try {
     const resposta = await api.get(`/profile/profile/${usuarioId}`);
