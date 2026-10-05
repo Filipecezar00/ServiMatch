@@ -8,6 +8,7 @@ import service_router_offered from "./src/modules/services_offered/service_offer
 import exchange_proposal_router from "./src/modules/exchange_proposals/exchange_proposal_routes.js";
 import exchange_router from "./src/modules/exchanges/exchanges.routes.js";
 import review_router from "./src/modules/reviews/reviews.routes.js";
+import profile_router from "./src/modules/profile/profile.routes.js";
 import { setupSwagger } from "./src/config/swagger.js";
 const app = express();
 
@@ -33,6 +34,7 @@ app.use("/api/services-wanted", service_router_wanted);
 app.use("/api/exchange-proposals", exchange_proposal_router);
 app.use("/api/exchange", exchange_router);
 app.use("/api/reviews", review_router);
+app.use("/api/profile", profile_router);
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {

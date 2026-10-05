@@ -3,12 +3,12 @@ import { Informacoes_profile_controller } from "../profile/profile.controller";
 import { authMiddleware } from "../../middleware/auth";
 import express from "express";
 
-const Profilerouter = express.Router();
+const profile_router = express.Router();
 
-Profilerouter.get(
+profile_router.get(
   "/profile/:id?",
   authMiddleware,
   Informacoes_profile_controller,
 );
 
-return Profilerouter;
+return profile_router;
