@@ -47,9 +47,9 @@ export async function listar_review_repository(reviewedId) {
         SELECT r.*, u.id as reviewer_id_user, u.nome as reviewer_nome
         FROM reviews r
         JOIN users u ON r.reviewer_id = u.id WHERE
-        r.reviewed_id = ?
+        r.reviewed_id = ? OR r.reviewer_id = ? 
     `,
-    [reviewedId],
+    [reviewedId, reviewedId],
   );
   return resultado;
 }
