@@ -14,4 +14,11 @@ export async function Informacoes_profile(usuarioId) {
 
   const usuario = usuarioInformations[0];
   if (!usuario) return null;
+
+  const [servicos] = await pool.query(
+    `
+    SELECT id,nome FROM services_offered WHERE user_id = ?
+  `,
+    [usuarioId],
+  );
 }
