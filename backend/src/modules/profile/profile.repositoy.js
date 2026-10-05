@@ -21,4 +21,22 @@ export async function Informacoes_profile(usuarioId) {
   `,
     [usuarioId],
   );
+
+  const [reviews] = await pool.query(
+    `
+    SELECT r.id, r.rating, r.comment, r.created_at, u.nome as reviewer_nome
+    FROM reviews r JOIN users u ON reviewer_id = u.id 
+    WHERE r.reviewed_id = ? 
+    ORDER BY r.created_at DESC
+ `,
+    [usuarioId],
+  );
+
+  return {
+    usuario: {
+      ...usuario,
+      servicos,
+    },
+    reviews,
+  };
 }
