@@ -7,7 +7,7 @@ import {
   concluirTroca,
   updateStatus,
 } from "../../api/exchange";
-import { avaliarTroca, listarReview } from "../../api/reviews";
+import { listarReview } from "../../api/reviews";
 import React, { useState } from "react";
 import {
   View,
@@ -18,7 +18,7 @@ import {
   Alert,
 } from "react-native";
 import { EditarMinhaTroca } from "../../components/EditarMinhasTrocas";
-import { Troca, FinalizarTroca } from "../../types/exchangeTypes";
+import { Troca } from "../../types/exchangeTypes";
 import { AvaliarTroca } from "../../components/AvaliarTroca";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useAuthStore } from "../../stores/useAuthStore";
@@ -182,10 +182,6 @@ export function MinhasTrocas() {
     );
   };
 
-  const handleSuccessAvaliar = () => {
-    handleCloseAvaliar();
-  };
-
   function formatarDataBr(dataIso: string | null): string {
     if (!dataIso || dataIso.trim() === "") {
       return "Data não definida";
@@ -240,13 +236,13 @@ export function MinhasTrocas() {
             : Array.isArray((reviews as any)?.reviews)
               ? (reviews as any).reviews
               : [];
-          const reviewDaTroca = listaDeReviews.find(
-            (r: any) => Number(r.exchange_id) === Number(item.id),
+          const minhaReview = listaDeReviews.find(
+            (r: any) =>
+              Number(r.exchange_id) === Number(item.id) &&
+              Number(r.reviewer_id) === Number(usuario?.id),
           );
           const estrelas = [1, 2, 3, 4, 5];
-          console.log("ARRAY REVIEWS:", reviews);
-          console.log("reviewDaTroca:", reviewDaTroca);
-          console.log("ID DA TROCA ATUAL:", item.id);
+
           return (
             <View>
               <Text>Meu Serviço: {item.servico_oferecido_titulo}</Text>
@@ -273,9 +269,9 @@ export function MinhasTrocas() {
               {item.status == "completed" && (
                 <View>
                   <Text>Solicitação completada com sucesso!</Text>
-                  {reviewDaTroca ? (
+                  {minhaReview ? (
                     <View>
-                      <Text>Detalhes da Avaliação</Text>
+                      <Text>Detalhes da Minha avaliação</Text>
                       <View
                         style={{
                           flexDirection: "row",
@@ -284,10 +280,10 @@ export function MinhasTrocas() {
                         }}
                       >
                         <Text style={{ marginRight: 6 }}>
-                          Nota: {reviewDaTroca.rating}
+                          Nota: {minhaReview.rating}
                         </Text>
                         {estrelas.map((estrela) => {
-                          const isSelected = estrela <= reviewDaTroca.rating;
+                          const isSelected = estrela <= minhaReview.rating;
                           return (
                             <MaterialCommunityIcons
                               key={estrela}
@@ -298,14 +294,14 @@ export function MinhasTrocas() {
                           );
                         })}
                       </View>
-                      {reviewDaTroca.comment && (
-                        <Text>Comentário:{reviewDaTroca.comment}</Text>
+                      {minhaReview.comment && (
+                        <Text>Comentário:{minhaReview.comment}</Text>
                       )}
 
-                      {reviewDaTroca.created_at && (
+                      {minhaReview.created_at && (
                         <Text>
                           Data de Criação:{" "}
-                          {formatarDataBr(reviewDaTroca.created_at)}
+                          {formatarDataBr(minhaReview.created_at)}
                         </Text>
                       )}
                     </View>
