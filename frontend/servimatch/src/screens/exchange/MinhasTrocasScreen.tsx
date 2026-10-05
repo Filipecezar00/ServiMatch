@@ -7,7 +7,7 @@ import {
   concluirTroca,
   updateStatus,
 } from "../../api/exchange";
-import { avaliarTroca, listarTroca } from "../../api/reviews";
+import { avaliarTroca, listarReview } from "../../api/reviews";
 import React, { useState } from "react";
 import {
   View,
@@ -21,6 +21,7 @@ import { EditarMinhaTroca } from "../../components/EditarMinhasTrocas";
 import { Troca, FinalizarTroca } from "../../types/exchangeTypes";
 import { AvaliarTroca } from "../../components/AvaliarTroca";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useAuthStore } from "../../stores/useAuthStore";
 export function MinhasTrocas() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTrocaSelecionada, setIsTrocaSelecionada] = useState<Troca | null>(
@@ -32,6 +33,7 @@ export function MinhasTrocas() {
     null,
   );
   const [isTrocaAvaliada, setIsTrocaAvaliada] = useState<Troca | null>(null);
+  const { usuario } = useAuthStore();
 
   const {
     data: trocas,
@@ -44,16 +46,11 @@ export function MinhasTrocas() {
     queryFn: listarTrocas,
   });
 
-  const {
-    data: reviews = [],
-    isError: erroReview,
-    isPending: pendingReview,
-  } = useQuery({
-    queryKey: ["MeusReviews", exchangeToReviewId],
-    queryFn: () => listarTroca(exchangeToReviewId),
-    enabled: !!exchangeToReviewId,
+  const { data: reviews } = useQuery({
+    queryKey: ["MeusReviews", usuario?.id],
+    queryFn: () => listarReview(usuario?.id ?? null),
+    enabled: !!usuario?.id,
   });
-
   const queryClient = useQueryClient();
 
   const {
@@ -238,13 +235,17 @@ export function MinhasTrocas() {
         onRefresh={refetch}
         refreshing={isFetching}
         renderItem={({ item }) => {
-          const reviewDaTroca = Array.isArray(reviews)
-            ? reviews.find(
-                (r) => Number(r.reviewed_id) === Number(item.proposer_id),
-              )
-            : undefined;
+          const listaDeReviews = Array.isArray(reviews)
+            ? reviews
+            : Array.isArray((reviews as any)?.reviews)
+              ? (reviews as any).reviews
+              : [];
+          const reviewDaTroca = listaDeReviews.find(
+            (r: any) => Number(r.exchange_id) === Number(item.id),
+          );
           const estrelas = [1, 2, 3, 4, 5];
           console.log("ARRAY REVIEWS:", reviews);
+          console.log("reviewDaTroca:", reviewDaTroca);
           console.log("ID DA TROCA ATUAL:", item.id);
           return (
             <View>
@@ -269,7 +270,7 @@ export function MinhasTrocas() {
               {item?.completed_at && (
                 <Text>Completado em: {formatarDataBr(item.completed_at)}</Text>
               )}
-              {item.status === "completed" && (
+              {item.status == "completed" && (
                 <View>
                   <Text>Solicitação completada com sucesso!</Text>
                   {reviewDaTroca ? (

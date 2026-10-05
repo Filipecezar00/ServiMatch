@@ -14,13 +14,13 @@ export async function avaliarTroca(
   }
 }
 
-export async function listarTroca(
+export async function listarReview(
   reviewedId: number | null,
 ): Promise<Review[]> {
   if (!reviewedId) return [];
   try {
-    const resposta = await api.get(`reviews/${reviewedId}/reviews`);
-    return resposta.data;
+    const resposta = await api.get(`/reviews/${reviewedId}/reviews`);
+    return resposta.data.reviews ?? [];
   } catch (error) {
     throw new Error(extractErrorMessage(error));
   }
