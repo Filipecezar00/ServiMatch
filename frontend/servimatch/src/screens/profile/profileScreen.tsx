@@ -10,6 +10,8 @@ import {
   ActivityIndicator,
   ScrollView,
   Alert,
+  Modal,
+  TextInput,
 } from "react-native";
 
 export function Profile() {
@@ -147,6 +149,31 @@ export function Profile() {
           </View>
         )}
       </ScrollView>
+      <Modal
+        visible={isOpenModal}
+        animationType="slide"
+        onRequestClose={handleFecharModal}
+      >
+        <View style={{ flex: 1, padding: 20 }}>
+          <Text>Editar Perfil</Text>
+          <TextInput
+            onChangeText={setNome}
+            value={nome}
+            placeholder="Digite seu nome"
+          />
+          <TextInput
+            onChangeText={setEmail}
+            value={email}
+            placeholder="Digite seu email"
+          />
+          <Pressable onPress={handleFecharModal}>
+            <Text>Cancelar</Text>
+          </Pressable>
+          <Pressable>
+            <Text>Salvar</Text>
+          </Pressable>
+        </View>
+      </Modal>
     </View>
   );
 }
