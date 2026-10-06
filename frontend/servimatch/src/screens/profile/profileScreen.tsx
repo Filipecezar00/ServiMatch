@@ -35,8 +35,18 @@ export function Profile() {
     enabled: !!perfilTargetId,
   });
 
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
   const handleEditar = () => {
+    if (profile?.usuario) {
+      setNome(profile.usuario.nome);
+      setEmail(profile.usuario.email || "");
+    }
     setOpenModal(true);
+  };
+
+  const handleFecharModal = () => {
+    setOpenModal(false);
   };
 
   const handleLogout = () => {
