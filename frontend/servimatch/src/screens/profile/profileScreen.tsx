@@ -1,13 +1,14 @@
 import { useRoute } from "@react-navigation/native";
 import { profile_informations } from "../../api/profile";
 import { useAuthStore } from "../../stores/useAuthStore";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   View,
   Text,
   Pressable,
   ActivityIndicator,
   ScrollView,
+  Alert,
 } from "react-native";
 
 export function Profile() {
@@ -18,6 +19,7 @@ export function Profile() {
   const params = route.params as { id?: number } | undefined;
   const perfilTargetId = params?.id || usuarioId;
   const ehMeuPerfil = !params?.id || Number(params.id) === Number(usuarioId);
+  const queryClient = useQueryClient();
 
   const {
     data: profile,
@@ -29,6 +31,28 @@ export function Profile() {
     queryFn: () => profile_informations(perfilTargetId),
     enabled: !!perfilTargetId,
   });
+
+  const handleLogout = () => {
+    Alert.alert(
+      "Confimar",
+      "Deseja realmente deslogar ?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Deslogar",
+          style: "destructive",
+          onPress: () => {
+            queryClient.clear();
+            logout();
+          },
+        },
+      ],
+      { cancelable: true },
+    );
+  };
 
   if (isLoading) {
     return (
@@ -100,7 +124,7 @@ export function Profile() {
             <Pressable>
               <Text>Editar Perfil</Text>
             </Pressable>
-            <Pressable onPress={logout}>
+            <Pressable onPress={handleLogout}>
               <Text>Sair da Conta</Text>
             </Pressable>
           </View>
