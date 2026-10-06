@@ -1,4 +1,5 @@
 import { useRoute } from "@react-navigation/native";
+import { useState } from "react";
 import { profile_informations } from "../../api/profile";
 import { useAuthStore } from "../../stores/useAuthStore";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -21,6 +22,8 @@ export function Profile() {
   const ehMeuPerfil = !params?.id || Number(params.id) === Number(usuarioId);
   const queryClient = useQueryClient();
 
+  const [isOpenModal, setOpenModal] = useState(false);
+
   const {
     data: profile,
     isLoading,
@@ -31,6 +34,10 @@ export function Profile() {
     queryFn: () => profile_informations(perfilTargetId),
     enabled: !!perfilTargetId,
   });
+
+  const handleEditar = () => {
+    setOpenModal(true);
+  };
 
   const handleLogout = () => {
     Alert.alert(
@@ -121,7 +128,7 @@ export function Profile() {
 
         {ehMeuPerfil && (
           <View>
-            <Pressable>
+            <Pressable onPress={handleEditar}>
               <Text>Editar Perfil</Text>
             </Pressable>
             <Pressable onPress={handleLogout}>

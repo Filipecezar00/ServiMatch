@@ -40,3 +40,14 @@ export async function Informacoes_profile(usuarioId) {
     reviews,
   };
 }
+
+export async function EditarProfile(nome, email, usuarioId) {
+  const [resposta] = await pool.query(
+    `
+    UPDATE users SET nome = COALESCE(?,nome),
+    email = COALESCE(?,email) WHERE id = ?; 
+  `,
+    [nome, email, usuarioId],
+  );
+  return resposta.affectedRows;
+}
