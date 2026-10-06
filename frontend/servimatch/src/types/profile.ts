@@ -26,3 +26,8 @@ export interface PerfilResponse {
   usuario: UsuarioPerfil;
   reviews: Review[];
 }
+
+export interface DadosEdicao {
+  nome?: string;
+  email?: string;
+}
