@@ -2,7 +2,7 @@ import { useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { profile_informations } from "../../api/profile";
 import { useAuthStore } from "../../stores/useAuthStore";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   View,
   Text,
@@ -13,6 +13,7 @@ import {
   Modal,
   TextInput,
 } from "react-native";
+import { editar_profile } from "../../api/profile";
 
 export function Profile() {
   const usuarioId = useAuthStore((store) => store.usuario?.id);
@@ -37,6 +38,25 @@ export function Profile() {
     enabled: !!perfilTargetId,
   });
 
+  const {
+    mutate: mutateSalvar,
+    isPending,
+    isError: erroSalvar,
+  } = useMutation({
+    mutationFn: editar_profile,
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["Profile"] });
+
+      setOpenModal(false);
+
+      Alert.alert("Perfil editado com Sucesso!");
+    },
+    onError: (error) => {
+      Alert.alert("Atenção:", error.message);
+    },
+  });
+
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const handleEditar = () => {
@@ -45,6 +65,18 @@ export function Profile() {
       setEmail(profile.usuario.email || "");
     }
     setOpenModal(true);
+  };
+
+  const handleSalvar = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!nome || nome.trim().length < 3) {
+      return Alert.alert("O nome deve conter no mínimo três caracteres");
+    }
+
+    if (!emailRegex.test(email.trim())) {
+      return Alert.alert("O email não possui um formato válido");
+    }
+    mutateSalvar({ nome: nome.trim(), email: email.trim() });
   };
 
   const handleFecharModal = () => {
@@ -169,8 +201,12 @@ export function Profile() {
           <Pressable onPress={handleFecharModal}>
             <Text>Cancelar</Text>
           </Pressable>
-          <Pressable>
-            <Text>Salvar</Text>
+          <Pressable onPress={handleSalvar} disabled={isPending}>
+            {isPending ? (
+              <ActivityIndicator size="small" />
+            ) : (
+              <Text>Salvar</Text>
+            )}
           </Pressable>
         </View>
       </Modal>
