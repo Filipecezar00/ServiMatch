@@ -1,5 +1,8 @@
 import "dotenv/config";
-import { Informacoes_profile_controller } from "../profile/profile.controller";
+import {
+  Informacoes_profile_controller,
+  EditarProfile_controller,
+} from "../profile/profile.controller";
 import { authMiddleware } from "../../middleware/auth";
 import express from "express";
 
@@ -10,5 +13,7 @@ profile_router.get(
   authMiddleware,
   Informacoes_profile_controller,
 );
+
+profile_router.patch("/profile", authMiddleware, EditarProfile_controller);
 
 export default profile_router;
