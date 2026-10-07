@@ -99,7 +99,7 @@ export function HomeScreen() {
               item?.id?.toString() ?? String(Math.random())
             }
             renderItem={({ item }) => {
-              const isSelected = categoriaSelecionadaId === item.id;
+              const isSelected = Number(categoriaSelecionadaId) === item.id;
               return (
                 <View
                   style={{
@@ -109,7 +109,7 @@ export function HomeScreen() {
                 >
                   <Pressable
                     onPress={() =>
-                      categoriaSelecionadaId === item.id
+                      Number(categoriaSelecionadaId) === Number(item.id)
                         ? setCategoriaSelecionadaId(null)
                         : setCategoriaSelecionadaId(item.id)
                     }
