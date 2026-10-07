@@ -1,4 +1,4 @@
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
@@ -15,6 +15,8 @@ import {
 import { obterDetalhesServicoPorId } from "../../api/serviceOffered";
 import { listaMeusServicos } from "../../api/serviceOffered";
 import { criarProposta } from "../../api/exchangeProposals";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { AppStackParamList } from "../../types/types";
 
 export function DetalhesServico() {
   const route = useRoute();
@@ -103,6 +105,8 @@ export function DetalhesServico() {
     );
   }
 
+  type NavigationProps = NativeStackNavigationProp<AppStackParamList>;
+  const navigation = useNavigation<NavigationProps>();
   return (
     <View>
       <ScrollView>
@@ -111,7 +115,15 @@ export function DetalhesServico() {
           <Text>{detalhes.titulo}</Text>
           <Text>{detalhes.descricao}</Text>
           <Text>{detalhes.categoria}</Text>
-          <Text>{detalhes.prestador_nome}</Text>
+          <Pressable
+            onPress={() => {
+              if (detalhes?.user_id) {
+                navigation.navigate("Profile", { id: detalhes?.user_id });
+              }
+            }}
+          >
+            <Text>{detalhes.prestador_nome}</Text>
+          </Pressable>
         </View>
       </ScrollView>
 
