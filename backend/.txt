@@ -150,3 +150,19 @@ INSERT INTO exchange_proposals (proposer_id,receiver_id,offered_service_id,wante
 [proposer_id,receiver_id,offered_service_id,wanted_service_id,mensagem]
 return valor do insert.id
 
+
+CREATE TABLE conversas (
+    ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+    proposer_id INT NOT NULL, 
+    receiver_id INT NOT NULL, 
+    service_id INT NULL, 
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_conversas_proposer FOREIGN KEY (proposer_id) REFERENCES
+    users(id), 
+    CONSTRAINT fk_conversas_receiver FOREIGN KEY (receiver_id) REFERENCES
+    users(id), 
+    CONSTRAINT fk_conversas_service FOREIGN KEY (service_id) REFERENCES
+    services_offered(id)
+)
