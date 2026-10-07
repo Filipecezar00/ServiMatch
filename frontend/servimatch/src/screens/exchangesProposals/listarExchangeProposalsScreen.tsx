@@ -76,9 +76,15 @@ export function MinhasPropostas() {
           </Pressable>
         </View>
       )}
+
       {abaAtiva == "oferecidas" ? (
         <FlatList
           data={propostasEnviadas}
+          ListEmptyComponent={() => (
+            <View>
+              <Text>Você ainda não enviou nenhuma proposta!</Text>
+            </View>
+          )}
           keyExtractor={(item) => String(item?.id)}
           refreshing={isFetchingPropostasEnviadas}
           onRefresh={refetchPropostasEnviadas}
@@ -89,6 +95,11 @@ export function MinhasPropostas() {
       ) : (
         <FlatList
           data={propostasRecebidas}
+          ListEmptyComponent={() => (
+            <View>
+              <Text>Você ainda não recebeu nenhuma proposta!</Text>
+            </View>
+          )}
           keyExtractor={(item) => String(item?.id)}
           refreshing={isFetching}
           onRefresh={refetch}
