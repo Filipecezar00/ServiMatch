@@ -152,7 +152,7 @@ return valor do insert.id
 
 
 CREATE TABLE conversas (
-    ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
     proposer_id INT NOT NULL, 
     receiver_id INT NOT NULL, 
     service_id INT NULL, 
@@ -165,4 +165,16 @@ CREATE TABLE conversas (
     users(id), 
     CONSTRAINT fk_conversas_service FOREIGN KEY (service_id) REFERENCES
     services_offered(id)
+)
+
+CREATE TABLE mensagens (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+    conversa_id INT NOT NULL, 
+    sender_id INT NOT NULL
+    mensagem TEXT NOT NULL, 
+    lido BOOLEAN DEFAULT false, 
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+
+    CONSTRAINT fk_conversa_id FOREIGN KEY (conversa_id) REFERENCES conversas(id), 
+    CONSTRAINT fk_sender_id FOREIGN KEY (sender_id) REFERENCES users(id), 
 )
