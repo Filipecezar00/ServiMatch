@@ -15,7 +15,7 @@ export async function profile_informations(
 
 export async function editar_profile(dados: DadosEdicao): Promise<DadosEdicao> {
   try {
-    const resposta = await api.patch(`/profile`, dados);
+    const resposta = await api.patch(`/profile/profile`, dados);
     return resposta.data;
   } catch (error) {
     throw new Error(extractErrorMessage(error));
