@@ -131,28 +131,54 @@ export function Profile() {
           <Text>Usuário: {profile?.usuario.nome}</Text>
           <View>
             <View>
-              <Text>Nota: {Math.floor(profile.usuario.media_rating)}</Text>
-              <Text>Avaliações: {profile.usuario.total_reviews}</Text>
               <Text>
-                Trocas Concluidas: {profile.usuario.trocas_concluidas}
+                {profile.usuario.total_reviews === 0 ? (
+                  <Text>Novo na plataforma</Text>
+                ) : (
+                  <Text>
+                    Nota:{Math.floor(profile.usuario.media_rating)}{" "}
+                    {profile.usuario.total_reviews} avaliaçoes
+                  </Text>
+                )}
+              </Text>
+              <Text>
+                Trocas Concluidas: {profile?.usuario?.trocas_concluidas || 0}
               </Text>
             </View>
 
             <View>
-              <Text>Serviços Oferecidos:</Text>
-              {profile?.usuario.servicos.map((servico) => {
-                return (
-                  <View key={servico.id}>
-                    <Text>{servico.titulo}</Text>
-                  </View>
-                );
-              })}
+              {profile.usuario.servicos.length === 0 ? (
+                <View>
+                  <Text>
+                    {ehMeuPerfil
+                      ? "Você ainda não ofereceu nenhum serviço"
+                      : "Este usuário ainda não cadastrou nenhum serviço"}
+                  </Text>
+                  {ehMeuPerfil && (
+                    <Pressable
+                      onPress={() => navigation.navigate("CriarServico")}
+                    >
+                      <Text> + Cadastrar meu primeiro serviço</Text>
+                    </Pressable>
+                  )}
+                </View>
+              ) : (
+                <View>
+                  {profile?.usuario.servicos.map((servico) => {
+                    return (
+                      <View key={servico.id}>
+                        <Text>{servico.titulo}</Text>
+                      </View>
+                    );
+                  })}
+                </View>
+              )}
             </View>
           </View>
         </View>
-        <Text>Avaliações desse usuário</Text>
+        <Text>Avaliações Recebidas</Text>
         {profile.reviews.length === 0 ? (
-          <Text>Nenhuma avaliação ainda.</Text>
+          <Text>Nenhuma avaliação recebida até o momento</Text>
         ) : (
           profile.reviews.map((review) => (
             <View key={review.id}>
@@ -165,8 +191,10 @@ export function Profile() {
 
         <View>
           <Text>
-            Membro desde:{" "}
-            {new Date(profile.usuario.criado_em).toLocaleString("pt-BR")}
+            Membro desde:
+            {profile?.usuario.criado_em
+              ? new Date(profile.usuario.criado_em).toLocaleString("pt-BR")
+              : "-"}
           </Text>
         </View>
 
