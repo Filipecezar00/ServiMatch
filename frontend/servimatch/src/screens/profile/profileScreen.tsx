@@ -131,7 +131,7 @@ export function Profile() {
           <Text>Usuário: {profile?.usuario.nome}</Text>
           <View>
             <View>
-              <Text>Nota: {profile.usuario.media_rating}</Text>
+              <Text>Nota: {Math.floor(profile.usuario.media_rating)}</Text>
               <Text>Avaliações: {profile.usuario.total_reviews}</Text>
               <Text>
                 Trocas Concluidas: {profile.usuario.trocas_concluidas}
