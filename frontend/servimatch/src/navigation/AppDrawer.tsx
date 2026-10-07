@@ -11,16 +11,20 @@ import {
   ServicesWantedStack,
   HomeScreenStack,
   ProposalsStack,
-  Exchanges_stack
+  Exchanges_stack,
 } from "../navigation/ServicesStack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigator } from "./AppStack";
+import { Profile } from "../screens/profile/profileScreen";
 
 type AppDrawerParamList = {
   HomeStack: undefined;
   MeusServicosOffered: undefined;
   MeusServicosWanted: undefined;
   ProposalStack: undefined;
-  ExchangesStack:undefined;
+  ExchangesStack: undefined;
+  Profile: { id: number } | undefined;
 };
 
 const Drawer = createDrawerNavigator<AppDrawerParamList>();
@@ -32,9 +36,16 @@ export function CustomDrawerContent(props: DrawerContentComponentProps) {
   return (
     <DrawerContentScrollView {...props}>
       <View>
-        <MaterialCommunityIcons name="account-circle" size={50} />
-        <Text>Bem vindo, {usuario?.nome}</Text>
-        <Text>Email: {usuario?.email}</Text>
+        <Pressable
+          onPress={() => {
+            props.navigation.closeDrawer();
+            props.navigation.navigate("Profile");
+          }}
+        >
+          <MaterialCommunityIcons name="account-circle" size={50} />
+          <Text>Bem vindo, {usuario?.nome}</Text>
+          <Text>Email: {usuario?.email}</Text>
+        </Pressable>
       </View>
       <DrawerItemList {...props} />
       <Pressable onPress={() => logout()}>
@@ -75,9 +86,18 @@ export function AppDrawer() {
         options={{ headerShown: false, title: "Minhas Propostas" }}
       />
       <Drawer.Screen
-      component={Exchanges_stack}
-      name="ExchangesStack"
-      options={{headerShown:false,title:"Minhas Trocas"}}
+        component={Exchanges_stack}
+        name="ExchangesStack"
+        options={{ headerShown: false, title: "Minhas Trocas" }}
+      />
+      <Drawer.Screen
+        component={Profile}
+        name="Profile"
+        options={{
+          headerShown: true,
+          title: "Meu Perfil",
+          drawerItemStyle: { display: "none" },
+        }}
       />
     </Drawer.Navigator>
   );

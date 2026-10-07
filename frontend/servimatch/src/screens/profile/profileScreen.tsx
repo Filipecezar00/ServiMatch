@@ -116,7 +116,7 @@ export function Profile() {
   if (isError || !profile) {
     return (
       <View>
-        <Text>Erro ao renderizar Perfil</Text>{" "}
+        <Text>Erro ao renderizar Perfil</Text>
         <Pressable onPress={() => refetch()}>
           <Text>Tente Novamente</Text>
         </Pressable>
@@ -139,11 +139,11 @@ export function Profile() {
             </View>
 
             <View>
-              Serviços oferecidos:{" "}
+              <Text>Serviços Oferecidos:</Text>
               {profile?.usuario.servicos.map((servico) => {
                 return (
                   <View key={servico.id}>
-                    <Text>{servico.nome}</Text>
+                    <Text>{servico.titulo}</Text>
                   </View>
                 );
               })}

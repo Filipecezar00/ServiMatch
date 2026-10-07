@@ -1,7 +1,7 @@
 import {
   Informacoes_profile_service,
   editarInformacoes,
-} from "../profile/profile.service";
+} from "../profile/profile.service.js";
 
 export async function Informacoes_profile_controller(req, res, next) {
   try {

@@ -33,14 +33,13 @@ export type ProposalStack = {
 
 export type ExchangesStack = {
   MinhasTrocas: undefined;
-}
+};
 
 const Stack = createNativeStackNavigator<ServiceStackOfferedParamList>();
 const Stack_Wanted = createNativeStackNavigator<ServiceStackWantedParamList>();
 const Stack_Home = createNativeStackNavigator<HomeStack>();
 const Proposal_stack = createNativeStackNavigator<ProposalStack>();
 const Exchange_stack = createNativeStackNavigator<ExchangesStack>();
-
 
 export function ServicesOfferedStack() {
   return (
@@ -92,10 +91,10 @@ export function ProposalsStack() {
   );
 }
 
-export function Exchanges_stack(){
-  return(
+export function Exchanges_stack() {
+  return (
     <Exchange_stack.Navigator initialRouteName="MinhasTrocas">
-      <Exchange_stack.Screen component={MinhasTrocas} name="MinhasTrocas"/>
-    </Exchange_stack.Navigator> 
-  )
+      <Exchange_stack.Screen component={MinhasTrocas} name="MinhasTrocas" />
+    </Exchange_stack.Navigator>
+  );
 }

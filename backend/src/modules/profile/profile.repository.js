@@ -1,12 +1,12 @@
-import { pool } from "../../config/database";
+import { pool } from "../../config/database.js";
 
 export async function Informacoes_profile(usuarioId) {
   const [usuarioInformations] = await pool.query(
     `
         SELECT u.id,u.nome,u.email,u.criado_em,
-        COALESCE((SELECT AVG(rating) FROM reviews WHERE reviewed_id=u.id),0)AS media_rating,
+        COALESCE((SELECT AVG(rating) FROM reviews r WHERE reviewed_id=u.id),0)AS media_rating,
         (SELECT COUNT(id) FROM reviews WHERE reviewed_id = u.id) AS total_reviews,
-        (SELECT COUNT(id) FROM exchanges WHERE (user_a_id = u.id OR user_b_id = u.id)AND status = 'completed') AS trocas_concluidas
+        (SELECT COUNT(id) FROM exchange_proposals WHERE (proposer_id = u.id OR receiver_id = u.id)AND status = 'completed') AS trocas_concluidas
         FROM users u WHERE u.id = ?
     `,
     [usuarioId],
@@ -17,7 +17,7 @@ export async function Informacoes_profile(usuarioId) {
 
   const [servicos] = await pool.query(
     `
-    SELECT id,nome FROM services_offered WHERE user_id = ?
+    SELECT id,titulo FROM services_offered WHERE user_id = ?
   `,
     [usuarioId],
   );

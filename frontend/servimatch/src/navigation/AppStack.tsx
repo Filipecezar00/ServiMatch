@@ -9,7 +9,7 @@ import { ListarServicosProcurados } from "../screens/services_wanted/MeusServico
 import { DetalhesServico } from "../screens/services_wanted/DetalhesServicoScreen";
 import { MinhasPropostas } from "../screens/exchangesProposals/listarExchangeProposalsScreen";
 import { MinhasTrocas } from "../screens/exchange/MinhasTrocasScreen";
-
+import { Profile } from "../screens/profile/profileScreen";
 const Stack = createNativeStackNavigator<AppStackParamList>();
 
 export function AppNavigator() {
@@ -33,6 +33,7 @@ export function AppNavigator() {
       <Stack.Screen name="DetalhesServico" component={DetalhesServico} />
       <Stack.Screen name="MinhasPropostas" component={MinhasPropostas} />
       <Stack.Screen name="MinhasTrocas" component={MinhasTrocas} />
+      <Stack.Screen name="Profile" component={Profile} />
     </Stack.Navigator>
   );
 }

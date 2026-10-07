@@ -1,6 +1,6 @@
 export interface Servico {
   id: number;
-  nome: string;
+  titulo: string;
 }
 
 export interface Review {
