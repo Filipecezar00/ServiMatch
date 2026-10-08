@@ -14,6 +14,7 @@ export type ClientToServerEvents = {
 export type ServerToClientEvents = {
   receive_message(mensagem: MensagemFormatada): void;
   user_typing(data: { conversaId: number; userId: number }): void;
+  error_message(error:string):void;
 };
 
 export type InterServerEvents = {};

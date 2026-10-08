@@ -61,14 +61,18 @@ app.use(errorMiddleware);
 
 io.on("connection", async (socket) => {
   socket.on("join_room", async (conversaId: number) => {
+    try{
     let usuarioId = socket.data.user.id;
     let consulta_banco = await buscaUsuarioId_service(usuarioId,conversaId)
   if(consulta_banco){
       socket.join(`conversa:${conversaId}`)
-  })
+}
+    }catch(error:any){
+      socket.emit("error_message",error.message)
+    }
+})
   console.log("Usuário autenticado conectado:", socket.data.user);
   socket.on("disconnect", (conversaId) => {
-    socket.leave(`conversa:${conversaId}`)
     console.log("Usuário desconectado:", socket.data.user.id);
   });
 });
