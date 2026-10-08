@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "dev": "nodemon index.js",
+    "dev": "tsx watch index.ts",
     "seed": "node src/utils/seed.js"
   },
   "keywords": [],
@@ -15,10 +15,14 @@
   "devDependencies": {
     "@babel/core": "^8.0.1",
     "@babel/preset-env": "^8.0.2",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^26.6.4",
     "babel-jest": "^30.5.1",
     "jest": "^30.5.1",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "tsx": "^4.23.15"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

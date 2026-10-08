@@ -10,9 +10,30 @@ import exchange_router from "./src/modules/exchanges/exchanges.routes.js";
 import review_router from "./src/modules/reviews/reviews.routes.js";
 import profile_router from "./src/modules/profile/profile.routes.js";
 import { setupSwagger } from "./src/config/swagger.js";
-const app = express();
+import { createServer } from "node:http";
+import { Server } from "socket.io";
+import {
+  ClientToServerEvents,
+  InterServerEvents,
+  ServerToClientEvents,
+  SocketData,
+} from "./src/types/socket.js";
+import { authSocket } from "./src/middleware/authSocket.js";
 
+const app = express();
 app.use(express.json());
+
+const httpServer = createServer(app);
+
+const io: Server<
+  ClientToServerEvents,
+  ServerToClientEvents,
+  InterServerEvents,
+  SocketData
+> = new Server(httpServer, {
+  cors: { origin: "*" },
+});
+io.use(authSocket);
 
 setupSwagger(app);
 
@@ -37,6 +58,12 @@ app.use("/api/reviews", review_router);
 app.use("/api/profile", profile_router);
 app.use(errorMiddleware);
 
-app.listen(process.env.PORT, () => {
+io.on("connection", (socket) => {
+  console.log("Usuário autenticado conectado:", socket.data.user);
+  socket.on("disconnect", () => {
+    console.log("Usuário desconectado:", socket.data.user.id);
+  });
+});
+httpServer.listen(process.env.PORT, () => {
   console.log(`Servidor rodando em porta ${process.env.PORT}`);
 });
