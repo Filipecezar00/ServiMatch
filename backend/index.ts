@@ -19,7 +19,7 @@ import {
   SocketData,
 } from "./src/types/socket.js";
 import { authSocket } from "./src/middleware/authSocket.js";
-import {buscaUsuarioId_service} from "./src/modules/conversas/conversas.service.js"
+import {buscaUsuarioId_service,inserirMensagem_service} from "./src/modules/conversas/conversas.service.js"
 
 const app = express();
 app.use(express.json());
@@ -60,7 +60,7 @@ app.use("/api/profile", profile_router);
 app.use(errorMiddleware);
 
 io.on("connection", async (socket) => {
-  socket.on("join_room", async (conversaId: number) => {
+socket.on("join_room", async (conversaId: number) => {
     try{
     let usuarioId = socket.data.user.id;
     let consulta_banco = await buscaUsuarioId_service(usuarioId,conversaId)
@@ -71,6 +71,17 @@ io.on("connection", async (socket) => {
       socket.emit("error_message",error.message)
     }
 })
+ socket.on("send_message",async ({conversaId,mensagem}:{conversaId:number;mensagem:string})=>{
+     try{
+      let usuarioId = socket.data.user.id
+      let mensagem_enviada = await inserirMensagem_service(conversaId,usuarioId,mensagem);
+
+      io.to(`conversa:${conversaId}`).emit("receive_message",mensagem_enviada)
+     }catch(error:any){
+      socket.emit("error_message",error.message)
+     }
+    })
+
   console.log("Usuário autenticado conectado:", socket.data.user);
   socket.on("disconnect", () => {
     console.log("Usuário desconectado:", socket.data.user.id);

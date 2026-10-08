@@ -27,10 +27,10 @@ if(!conversa_id){
 if(!usuarioId){
     throw new AppError("Usuário não localizado",404)
 }
-if(!mensagem){
+if(!mensagem||mensagem.trim()===""){
     throw new AppError("Envie uma mensagem",400)
 }
-    
+await buscaUsuarioId_service(usuarioId,conversa_id)
 const resposta = await inserirMensagem(conversa_id,usuarioId,mensagem);
 return resposta
 }
