@@ -59,6 +59,9 @@ app.use("/api/profile", profile_router);
 app.use(errorMiddleware);
 
 io.on("connection", (socket) => {
+  socket.on("join_room", (conversaId: number) => {
+    let usuarioId = socket.data.user.id;
+  });
   console.log("Usuário autenticado conectado:", socket.data.user);
   socket.on("disconnect", () => {
     console.log("Usuário desconectado:", socket.data.user.id);
