@@ -1,11 +1,12 @@
 import { pool } from "../../config/database";
 
 export async function buscaUsuarioId(usuarioId: number, conversa_id: number) {
-  const resposta = pool.query(
+  const resposta = await pool.query(
     `
-  SELECT * FROM conversas WHERE proposer_id = ? AND conversa_id = ?
+  SELECT * FROM conversas
+  WHERE id = ? AND (proposer_id = ? OR receiver_id = ? )
   `,
-    [usuarioId, conversa_id],
+    [conversa_id,usuarioId,usuarioId],
   );
 
   return resposta;

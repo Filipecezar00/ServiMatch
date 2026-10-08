@@ -59,13 +59,16 @@ app.use("/api/reviews", review_router);
 app.use("/api/profile", profile_router);
 app.use(errorMiddleware);
 
-io.on("connection", (socket) => {
-  socket.on("join_room", (conversaId: number) => {
+io.on("connection", async (socket) => {
+  socket.on("join_room", async (conversaId: number) => {
     let usuarioId = socket.data.user.id;
-    let consulta_banco = buscaUsuarioId_service(usuarioId,conversaId)
-  });
+    let consulta_banco = await buscaUsuarioId_service(usuarioId,conversaId)
+  if(consulta_banco){
+      socket.join(`conversa:${conversaId}`)
+  })
   console.log("Usuário autenticado conectado:", socket.data.user);
-  socket.on("disconnect", () => {
+  socket.on("disconnect", (conversaId) => {
+    socket.leave(`conversa:${conversaId}`)
     console.log("Usuário desconectado:", socket.data.user.id);
   });
 });
