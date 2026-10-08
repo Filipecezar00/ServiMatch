@@ -72,7 +72,7 @@ io.on("connection", async (socket) => {
     }
 })
   console.log("Usuário autenticado conectado:", socket.data.user);
-  socket.on("disconnect", (conversaId) => {
+  socket.on("disconnect", () => {
     console.log("Usuário desconectado:", socket.data.user.id);
   });
 });
