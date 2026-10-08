@@ -11,3 +11,4 @@ export async function buscaUsuarioId(usuarioId: number, conversa_id: number) {
 
   return resposta;
 }
+

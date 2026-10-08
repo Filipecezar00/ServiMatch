@@ -12,5 +12,5 @@ export async function buscaUsuarioId_service(
     throw new AppError("Conversa não localizada",404)
   }
 
-  await buscaUsuarioId(usuarioId,conversa_id)
+  return await buscaUsuarioId(usuarioId,conversa_id)
 }               
