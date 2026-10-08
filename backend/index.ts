@@ -19,6 +19,7 @@ import {
   SocketData,
 } from "./src/types/socket.js";
 import { authSocket } from "./src/middleware/authSocket.js";
+import {buscaUsuarioId_service} from "./src/modules/conversas/conversas.service.js"
 
 const app = express();
 app.use(express.json());
@@ -61,6 +62,7 @@ app.use(errorMiddleware);
 io.on("connection", (socket) => {
   socket.on("join_room", (conversaId: number) => {
     let usuarioId = socket.data.user.id;
+    let consulta_banco = buscaUsuarioId_service(usuarioId,conversaId)
   });
   console.log("Usuário autenticado conectado:", socket.data.user);
   socket.on("disconnect", () => {
