@@ -10,6 +10,7 @@ import exchange_router from "./src/modules/exchanges/exchanges.routes.js";
 import review_router from "./src/modules/reviews/reviews.routes.js";
 import profile_router from "./src/modules/profile/profile.routes.js";
 import { setupSwagger } from "./src/config/swagger.js";
+import conversas_router from "./src/modules/conversas/conversas.routes.js"; "./src/modules/conversas/conversas.routes.js"
 import { createServer } from "node:http";
 import { Server } from "socket.io";
 import {
@@ -57,6 +58,7 @@ app.use("/api/exchange-proposals", exchange_proposal_router);
 app.use("/api/exchange", exchange_router);
 app.use("/api/reviews", review_router);
 app.use("/api/profile", profile_router);
+app.use("/api/conversas",conversas_router)
 app.use(errorMiddleware);
 
 io.on("connection", async (socket) => {
