@@ -12,7 +12,7 @@ export const useAuthStore = create<AuthState>()(
       token: null,
       socket: null,
 
-      login: (usuario, token) => {set({usuario,token}); get().connectSocket},
+      login: (usuario, token) => {set({usuario,token}); get().connectSocket()},
       logout: () => {get().disconnectSocket(); set({usuario:null,token:null})},
       connectSocket:()=> {
         const {token,socket} = get(); 
