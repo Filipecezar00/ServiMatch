@@ -1,5 +1,5 @@
 import AppError from "../../utils/AppError";
-import { buscaUsuarioId,inserirMensagem } from "../conversas/conversas.repository";
+import { buscaUsuarioId,inserirMensagem,buscaMensagens } from "../conversas/conversas.repository";
 
 export async function buscaUsuarioId_service(
   usuarioId: number,
@@ -33,4 +33,29 @@ if(!mensagem||mensagem.trim()===""){
 await buscaUsuarioId_service(usuarioId,conversa_id)
 const resposta = await inserirMensagem(conversa_id,usuarioId,mensagem);
 return resposta
+}
+
+export async function buscaMensagens_service(usuarioId:number,conversa_id:number,page:number,limit:number){
+await buscaUsuarioId_service(usuarioId,conversa_id); 
+let page_number = Number(page) || 1; 
+let limit_number = Number(limit) || 20; 
+
+if(page_number<1){
+  page_number = 1 
+}
+if(limit_number < 1 ){
+  limit_number = 20
+}
+let offset = (page_number-1) * limit_number
+
+const mensagens = await buscaMensagens(conversa_id,limit,offset); 
+const totalPages = Math.ceil(mensagens.total/limit_number)
+
+return ({
+  page:page_number, 
+  limit:limit_number,
+  total:mensagens.total,
+  totalPages,
+  data:mensagens.mensagens 
+})
 }
