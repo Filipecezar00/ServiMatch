@@ -40,6 +40,13 @@ export const useAuthStore = create<AuthState>()(
         usuario:state.usuario,
         token:state.token,
       }),
+      onRehydrateStorage:()=>{
+        return (hydratedState)=>{
+          if(hydratedState && hydratedState.token){
+            hydratedState.connectSocket()
+          }
+        }
+      }
     },
   ),
 );
