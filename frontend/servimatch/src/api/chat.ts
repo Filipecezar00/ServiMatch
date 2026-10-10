@@ -19,3 +19,13 @@ try{
     throw new Error(extractErrorMessage(error))
 }
 }
+
+export async function criarConversa(payload:{receiver_id:number,service_id:number}){
+    try{
+        const resposta = await api.post("/criarConversa",payload); 
+        return resposta.data
+    }catch(error){
+        throw new Error(extractErrorMessage(error))
+    }
+
+}
