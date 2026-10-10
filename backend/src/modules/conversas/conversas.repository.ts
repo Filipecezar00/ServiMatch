@@ -46,3 +46,12 @@ export async function buscaMensagens(conversa_id:number,limit:number,offset:numb
   const [totalRows]:any = quantidade_mensagem
   return {mensagens:mensagens,total:totalRows[0].total}
 }
+
+export async function buscaConversas(usuarioId:number){
+  const respostas = await pool.query(`
+    SELECT * FROM conversa 
+    JOIN users u ON receiver_id = u.id
+    WHERE proposer_id = ?
+  `,[usuarioId]); 
+  return respostas; 
+}
