@@ -14,4 +14,6 @@ export type AppStackParamList = {
   MinhasPropostas: { id: number };
   MinhasTrocas: undefined;
   Profile: { id: number } | undefined;
+  Chat:{conversa_id:number}
+  ListarChat:undefined
 };
