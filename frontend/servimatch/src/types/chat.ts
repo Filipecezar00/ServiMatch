@@ -14,5 +14,6 @@ export interface Conversas{
     receiver_id:number; 
     service_id:number; 
     created_at:string; 
-    updated_at:string; 
+    updated_at:string;
+    nome:string; 
 }
