@@ -1,5 +1,5 @@
 import AppError from "../../utils/AppError";
-import { buscaUsuarioId,inserirMensagem,buscaMensagens } from "../conversas/conversas.repository";
+import { buscaUsuarioId,inserirMensagem,buscaMensagens,buscaConversas } from "../conversas/conversas.repository";
 
 export async function buscaUsuarioId_service(
   usuarioId: number,
@@ -58,4 +58,14 @@ return ({
   totalPages,
   data:mensagens.mensagens 
 })
+}
+
+export async function buscaConversas_repository(usuarioId:number){
+if(!usuarioId){
+  throw new AppError("Usuário não localizado",404); 
+}
+
+const conversas = await buscaConversas(usuarioId)
+
+return conversas
 }
