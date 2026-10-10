@@ -60,7 +60,7 @@ return ({
 })
 }
 
-export async function buscaConversas_repository(usuarioId:number){
+export async function buscaConversas_service(usuarioId:number){
 if(!usuarioId){
   throw new AppError("Usuário não localizado",404); 
 }
