@@ -17,14 +17,18 @@ import { listaMeusServicos } from "../../api/serviceOffered";
 import { criarProposta } from "../../api/exchangeProposals";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppStackParamList } from "../../types/types";
+import {criarConversa} from "../../api/chat"; 
 
 export function DetalhesServico() {
   const route = useRoute();
+  type NavigationProps = NativeStackNavigationProp<AppStackParamList>;
+  const navigation = useNavigation<NavigationProps>();
   const [modalVisual, setModalVisual] = useState(false);
   const [mensagem, setMensagem] = useState("");
   const [servicoSelecionadoId, setServicoSelecionadoId] = useState<
     number | null
   >(null);
+  const [loadingChat,setLoadingChat] = useState(false)
   const { id } = route.params as { id: number };
 
   const {
@@ -90,6 +94,35 @@ export function DetalhesServico() {
     mutate({ receiver_id, wanted_service_id, offered_service_id, mensagem });
   };
 
+  const handleCriarConversa = async ()=>{
+    if(!detalhes?.user_id || !id){
+      Alert.alert("Aviso","Informações do prestador indisponíveis no momento."); 
+      return
+    }
+    console.log("detalhes.user_id:",detalhes?.user_id)
+    try{
+    setLoadingChat(true)
+    const data = await criarConversa({receiver_id:detalhes.user_id,service_id:id}); 
+    console.log(data); 
+    const conversa_id = data?.id || data?.conversas?.id
+    console.log(conversa_id)
+
+    if(conversa_id){
+      navigation.navigate("Chat",{conversa_id}); 
+    }else{
+      Alert.alert("Erro","Não foi possível obter a sala da conversa"); 
+    }
+    }catch(error:any){
+      Alert.alert("Erro ao iniciar conversa",error?.response?.data?.message || error.message); 
+      console.log("Erro ao criar conversa")
+      console.log("Mensagem padrão:",error.message); 
+      console.log("Resposta do backend:",error?.response?.data); 
+      console.log("Status HTTP:",error?.response?.status)
+    }finally{
+      setLoadingChat(false)
+    }
+  }
+
   if (isLoading) {
     return <ActivityIndicator />;
   }
@@ -105,8 +138,6 @@ export function DetalhesServico() {
     );
   }
 
-  type NavigationProps = NativeStackNavigationProp<AppStackParamList>;
-  const navigation = useNavigation<NavigationProps>();
   return (
     <View>
       <ScrollView>
@@ -131,6 +162,13 @@ export function DetalhesServico() {
         <Text>Propor troca</Text>
       </Pressable>
 
+       <Pressable onPress={handleCriarConversa} disabled={loadingChat}>
+         {loadingChat?(
+          <ActivityIndicator size="small" />
+         ):(
+          <Text>Conversar com o prestador</Text>
+         )}
+       </Pressable>
       <Modal visible={modalVisual} onRequestClose={() => setModalVisual(false)}>
         <View>
           <Text>Realizar Troca de Servicos</Text>

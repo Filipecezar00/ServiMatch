@@ -24,7 +24,8 @@ export async function criarConversa(payload:{receiver_id:number,service_id:numbe
     try{
         const resposta = await api.post("/criarConversa",payload); 
         return resposta.data
-    }catch(error){
+    }catch(error:any){
+        console.log("Erro: ",error?.response?.data || error.message)
         throw new Error(extractErrorMessage(error))
     }
 
