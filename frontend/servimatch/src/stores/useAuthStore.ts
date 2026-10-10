@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { AuthState } from "../types/auth";
-import {io } from "socket.io-client";
+import io  from "socket.io-client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_CONFIG } from "../config/env";
 
@@ -19,6 +19,7 @@ export const useAuthStore = create<AuthState>()(
         if(!token || socket?.connected) return 
 
         const newSocket = io(API_CONFIG.BASE_URL,{
+          transports:["websocket"],
           auth:{token:`Bearer ${token}`},
         })
         set({socket:newSocket}); 
