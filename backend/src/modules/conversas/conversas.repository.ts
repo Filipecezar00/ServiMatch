@@ -49,9 +49,12 @@ export async function buscaMensagens(conversa_id:number,limit:number,offset:numb
 
 export async function buscaConversas(usuarioId:number){
   const respostas = await pool.query(`
-    SELECT * FROM conversa 
-    JOIN users u ON receiver_id = u.id
-    WHERE proposer_id = ?
-  `,[usuarioId]); 
+    SELECT c.*,u.nome AS nome_outro_usuario FROM conversa c
+    JOIN users u ON (
+    (c.proposer_id = ? AND c.receiver_id = u.id) OR
+    (c.receiver_id = ? AND c.proposer_id = u.id) 
+  )
+    WHERE c.proposer_id = ? OR c.receiver_id = ?
+  `,[usuarioId,usuarioId,usuarioId,usuarioId]); 
   return respostas; 
 }
