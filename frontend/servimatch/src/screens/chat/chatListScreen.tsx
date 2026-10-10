@@ -12,10 +12,10 @@ export function ChatList(){
         queryFn:listarConversas
     })
 
-    const navigation = useNavigation(); 
+    const navigation = useNavigation<any>(); 
 
     return (
-        <View>
+        <View style={{flex:1}}>
             {isError&&(
                 <View>
                     <Text>Erro ao renderizar Lista de conversas</Text>
