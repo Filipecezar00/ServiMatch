@@ -4,7 +4,7 @@ import {Mensagens,Conversas} from "../types/chat"
 
 export async function carregarHistorico(conversa_id:number):Promise<Mensagens[]>{
     try{
-        const resposta = await api.get(`/${conversa_id}/mensagens`);
+        const resposta = await api.get(`conversas/${conversa_id}/mensagens`);
         return resposta.data
     }catch(error:any){  
      throw new Error(extractErrorMessage(error))
@@ -13,7 +13,7 @@ export async function carregarHistorico(conversa_id:number):Promise<Mensagens[]>
 
 export async function listarConversas():Promise<Conversas[]>{
 try{
-    const resposta = await api.get("/conversas")
+    const resposta = await api.get("/conversas/conversas")
     return resposta.data
 }catch(error:any){
     throw new Error(extractErrorMessage(error))
@@ -22,7 +22,7 @@ try{
 
 export async function criarConversa(payload:{receiver_id:number,service_id:number}){
     try{
-        const resposta = await api.post("/criarConversa",payload); 
+        const resposta = await api.post("/conversas/criarConversa",payload); 
         return resposta.data
     }catch(error:any){
         console.log("Erro: ",error?.response?.data || error.message)
