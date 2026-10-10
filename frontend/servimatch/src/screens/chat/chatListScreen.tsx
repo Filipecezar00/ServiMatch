@@ -24,7 +24,13 @@ export function ChatList(){
             {isPending&&(
                 <ActivityIndicator size={18}/>
             )}
-            <Text>Minhas Conversas</Text>
+            {conversas?.length==0?(
+            <View>
+                <Text>Você ainda não possui conversas</Text>
+            </View>
+            ):(
+        <View>
+          <Text>Minhas Conversas</Text>
             <FlatList data={conversas} keyExtractor={(conversa)=>conversa.id.toString()} renderItem={({item})=>(
                 <Pressable onPress={()=>navigation.navigate("Chat",{conversa_id:item.id})}>
                 <View>
@@ -34,6 +40,8 @@ export function ChatList(){
                 </View>
                 </Pressable>
             )}/>
+            </View>
+            )}
         </View>
     )
 }
