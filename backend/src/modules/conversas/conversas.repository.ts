@@ -58,3 +58,21 @@ export async function buscaConversas(usuarioId:number){
   `,[usuarioId,usuarioId,usuarioId,usuarioId]); 
   return respostas; 
 }
+
+export async function criarConversa(proposer_id:number,receiver_id:number,service_id:number){
+  const [conversas] = await pool.query<any[]>(`
+   SELECT id FROM conversas WHERE ((proposer_id=? AND receiver_id = ?) OR (proposer_id = ? AND receiver_id = ? ))
+   AND service_id = ?
+  `,[proposer_id,receiver_id,receiver_id,proposer_id,service_id])
+
+  if(conversas.length>0){
+    return conversas[0]
+  }
+
+  const [resposta] = await pool.query<any>(
+    `
+    INSERT INTO conversas (proposer_id,receiver_id,service_id) VALUES (?,?,?)
+  `,[proposer_id,receiver_id,service_id]
+  )
+  return {id:resposta.insertId};
+}
