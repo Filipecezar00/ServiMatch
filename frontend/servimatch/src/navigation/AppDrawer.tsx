@@ -17,6 +17,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigator } from "./AppStack";
 import { Profile } from "../screens/profile/profileScreen";
+import {ChatList} from "../screens/chat/chatListScreen"
 
 type AppDrawerParamList = {
   HomeStack: undefined;
@@ -25,6 +26,7 @@ type AppDrawerParamList = {
   ProposalStack: undefined;
   ExchangesStack: undefined;
   Profile: { id: number } | undefined;
+  ChatList:undefined
 };
 
 const Drawer = createDrawerNavigator<AppDrawerParamList>();
@@ -98,6 +100,14 @@ export function AppDrawer() {
           title: "Meu Perfil",
           drawerItemStyle: { display: "none" },
         }}
+      />
+      <Drawer.Screen
+      component={ChatList}
+      name="ChatList"
+      options={{
+        headerShown:false, 
+        title:"Minhas Conversas", 
+      }}
       />
     </Drawer.Navigator>
   );
