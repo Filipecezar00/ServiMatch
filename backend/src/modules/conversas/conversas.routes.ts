@@ -1,10 +1,11 @@
 import { Router } from "express";
-import {buscaMensagens_controller,buscaConversas_controller} from "../conversas/conversas.controller"
+import {buscaMensagens_controller,buscaConversas_controller,criarConversa_controller} from "../conversas/conversas.controller"
 import { authMiddleware } from "../../middleware/auth";
 
 const conversas_router = Router()
 
 conversas_router.get("/:conversa_id/mensagens",authMiddleware,buscaMensagens_controller)
 conversas_router.get("/conversas",authMiddleware,buscaConversas_controller); 
+conversas_router.post("/criarConversa",authMiddleware,criarConversa_controller); 
 
 export default conversas_router
