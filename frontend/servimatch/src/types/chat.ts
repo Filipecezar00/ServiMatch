@@ -4,5 +4,6 @@ export interface Mensagens{
     sender_id:number; 
     mensagem:string; 
     lido:boolean; 
+    enviando?:boolean
     created_at:string;
 }
