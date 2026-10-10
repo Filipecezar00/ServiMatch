@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View,Text,FlatList, Pressable } from "react-native";
+import { View,Text,FlatList, Pressable, ActivityIndicator } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import {listarConversas} from "../../api/chat"
 import { useNavigation } from "@react-navigation/native";
@@ -16,6 +16,14 @@ export function ChatList(){
 
     return (
         <View>
+            {isError&&(
+                <View>
+                    <Text>Erro ao renderizar Lista de conversas</Text>
+                </View>
+            )}
+            {isPending&&(
+                <ActivityIndicator size={18}/>
+            )}
             <Text>Minhas Conversas</Text>
             <FlatList data={conversas} keyExtractor={(conversa)=>conversa.id.toString()} renderItem={({item})=>(
                 <Pressable onPress={()=>navigation.navigate("Chat",{conversa_id:item.id})}>
