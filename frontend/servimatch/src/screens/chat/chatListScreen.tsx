@@ -17,8 +17,8 @@ export function ChatList(){
     return (
         <View>
             <Text>Minhas Conversas</Text>
-            <FlatList data={conversas} keyExtractor={(conversa)=>conversa.id} renderItem={({item})=>(
-                <Pressable onPress={navigation.navigate("ChatScreen",{conversa_id:item.id})}>
+            <FlatList data={conversas} keyExtractor={(conversa)=>conversa.id.toString()} renderItem={({item})=>(
+                <Pressable onPress={()=>navigation.navigate("Chat",{conversa_id:item.id})}>
                 <View>
                     <Text>{item.nome}</Text>
                     <Text>Atualizado em: {item.updated_at}</Text>
