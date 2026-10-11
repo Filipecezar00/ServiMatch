@@ -30,6 +30,10 @@ if(!usuarioId){
 if(!mensagem||mensagem.trim()===""){
     throw new AppError("Envie uma mensagem",400)
 }
+
+if(mensagem.length > 1000){
+  throw new AppError("A mensagem é muito longa. O limite é de 1000 caracteres.",400)
+}
 await buscaUsuarioId_service(usuarioId,conversa_id)
 const resposta = await inserirMensagem(conversa_id,usuarioId,mensagem);
 return resposta
