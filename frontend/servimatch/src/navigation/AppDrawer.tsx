@@ -12,7 +12,8 @@ import {
   HomeScreenStack,
   ProposalsStack,
   Exchanges_stack,  
-  Chat_Stack
+  Chat_Stack,
+  Profile_Stack
 } from "../navigation/ServicesStack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Profile } from "../screens/profile/profileScreen";
@@ -23,7 +24,7 @@ type AppDrawerParamList = {
   MeusServicosWanted: undefined;
   ProposalStack: undefined;
   ExchangesStack: undefined;
-  Profile: { id: number } | undefined;
+  ProfileStack: { id: number } | undefined;
   ChatStack:undefined
 };
 
@@ -39,7 +40,10 @@ export function CustomDrawerContent(props: DrawerContentComponentProps) {
         <Pressable
           onPress={() => {
             props.navigation.closeDrawer();
-            props.navigation.navigate("Profile");
+            props.navigation.navigate("ProfileStack",{
+              screen:"Profile",
+              params:{id:undefined}, 
+            });
           }}
         >
           <MaterialCommunityIcons name="account-circle" size={50} />
@@ -90,9 +94,10 @@ export function AppDrawer() {
         name="ExchangesStack"
         options={{ headerShown: false, title: "Minhas Trocas" }}
       />
+
       <Drawer.Screen
-        component={Profile}
-        name="Profile"
+        component={Profile_Stack}
+        name="ProfileStack"
         options={{
           headerShown: true,
           title: "Meu Perfil",

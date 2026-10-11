@@ -143,7 +143,10 @@ export function DetalhesServico() {
           <Pressable
             onPress={() => {
               if (detalhes?.user_id) {
-                navigation.navigate("Profile", { id: detalhes?.user_id });
+                navigation.navigate("ProfileStack",{
+                 screen:"Profile", 
+                 params: { id: detalhes?.user_id }
+              });
               }
             }}
           >
