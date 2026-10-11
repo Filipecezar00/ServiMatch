@@ -1,4 +1,4 @@
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { profile_informations } from "../../api/profile";
 import { useAuthStore } from "../../stores/useAuthStore";
@@ -13,12 +13,16 @@ import {
   Modal,
   TextInput,
 } from "react-native";
+import {criarConversa} from "../../api/chat"
+import { listaMeusServicos } from "../../api/serviceOffered";
 import { editar_profile } from "../../api/profile";
 
 export function Profile() {
   const usuarioId = useAuthStore((store) => store.usuario?.id);
   const logout = useAuthStore((store) => store.logout);
   const route = useRoute();
+  const navigation = useNavigation()
+  const [isLoadingChat,setIsLoadingChat] = useState(false)
 
   const params = route.params as { id?: number } | undefined;
   const perfilTargetId = params?.id || usuarioId;
@@ -37,6 +41,12 @@ export function Profile() {
     queryFn: () => profile_informations(perfilTargetId),
     enabled: !!perfilTargetId,
   });
+
+
+ const {data:servicos} = useQuery({
+  queryKey:["meusServicos"], 
+  queryFn: listaMeusServicos
+ })
 
   const {
     mutate: mutateSalvar,
@@ -104,6 +114,28 @@ export function Profile() {
       { cancelable: true },
     );
   };
+
+  const handleCriarConversa = async ()=>{
+    if(!profile?.usuario.id){
+      Alert.alert("Aviso","Informações do prestador indisponíveis no momento")
+      return
+    }
+    try{
+      setIsLoadingChat(true)
+      const data = await criarConversa({receiver_id:Number(profile?.usuario.id)})
+      const conversa_id = data?.id || data?.conversas?.id 
+      if(conversa_id){
+        navigation.navigate("Chat",{conversa_id}); 
+      }else{
+        Alert.alert("Erro","Não foi possível obter a sala da conversa"); 
+      }
+    }catch(error:any){
+      Alert.alert("Erro ao iniciar conversa",error?.response?.data?.message || error.message)
+    }finally{
+      setIsLoadingChat(false)
+    }
+  }
+
 
   if (isLoading) {
     return (
@@ -197,6 +229,17 @@ export function Profile() {
               : "-"}
           </Text>
         </View>
+
+        <View>
+              <Pressable onPress={handleCriarConversa} disabled={isLoadingChat}>
+                {isLoadingChat?(
+                  <ActivityIndicator size="small"/>
+                ):(
+                  <Text>Conversar com o prestador</Text>
+                )}
+              </Pressable>
+        </View>
+ 
 
         {ehMeuPerfil && (
           <View>

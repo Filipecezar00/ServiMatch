@@ -20,7 +20,7 @@ try{
 }
 }
 
-export async function criarConversa(payload:{receiver_id:number,service_id:number}){
+export async function criarConversa(payload:{receiver_id:number,service_id?:number}){
     try{
         const resposta = await api.post("/conversas/criarConversa",payload); 
         return resposta.data
