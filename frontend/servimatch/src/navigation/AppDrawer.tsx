@@ -11,11 +11,11 @@ import {
   ServicesWantedStack,
   HomeScreenStack,
   ProposalsStack,
-  Exchanges_stack,
+  Exchanges_stack,  
+  Chat_Stack
 } from "../navigation/ServicesStack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Profile } from "../screens/profile/profileScreen";
-import {ChatList} from "../screens/chat/chatListScreen"
 
 type AppDrawerParamList = {
   HomeStack: undefined;
@@ -24,7 +24,7 @@ type AppDrawerParamList = {
   ProposalStack: undefined;
   ExchangesStack: undefined;
   Profile: { id: number } | undefined;
-  ChatList:undefined
+  ChatStack:undefined
 };
 
 const Drawer = createDrawerNavigator<AppDrawerParamList>();
@@ -100,8 +100,8 @@ export function AppDrawer() {
         }}
       />
       <Drawer.Screen
-      component={ChatList}
-      name="ChatList"
+      component={Chat_Stack}
+      name="ChatStack"
       options={{
         headerShown:false, 
         title:"Minhas Conversas", 
