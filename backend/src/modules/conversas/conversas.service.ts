@@ -70,7 +70,7 @@ const conversas = await buscaConversas(usuarioId)
 return conversas
 }
 
-export async function criarConversa_service(proposer_id:number,receiver_id:number,service_id?:number){
+export async function criarConversa_service(proposer_id:number,receiver_id:number,service_id?:number|null){
   if(!proposer_id){
     throw new AppError("Usuário não localizado",404)
   }
@@ -84,7 +84,7 @@ export async function criarConversa_service(proposer_id:number,receiver_id:numbe
     }
   }
 
-  const conversas = await criarConversa(proposer_id,receiver_id,Number(service_id ?? null)); 
+  const conversas = await criarConversa(proposer_id,receiver_id,service_id!==undefined && service_id!==null ? Number(service_id):null); 
 
   return conversas
 }
