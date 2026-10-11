@@ -27,6 +27,7 @@ export type ServiceStackWantedParamList = {
 export type HomeStack = {
   Home: undefined;
   DetalhesServico: { id: number };
+  Chat:{conversa_id:number}
 };
 
 export type ProposalStack = {
@@ -84,6 +85,7 @@ export function HomeScreenStack() {
     <Stack_Home.Navigator initialRouteName="Home">
       <Stack_Home.Screen component={HomeScreen} name="Home" />
       <Stack_Home.Screen component={DetalhesServico} name="DetalhesServico" />
+      <Stack_Home.Screen component={ChatScreen} name="Chat"/>
     </Stack_Home.Navigator>
   );
 }

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { View,Text,FlatList, Pressable, ActivityIndicator } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import {listarConversas} from "../../api/chat"
