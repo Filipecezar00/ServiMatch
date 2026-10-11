@@ -71,19 +71,29 @@ export async function buscaService_id(service_id:number){
 }
 
 export async function criarConversa(proposer_id:number,receiver_id:number,service_id:number|null){
-  const [conversas] = await pool.query<any[]>(`
-   SELECT id FROM conversas WHERE ((proposer_id=? AND receiver_id = ?) OR (proposer_id = ? AND receiver_id = ? ))
-   AND service_id = ?
-  `,[proposer_id,receiver_id,receiver_id,proposer_id,service_id])
+  let query = `
+  SELECT id FROM conversas
+  WHERE ((proposer_id = ? AND receiver_id = ?) OR (proposer_id = ? AND receiver_id = ?))
+  `
+  const params:any[] = [proposer_id,receiver_id,receiver_id,proposer_id]
+
+  if(service_id !== null && service_id !==undefined){
+    query+= `AND service_id = ?`; 
+    params.push(service_id)
+  }else{
+    query+=`AND service_id IS NULL`; 
+  }
+
+  const [conversas] = await pool.query<any[]>(query,params); 
 
   if(conversas.length>0){
     return conversas[0]
   }
-
+  
   const [resposta] = await pool.query<any>(
     `
     INSERT INTO conversas (proposer_id,receiver_id,service_id) VALUES (?,?,?)
-  `,[proposer_id,receiver_id,service_id]
+  `,[proposer_id,receiver_id,service_id || null]
   )
   return {id:resposta.insertId};
 }
