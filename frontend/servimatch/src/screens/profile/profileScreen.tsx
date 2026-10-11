@@ -229,8 +229,18 @@ export function Profile() {
               : "-"}
           </Text>
         </View>
-
-        <View>
+    
+        {ehMeuPerfil ? (
+          <View>
+            <Pressable onPress={handleEditar}>
+              <Text>Editar Perfil</Text>
+            </Pressable>
+            <Pressable onPress={handleLogout}>
+              <Text>Sair da Conta</Text>
+            </Pressable>
+          </View>
+        ):(
+          <View>
               <Pressable onPress={handleCriarConversa} disabled={isLoadingChat}>
                 {isLoadingChat?(
                   <ActivityIndicator size="small"/>
@@ -240,16 +250,6 @@ export function Profile() {
               </Pressable>
         </View>
  
-
-        {ehMeuPerfil && (
-          <View>
-            <Pressable onPress={handleEditar}>
-              <Text>Editar Perfil</Text>
-            </Pressable>
-            <Pressable onPress={handleLogout}>
-              <Text>Sair da Conta</Text>
-            </Pressable>
-          </View>
         )}
       </ScrollView>
       <Modal
