@@ -1,0 +1,28 @@
+export const theme = {
+    colors:{
+         primary:'#2298af', 
+         primaryDark:'#14535e', 
+         accent:'#E76F51', 
+         background:'#F8F9FA',
+         surface:"#FFFFFF", 
+         textPrimary:'#2B2D42', 
+         textSecondary:'#8D99AE', 
+         success:'#2A9D8F', 
+         error:'#E63946', 
+         border:'#E2E8F0',
+         myMessageBubble:'#2298af', 
+         otherMessageBubble:'#FFFFFF',
+    },
+    spacing:{
+        xs:4,
+        sm:8,
+        md:16,
+        lg:24,
+        xl:32, 
+    }, 
+    borderRadius:{
+        sm:4,
+        md:8,
+        lg:16
+    }
+}
