@@ -1,5 +1,5 @@
 import AppError from "../../utils/AppError";
-import { buscaUsuarioId,inserirMensagem,buscaMensagens,buscaConversas,criarConversa } from "../conversas/conversas.repository";
+import { buscaUsuarioId,inserirMensagem,buscaMensagens,buscaConversas,criarConversa,buscaService_id } from "../conversas/conversas.repository";
 
 export async function buscaUsuarioId_service(
   usuarioId: number,
@@ -70,18 +70,21 @@ const conversas = await buscaConversas(usuarioId)
 return conversas
 }
 
-export async function criarConversa_service(proposer_id:number,receiver_id:number,service_id:number){
+export async function criarConversa_service(proposer_id:number,receiver_id:number,service_id?:number){
   if(!proposer_id){
     throw new AppError("Usuário não localizado",404)
   }
   if(!receiver_id){
     throw new AppError("Usuário não localizado",404)
   }
-  if(!service_id){ 
-    throw new AppError("Serviço não localizado",404)
+  if(service_id!=null){ 
+    const servicoExistente = await buscaService_id(service_id)
+    if(!servicoExistente){
+      throw new AppError("Serviço não localizado",404)
+    }
   }
 
-  const conversas = await criarConversa(proposer_id,receiver_id,service_id); 
+  const conversas = await criarConversa(proposer_id,receiver_id,Number(service_id ?? null)); 
 
   return conversas
 }

@@ -59,6 +59,17 @@ export async function buscaConversas(usuarioId:number){
   return respostas[0]; 
 }
 
+export async function buscaService_id(service_id:number){
+  const [service] = await pool.query<any>(`
+   SELECT id FROM services_offered WHERE id = ?
+  `,[service_id]);
+
+   if(!service || service.length === 0){
+    return null; 
+   }
+   return service[0]
+}
+
 export async function criarConversa(proposer_id:number,receiver_id:number,service_id:number){
   const [conversas] = await pool.query<any[]>(`
    SELECT id FROM conversas WHERE ((proposer_id=? AND receiver_id = ?) OR (proposer_id = ? AND receiver_id = ? ))
