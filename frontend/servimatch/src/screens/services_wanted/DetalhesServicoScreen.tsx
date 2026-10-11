@@ -18,6 +18,7 @@ import { criarProposta } from "../../api/exchangeProposals";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppStackParamList } from "../../types/types";
 import {criarConversa} from "../../api/chat"; 
+import { useAuthStore } from "../../stores/useAuthStore";
 
 export function DetalhesServico() {
   const route = useRoute();
@@ -30,6 +31,7 @@ export function DetalhesServico() {
   >(null);
   const [loadingChat,setLoadingChat] = useState(false)
   const { id } = route.params as { id: number };
+  const usuarioId = useAuthStore((state)=>state.usuario?.id)
 
   const {
     data: detalhes,
@@ -155,6 +157,8 @@ export function DetalhesServico() {
         </View>
       </ScrollView>
 
+  {Number(usuarioId)!= Number(detalhes?.user_id)?(
+    <View>
       <Pressable onPress={() => setModalVisual(true)}>
         <Text>Propor troca</Text>
       </Pressable>
@@ -166,6 +170,14 @@ export function DetalhesServico() {
           <Text>Conversar com o prestador</Text>
          )}
        </Pressable>
+    </View>
+      ):(
+        <View>
+          <Text>Esse é seu serviço!</Text>
+        </View>
+      )}
+
+
       <Modal visible={modalVisual} onRequestClose={() => setModalVisual(false)}>
         <View>
           <Text>Realizar Troca de Servicos</Text>
