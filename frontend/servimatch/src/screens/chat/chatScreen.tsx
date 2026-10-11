@@ -38,7 +38,6 @@ queryClient.setQueryData<Mensagens[]>(["historicoMensagens",roomId],(historicoAn
     const listaAtual = Array.isArray(historicoAntigo) ? historicoAntigo : []; 
     return [novaMensagem,...listaAtual]
 })
-console.log("Frontend recebeu receive_message do servidor",novaMensagem)
 }
 
 useEffect(()=>{
@@ -46,12 +45,10 @@ if(!socket || !roomId){
     return
 }
 
-console.log("Registrando socket join e listeners para a sala:",roomId); 
 socket?.emit("join_room",{roomId})
 
 socket?.on("receive_message",handleNewMessage); 
 return()=>{
-console.log("Limpando socket listeners da sala:",roomId)
 socket?.off("receive_message")
 socket?.emit("leave_room",{roomId})
 }
@@ -66,7 +63,6 @@ const {data:mensagens,isError,isPending} = useQuery<HistoricoMensagens>({
 
 const handleEnviarMensagem = ()=>{
     if(isMensagens.trim()=="") return
-    console.log("Enviando via socket para a sala:",roomId,"Mensagem:",isMensagens)
     socket?.emit("send_message",{roomId,mensagem:isMensagens})
 
     setIsMensagens(""); 

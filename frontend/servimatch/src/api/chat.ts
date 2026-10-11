@@ -7,10 +7,6 @@ export async function carregarHistorico(conversa_id:number):Promise<HistoricoMen
         const resposta = await api.get(`conversas/${conversa_id}/mensagens`);
         return resposta.data
     }catch(error:any){  
-        console.log("ERRO AO CRIAR MENSAGEM"); 
-        console.log("Status:", error?.response?.status);
-        console.log("Dados do Erro:", error?.response?.data);
-        console.log("Mensagem:", error.message);
      throw new Error(extractErrorMessage(error))
     }
 }

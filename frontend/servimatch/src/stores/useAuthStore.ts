@@ -25,12 +25,6 @@ export const useAuthStore = create<AuthState>()(
           auth:{token:`Bearer ${token}`},
         })
         set({socket:newSocket}); 
-        newSocket.on("connect",()=>{
-          console.log("SOCKET CONECTADO COM SUCESSO! ID:",newSocket.id)
-        }), 
-      newSocket.on("connect_error",(err)=>{
-        console.log("ERRO DE CONEXÃO DO SOCKET:",err.message)
-      })
       },  
       disconnectSocket:()=> {
         const {socket} = get(); 

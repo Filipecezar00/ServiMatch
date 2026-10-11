@@ -44,7 +44,6 @@ app.get("/health", async (req, res) => {
     const consulta = await pool.query(`SELECT 1`);
     res.status(200).json({ status: "ok", database: "connected" });
   } catch (error) {
-    console.log("ERRO AO EXECUTAR CARREGAMENTO DO SERVIDOR:", error);
     return res
       .status(500)
       .json({ status: "error", database: "Erro ao executar servidor" });
@@ -68,29 +67,22 @@ socket.on("join_room", async (payload:{roomId:number}) => {
     let consulta_banco = await buscaUsuarioId_service(usuarioId,payload.roomId)
   if(consulta_banco){
       socket.join(`conversa:${payload.roomId}`)
-      console.log(`Usuário ${usuarioId} entrou com sucesso na sala: conversa:${payload.roomId}`)
-}else{
-  console.log(`Usuário ${usuarioId} Não tem permissão para a sala ${payload.roomId}`)
 }
     }catch(error:any){
-      console.log("Erro no join_room:",error.message)
       socket.emit("error_message",error.message)
     }
 })
  socket.on("send_message",async ({roomId,mensagem}:{roomId:number;mensagem:string})=>{
      try{
-      console.log("MENSAGEM QUE CHEGOU NO BACKEND:",mensagem,"Sala:",roomId)
       let usuarioId = socket.data.user.id
       let mensagem_enviada = await inserirMensagem_service(roomId,usuarioId,mensagem);
 
-      console.log("Emitindo receive_message para a sala:",`conversa:${roomId}`)
       io.to(`conversa:${roomId}`).emit("receive_message",mensagem_enviada)
      }catch(error:any){
       socket.emit("error_message",error.message)
      }
     })
 
-  console.log("Usuário autenticado conectado:", socket.data.user);
   socket.on("disconnect", () => {
     console.log("Usuário desconectado:", socket.data.user.id);
   });

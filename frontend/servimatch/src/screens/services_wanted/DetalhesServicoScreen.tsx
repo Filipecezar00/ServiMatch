@@ -99,13 +99,10 @@ export function DetalhesServico() {
       Alert.alert("Aviso","Informações do prestador indisponíveis no momento."); 
       return
     }
-    console.log("detalhes.user_id:",detalhes?.user_id)
     try{
     setLoadingChat(true)
     const data = await criarConversa({receiver_id:detalhes.user_id,service_id:id}); 
-    console.log(data); 
     const conversa_id = data?.id || data?.conversas?.id
-    console.log(conversa_id)
 
     if(conversa_id){
       navigation.navigate("Chat",{conversa_id}); 
@@ -114,10 +111,7 @@ export function DetalhesServico() {
     }
     }catch(error:any){
       Alert.alert("Erro ao iniciar conversa",error?.response?.data?.message || error.message); 
-      console.log("Erro ao criar conversa")
-      console.log("Mensagem padrão:",error.message); 
-      console.log("Resposta do backend:",error?.response?.data); 
-      console.log("Status HTTP:",error?.response?.status)
+      
     }finally{
       setLoadingChat(false)
     }
