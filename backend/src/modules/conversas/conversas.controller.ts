@@ -32,7 +32,7 @@ export async function criarConversa_controller(req:Request, res:Response,next:Ne
     const proposer_id = req.usuario?.id
     const {receiver_id,service_id} = req.body;
 
-    const resposta = await criarConversa_service(Number(proposer_id),Number(receiver_id),Number(service_id))
+    const resposta = await criarConversa_service(Number(proposer_id),Number(receiver_id),service_id ? Number(service_id):undefined)
     return res.status(201).json(resposta)
   }catch(error){
     next(error)
