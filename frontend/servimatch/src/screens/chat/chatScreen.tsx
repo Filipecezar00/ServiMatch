@@ -76,6 +76,7 @@ return (
     data={mensagens}
     inverted={true}
     keyExtractor={(mensagem)=>String(mensagem.id)}
+    style={{flex:1}}
     renderItem={(({item})=>{
         const ehMinhaMensagem =  item.sender_id === usuario?.id
         return(
@@ -87,9 +88,10 @@ return (
         )
     })}
     />
-
-    <TextInput value={isMensagens} onChangeText={setIsMensagens}/>
-    <Pressable onPress={handleEnviarMensagem}>Enviar</Pressable>
+    <View style={{marginTop:10,flexDirection:"row",alignItems:"center"}}>
+    <TextInput value={isMensagens} onChangeText={setIsMensagens} style={{flex:1,borderWidth:1,borderColor:"#ccc",padding:8,borderRadius:4,backgroundColor:"#fff", marginBottom:40}}/>
+    <Pressable onPress={handleEnviarMensagem} style={{marginLeft:8,padding:10,backgroundColor:"#2298af",borderRadius:4,marginBottom:40}}><Text>Enviar</Text></Pressable>
+    </View>
   </View>  
   </KeyboardAvoidingView>
 )

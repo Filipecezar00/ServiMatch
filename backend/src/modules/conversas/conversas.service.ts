@@ -46,9 +46,9 @@ if(page_number<1){
 if(limit_number < 1 ){
   limit_number = 20
 }
-let offset = (page_number-1) * limit_number
+let offset = Number((page_number-1) * limit_number) || 0
 
-const mensagens = await buscaMensagens(conversa_id,limit,offset); 
+const mensagens = await buscaMensagens(conversa_id,limit_number,offset); 
 const totalPages = Math.ceil(mensagens.total/limit_number)
 
 return ({
