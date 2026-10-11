@@ -81,6 +81,11 @@ return (
     {isPending&&(
         <ActivityIndicator size={18}/>
     )}
+     {mensagens?.data.length==0&&(
+            <View>
+                <Text>Nenhuma mensagem ainda, mande um Oi!</Text>
+            </View>
+    )}
     <FlatList
     data={mensagens?.data||[]}
     inverted={true}
