@@ -2,11 +2,11 @@ import { View,Text,FlatList, Pressable, ActivityIndicator } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import {listarConversas} from "../../api/chat"
 import { useNavigation } from "@react-navigation/native";
-
+import {Conversas} from "../../types/chat"
 
 
 export function ChatList(){
-    const {data:conversas,isError,isPending} = useQuery({
+    const {data:conversas,isError,isPending} = useQuery<Conversas[]>({
         queryKey:["listaConversas"],
         queryFn:listarConversas
     })
@@ -30,7 +30,7 @@ export function ChatList(){
             ):(
         <View>
           <Text>Minhas Conversas</Text>
-            <FlatList data={conversas} keyExtractor={(conversa)=>conversa.id.toString()} renderItem={({item})=>(
+            <FlatList data={conversas || []} keyExtractor={(item)=>String(item?.id || Math.random())} renderItem={({item})=>(
                 <Pressable onPress={()=>navigation.navigate("Chat",{conversa_id:item.id})}>
                 <View>
                     <Text>{item.nome}</Text>

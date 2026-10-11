@@ -56,7 +56,7 @@ export async function buscaConversas(usuarioId:number){
   )
     WHERE c.proposer_id = ? OR c.receiver_id = ?
   `,[usuarioId,usuarioId,usuarioId,usuarioId]); 
-  return respostas; 
+  return respostas[0]; 
 }
 
 export async function criarConversa(proposer_id:number,receiver_id:number,service_id:number){
