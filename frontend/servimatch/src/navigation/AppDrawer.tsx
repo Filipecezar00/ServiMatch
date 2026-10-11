@@ -99,7 +99,7 @@ export function AppDrawer() {
         component={Profile_Stack}
         name="ProfileStack"
         options={{
-          headerShown: true,
+          headerShown: false,
           title: "Meu Perfil",
           drawerItemStyle: { display: "none" },
         }}
