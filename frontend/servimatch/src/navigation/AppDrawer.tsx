@@ -14,8 +14,6 @@ import {
   Exchanges_stack,
 } from "../navigation/ServicesStack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { AppNavigator } from "./AppStack";
 import { Profile } from "../screens/profile/profileScreen";
 import {ChatList} from "../screens/chat/chatListScreen"
 

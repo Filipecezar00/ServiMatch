@@ -9,6 +9,8 @@ import { DetalhesServico } from "../screens/services_wanted/DetalhesServicoScree
 import { HomeScreen } from "../screens/HomeScreen";
 import { MinhasPropostas } from "../screens/exchangesProposals/listarExchangeProposalsScreen";
 import { MinhasTrocas } from "../screens/exchange/MinhasTrocasScreen";
+import { ChatList } from "../screens/chat/chatListScreen"
+import { ChatScreen } from "../screens/chat/chatScreen"
 
 export type ServiceStackOfferedParamList = {
   ListarMeusServicos: undefined;
@@ -35,11 +37,17 @@ export type ExchangesStack = {
   MinhasTrocas: undefined;
 };
 
+export type ChatStack = {
+  Chat:{conversa_id:number}
+  ListarChat:undefined
+}
+
 const Stack = createNativeStackNavigator<ServiceStackOfferedParamList>();
 const Stack_Wanted = createNativeStackNavigator<ServiceStackWantedParamList>();
 const Stack_Home = createNativeStackNavigator<HomeStack>();
 const Proposal_stack = createNativeStackNavigator<ProposalStack>();
 const Exchange_stack = createNativeStackNavigator<ExchangesStack>();
+const Chat_stack = createNativeStackNavigator<ChatStack>(); 
 
 export function ServicesOfferedStack() {
   return (
@@ -97,4 +105,13 @@ export function Exchanges_stack() {
       <Exchange_stack.Screen component={MinhasTrocas} name="MinhasTrocas" />
     </Exchange_stack.Navigator>
   );
+}
+
+export function Chat_Stack(){
+  return(
+    <Chat_stack.Navigator initialRouteName="ListarChat">
+      <Chat_stack.Screen component={ChatScreen} name="Chat"/>
+      <Chat_stack.Screen component={ChatList} name="ListarChat"/>
+    </Chat_stack.Navigator>
+  )
 }
