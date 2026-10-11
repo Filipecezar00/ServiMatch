@@ -1,8 +1,8 @@
 import { api }from "../config/api";
 import {extractErrorMessage} from "./utils"
-import {Mensagens,Conversas} from "../types/chat"
+import {Mensagens,Conversas,HistoricoMensagens} from "../types/chat"
 
-export async function carregarHistorico(conversa_id:number):Promise<Mensagens[]>{
+export async function carregarHistorico(conversa_id:number):Promise<HistoricoMensagens>{
     try{
         const resposta = await api.get(`conversas/${conversa_id}/mensagens`);
         return resposta.data

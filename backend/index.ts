@@ -62,23 +62,29 @@ app.use("/api/conversas",conversas_router)
 app.use(errorMiddleware);
 
 io.on("connection", async (socket) => {
-socket.on("join_room", async (conversaId: number) => {
+socket.on("join_room", async (payload:{roomId:number}) => {
     try{
     let usuarioId = socket.data.user.id;
-    let consulta_banco = await buscaUsuarioId_service(usuarioId,conversaId)
+    let consulta_banco = await buscaUsuarioId_service(usuarioId,payload.roomId)
   if(consulta_banco){
-      socket.join(`conversa:${conversaId}`)
+      socket.join(`conversa:${payload.roomId}`)
+      console.log(`Usuário ${usuarioId} entrou com sucesso na sala: conversa:${payload.roomId}`)
+}else{
+  console.log(`Usuário ${usuarioId} Não tem permissão para a sala ${payload.roomId}`)
 }
     }catch(error:any){
+      console.log("Erro no join_room:",error.message)
       socket.emit("error_message",error.message)
     }
 })
- socket.on("send_message",async ({conversaId,mensagem}:{conversaId:number;mensagem:string})=>{
+ socket.on("send_message",async ({roomId,mensagem}:{roomId:number;mensagem:string})=>{
      try{
+      console.log("MENSAGEM QUE CHEGOU NO BACKEND:",mensagem,"Sala:",roomId)
       let usuarioId = socket.data.user.id
-      let mensagem_enviada = await inserirMensagem_service(conversaId,usuarioId,mensagem);
+      let mensagem_enviada = await inserirMensagem_service(roomId,usuarioId,mensagem);
 
-      io.to(`conversa:${conversaId}`).emit("receive_message",mensagem_enviada)
+      console.log("Emitindo receive_message para a sala:",`conversa:${roomId}`)
+      io.to(`conversa:${roomId}`).emit("receive_message",mensagem_enviada)
      }catch(error:any){
       socket.emit("error_message",error.message)
      }

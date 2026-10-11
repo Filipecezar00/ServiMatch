@@ -12,7 +12,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import { Mensagens } from "../../types/chat";
+import { Mensagens,HistoricoMensagens } from "../../types/chat";
 import { TextInput } from "react-native-gesture-handler";
 import { useRoute } from "@react-navigation/native";
 export function ChatScreen(){
@@ -28,25 +28,37 @@ const [roomId,setIsRoomId] = useState<number|null>(conversa_id||null);
 
 
 const handleNewMessage = (novaMensagem:Mensagens)=>{
-queryClient.setQueryData<Mensagens[]>(["historicoMensagens",roomId],(historicoAntigo)=>{
-    return [novaMensagem,...(historicoAntigo||[])]
+queryClient.setQueryData<Mensagens[]>(["historicoMensagens",roomId],(historicoAntigo:any)=>{
+    if(historicoAntigo && typeof historicoAntigo==='object' && Array.isArray(historicoAntigo.data)){
+        return {
+            ...historicoAntigo,
+            data:[novaMensagem,...historicoAntigo.data]
+        }
+    }
+    const listaAtual = Array.isArray(historicoAntigo) ? historicoAntigo : []; 
+    return [novaMensagem,...listaAtual]
 })
+console.log("Frontend recebeu receive_message do servidor",novaMensagem)
 }
 
 useEffect(()=>{
 if(!socket || !roomId){
     return
 }
+
+console.log("Registrando socket join e listeners para a sala:",roomId); 
 socket?.emit("join_room",{roomId})
+
 socket?.on("receive_message",handleNewMessage); 
 return()=>{
+console.log("Limpando socket listeners da sala:",roomId)
 socket?.off("receive_message")
 socket?.emit("leave_room",{roomId})
 }
 
 },[socket,roomId])
 
-const {data:mensagens,isError,isPending} = useQuery({
+const {data:mensagens,isError,isPending} = useQuery<HistoricoMensagens>({
     queryKey:["historicoMensagens",roomId],
     queryFn:()=>carregarHistorico(roomId!), 
     enabled:!!roomId
@@ -54,7 +66,8 @@ const {data:mensagens,isError,isPending} = useQuery({
 
 const handleEnviarMensagem = ()=>{
     if(isMensagens.trim()=="") return
-    socket?.emit("send_message",{roomId,mensagens:isMensagens})
+    console.log("Enviando via socket para a sala:",roomId,"Mensagem:",isMensagens)
+    socket?.emit("send_message",{roomId,mensagem:isMensagens})
 
     setIsMensagens(""); 
 }
@@ -73,7 +86,7 @@ return (
         <ActivityIndicator size={18}/>
     )}
     <FlatList
-    data={mensagens}
+    data={mensagens?.data||[]}
     inverted={true}
     keyExtractor={(mensagem)=>String(mensagem.id)}
     style={{flex:1}}

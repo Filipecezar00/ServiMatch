@@ -8,6 +8,14 @@ export interface Mensagens{
     created_at:string;
 }
 
+export interface HistoricoMensagens  {
+    page:number; 
+    limit:number;
+    total:number; 
+    totalPages:number; 
+    data:Mensagens[];
+}
+
 export interface Conversas{
     id:number; 
     proposer_id:number;

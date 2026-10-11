@@ -7,8 +7,8 @@ export type SocketData = {
 };
 
 export type ClientToServerEvents = {
-  join_room(conversaId: number): void;
-  send_message(payload: { conversaId: number; mensagem: string }): void;
+  join_room(payload:{roomId:number}): void;
+  send_message(payload: { roomId: number; mensagem: string }): void;
 };
 
 export type ServerToClientEvents = {
