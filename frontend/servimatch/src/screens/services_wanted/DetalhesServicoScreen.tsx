@@ -11,7 +11,9 @@ import {
   Alert,
   FlatList,
   TextInput,
+  StyleSheet
 } from "react-native";
+import {theme} from "../../styles/theme/theme";
 import { obterDetalhesServicoPorId } from "../../api/serviceOffered";
 import { listaMeusServicos } from "../../api/serviceOffered";
 import { criarProposta } from "../../api/exchangeProposals";
@@ -19,6 +21,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppStackParamList } from "../../types/types";
 import {criarConversa} from "../../api/chat"; 
 import { useAuthStore } from "../../stores/useAuthStore";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export function DetalhesServico() {
   const route = useRoute();
@@ -120,14 +123,18 @@ export function DetalhesServico() {
   }
 
   if (isLoading) {
-    return <ActivityIndicator />;
+   return(
+    <View style={styles.estadoCentralizado}>
+      <ActivityIndicator size="small" color={theme.colors.primary}/>
+    </View>
+    )
   }
 
   if (isError || !detalhes) {
     return (
-      <View>
-        <Text>Erro ao consultar detalhes do serviço : {error?.message}</Text>
-        <Pressable onPress={() => refetch()}>
+      <View style={styles.errorBox}>
+        <Text style={styles.textError}>Erro ao consultar detalhes do serviço : {error?.message}</Text>
+        <Pressable onPress={() => refetch()} style={styles.btnTentarNovamente}>
           <Text>Tente novamente</Text>
         </Pressable>
       </View>
@@ -135,14 +142,39 @@ export function DetalhesServico() {
   }
 
   return (
-    <View>
-      <ScrollView>
-        <Text>Detalhes do Serviço</Text>
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.conteudo} showsVerticalScrollIndicator={false}>
+      
+        <View style={styles.cabecalho}>
+          <Pressable onPress={()=>navigation.goBack()}
+          accessibilityLabel="Voltar"  
+          accessibilityRole="button"
+          hitSlop={8}
+          style={styles.botaoVoltar}
+          >
+          <MaterialCommunityIcons
+          name="arrow-left"
+          size={24}
+          color={theme.colors.textPrimary}
+          />
+          </Pressable>
+          <Text style={styles.tituloCabecalho}>Detalhes do Serviço</Text>     
+        </View>
+
+        <View style={styles.detalhesServicos}>
+          <View style={styles.etiquetaCategoria}>
+            <Text style={styles.categoriaServico}>{detalhes.categoria}</Text>
+          </View>
+          <Text style={styles.tituloServico}>{detalhes.titulo}</Text>
+          <Text style={styles.descricaoServico}>{detalhes.descricao}</Text>
+        </View>
+
         <View>
-          <Text>{detalhes.titulo}</Text>
-          <Text>{detalhes.descricao}</Text>
-          <Text>{detalhes.categoria}</Text>
-          <Pressable
+           <Pressable
+           style={({pressed})=>[
+            styles.detalhesPerfil, 
+            pressed && styles.perfilPressionado, 
+           ]}
             onPress={() => {
               if (detalhes?.user_id) {
                 navigation.navigate("ProfileStack",{
@@ -151,32 +183,49 @@ export function DetalhesServico() {
               });
               }
             }}
+            accessibilityLabel={`Ver perfil do prestador`}
+            accessibilityRole="button"
           >
-            <Text>{detalhes.prestador_nome}</Text>
+            <View style={styles.iconePrestador}>
+              <MaterialCommunityIcons name="account-outline"
+              size={26}
+              color={theme.colors.primaryDark}
+              />
+            </View>
+            <View style={styles.informacoesPrestador}>
+              <Text style={styles.rotuloPrestador}>
+                Prestador
+              </Text>
+              <Text style={styles.nomePrestador}>{detalhes.prestador_nome}</Text>
+              <Text style={styles.textoPerfil}>Ver Perfil</Text>
+            </View>
+            <MaterialCommunityIcons name="chevron-right" size={24} color={theme.colors.textSecondary}/>
           </Pressable>
         </View>
+
       </ScrollView>
 
   {Number(usuarioId)!= Number(detalhes?.user_id)?(
-    <View>
-      <Pressable onPress={() => setModalVisual(true)}>
-        <Text>Propor troca</Text>
+    <View style={styles.acoesPrestador}>
+      <Pressable onPress={() => setModalVisual(true)} style={styles.btnProporTroca}>
+        <Text style={styles.textTroca}>Propor troca</Text>
       </Pressable>
 
-       <Pressable onPress={handleCriarConversa} disabled={loadingChat}>
+      <Pressable onPress={handleCriarConversa} disabled={loadingChat} style={styles.btnConversar}>
          {loadingChat?(
           <ActivityIndicator size="small" />
          ):(
-          <Text>Conversar com o prestador</Text>
+          <Text style={styles.textConversar}>Conversar com o prestador</Text>
          )}
        </Pressable>
     </View>
       ):(
-        <View>
-          <Text>Esse é seu serviço!</Text>
+        <View style={styles.containerServico}>
+          <Text style={styles.textSeuServico}>Esse é seu serviço!</Text>
         </View>
       )}
 
+ 
 
       <Modal visible={modalVisual} onRequestClose={() => setModalVisual(false)}>
         <View>
@@ -238,3 +287,191 @@ export function DetalhesServico() {
     </View>
   );
 }
+const styles= StyleSheet.create({
+container:{
+flex:1,
+backgroundColor:theme.colors.background
+},
+conteudo:{
+paddingHorizontal:theme.spacing.lg,
+paddingTop:theme.spacing.md, 
+paddingBottom:theme.spacing.lg,
+}, 
+cabecalho:{
+flexDirection:"row", 
+alignItems:"center",
+marginBottom:theme.spacing.xl
+}, 
+detalhesServicos:{
+backgroundColor:theme.colors.surface, 
+borderRadius:theme.borderRadius.lg,
+borderWidth:1,
+borderColor:theme.colors.border, 
+padding:theme.spacing.lg,
+marginBottom:theme.spacing.lg
+}, 
+detalhesPerfil:{
+flexDirection:"row", 
+alignItems:"center",
+backgroundColor:theme.colors.surface, 
+borderRadius:theme.borderRadius.lg, 
+borderWidth:1,
+borderColor:theme.colors.border,
+padding:theme.spacing.lg
+}, 
+acoesPrestador:{
+backgroundColor:theme.colors.surface, 
+borderTopWidth:1,
+borderTopColor:theme.colors.border,
+padding:theme.spacing.lg,
+gap:theme.spacing.md
+}, 
+etiquetaCategoria:{
+alignSelf:'flex-start',
+backgroundColor:"#E5F4F6",
+paddingHorizontal:theme.spacing.md, 
+paddingVertical:theme.spacing.xs,
+borderRadius:theme.borderRadius.sm, 
+marginBottom:theme.spacing.md
+}, 
+textTroca:{
+color:theme.colors.surface, 
+fontSize:16,
+}, 
+textConversar:{
+color:theme.colors.surface, 
+fontSize:16, 
+}, 
+containerServico:{
+backgroundColor:theme.colors.surface, 
+borderWidth:1, 
+borderColor:theme.colors.border, 
+borderRadius:theme.borderRadius.md, 
+padding:theme.spacing.lg, 
+margin:theme.spacing.lg
+}, 
+textSeuServico:{
+color:theme.colors.textPrimary, 
+fontSize:15,
+fontWeight:"600",
+textAlign:"center",
+gap:theme.spacing.md
+},
+btnProporTroca:{
+minHeight:50, 
+alignItems:"center", 
+justifyContent:"center", 
+backgroundColor:theme.colors.primary, 
+borderRadius:theme.borderRadius.md, 
+paddingHorizontal:theme.spacing.lg,
+paddingVertical:theme.spacing.md
+}, 
+btnConversar:{
+minHeight:50, 
+alignItems:"center", 
+justifyContent:"center",
+backgroundColor:theme.colors.primary, 
+borderWidth:1,
+borderColor:theme.colors.surface, 
+borderRadius:theme.borderRadius.md,
+paddingHorizontal:theme.spacing.lg, 
+paddingVertical:theme.spacing.md
+}, 
+tituloServico:{
+  fontSize:24,
+  fontWeight:"700", 
+  lineHeight:31, 
+  color:theme.colors.textPrimary, 
+  marginBottom:theme.spacing.md
+},
+categoriaServico:{
+  fontSize:13,
+  fontWeight:"600", 
+  color:theme.colors.primaryDark
+}, 
+descricaoServico:{
+  fontSize:16, 
+  lineHeight:24,
+  color:theme.colors.textSecondary
+}, 
+tituloCabecalho:{
+  fontSize:20,
+  fontWeight:"700", 
+  color:theme.colors.textPrimary,
+  flexShrink:1,
+},
+botaoVoltar:{
+  width:44,
+  height:44,
+  alignItems:"center", 
+  justifyContent:"center", 
+  borderRadius:theme.borderRadius.md,
+  backgroundColor:theme.colors.surface,
+  borderWidth:1, 
+  borderColor:theme.colors.border, 
+  marginRight:theme.spacing.md
+},
+perfilPressionado:{
+  opacity:0.75
+}, 
+iconePrestador:{
+width:48, 
+height:48, 
+borderRadius:24, 
+backgroundColor:"#E5F4F6", 
+alignItems:"center", 
+justifyContent:"center", 
+marginRight:theme.spacing.md
+}, 
+informacoesPrestador:{
+flex:1, 
+minWidth:0,
+}, 
+rotuloPrestador:{
+fontSize:12,
+fontWeight:"600", 
+color:theme.colors.textSecondary, 
+marginBottom:theme.spacing.xs
+}, 
+nomePrestador:{
+fontSize:16,
+fontWeight:"700", 
+color:theme.colors.textPrimary
+}, 
+textoPerfil:{
+fontSize:13,
+color:theme.colors.primaryDark, 
+marginTop:theme.spacing.xs,
+}, 
+errorBox:{
+backgroundColor:"#FDE8E8", 
+borderWidth:1, 
+borderColor:theme.colors.error, 
+borderRadius:theme.borderRadius.md, 
+padding:theme.spacing.md,
+marginBottom:theme.spacing.md
+}, 
+textError:{
+color:theme.colors.error, 
+fontSize:14, 
+lineHeight:20,
+textAlign:"center"
+}, 
+btnTentarNovamente:{
+backgroundColor:theme.colors.primary, 
+minHeight:52, 
+paddingHorizontal:theme.spacing.md, 
+paddingVertical:theme.spacing.md, 
+borderRadius:theme.spacing.md, 
+alignItems:'center', 
+justifyContent:"center", 
+marginTop:theme.spacing.sm
+}, 
+estadoCentralizado:{
+ flex:1, 
+ alignItems:"center", 
+ justifyContent:"center", 
+ backgroundColor:theme.colors.background, 
+ padding:theme.spacing.lg
+}
+})
