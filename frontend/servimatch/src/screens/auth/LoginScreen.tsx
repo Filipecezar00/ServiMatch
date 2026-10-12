@@ -16,7 +16,7 @@ import { AuthStackParamList } from "../../types/types";
 import { useNavigation } from "@react-navigation/native";
 import { useAuthStore } from "../../stores/useAuthStore";
 import {theme} from "../../styles/theme/theme"
-
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
   "Login"
@@ -29,6 +29,7 @@ export default function LoginScreen() {
   const [errorMessage, setErrorMessage] = useState("");
   const [emailFocused,setEmailFocused] = useState(false); 
   const [senhaFocused,setSenhaFocused] = useState(false); 
+  const [mostrarSenha,setMostrarSenha] = useState(false)
 
   const global_session = useAuthStore((state) => state.login);
 
@@ -94,21 +95,34 @@ export default function LoginScreen() {
 
         <View style={styles.fieldGroup}>
           <Text style={styles.label}>Senha</Text>
+          <View style={[styles.passwordContainer,senhaFocused && styles.inputFocused]}>
         <TextInput
           placeholder="Digite sua senha"
           placeholderTextColor={theme.colors.textSecondary}
           value={senha}
+          secureTextEntry={!mostrarSenha}
           onFocus={()=>setSenhaFocused(true)}
           onBlur={()=>setSenhaFocused(false)}
           onChangeText={setSenha}
-          secureTextEntry
           autoCapitalize="none"
           autoComplete="current-password"
-          style={[styles.input,senhaFocused && styles.inputFocused]}
+          style={styles.passwordInput}
           editable={!loading}
           returnKeyType="done"
           onSubmitEditing={handleLogin}
         />
+          <Pressable onPress={()=>setMostrarSenha((prev)=>!prev)} 
+          style={styles.eyeButton}
+          hitSlop={8}
+          accessibilityRole="button"
+>
+            {mostrarSenha===true?(
+              <MaterialCommunityIcons name="eye-off" size={18}/>
+            ):(
+            <MaterialCommunityIcons name="eye" size={18}/>
+            )}  
+          </Pressable>
+         </View>
          </View>
 
         <Pressable onPress={handleLogin} disabled={loading} accessibilityRole="button" style={({pressed})=>[
@@ -181,7 +195,7 @@ formCard:{
   borderColor:theme.colors.border
 }, 
 fieldGroup:{
-  marginBottom:theme.spacing.md
+  marginBottom:theme.spacing.md,
 }, 
 label:{
   fontSize:14,
@@ -214,7 +228,25 @@ input:{
   marginBottom:theme.spacing.md, 
   color:theme.colors.textPrimary,
   fontSize:16, 
+  flex:1
 }, 
+passwordContainer:{
+flexDirection:"row",
+alignItems:"center", 
+backgroundColor:theme.colors.background, 
+borderWidth:1,
+borderColor:theme.colors.border,
+borderRadius:theme.borderRadius.md,
+paddingHorizontal:theme.spacing.md,
+minHeight:52,
+marginBottom:theme.spacing.md
+},
+passwordInput:{
+  flex:1,
+  color:theme.colors.textPrimary,
+  fontSize:16,
+  paddingVertical:theme.spacing.md
+},
 primarybutton:{
   backgroundColor:theme.colors.primary, 
   minHeight:52, 
@@ -265,6 +297,9 @@ registerText:{
 inputFocused:{
   borderColor:theme.colors.primary, 
   borderWidth:2
-}
+},
+eyeButton:{
+paddingLeft:theme.spacing.sm,
+},
 })
 
