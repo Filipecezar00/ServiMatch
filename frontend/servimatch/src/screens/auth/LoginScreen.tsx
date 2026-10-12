@@ -64,6 +64,7 @@ export default function LoginScreen() {
       <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled" showsHorizontalScrollIndicator={false}>
      <View style={styles.header}>
        <Text style={styles.brand}>ServiMatch</Text>
+       <Text style={styles.title}>Bem vindo de Volta</Text>
        <Text style={styles.subtitle}>Entre para continuar conectando pessoas e serviços</Text>
      </View>
 
@@ -215,7 +216,8 @@ errorBox:{
 errorText:{
   color:theme.colors.error,
   fontSize:14,
-  lineHeight:20
+  lineHeight:20,
+  textAlign:"center"
 }, 
 input:{
   backgroundColor:theme.colors.background, 
