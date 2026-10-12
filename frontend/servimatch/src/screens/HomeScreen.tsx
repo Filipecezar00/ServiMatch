@@ -21,7 +21,6 @@ export function HomeScreen() {
     isLoading,
     isError,
     error,
-    refetch,
   } = useQuery({
     queryKey: ["ListarCategorias"],
     queryFn: listarCategorias,
@@ -43,7 +42,7 @@ export function HomeScreen() {
     };
   }, [termoBusca]);
 
-  const { data: servicos, isLoading: isLoadingServicos } = useQuery({
+  const { data: servicos, isLoading: isLoadingServicos,isError:isErrorServicos,error:errorServicos, refetch:refetchServicos } = useQuery({
     queryKey: [
       "listarServicosProcurados",
       termoDebounced,
@@ -62,11 +61,10 @@ export function HomeScreen() {
 
   if (isError) {
     return (
-      <View>
-        <Text>{error.message}</Text>
-
-        <Pressable onPress={logout}>
-          <Text>Deslogar</Text>
+      <View style={styles.errorBox}>
+        <Text style={styles.errorText}>{error.message}</Text>
+        <Pressable onPress={logout} style={styles.btnRefetch}>
+          <Text style={styles.textLink}>Deslogar</Text>
         </Pressable>
       </View>
     );
@@ -75,12 +73,12 @@ export function HomeScreen() {
   return (
     <FlatList
       data={servicos}
-      keyExtractor={(item) => item?.id?.toString() ?? String(Math.random())}
+      keyExtractor={(item) => item?.id?.toString()}
       ListEmptyComponent={() => {
-        return isLoadingServicos ? (
-          <ActivityIndicator />
+          return isLoadingServicos ? (
+          <ActivityIndicator size="large" color={theme.colors.primary}/>
         ) : (
-          <Text>Nenhum serviço encontrado</Text>
+          <Text style={styles.errorText}>Nenhum serviço encontrado</Text>
         );
       }}
       ListHeaderComponent={
@@ -104,7 +102,7 @@ export function HomeScreen() {
             data={categorias}
             horizontal={true}
             keyExtractor={(item) =>
-              item?.id?.toString() ?? String(Math.random())
+              item?.id?.toString()
             }
             renderItem={({ item }) => {
               const isSelected = Number(categoriaSelecionadaId) === item.id;
@@ -135,16 +133,16 @@ export function HomeScreen() {
       renderItem={({ item }) => {
         return (
           <Pressable
-            style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}
+            style={({ pressed }) => [styles.containerServico, pressed && styles.servicoPressionado,]}
             onPress={() => handleOptionsDetails(item.id)}
+            accessibilityRole="button"
+            accessibilityLabel={`Ver detalhes do serviço ${item.titulo}`}
           >
-            <View style={styles.containerServico}>
               <View style={styles.textoServico}>
                 <Text style={styles.tituloServico}>{item.titulo}</Text>
+                <Text style={styles.descricao}>{item.descricao}</Text>
               </View>
-              <Text style={styles.descricao}>{item.descricao}</Text>
               <MaterialCommunityIcons name="chevron-right" size={24} color={theme.colors.textSecondary}/>
-            </View>
           </Pressable>
         );
       }}
@@ -228,22 +226,28 @@ containerServico:{
 backgroundColor:theme.colors.surface,
 borderRadius:theme.borderRadius.lg,
 padding:theme.spacing.lg,
-borderWidth:1,
+borderWidth:1, 
 borderColor:theme.colors.border,
 marginHorizontal:theme.spacing.lg,
-marginBottom:theme.spacing.md
+marginBottom:theme.spacing.md, 
+flexDirection:"row", 
+alignItems:"center", 
+justifyContent:"space-between"
 }, 
 tituloServico:{
 fontSize:16,
 fontWeight:"700", 
 color:theme.colors.textPrimary,
-marginBottom:theme.spacing.sm,
+marginBottom:theme.spacing.xs,
 }, 
 descricao:{
 fontSize:14,
 color:theme.colors.textSecondary,
 lineHeight:21,
 },
+servicoPressionado:{
+opacity:0.75,
+}, 
 botaoCategoriaSelecionada:{
 backgroundColor:theme.colors.primary,
 borderColor:theme.colors.primary
@@ -259,5 +263,28 @@ textoServico:{
 flex:1,
 flexShrink:1,
 marginRight:theme.spacing.sm
+},
+errorBox:{
+alignItems:"center", 
+justifyContent:"center", 
+padding:theme.spacing.xl
+},  
+errorText:{
+  color:theme.colors.textSecondary, 
+  fontSize:14,
+  lineHeight:21,
+  textAlign:"center"
+},
+btnRefetch:{
+  backgroundColor:theme.colors.primary, 
+  paddingHorizontal:theme.spacing.lg,
+  paddingVertical:theme.spacing.md, 
+  borderRadius:theme.spacing.md, 
+  marginTop:theme.spacing.sm, 
+}, 
+textLink:{
+  color:theme.colors.surface,
+  fontWeight:"700", 
+  fontSize:14
 }
 })
