@@ -75,7 +75,7 @@ export default function RegisterScreen() {
   };
   return (
   <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding":"height"} style={styles.keyboardContainer}>
-    <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled" showsHorizontalScrollIndicator={false}>
+    <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
       <View style={styles.header}>
         <Text style={styles.brand}>ServiMatch</Text>
         <Text style={styles.title}>Crie sua Conta</Text>
@@ -96,12 +96,14 @@ export default function RegisterScreen() {
           keyboardType="email-address"
           autoCapitalize="none"
           editable={!loading}
+          onFocus={()=>setEmailFocused(true)}
+          onBlur={()=>setEmailFocused(false)}
           style={[styles.input,emailFocused && styles.inputFocused]}
         />
          </View>
          <View style={styles.fieldGroup}>
           <Text style={styles.label}>Nome</Text>
-          <TextInput placeholder="Digite seu nome" value={nome} onChangeText={setNome} style={[styles.input,nomeFocused && styles.inputFocused]} editable={!loading} />
+          <TextInput placeholder="Digite seu nome" value={nome} onChangeText={setNome} style={[styles.input,nomeFocused && styles.inputFocused]} editable={!loading} onFocus={()=>setNomeFocused(true)} onBlur={()=>setNomeFocused(false)}/>
          </View>
 
     <View style={styles.fieldGroup}>
@@ -139,7 +141,7 @@ export default function RegisterScreen() {
         </Pressable>
       <View style={styles.loginContainer}>
         <Pressable onPress={() => navigation.navigate("Login")} style={styles.secondaryButton} disabled={loading} accessibilityRole="button" hitSlop={8} >
-          <Text style={styles.linkText}>Já Possuo conta</Text>
+          <Text style={styles.linkText}>Já Possui uma conta ? Fazer login</Text>
         </Pressable>
       </View>
       </View>
@@ -214,7 +216,6 @@ const styles = StyleSheet.create({
     paddingHorizontal:theme.spacing.md,
     paddingVertical:theme.spacing.md,
     minHeight:52,
-    marginBottom:theme.spacing.md,
     color:theme.colors.textPrimary,
     fontSize:16,
     flex:1
@@ -229,7 +230,7 @@ const styles = StyleSheet.create({
     backgroundColor:theme.colors.background, 
     borderWidth:1, 
     borderColor:theme.colors.border,
-    borderRadius:theme.colors.border,
+    borderRadius:theme.borderRadius.md,
     paddingHorizontal:theme.spacing.md,
     minHeight:52, 
     marginBottom:theme.spacing.md
