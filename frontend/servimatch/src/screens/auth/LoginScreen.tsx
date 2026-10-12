@@ -7,7 +7,8 @@ import {
   KeyboardAvoidingView,
   ActivityIndicator,
   StyleSheet,
-  Platform
+  Platform,
+  ScrollView
 } from "react-native";
 import { login } from "../../api/auth";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -26,6 +27,8 @@ export default function LoginScreen() {
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [emailFocused,setEmailFocused] = useState(false); 
+  const [senhaFocused,setSenhaFocused] = useState(false); 
 
   const global_session = useAuthStore((state) => state.login);
 
@@ -56,48 +59,100 @@ export default function LoginScreen() {
 
   const navigation = useNavigation<LoginScreenNavigationProp>();
   return (
-    <KeyboardAvoidingView behavior={Platform.OS==="ios" ? "padding":"height"} style={{flex:1}}>
-      <Text style={styles.title}>Bem vindo ao ServiMatch!</Text>
-      <Text style={styles.subtitle}>Conecte-se para continuar no ServiMatch</Text>
-      <View style={styles.container}>
+    <KeyboardAvoidingView behavior={Platform.OS==="ios" ? "padding":"height"} style={styles.keyboardContainer}>
+      <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled" showsHorizontalScrollIndicator={false}>
+     <View style={styles.header}>
+       <Text style={styles.brand}>ServiMatch</Text>
+       <Text style={styles.subtitle}>Entre para continuar conectando pessoas e serviços</Text>
+     </View>
+
+      <View style={styles.formCard}>
+
         {errorMessage ?( 
           <View style={styles.errorBox}>
-             <Text style={styles.errorBox}>{errorMessage}</Text>
+             <Text style={styles.errorText}>{errorMessage}</Text>
           </View>
          ):null}
+        <View style={styles.fieldGroup}>
+         <Text style={styles.label}>E-mail</Text>
         <TextInput
-          placeholder="E-mail"
+          placeholder="Digite seu e-mail"
           placeholderTextColor={theme.colors.textSecondary}
           value={email}
           onChangeText={setEmail}
+          onFocus={()=>setEmailFocused(true)}
+          onBlur={()=>setEmailFocused(false)}
           keyboardType="email-address"
           autoCapitalize="none"
           autoCorrect={false}
-          style={styles.input}
+          autoComplete="email"
+          editable={!loading}
+          returnKeyType="next"
+          style={[styles.input,emailFocused && styles.inputFocused]}
         />
+         </View>
+
+        <View style={styles.fieldGroup}>
+          <Text style={styles.label}>Senha</Text>
         <TextInput
-          placeholder="Senha"
+          placeholder="Digite sua senha"
           placeholderTextColor={theme.colors.textSecondary}
           value={senha}
+          onFocus={()=>setSenhaFocused(true)}
+          onBlur={()=>setSenhaFocused(false)}
           onChangeText={setSenha}
-          secureTextEntry={true}
-          style={styles.input}
+          secureTextEntry
+          autoCapitalize="none"
+          autoComplete="current-password"
+          style={[styles.input,senhaFocused && styles.inputFocused]}
+          editable={!loading}
+          returnKeyType="done"
+          onSubmitEditing={handleLogin}
         />
+         </View>
 
-        <Pressable onPress={handleLogin} disabled={loading} style={({pressed})=>[
+        <Pressable onPress={handleLogin} disabled={loading} accessibilityRole="button" style={({pressed})=>[
           styles.primarybutton,
-          pressed && {opacity:0.9}
+          pressed && !loading && styles.primaryButtonPressed,
+          loading && styles.primaryButtonDisabled, 
         ]}>
           {loading ? <ActivityIndicator color={theme.colors.surface}/> : <Text style={styles.primarybuttonText}>Entrar</Text>}
         </Pressable>
-        <Pressable onPress={() => navigation.navigate("Register")} style={styles.secondaryButton}>
-          <Text style={styles.linkText}>Não tem conta ?</Text>
+        <View style={styles.registerContainer}>
+          <Text style={styles.registerText}>
+              Ainda não tem conta ?
+          </Text>
+        </View>
+        <Pressable onPress={() => navigation.navigate("Register")} style={styles.secondaryButton} disabled={loading} accessibilityRole="button" hitSlop={8}>
+          <Text style={styles.linkText}>Cadastre-se</Text>
         </Pressable>
       </View>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 }
 const styles = StyleSheet.create({
+keyboardContainer:{
+flex:1,
+backgroundColor:theme.colors.background
+},  
+scrollContent:{
+flexGrow:1,
+justifyContent:"center", 
+paddingHorizontal:theme.spacing.lg, 
+paddingVertical:theme.spacing.xl, 
+},
+header:{
+  alignItems:'center', 
+  marginBottom:theme.spacing.xl
+}, 
+brand:{
+  fontSize:18,
+  fontWeight:"700",
+  color:theme.colors.primary,
+  marginBottom:theme.spacing.lg,
+  letterSpacing:0.5
+}, 
 container:{
   flex:1,
   backgroundColor:theme.colors.background,
@@ -106,48 +161,79 @@ container:{
 },
 title:{
   fontSize:28,
+  fontWeight:"700",
   color:theme.colors.textPrimary,
-  marginBottom:theme.spacing.md, 
-  fontWeight:'bold',
+  textAlign:"center",
+  marginBottom:theme.spacing.sm, 
 }, 
 subtitle:{
-  fontSize:14,
+  fontSize:15,
   color:theme.colors.textSecondary, 
-  marginBottom:theme.spacing.xl
+  textAlign:"center", 
+  lineHeight:22,
+  maxWidth:300,
 }, 
+formCard:{
+  backgroundColor:theme.colors.surface, 
+  borderRadius:theme.borderRadius.lg, 
+  padding:theme.spacing.lg,
+  borderWidth:1,
+  borderColor:theme.colors.border
+}, 
+fieldGroup:{
+  marginBottom:theme.spacing.md
+}, 
+label:{
+  fontSize:14,
+  fontWeight:"600",
+  color:theme.colors.textPrimary, 
+  marginBottom:theme.spacing.sm
+}, 
+
 errorBox:{
   backgroundColor:"#FDE8E8", 
   borderWidth:1, 
   borderColor:theme.colors.error, 
-  borderRadius:theme.colors.error, 
-  padding:theme.spacing.sm, 
+  borderRadius:theme.borderRadius.md, 
+  padding:theme.spacing.md, 
   marginBottom:theme.spacing.md
 }, 
 errorText:{
   color:theme.colors.error,
   fontSize:14,
-  textAlign:"center"
+  lineHeight:20
 }, 
 input:{
-  backgroundColor:theme.colors.surface, 
+  backgroundColor:theme.colors.background, 
   borderWidth:1,
   borderColor:theme.colors.border, 
   borderRadius:theme.borderRadius.md,
-  padding:theme.spacing.md,
+  paddingHorizontal:theme.spacing.md,
+  paddingVertical:theme.spacing.md, 
+  minHeight:52,
   marginBottom:theme.spacing.md, 
   color:theme.colors.textPrimary,
   fontSize:16, 
 }, 
 primarybutton:{
   backgroundColor:theme.colors.primary, 
-  padding:theme.spacing.md, 
+  minHeight:52, 
+  paddingHorizontal:theme.spacing.md, 
+  paddingVertical:theme.spacing.md,
   borderRadius:theme.spacing.md,
   alignItems:'center', 
+  justifyContent:"center", 
   marginTop:theme.spacing.sm
+},
+primaryButtonPressed:{
+  opacity:0.85,
+},
+primaryButtonDisabled:{
+  opacity:0.65,
 },
 primarybuttonText:{
   color:theme.colors.surface, 
-  fontWeight:'bold', 
+  fontWeight:"700", 
   fontSize:16
 }, 
 secondaryButton:{
@@ -160,7 +246,25 @@ secondaryButtonText:{
 }, 
 linkText:{
   color:theme.colors.primary,
-  fontWeight:'bold'
+  fontWeight:"700",
+  fontSize:14,
 }, 
+registerContainer:{
+  flexDirection:"row",
+  flexWrap:"wrap",
+  justifyContent:"center",
+  alignItems:"center",
+
+  marginTop:theme.spacing.xl, 
+  gap:theme.spacing.xs
+}, 
+registerText:{
+  fontSize:14,
+  color:theme.colors.textSecondary
+},
+inputFocused:{
+  borderColor:theme.colors.primary, 
+  borderWidth:2
+}
 })
 
