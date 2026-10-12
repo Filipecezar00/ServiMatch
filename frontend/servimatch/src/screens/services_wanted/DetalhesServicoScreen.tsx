@@ -227,8 +227,14 @@ export function DetalhesServico() {
 
  
 
-      <Modal visible={modalVisual} onRequestClose={() => setModalVisual(false)}>
-        <View>
+      <Modal
+       visible={modalVisual}
+       onRequestClose={() => setModalVisual(false)}
+       transparent
+       animationType="slide"
+      >
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalContainer}>
           <Text>Realizar Troca de Servicos</Text>
           <View>
             <Text>Seus Serviços:</Text>
@@ -270,6 +276,7 @@ export function DetalhesServico() {
             )}
           </View>
         </View>
+      </View>
         <Pressable onPress={() => setModalVisual(false)}>
           <Text>Cancelar</Text>
         </Pressable>
@@ -473,5 +480,17 @@ estadoCentralizado:{
  justifyContent:"center", 
  backgroundColor:theme.colors.background, 
  padding:theme.spacing.lg
+}, 
+modalOverlay:{
+flex:1,
+justifyContent:"flex-end", 
+backgroundColor:"rgba(0,0,0,0.45)"
+}, 
+modalContainer:{
+backgroundColor:theme.colors.surface, 
+borderTopLeftRadius:theme.borderRadius.lg,
+borderTopRightRadius:theme.borderRadius.lg,
+padding:theme.spacing.lg, 
+maxHeight:"90%"
 }
 })
