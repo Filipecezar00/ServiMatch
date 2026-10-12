@@ -78,14 +78,14 @@ export function HomeScreen() {
           return isLoadingServicos ? (
           <ActivityIndicator size="large" color={theme.colors.primary}/>
         ) : (
-          <Text style={styles.errorText}>Nenhum serviço encontrado</Text>
+          <Text style={styles.errorText}>Não encontramos serviços com esses filtros</Text>
         );
       }}
       ListHeaderComponent={
         <View style={styles.containerBusca}>
           <View style={styles.headerContainer}>
-            <Text style={styles.title}>Servimatch</Text>
-            <Text style={styles.subtitle}>Busque serviços por categorias</Text>
+            <Text style={styles.title}>ServiMatch</Text>
+            <Text style={styles.subtitle}>Encontre o serviço certo para você</Text>
           </View>
             <View style={styles.containerInput}>
             <TextInput
