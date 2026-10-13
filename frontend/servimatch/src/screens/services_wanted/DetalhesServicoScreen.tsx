@@ -11,7 +11,9 @@ import {
   Alert,
   FlatList,
   TextInput,
-  StyleSheet
+  StyleSheet, 
+  KeyboardAvoidingView, 
+  Platform
 } from "react-native";
 import {theme} from "../../styles/theme/theme";
 import { obterDetalhesServicoPorId } from "../../api/serviceOffered";
@@ -233,63 +235,88 @@ export function DetalhesServico() {
        transparent
        animationType="slide"
       >
+  <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding":"height"} style={styles.container}>
       <View style={styles.modalOverlay}>
         <View style={styles.modalContainer}>
-          <Text>Realizar Troca de Servicos</Text>
-          <View>
-            <Text>Seus Serviços:</Text>
+
+       <View style={styles.cabecalhoModal}>
+            <View style={styles.textosCabecalhoModal}>
+              <Text style={styles.tituloModal}>
+                Propor uma Troca
+              </Text>
+              <Text style={styles.descricaoModal}>
+                Escolha um serviço para oferecer e envie uma proposta
+              </Text>
+            </View>
+            <Pressable onPress={()=>setModalVisual(false)} 
+              accessibilityRole="button"
+              accessibilityLabel="Fechar Modal"
+              hitSlop={8}
+              style={styles.botaoFecharModal}
+              >
+              <MaterialCommunityIcons name="close" size={24} color={theme.colors.textPrimary}/>
+          </Pressable>
+          </View>
+            <Text style={styles.rotuloServicos}>Seus Serviços:</Text>
             {LoadingServices ? (
-              <ActivityIndicator size={"small"} />
+              <ActivityIndicator size="small" color={theme.colors.primary} />
             ) : (
-              <View>
-                <TextInput
-                  value={mensagem}
-                  placeholder="Detalhes da Proposta"
-                  onChangeText={setMensagem}
-                />
                 <FlatList
-                  data={servicos}
+                  data={servicos??[]}
                   keyExtractor={(item) => String(item.id)}
+                  keyboardShouldPersistTaps="handled"
                   renderItem={({ item }) => {
                     return (
-                      <View>
                         <Pressable
                           onPress={() => setServicoSelecionadoId(item?.id)}
+                          accessibilityRole="button"
+                          accessibilityState={{
+                            selected:servicoSelecionadoId===item.id
+                          }}
+                          style={[
+                            styles.cartaoServico, 
+                            servicoSelecionadoId===item.id && styles.categoriaServicoSelecionado
+                          ]}
                         >
-                          <View
-                            style={{
-                              backgroundColor:
-                                servicoSelecionadoId === item.id
-                                  ? "#007Aff"
-                                  : "#e5e5ea",
-                            }}
-                          >
-                            <Text>{item.titulo}</Text>
-                            <Text>{item.descricao}</Text>
-                          </View>
+                            <Text style={styles.tituloServicoModal}>{item.titulo}</Text>
+                            <Text style={styles.descricaoServicoModal}>{item.descricao}</Text>
                         </Pressable>
-                      </View>
                     );
                   }}
+                  ListEmptyComponent={
+                    <Text style={styles.textoListaVazia}>
+                      Você ainda não possui serviços para oferecer
+                    </Text>
+                  }
                 />
-              </View>
             )}
-          </View>
-        </View>
-      </View>
-        <Pressable onPress={() => setModalVisual(false)}>
-          <Text>Cancelar</Text>
-        </Pressable>
-        <Pressable
-          onPress={() => handleSubmit(id, servicoSelecionadoId, mensagem)}
-          disabled={isPending}
-        >
-          {isPending ? (
-            <ActivityIndicator size={"small"} />
-          ) : (
-            <Text>Enviar Proposta</Text>
-          )}
-        </Pressable>
+              <TextInput
+                  value={mensagem}
+                  placeholder="Explique os detalhes da sua proposta"
+                  placeholderTextColor={theme.colors.textPrimary}
+                  onChangeText={setMensagem}
+                  multiline
+                  textAlignVertical="top"
+                  maxLength={500}
+                  style={styles.inputMensagem}
+                />
+                <Pressable
+                  onPress={() => handleSubmit(id, servicoSelecionadoId, mensagem)}
+                  disabled={isPending}
+                  style={styles.botaoEnviarProposta}
+                  >
+                  {isPending ? (
+                    <ActivityIndicator size="small" color={theme.colors.surface}/>
+                  ) : (
+                    <Text style={styles.textoBotaoEnviar}>Enviar Proposta</Text>
+                  )}
+                </Pressable>
+                 <Pressable onPress={() => setModalVisual(false)} style={styles.botaoCancelar}>
+                      <Text style={styles.textoBotaoCancelar}>Cancelar</Text>
+                </Pressable>
+              </View>
+            </View>
+        </KeyboardAvoidingView>
       </Modal>
     </View>
   );
@@ -487,10 +514,113 @@ justifyContent:"flex-end",
 backgroundColor:"rgba(0,0,0,0.45)"
 }, 
 modalContainer:{
+height:"85%", 
 backgroundColor:theme.colors.surface, 
 borderTopLeftRadius:theme.borderRadius.lg,
 borderTopRightRadius:theme.borderRadius.lg,
 padding:theme.spacing.lg, 
 maxHeight:"90%"
+},
+botaoFecharModal:{
+width:40,
+height:40, 
+alignItems:"center", 
+justifyContent:"center", 
+borderRadius:theme.borderRadius.md, 
+backgroundColor:theme.colors.background
+}, 
+cabecalhoModal:{
+flexDirection:"row", 
+alignItems:"flex-start", 
+justifyContent:"space-between", 
+marginBottom:theme.spacing.lg
+}, 
+tituloModal:{
+fontSize:22,
+fontWeight:"700", 
+color:theme.colors.textPrimary, 
+marginBottom:theme.spacing.xs
+}, 
+descricaoModal:{
+  fontSize:14,
+  lineHeight:20,
+  color:theme.colors.textSecondary
+}, 
+textosCabecalhoModal:{
+  flex:1,
+  marginRight:theme.spacing.md
+}, 
+rotuloServicos:{
+fontSize:14,
+fontWeight:"700", 
+color:theme.colors.textPrimary, 
+marginBottom:theme.spacing.sm
+}, 
+cartaoServico:{
+padding:theme.spacing.md, 
+marginBottom:theme.spacing.sm,
+borderWidth:1, 
+borderColor:theme.colors.border,
+borderRadius:theme.borderRadius.md,
+backgroundColor:theme.colors.surface, 
+}, 
+tituloServicoModal:{
+fontSize:15,
+fontWeight:"700", 
+color:theme.colors.textPrimary, 
+marginBottom:theme.spacing.xs
+}, 
+descricaoServicoModal:{
+  fontSize:13,
+  lineHeight:19,
+  color:theme.colors.textSecondary
+}, 
+categoriaServicoSelecionado:{
+borderColor:theme.colors.primary,
+backgroundColor:"#E5F4F6",
+},
+textoListaVazia:{
+fontSize:14,
+color:theme.colors.textSecondary,
+textAlign:'center', 
+paddingVertical:theme.spacing.lg
+},
+inputMensagem:{
+minHeight:90,
+maxHeight:120,
+borderWidth:1,
+borderColor:theme.colors.textSecondary,
+borderRadius:theme.borderRadius.md,
+padding:theme.spacing.md, 
+fontSize:15, 
+color:theme.colors.textPrimary,
+backgroundColor:theme.colors.surface,
+marginTop:theme.spacing.md,
+marginBottom:theme.spacing.md,
+textAlign:"center"
+}, 
+botaoEnviarProposta:{
+minHeight:50, 
+alignItems:"center",
+justifyContent:"center", 
+backgroundColor:theme.colors.primary, 
+borderRadius:theme.borderRadius.md, 
+padding:theme.spacing.md
+},
+textoBotaoEnviar:{
+fontSize:16,
+fontWeight:"700", 
+color:theme.colors.surface
+}, 
+botaoCancelar:{
+alignItems:"center", 
+justifyContent:"center",
+minHeight:44, 
+marginTop:theme.spacing.xs
+}, 
+textoBotaoCancelar:{
+fontSize:15,
+fontWeight:"600", 
+color:theme.colors.textSecondary,
 }
 })
