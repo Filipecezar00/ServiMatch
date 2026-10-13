@@ -12,10 +12,13 @@ import {
   Alert,
   Modal,
   TextInput,
+  StyleSheet
 } from "react-native";
 import {criarConversa} from "../../api/chat"
 import { listaMeusServicos } from "../../api/serviceOffered";
 import { editar_profile } from "../../api/profile";
+import {theme} from "../../styles/theme/theme"
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export function Profile() {
   const usuarioId = useAuthStore((store) => store.usuario?.id);
@@ -43,15 +46,9 @@ export function Profile() {
   });
 
 
- const {data:servicos} = useQuery({
-  queryKey:["meusServicos"], 
-  queryFn: listaMeusServicos
- })
-
   const {
     mutate: mutateSalvar,
     isPending,
-    isError: erroSalvar,
   } = useMutation({
     mutationFn: editar_profile,
 
@@ -157,31 +154,43 @@ export function Profile() {
   }
 
   return (
-    <View>
-      <ScrollView>
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.conteudo}>
         <View>
-          <Text>Usuário: {profile?.usuario.nome}</Text>
           <View>
-            <View>
-              <Text>
+            <View style={styles.cartaoPerfil}>
+              <Text style={styles.nomeUsuario}>{profile?.usuario.nome}</Text>
+              <View style={styles.descricaoUsuario}>
                 {profile.usuario.total_reviews === 0 ? (
                   <Text>Novo na plataforma</Text>
                 ) : (
+                  <View style={styles.containerNotas}>
                   <Text>
-                    Nota:{Math.floor(profile.usuario.media_rating)}{" "}
-                    {profile.usuario.total_reviews} avaliaçoes
+                    Nota: {Number(profile.usuario.media_rating).toFixed(1)}{" "}
                   </Text>
+                  <MaterialCommunityIcons name="star" size={18} color="#F4B400"/>
+                  {profile.usuario.total_reviews ==1 ? (
+                   <Text>
+                   {profile.usuario.total_reviews} Avaliação 
+                  </Text>
+                  ):(
+                    <Text>
+                      {profile.usuario.total_reviews} Avaliações
+                    </Text>
+                  )} 
+                  </View>
                 )}
-              </Text>
+              </View>
               <Text>
                 Trocas Concluidas: {profile?.usuario?.trocas_concluidas || 0}
               </Text>
             </View>
 
             <View>
+              <Text style={styles.tituloSecao}>Serviços Oferecidos</Text>
               {profile.usuario.servicos.length === 0 ? (
                 <View>
-                  <Text>
+                  <Text style={styles.tituloSecao}>
                     {ehMeuPerfil
                       ? "Você ainda não ofereceu nenhum serviço"
                       : "Este usuário ainda não cadastrou nenhum serviço"}
@@ -198,8 +207,8 @@ export function Profile() {
                 <View>
                   {profile?.usuario.servicos.map((servico) => {
                     return (
-                      <View key={servico.id}>
-                        <Text>{servico.titulo}</Text>
+                      <View key={servico.id} style={styles.cartaoCard}>
+                        <Text style={styles.tituloServico}>{servico.titulo}</Text>
                       </View>
                     );
                   })}
@@ -208,12 +217,13 @@ export function Profile() {
             </View>
           </View>
         </View>
-        <Text>Avaliações Recebidas</Text>
+
+        <Text style={styles.tituloSecao}>Avaliações Recebidas</Text>
         {profile.reviews.length === 0 ? (
           <Text>Nenhuma avaliação recebida até o momento</Text>
         ) : (
           profile.reviews.map((review) => (
-            <View key={review.id}>
+              <View key={review.id} style={styles.cartaoCard}>
               <Text>{review.reviewer_nome}</Text>
               <Text>Nota: {review.rating}</Text>
               <Text>{review.comment}</Text>
@@ -222,7 +232,7 @@ export function Profile() {
         )}
 
         <View>
-          <Text>
+          <Text style={styles.informacoesMembro}>
             Membro desde:
             {profile?.usuario.criado_em
               ? new Date(profile.usuario.criado_em).toLocaleString("pt-BR")
@@ -231,14 +241,16 @@ export function Profile() {
         </View>
     
         {ehMeuPerfil ? (
-          <View>
-            <Pressable onPress={handleEditar}>
-              <Text>Editar Perfil</Text>
+          <View style={styles.containerbtnsMeuperfil}>
+            <Pressable onPress={handleEditar} style={styles.btnEditar}>
+              <Text style={styles.btnTextEditar}>Editar Perfil</Text>
             </Pressable>
-            <Pressable onPress={handleLogout}>
-              <Text>Sair da Conta</Text>
+            <Pressable onPress={handleLogout} style={styles.btnSair}>
+              <MaterialCommunityIcons name="logout" size={18} color={theme.colors.surface}/>
+              <Text style={styles.btnTextSair}>Sair da Conta</Text>
             </Pressable>
           </View>
+          
         ):(
           <View>
               <Pressable onPress={handleCriarConversa} disabled={isLoadingChat}>
@@ -268,6 +280,9 @@ export function Profile() {
             onChangeText={setEmail}
             value={email}
             placeholder="Digite seu email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
           />
           <Pressable onPress={handleFecharModal}>
             <Text>Cancelar</Text>
@@ -284,3 +299,98 @@ export function Profile() {
     </View>
   );
 }
+const styles = StyleSheet.create({
+    container:{
+     flex: 1,
+     backgroundColor:theme.colors.background, 
+    }, 
+    conteudo:{
+      padding:theme.spacing.md, 
+      paddingBottom:theme.spacing.xl
+    }, 
+    cartaoPerfil:{
+      backgroundColor:theme.colors.surface, 
+      borderRadius:theme.borderRadius.lg, 
+      padding:theme.spacing.lg, 
+      marginBottom:theme.spacing.lg,
+      borderWidth:1, 
+      borderColor:theme.colors.border
+    }, 
+    nomeUsuario:{
+      fontSize:24,
+      fontWeight:"700", 
+      color:theme.colors.textPrimary, 
+      marginBottom:theme.spacing.sm
+    }, 
+    cartaoCard:{
+      backgroundColor:theme.colors.surface,
+      borderRadius:theme.borderRadius.md, 
+      padding:theme.spacing.md, 
+      marginBottom:theme.spacing.md, 
+      borderWidth:1, 
+      borderColor:theme.colors.border, 
+    }, 
+    tituloSecao:{
+      fontSize:20, 
+      fontWeight:"600", 
+      color:theme.colors.textPrimary,
+      marginBottom:theme.spacing.md
+    },
+    descricaoUsuario:{
+      
+    }, 
+    containerNotas:{
+      flexDirection:"row",
+      alignItems:"center",
+      flexWrap:"wrap",
+      gap:theme.spacing.xs,
+    },
+    containerbtnsMeuperfil:{
+      display:"flex",
+      flexDirection:"row",
+      justifyContent:"center",
+      padding:theme.spacing.lg, 
+      margin:theme.spacing.lg
+    }, 
+    btnEditar:{
+      minHeight:50,
+      alignItems:"center", 
+      backgroundColor:theme.colors.primary,
+      borderWidth:1,
+      borderColor:theme.colors.surface, 
+      borderRadius:theme.borderRadius.md,
+      paddingHorizontal:theme.spacing.lg,
+      paddingVertical:theme.spacing.md,
+    }, 
+    btnTextEditar:{
+      color:theme.colors.surface,
+      fontSize:16
+    },
+    btnTextSair:{
+      color:theme.colors.surface,
+      fontSize:16
+    }, 
+    btnSair:{
+      flexDirection:"row",
+      justifyContent:"center", 
+      alignItems:"center",
+      gap:theme.spacing.xs, 
+      minHeight:50,
+      backgroundColor:theme.colors.error,
+      borderWidth:1,
+      borderColor:theme.colors.surface, 
+      borderRadius:theme.borderRadius.md,
+      paddingHorizontal:theme.spacing.lg,
+      paddingVertical:theme.spacing.md,
+    },
+    informacoesMembro:{
+      fontSize:14, 
+      color:theme.colors.textSecondary,
+      fontWeight:"bold"
+    },
+    tituloServico:{
+      fontSize:16,
+      fontWeight:"600", 
+      color:theme.colors.textPrimary  
+    }
+})
