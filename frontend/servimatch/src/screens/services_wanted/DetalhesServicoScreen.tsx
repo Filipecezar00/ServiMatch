@@ -98,6 +98,11 @@ export function DetalhesServico() {
       Alert.alert("Escreva os detalhes da proposta");
       return;
     }
+
+    if(!mensagem.trim()){
+      Alert.alert("Escreva os detalhes da proposta"); 
+      return 
+    }
     mutate({ receiver_id, wanted_service_id, offered_service_id, mensagem });
   };
 
