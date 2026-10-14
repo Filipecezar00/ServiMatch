@@ -143,10 +143,10 @@ export function Profile() {
 
   if (isError || !profile) {
     return (
-      <View>
-        <Text>Erro ao renderizar Perfil</Text>
-        <Pressable onPress={() => refetch()}>
-          <Text>Tente Novamente</Text>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
+        <Text style={styles.tituloSecao}>Erro ao renderizar Perfil</Text>
+        <Pressable onPress={() => refetch()} style={styles.botaoPadrao}>
+          <Text style={styles.textBotaoPadrao}>Tente Novamente</Text>
         </Pressable>
       </View>
     );
