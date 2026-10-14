@@ -65,14 +65,14 @@ export function CriarServicoScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.containerVoltar}>
-        <Pressable onPress={() => navigation.goBack()}>
-          <MaterialCommunityIcons name="arrow-left" size={18} />
-          <Text>Voltar</Text>
+        <Pressable onPress={() => navigation.goBack()} style={styles.botaoVoltar}>
+          <MaterialCommunityIcons name="arrow-left" size={18} color={theme.colors.textPrimary} />
+          <Text style={styles.textVoltar}>Voltar</Text>
         </Pressable>
       </View>
         <View style={styles.header}>
-        <Text style={styles.titleHeader}>Servimatch</Text>
-        <Text style={styles.descriptionHeader}>É a hora de criar seu serviço, capriche!</Text>
+        <Text style={styles.titleHeader}>Criar Serviço</Text>
+        <Text style={styles.descriptionHeader}>Descreva o serviço que você oferece</Text>
       </View>
       {isError && <Text>{error?.message}</Text>}
       {erroLocal && <Text>{erroLocal}</Text>}
@@ -225,6 +225,15 @@ marginBottom:theme.spacing.md
 categoriaSelecionada:{
   borderColor:theme.colors.primaryDark,
   color:theme.colors.surface,
+}, 
+botaoVoltar:{
+flexDirection:"row",
+alignItems:"center",
+gap:theme.spacing.xs,
+}, 
+textVoltar:{
+paddingVertical:theme.spacing.xs,
+
 }
 
 
