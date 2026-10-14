@@ -85,16 +85,13 @@ export function CriarServicoScreen() {
           <Text style={styles.textError}>{erroLocal}</Text>
       </View>
       }
-      {isErrorCategorias &&
-      <View style={styles.errorBox}>
-         <Text style={styles.textError}>Erro ao carregar categorias</Text>
-      </View>      
-      }
+
     <ScrollView contentContainerStyle={styles.containerEdicao}>
       <Text style={styles.titulo}>Titulo do Serviço</Text>
       <TextInput
         placeholder="Digite o Titulo"
         value={titulo}
+        maxLength={200}
         onChangeText={setTitulo}
         style={styles.input}
       />
@@ -179,6 +176,7 @@ paddingHorizontal:theme.spacing.md,
 paddingVertical:theme.spacing.sm,
 borderRadius:theme.borderRadius.sm,
 borderWidth:1,
+minHeight:40,
 borderColor:theme.colors.border 
 }, 
 inputDescricao:{
@@ -189,7 +187,7 @@ inputDescricao:{
   borderRadius:theme.borderRadius.sm,
   borderWidth:1,
   borderColor:theme.colors.border,
-  minHeight:100
+  minHeight:150
 },
 categoriaButton:{
 marginBottom:theme.spacing.sm,
