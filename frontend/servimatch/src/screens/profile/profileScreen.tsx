@@ -440,6 +440,7 @@ const styles = StyleSheet.create({
     modalContainer:{  
       flex:1, 
       backgroundColor:theme.colors.background,
+      marginTop:theme.spacing.xl,
       padding:theme.spacing.lg,
     }, 
     modalConteudo:{
