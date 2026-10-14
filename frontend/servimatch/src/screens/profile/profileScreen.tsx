@@ -240,7 +240,7 @@ export function Profile() {
         </View>
     
         {ehMeuPerfil ? (
-          <View style={styles.containerbtnsMeuperfil}>
+          <View style={styles.containerbtns}>
             <Pressable onPress={handleEditar} style={styles.btnEditar}>
               <Text style={styles.btnTextEditar}>Editar Perfil</Text>
             </Pressable>
@@ -251,12 +251,12 @@ export function Profile() {
           </View>
           
         ):(
-          <View>
-              <Pressable onPress={handleCriarConversa} disabled={isLoadingChat}>
+          <View style={styles.containerbtns}>
+              <Pressable onPress={handleCriarConversa} disabled={isLoadingChat} style={styles.botaoPadrao}>
                 {isLoadingChat?(
                   <ActivityIndicator size="small"/>
                 ):(
-                  <Text>Conversar com o prestador</Text>
+                  <Text style={styles.textBotaoPadrao}>Conversar com o prestador</Text>
                 )}
               </Pressable>
         </View>
@@ -268,31 +268,51 @@ export function Profile() {
         animationType="slide"
         onRequestClose={handleFecharModal}
       >
-        <View style={{ flex: 1, padding: 20 }}>
-          <Text>Editar Perfil</Text>
-          <TextInput
+        <View style={styles.modalContainer}>
+          <View style={styles.modalConteudo}>
+          <Text style={styles.modalTitulo}>Editar Perfil</Text>
+
+          <Text style={styles.modalDescricao}>
+            Altere seu nome e email abaixo.
+          </Text>
+
+          <View style={styles.campoContainer}>
+          <Text style={styles.campoLabel}>Nome Completo</Text>
+           <TextInput
             onChangeText={setNome}
             value={nome}
             placeholder="Digite seu nome"
+            style={styles.campoInput}
           />
-          <TextInput
+          </View>
+
+          <View style={styles.campoContainer}>
+            <Text style={styles.campoLabel}>E-mail</Text>
+            <TextInput
             onChangeText={setEmail}
             value={email}
             placeholder="Digite seu email"
             keyboardType="email-address"
             autoCapitalize="none"
             autoCorrect={false}
+            style={styles.campoInput}
           />
-          <Pressable onPress={handleFecharModal}>
-            <Text>Cancelar</Text>
-          </Pressable>
-          <Pressable onPress={handleSalvar} disabled={isPending}>
+          </View>
+          <View style={styles.modalAcoes}>
+            <Pressable onPress={handleFecharModal}
+            style={styles.botaoCancelar}
+            >
+              <Text style={styles.textoBotaoCancelar}>Cancelar</Text>
+            </Pressable>
+            <Pressable onPress={handleSalvar} disabled={isPending} style={styles.botaoPadrao}>
             {isPending ? (
-              <ActivityIndicator size="small" />
+              <ActivityIndicator size="small" color={theme.colors.surface}/>
             ) : (
-              <Text>Salvar</Text>
+              <Text style={styles.textBotaoPadrao}>Salvar</Text>
             )}
           </Pressable>
+          </View>
+          </View>
         </View>
       </Modal>
     </View>
@@ -345,7 +365,7 @@ const styles = StyleSheet.create({
       flexWrap:"wrap",
       gap:theme.spacing.xs,
     },
-    containerbtnsMeuperfil:{
+    containerbtns:{
       flexDirection:"row",
       justifyContent:"center",
       gap:theme.spacing.md,
@@ -413,5 +433,83 @@ const styles = StyleSheet.create({
     informacoesEstatisticas:{
       fontSize:14,
       marginTop:theme.spacing.sm,
+    }, 
+    modalContainer:{  
+      flex:1, 
+      backgroundColor:theme.colors.background,
+      padding:theme.spacing.lg,
+    }, 
+    modalConteudo:{
+      backgroundColor:theme.colors.surface,
+      borderRadius:theme.borderRadius.lg, 
+      padding:theme.spacing.lg, 
+      borderWidth:1,
+      borderColor:theme.colors.border
+    }, 
+    modalTitulo:{
+      fontSize:24, 
+      fontWeight:"700", 
+      color:theme.colors.textPrimary, 
+      marginBottom:theme.spacing.xs
+    }, 
+    modalDescricao:{
+      fontSize:16, 
+      color:theme.colors.textPrimary, 
+      fontWeight:"200",
+      marginBottom:theme.spacing.md, 
+      lineHeight:20
+    },
+    campoContainer:{
+      marginBottom:theme.spacing.md
+    }, 
+    campoLabel:{
+      fontSize:16, 
+      fontWeight:"700", 
+      color:theme.colors.textPrimary, 
+      marginBottom:theme.spacing.xs
+    }, 
+    campoInput:{
+      minHeight:48,
+      borderWidth:1,
+      borderColor:theme.colors.border, 
+      borderRadius:theme.borderRadius.md,
+      paddingHorizontal:theme.spacing.md, 
+      backgroundColor:theme.colors.surface,
+      fontSize:16,
+      color:theme.colors.textPrimary,
+    }, 
+    modalAcoes:{
+      flexDirection:"row", 
+      justifyContent:"flex-end",
+      gap:theme.spacing.md,
+      marginTop:theme.spacing.md, 
+    },
+    botaoCancelar:{
+      justifyContent:"center",
+      alignItems:"center", 
+      minHeight:48,
+      backgroundColor:theme.colors.error, 
+      borderWidth:1,
+      borderColor:theme.colors.border, 
+      borderRadius:theme.borderRadius.md,
+      paddingHorizontal:theme.spacing.md, 
+    }, 
+    textoBotaoCancelar:{
+      fontSize:14,
+      fontWeight:"700",
+      color:theme.colors.surface
+    }, 
+    botaoPadrao:{
+      minHeight:48,
+      justifyContent:"center",
+      alignItems:"center", 
+      backgroundColor:theme.colors.primary,
+      paddingHorizontal:theme.spacing.md,
+      borderRadius:theme.borderRadius.md, 
+    }, 
+    textBotaoPadrao:{
+      fontSize:14,
+      fontWeight:"700",
+      color:theme.colors.surface
     }
 })
