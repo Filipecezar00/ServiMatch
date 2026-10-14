@@ -74,8 +74,22 @@ export function CriarServicoScreen() {
         <Text style={styles.titleHeader}>Criar Serviço</Text>
         <Text style={styles.descriptionHeader}>Descreva o serviço que você oferece</Text>
       </View>
-      {isError && <Text>{error?.message}</Text>}
-      {erroLocal && <Text>{erroLocal}</Text>}
+
+      {isError &&
+      <View style={styles.errorBox}>
+        <Text style={styles.textError}>{error?.message}</Text>
+      </View>
+      }
+      {erroLocal &&
+      <View style={styles.errorBox}>
+          <Text style={styles.textError}>{erroLocal}</Text>
+      </View>
+      }
+      {isErrorCategorias &&
+      <View style={styles.errorBox}>
+         <Text style={styles.textError}>Erro ao carregar categorias</Text>
+      </View>      
+      }
     <ScrollView style={styles.containerEdicao}>
       <Text style={styles.titulo}>Titulo do Serviço</Text>
       <TextInput
@@ -194,12 +208,12 @@ justifyContent:"center"
 }, 
 
 categoriaItem:{
+
+}, 
+categoriaNome:{
 fontSize:14,
 fontWeight:"400",
 color:theme.colors.textPrimary,
-}, 
-categoriaNome:{
-
 }, 
 cadastrarText:{
 fontSize:16,
@@ -234,7 +248,16 @@ gap:theme.spacing.xs,
 textVoltar:{
 paddingVertical:theme.spacing.xs,
 
+},
+errorBox:{
+  backgroundColor:theme.colors.error,
+  padding:theme.spacing.sm,
+  borderRadius:theme.borderRadius.sm,
+  marginBottom:theme.spacing.md
+},
+textError:{
+  color:theme.colors.surface,
+  fontSize:14,
+  fontWeight:"500"
 }
-
-
 })
