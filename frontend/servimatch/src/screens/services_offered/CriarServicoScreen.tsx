@@ -59,7 +59,7 @@ export function CriarServicoScreen() {
       return setErroLocal("Preencha uma categoria antes de criar o Serviço");
     }
 
-    mutate({ titulo, descricao, categoryId: categoryId });
+    mutate({ titulo:titulo.trim(), descricao:descricao.trim(), categoryId: categoryId });
   }
 
   return (
@@ -235,7 +235,6 @@ descriptionHeader:{
 fontSize:16,
 fontWeight:"400",
 color:theme.colors.textSecondary,
-marginBottom:theme.spacing.md
 },
 categoriaSelecionada:{
   borderColor:theme.colors.primaryDark,
