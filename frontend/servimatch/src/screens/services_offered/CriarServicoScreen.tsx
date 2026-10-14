@@ -6,8 +6,11 @@ import {
   Text,
   TextInput,
   ActivityIndicator,
+  StyleSheet,
+  ScrollView,
 } from "react-native";
 import { useState } from "react";
+import{ theme } from "../../styles/theme/theme";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -17,7 +20,6 @@ export function CriarServicoScreen() {
   const [erroLocal, setErroLocal] = useState("");
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const queryClient = useQueryClient();
-
   const navigation = useNavigation();
 
   const {
@@ -61,31 +63,39 @@ export function CriarServicoScreen() {
   }
 
   return (
-    <View>
-      <View>
+    <View style={styles.container}>
+      <View style={styles.containerVoltar}>
         <Pressable onPress={() => navigation.goBack()}>
           <MaterialCommunityIcons name="arrow-left" size={18} />
           <Text>Voltar</Text>
         </Pressable>
       </View>
+        <View style={styles.header}>
+        <Text style={styles.titleHeader}>Servimatch</Text>
+        <Text style={styles.descriptionHeader}>É a hora de criar seu serviço, capriche!</Text>
+      </View>
       {isError && <Text>{error?.message}</Text>}
       {erroLocal && <Text>{erroLocal}</Text>}
-      <Text>Titulo do Serviço</Text>
+    <ScrollView style={styles.containerEdicao}>
+      <Text style={styles.titulo}>Titulo do Serviço</Text>
       <TextInput
         placeholder="Digite o Titulo"
         value={titulo}
         onChangeText={setTitulo}
+        style={styles.input}
       />
 
-      <Text>Descrição do Serviço</Text>
+      <Text style={styles.titulo}>Descrição do Serviço</Text>
       <TextInput
         placeholder="Digite a Descrição"
+
         value={descricao}
         onChangeText={setDescricao}
+        style={styles.inputDescricao}
       />
 
-      <Text>Categorias Disponiveis</Text>
-      <View>
+      <Text style={styles.titulo}>Categorias Disponiveis</Text>
+      <View style={styles.containerCategorias}>
         {isLoading ? (
           <ActivityIndicator />
         ) : (
@@ -94,13 +104,10 @@ export function CriarServicoScreen() {
             return (
               <View
                 key={categoria.id}
-                style={{
-                  backgroundColor: isSelected ? "#007AFF" : "#e5e5ea",
-                  borderColor: isSelected ? "#0056b3" : "#c7c7cc",
-                }}
+                style={styles.categoriaItem}
               >
-                <Pressable onPress={() => setCategoryId(categoria.id)}>
-                  <Text>{categoria.nome}</Text>
+                <Pressable onPress={() => setCategoryId(categoria.id)} style={({pressed})=>[styles.categoriaButton,pressed && {opacity:0.5}, isSelected && styles.categoriaSelecionada]}>
+                  <Text style={styles.categoriaNome}>{categoria.nome}</Text>
                 </Pressable>
               </View>
             );
@@ -108,13 +115,121 @@ export function CriarServicoScreen() {
         )}
       </View>
 
-      <Pressable onPress={handleSubmit} disabled={isPending}>
+      <Pressable onPress={handleSubmit} disabled={isPending} style={styles.buttonCadastrar}>
         {isPending ? (
           <ActivityIndicator size="small" />
         ) : (
-          <Text>Cadastrar Serviço</Text>
+          <Text style={styles.cadastrarText}>Cadastrar Serviço</Text>
         )}
       </Pressable>
+      </ScrollView>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+container:{
+flex:1,
+backgroundColor:theme.colors.background,
+marginTop:theme.spacing.xl,
+borderRadius:theme.borderRadius.md,
+borderWidth:1,
+borderColor:theme.colors.border,
+padding:theme.spacing.lg,
+marginHorizontal:theme.spacing.md,  
+paddingHorizontal:theme.spacing.md
+}, 
+containerVoltar:{
+flexDirection:"row",
+paddingBottom:theme.spacing.md,
+
+}, 
+containerEdicao:{
+flexDirection:"column",
+marginTop:theme.spacing.md,
+}, 
+containerCategorias:{
+
+},
+titulo:{
+fontSize:16,
+fontWeight:"600",
+color:theme.colors.textPrimary,
+marginBottom:theme.spacing.xs
+}, 
+input:{
+marginBottom:theme.spacing.md,
+backgroundColor:theme.colors.surface,
+paddingHorizontal:theme.spacing.md,
+paddingVertical:theme.spacing.sm,
+borderRadius:theme.borderRadius.sm,
+borderWidth:1,
+borderColor:theme.colors.border 
+}, 
+inputDescricao:{
+  marginBottom:theme.spacing.md,
+  backgroundColor:theme.colors.surface,
+  paddingHorizontal:theme.spacing.md,
+  paddingVertical:theme.spacing.sm,
+  borderRadius:theme.borderRadius.sm,
+  borderWidth:1,
+  borderColor:theme.colors.border,
+  minHeight:100
+},
+categoriaButton:{
+marginBottom:theme.spacing.sm,
+backgroundColor:theme.colors.surface,
+paddingHorizontal:theme.spacing.md,
+paddingVertical:theme.spacing.sm,
+borderRadius:theme.borderRadius.sm,
+borderWidth:1,
+borderColor:theme.colors.border
+
+}, 
+buttonCadastrar:{
+marginTop:theme.spacing.md,
+backgroundColor:theme.colors.primary,
+paddingHorizontal:theme.spacing.md,
+paddingVertical:theme.spacing.sm,
+borderRadius:theme.borderRadius.sm,
+alignItems:"center",
+justifyContent:"center"
+}, 
+
+categoriaItem:{
+fontSize:14,
+fontWeight:"400",
+color:theme.colors.textPrimary,
+}, 
+categoriaNome:{
+
+}, 
+cadastrarText:{
+fontSize:16,
+fontWeight:"600",
+color:theme.colors.surface  
+}, 
+header:{
+alignItems:"center",
+justifyContent:"center",
+marginBottom:theme.spacing.md 
+}, 
+titleHeader:{
+fontSize:20,
+fontWeight:"700",
+color:theme.colors.primaryDark,
+marginBottom:theme.spacing.xs
+}, 
+descriptionHeader:{
+fontSize:16,
+fontWeight:"400",
+color:theme.colors.textSecondary,
+marginBottom:theme.spacing.md
+},
+categoriaSelecionada:{
+  borderColor:theme.colors.primaryDark,
+  color:theme.colors.surface,
+}
+
+
+})
