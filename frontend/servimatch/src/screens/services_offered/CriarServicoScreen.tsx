@@ -91,6 +91,7 @@ export function CriarServicoScreen() {
       <TextInput
         placeholder="Digite o Titulo"
         value={titulo}
+        autoCapitalize="sentences"
         maxLength={200}
         onChangeText={setTitulo}
         style={styles.input}
@@ -101,6 +102,7 @@ export function CriarServicoScreen() {
         placeholder="Digite a Descrição"
         multiline
         textAlignVertical="top"
+        autoCapitalize="sentences"
         value={descricao}
         onChangeText={setDescricao}
         style={styles.inputDescricao}
@@ -114,7 +116,7 @@ export function CriarServicoScreen() {
         ):isErrorCategorias ?(
           <Text style={styles.textError}>Não foi possível carregar as categorias</Text>
         ): categorias?.length===0?(
-          <Text style={styles.textError}>Nenhuma categoria disponivel no momento</Text>
+          <Text style={styles.mensagemCategoria}>Nenhuma categoria disponivel no momento</Text>
         ):(
           categorias?.map((categoria) => {
             const isSelected = categoria.id === categoryId;
@@ -176,7 +178,7 @@ paddingHorizontal:theme.spacing.md,
 paddingVertical:theme.spacing.sm,
 borderRadius:theme.borderRadius.sm,
 borderWidth:1,
-minHeight:40,
+minHeight:48,
 borderColor:theme.colors.border 
 }, 
 inputDescricao:{
@@ -260,5 +262,10 @@ textError:{
   color:theme.colors.surface,
   fontSize:14,
   fontWeight:"500"
+}, 
+mensagemCategoria:{
+  color:theme.colors.textSecondary, 
+  fontSize:14, 
+  marginBottom:theme.spacing.md
 }
 })
