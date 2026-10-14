@@ -112,9 +112,9 @@ export function CriarServicoScreen() {
       <Text style={styles.titulo}>Categorias Disponiveis</Text>
       <View style={styles.containerCategorias}>
         {isLoading ? (
-          <ActivityIndicator />
+          <ActivityIndicator  size="small" color={theme.colors.surface}/>
         ):isErrorCategorias ?(
-          <Text style={styles.textError}>Não foi possível carregar as categorias</Text>
+          <Text style={styles.mensagemCategoria}>Não foi possível carregar as categorias</Text>
         ): categorias?.length===0?(
           <Text style={styles.mensagemCategoria}>Nenhuma categoria disponivel no momento</Text>
         ):(
@@ -123,7 +123,6 @@ export function CriarServicoScreen() {
             return (
               <View
                 key={categoria.id}
-                style={styles.categoriaItem}
               >
                 <Pressable onPress={() => setCategoryId(categoria.id)} style={({pressed})=>[styles.categoriaButton,pressed && {opacity:0.5}, isSelected && styles.categoriaSelecionada]}>
                   <Text style={styles.categoriaNome}>{categoria.nome}</Text>
@@ -136,7 +135,7 @@ export function CriarServicoScreen() {
 
       <Pressable onPress={handleSubmit} disabled={isPending} style={styles.buttonCadastrar}>
         {isPending ? (
-          <ActivityIndicator size="small" />
+          <ActivityIndicator size="small" style={theme.colors.surface} />
         ) : (
           <Text style={styles.cadastrarText}>Cadastrar Serviço</Text>
         )}
@@ -208,11 +207,8 @@ paddingHorizontal:theme.spacing.md,
 paddingVertical:theme.spacing.sm,
 borderRadius:theme.borderRadius.sm,
 alignItems:"center",
-justifyContent:"center"
-}, 
-
-categoriaItem:{
-
+justifyContent:"center",
+minHeight:48
 }, 
 categoriaNome:{
 fontSize:14,
@@ -264,7 +260,8 @@ textError:{
   fontWeight:"500"
 }, 
 mensagemCategoria:{
-  color:theme.colors.textSecondary, 
+  color:theme.colors.primaryDark, 
+  textAlign:"center",
   fontSize:14, 
   marginBottom:theme.spacing.md
 }
