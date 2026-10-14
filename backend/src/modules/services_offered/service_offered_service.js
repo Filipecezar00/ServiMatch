@@ -21,8 +21,8 @@ export async function criar_service(userId, titulo, descricao, categoryId) {
   if (titulo.trim().length < 3 || titulo.trim().length > 200) {
     throw new AppError("titulo deve ter entre 3 e 200 caracteres", 400);
   }
-  if (descricao.trim().length < 10) {
-    throw new AppError("Descrição deve ter no mínimo 10 caracteres", 400);
+  if (descricao.trim().length < 10 || descricao.trim().length > 1000) {
+    throw new AppError("descrição deve ter entre 10 e 1000 caracteres", 400);
   }
   if (!categoryId) {
     categoryId = null;
