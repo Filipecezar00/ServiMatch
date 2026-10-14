@@ -18,7 +18,7 @@ export type AppStackParamList = {
   ListarChat:undefined; 
 
   ProfileStack:{
-    screen:"Profile" | "Chat"; 
+    screen:"Profile" | "Chat" | "CriarServico"; 
     params?:{id?:number;conversa_id?:number}; 
-  }|undefined;
+  }|undefined | undefined;
 };

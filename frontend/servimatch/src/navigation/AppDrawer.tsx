@@ -16,7 +16,6 @@ import {
   Profile_Stack
 } from "../navigation/ServicesStack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Profile } from "../screens/profile/profileScreen";
 
 type AppDrawerParamList = {
   HomeStack: undefined;

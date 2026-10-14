@@ -47,6 +47,7 @@ export type ChatStack = {
 export type ProfileStack = {
   Profile:{id:number}|undefined; 
   Chat:{conversa_id:number}; 
+  CriarServico:undefined;
 }
 
 const Stack = createNativeStackNavigator<ServiceStackOfferedParamList>();
@@ -130,6 +131,7 @@ export function Profile_Stack(){
     <Profile_stack.Navigator initialRouteName="Profile">
       <Profile_stack.Screen component={Profile} name="Profile"/>
       <Profile_stack.Screen component={ChatScreen} name="Chat"/>
+      <Profile_stack.Screen component={CriarServicoScreen} name="CriarServico"/>
     </Profile_stack.Navigator>
   )
 }
