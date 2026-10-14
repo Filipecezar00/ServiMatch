@@ -224,9 +224,9 @@ export function Profile() {
         ) : (
           profile.reviews.map((review) => (
               <View key={review.id} style={styles.cartaoCard}>
-              <Text>{review.reviewer_nome}</Text>
+              <Text style={styles.nomeAvaliador}>{review.reviewer_nome}</Text>
               <Text>Nota: {review.rating}</Text>
-              <Text>{review.comment}</Text>
+              <Text style={styles.comentarioAvaliacao}>{review.comment}</Text>
             </View>
           ))
         )}
@@ -235,7 +235,7 @@ export function Profile() {
           <Text style={styles.informacoesMembro}>
             Membro desde:
             {profile?.usuario.criado_em
-              ? new Date(profile.usuario.criado_em).toLocaleString("pt-BR")
+              ? new Date(profile.usuario.criado_em).toLocaleDateString("pt-BR")
               : "-"}
           </Text>
         </View>
@@ -297,7 +297,7 @@ export function Profile() {
         </View>
       </Modal>
     </View>
-  );
+  ); 
 }
 const styles = StyleSheet.create({
     container:{
@@ -333,6 +333,7 @@ const styles = StyleSheet.create({
     tituloSecao:{
       fontSize:20, 
       fontWeight:"600", 
+      paddingLeft:theme.spacing.sm,
       color:theme.colors.textPrimary,
       marginBottom:theme.spacing.md
     },
@@ -386,11 +387,24 @@ const styles = StyleSheet.create({
     informacoesMembro:{
       fontSize:14, 
       color:theme.colors.textSecondary,
-      fontWeight:"bold"
+      fontWeight:"bold", 
+      paddingLeft:theme.spacing.sm,
     },
     tituloServico:{
       fontSize:16,
       fontWeight:"600", 
       color:theme.colors.textPrimary  
+    }, 
+    nomeAvaliador:{
+      fontSize:16, 
+      fontWeight:"600",
+      color:theme.colors.textPrimary, 
+      marginBottom:theme.spacing.xs
+    }, 
+    comentarioAvaliacao:{
+      fontSize:14, 
+      lineHeight:20, 
+      color:theme.colors.textSecondary,
+      marginTop:theme.spacing.xs
     }
 })
