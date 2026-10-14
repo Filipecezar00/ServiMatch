@@ -15,7 +15,6 @@ import {
   StyleSheet
 } from "react-native";
 import {criarConversa} from "../../api/chat"
-import { listaMeusServicos } from "../../api/serviceOffered";
 import { editar_profile } from "../../api/profile";
 import {theme} from "../../styles/theme/theme"
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -181,7 +180,7 @@ export function Profile() {
                   </View>
                 )}
               </View>
-              <Text>
+              <Text style={styles.informacoesEstatisticas}>
                 Trocas Concluidas: {profile?.usuario?.trocas_concluidas || 0}
               </Text>
             </View>
@@ -225,7 +224,7 @@ export function Profile() {
           profile.reviews.map((review) => (
               <View key={review.id} style={styles.cartaoCard}>
               <Text style={styles.nomeAvaliador}>{review.reviewer_nome}</Text>
-              <Text>Nota: {review.rating}</Text>
+              <Text style={styles.notaAvaliacao}>Nota: {review.rating}</Text>
               <Text style={styles.comentarioAvaliacao}>{review.comment}</Text>
             </View>
           ))
@@ -347,11 +346,10 @@ const styles = StyleSheet.create({
       gap:theme.spacing.xs,
     },
     containerbtnsMeuperfil:{
-      display:"flex",
       flexDirection:"row",
       justifyContent:"center",
-      padding:theme.spacing.lg, 
-      margin:theme.spacing.lg
+      gap:theme.spacing.md,
+      marginTop:theme.spacing.lg
     }, 
     btnEditar:{
       minHeight:50,
@@ -406,5 +404,14 @@ const styles = StyleSheet.create({
       lineHeight:20, 
       color:theme.colors.textSecondary,
       marginTop:theme.spacing.xs
+    }, 
+    notaAvaliacao:{
+      fontSize:14, 
+      fontWeight:"bold", 
+      color:theme.colors.textPrimary
+    }, 
+    informacoesEstatisticas:{
+      fontSize:14,
+      marginTop:theme.spacing.sm,
     }
 })
