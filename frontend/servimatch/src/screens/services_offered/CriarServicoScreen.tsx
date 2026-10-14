@@ -114,7 +114,11 @@ export function CriarServicoScreen() {
       <View style={styles.containerCategorias}>
         {isLoading ? (
           <ActivityIndicator />
-        ) : (
+        ):isErrorCategorias ?(
+          <Text style={styles.textError}>Não foi possível carregar as categorias</Text>
+        ): categorias?.length===0?(
+          <Text style={styles.textError}>Nenhuma categoria disponivel no momento</Text>
+        ):(
           categorias?.map((categoria) => {
             const isSelected = categoria.id === categoryId;
             return (
