@@ -90,7 +90,7 @@ export function CriarServicoScreen() {
          <Text style={styles.textError}>Erro ao carregar categorias</Text>
       </View>      
       }
-    <ScrollView style={styles.containerEdicao}>
+    <ScrollView contentContainerStyle={styles.containerEdicao}>
       <Text style={styles.titulo}>Titulo do Serviço</Text>
       <TextInput
         placeholder="Digite o Titulo"
