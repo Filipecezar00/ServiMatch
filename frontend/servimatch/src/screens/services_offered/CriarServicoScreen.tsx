@@ -88,7 +88,8 @@ export function CriarServicoScreen() {
       <Text style={styles.titulo}>Descrição do Serviço</Text>
       <TextInput
         placeholder="Digite a Descrição"
-
+        multiline
+        textAlignVertical="top"
         value={descricao}
         onChangeText={setDescricao}
         style={styles.inputDescricao}
@@ -131,13 +132,8 @@ const styles = StyleSheet.create({
 container:{
 flex:1,
 backgroundColor:theme.colors.background,
-marginTop:theme.spacing.xl,
-borderRadius:theme.borderRadius.md,
-borderWidth:1,
-borderColor:theme.colors.border,
 padding:theme.spacing.lg,
-marginHorizontal:theme.spacing.md,  
-paddingHorizontal:theme.spacing.md
+
 }, 
 containerVoltar:{
 flexDirection:"row",
