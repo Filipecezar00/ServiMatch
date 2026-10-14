@@ -197,8 +197,9 @@ export function Profile() {
                   {ehMeuPerfil && (
                     <Pressable
                       onPress={() => navigation.navigate("CriarServico")}
+                      style={styles.botaoPadrao}
                     >
-                      <Text> + Cadastrar meu primeiro serviço</Text>
+                      <Text style={styles.textBotaoPadrao}> + Cadastrar meu primeiro serviço</Text>
                     </Pressable>
                   )}
                 </View>
@@ -219,7 +220,7 @@ export function Profile() {
 
         <Text style={styles.tituloSecao}>Avaliações Recebidas</Text>
         {profile.reviews.length === 0 ? (
-          <Text>Nenhuma avaliação recebida até o momento</Text>
+          <Text style={styles.informacoesMembro}>Nenhuma avaliação recebida até o momento</Text>
         ) : (
           profile.reviews.map((review) => (
               <View key={review.id} style={styles.cartaoCard}>
@@ -501,6 +502,7 @@ const styles = StyleSheet.create({
     }, 
     botaoPadrao:{
       minHeight:48,
+      marginBottom:theme.spacing.md,  
       justifyContent:"center",
       alignItems:"center", 
       backgroundColor:theme.colors.primary,
