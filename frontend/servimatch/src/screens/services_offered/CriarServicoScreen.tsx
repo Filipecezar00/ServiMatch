@@ -133,9 +133,9 @@ export function CriarServicoScreen() {
         )}
       </View>
 
-      <Pressable onPress={handleSubmit} disabled={isPending} style={styles.buttonCadastrar}>
+      <Pressable onPress={handleSubmit} disabled={isPending || isLoading || isErrorCategorias || categorias?.length===0} style={styles.buttonCadastrar}>
         {isPending ? (
-          <ActivityIndicator size="small" style={theme.colors.surface} />
+          <ActivityIndicator size="small" color={theme.colors.surface} />
         ) : (
           <Text style={styles.cadastrarText}>Cadastrar Serviço</Text>
         )}
