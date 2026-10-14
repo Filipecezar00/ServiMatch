@@ -225,7 +225,6 @@ marginBottom:theme.spacing.md
 },
 categoriaSelecionada:{
   borderColor:theme.colors.primaryDark,
-  color:theme.colors.surface,
 }, 
 botaoVoltar:{
 flexDirection:"row",
