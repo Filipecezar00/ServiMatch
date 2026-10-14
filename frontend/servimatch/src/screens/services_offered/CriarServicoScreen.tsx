@@ -93,6 +93,7 @@ export function CriarServicoScreen() {
         value={descricao}
         onChangeText={setDescricao}
         style={styles.inputDescricao}
+        maxLength={1000}
       />
 
       <Text style={styles.titulo}>Categorias Disponiveis</Text>
