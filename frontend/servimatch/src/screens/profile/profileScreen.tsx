@@ -296,6 +296,8 @@ export function Profile() {
             keyboardType="email-address"
             autoCapitalize="none"
             autoCorrect={false}
+            autoComplete="email"
+            returnKeyType="done"
             style={styles.campoInput}
           />
           </View>
@@ -454,10 +456,9 @@ const styles = StyleSheet.create({
       marginBottom:theme.spacing.xs
     }, 
     modalDescricao:{
-      fontSize:16, 
-      color:theme.colors.textPrimary, 
-      fontWeight:"200",
-      marginBottom:theme.spacing.md, 
+      fontSize:14, 
+      color:theme.colors.textSecondary, 
+      marginBottom:theme.spacing.lg, 
       lineHeight:20
     },
     campoContainer:{
@@ -489,16 +490,16 @@ const styles = StyleSheet.create({
       justifyContent:"center",
       alignItems:"center", 
       minHeight:48,
-      backgroundColor:theme.colors.error, 
+      backgroundColor:theme.colors.surface, 
       borderWidth:1,
-      borderColor:theme.colors.border, 
+      borderColor:theme.colors.primaryDark, 
       borderRadius:theme.borderRadius.md,
       paddingHorizontal:theme.spacing.md, 
     }, 
     textoBotaoCancelar:{
       fontSize:14,
-      fontWeight:"700",
-      color:theme.colors.surface
+      fontWeight:"600",
+      color:theme.colors.textPrimary
     }, 
     botaoPadrao:{
       minHeight:48,
