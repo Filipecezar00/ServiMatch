@@ -185,7 +185,7 @@ export function Profile() {
               </Text>
             </View>
 
-            <View>
+            <View style={{ marginBottom: theme.spacing.lg }}>
               <Text style={styles.tituloSecao}>Serviços Oferecidos</Text>
               {profile.usuario.servicos.length === 0 ? (
                 <View>
@@ -502,7 +502,6 @@ const styles = StyleSheet.create({
     }, 
     botaoPadrao:{
       minHeight:48,
-      marginBottom:theme.spacing.md,  
       justifyContent:"center",
       alignItems:"center", 
       backgroundColor:theme.colors.primary,
