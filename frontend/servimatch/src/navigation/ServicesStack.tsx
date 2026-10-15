@@ -17,6 +17,7 @@ export type ServiceStackOfferedParamList = {
   ListarMeusServicos: undefined;
   CriarServico: undefined;
   EditarServico: { id: number };
+  Home: undefined;
 };
 
 export type ServiceStackWantedParamList = {
@@ -64,6 +65,7 @@ export function ServicesOfferedStack() {
       <Stack.Screen component={CriarServicoScreen} name="CriarServico" />
       <Stack.Screen component={MeusServicos} name="ListarMeusServicos" />
       <Stack.Screen component={EditarServico} name="EditarServico" />
+      <Stack.Screen component={HomeScreen} name="Home" />
     </Stack.Navigator>
   );
 }
