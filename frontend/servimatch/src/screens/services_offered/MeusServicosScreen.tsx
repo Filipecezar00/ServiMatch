@@ -98,7 +98,7 @@ export function MeusServicos() {
                   <Text style={[styles.statusAtual,item.ativo ? styles.ativo : styles.inativo]}>Status Atual: {item.ativo ? "Ativo" : "Inativo"}</Text>
                 </View>
                 <View style={styles.containerBtns}>
-                <Pressable onPress={() => handleSubmit(item.id, item.ativo)} style={styles.btnStatus}>
+                <Pressable onPress={() => handleSubmit(item.id, item.ativo)} style={styles.btnStatus} accessibilityRole="button" accessibilityLabel={item.ativo?"Desativar servico" :"Ativar servico"}>
                   <Text style={styles.buttonText}>
                     {item.ativo ? "Desativar serviço" : "Ativar serviço"}
                   </Text>
@@ -214,7 +214,6 @@ color:theme.colors.error
 },
 btnStatus:{
 flex:1, 
-
 backgroundColor:theme.colors.primary, 
 paddingHorizontal:theme.spacing.sm, 
 paddingVertical:theme.spacing.md,
