@@ -23,7 +23,7 @@ export function EditarServico() {
   const [descricao, setDescricao] = useState("");
   const [erroLocal, setErroLocal] = useState("");
   const [categoryId, setCategoryId] = useState<number | null>(null);
-
+  const [campoAtivo, setCampoAtivo] = useState<"titulo" | "descricao" | null >(null)
   const navigation = useNavigation();
   const queryClient = useQueryClient();
 
@@ -112,7 +112,9 @@ export function EditarServico() {
         onChangeText={setTitulo}
         autoCapitalize="sentences"
         maxLength={200}
-        style={styles.input}
+        onFocus={()=>setCampoAtivo("titulo")}
+        onBlur={()=>setCampoAtivo(null)}
+        style={[styles.input,campoAtivo==="titulo" && styles.inputAtivo]}
       />
 
       <Text style={styles.titulo}>Editar descrição</Text>
@@ -122,9 +124,11 @@ export function EditarServico() {
         onChangeText={setDescricao}
         multiline
         textAlignVertical="top"
+        onFocus={()=>setCampoAtivo("descricao")}
+        onBlur={()=>setCampoAtivo(null)}
         autoCapitalize="sentences"
         maxLength={1000}
-        style={styles.inputDescricao}
+        style={[styles.inputDescricao, campoAtivo==="descricao" && styles.inputAtivo]}
       />
 
       <Text style={styles.titulo}>Editar Categoria</Text>
@@ -259,5 +263,10 @@ categoriaNome:{
 fontSize:14,
 fontWeight:"400",
 color:theme.colors.textPrimary,
-},  
+},
+inputAtivo:{
+  borderColor:theme.colors.primary, 
+  borderWidth:2, 
+
+}  
 })
