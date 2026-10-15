@@ -143,7 +143,7 @@ export function EditarServico() {
                 }}
               >
                 <Pressable onPress={() => setCategoryId(categoria.id)} style={({pressed})=>[styles.categoriaButton,pressed && {opacity:0.5}, isSelected && styles.categoriaSelecionada]}>
-                  <Text>{categoria.nome}</Text>
+                  <Text style={styles.categoriaNome}>{categoria.nome}</Text>
                 </Pressable>
               </View>
             );
@@ -151,7 +151,7 @@ export function EditarServico() {
         </View>
       )}
       <Pressable onPress={handleSubmit} disabled={isPending||isLoading || categorias?.length===0} style={styles.buttonEditar}>
-          {isPending ? <ActivityIndicator size="small" color={theme.colors.primary}/> : <Text style={styles.editarText}>Editar Serviço</Text>}
+          {isPending ? <ActivityIndicator size="small" color={theme.colors.surface}/> : <Text style={styles.editarText}>Editar Serviço</Text>}
       </Pressable>
     </ScrollView>
     </View>
@@ -258,5 +258,10 @@ editarText:{
 fontSize:16,
 fontWeight:"600",
 color:theme.colors.surface  
-}, 
+},
+categoriaNome:{
+fontSize:14,
+fontWeight:"400",
+color:theme.colors.textPrimary,
+},  
 })
