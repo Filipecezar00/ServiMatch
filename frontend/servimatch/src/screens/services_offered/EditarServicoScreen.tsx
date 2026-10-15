@@ -150,8 +150,8 @@ export function EditarServico() {
           })}
         </View>
       )}
-      <Pressable onPress={handleSubmit} disabled={isPending}>
-          {isPending ? <ActivityIndicator /> : <Text>Editar Serviço</Text>}
+      <Pressable onPress={handleSubmit} disabled={isPending||isLoading || categorias?.length===0} style={styles.buttonEditar}>
+          {isPending ? <ActivityIndicator size="small" color={theme.colors.primary}/> : <Text style={styles.editarText}>Editar Serviço</Text>}
       </Pressable>
     </ScrollView>
     </View>
@@ -244,5 +244,19 @@ borderColor:theme.colors.border
 categoriaSelecionada:{
   borderColor:theme.colors.primaryDark,
 }, 
-
+buttonEditar:{
+marginTop:theme.spacing.md,
+backgroundColor:theme.colors.primary,
+paddingHorizontal:theme.spacing.md,
+paddingVertical:theme.spacing.sm,
+borderRadius:theme.borderRadius.sm,
+alignItems:"center",
+justifyContent:"center",
+minHeight:48
+}, 
+editarText:{
+fontSize:16,
+fontWeight:"600",
+color:theme.colors.surface  
+}, 
 })
