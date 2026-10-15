@@ -4,7 +4,8 @@ import {
   Pressable,
   TextInput,
   ActivityIndicator,
-  StyleSheet
+  StyleSheet,
+  ScrollView
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
@@ -102,11 +103,16 @@ export function EditarServico() {
         <Text style={styles.titleHeader}>Edite seu serviço</Text>
         <Text style={styles.descriptionHeader}>Preencha os campos abaixo</Text>
       </View>
-      <Text>Editar titulo</Text>
+
+    <ScrollView contentContainerStyle={styles.containerEdicao}>
+      <Text style={styles.titulo}>Editar titulo</Text>
       <TextInput
         placeholder="Digite o titulo"
         value={titulo}
         onChangeText={setTitulo}
+        autoCapitalize="sentences"
+        maxLength={200}
+        style={styles.input}
       />
 
       <Text>Editar descrição</Text>
@@ -114,6 +120,11 @@ export function EditarServico() {
         placeholder="Digite a descrição"
         value={descricao}
         onChangeText={setDescricao}
+        multiline
+        textAlignVertical="top"
+        autoCapitalize="sentences"
+        maxLength={1000}
+        style={styles.inputDescricao}
       />
 
       <Text>Editar Categoria</Text>
@@ -142,6 +153,7 @@ export function EditarServico() {
       <Pressable onPress={handleSubmit} disabled={isPending}>
           {isPending ? <ActivityIndicator /> : <Text>Editar Serviço</Text>}
       </Pressable>
+    </ScrollView>
     </View>
   );
 }
@@ -190,4 +202,34 @@ textError:{
   fontSize:14,
   fontWeight:"500"
 }, 
+titulo:{
+fontSize:16,
+fontWeight:"600",
+color:theme.colors.textPrimary,
+marginBottom:theme.spacing.xs
+}, 
+containerEdicao:{
+flexDirection:"column",
+marginTop:theme.spacing.md,
+}, 
+input:{
+marginBottom:theme.spacing.md,
+backgroundColor:theme.colors.surface,
+paddingHorizontal:theme.spacing.md,
+paddingVertical:theme.spacing.sm,
+borderRadius:theme.borderRadius.sm,
+borderWidth:1,
+minHeight:48,
+borderColor:theme.colors.border 
+}, 
+inputDescricao:{
+  marginBottom:theme.spacing.md,
+  backgroundColor:theme.colors.surface,
+  paddingHorizontal:theme.spacing.md,
+  paddingVertical:theme.spacing.sm,
+  borderRadius:theme.borderRadius.sm,
+  borderWidth:1,
+  borderColor:theme.colors.border,
+  minHeight:150
+},
 })
