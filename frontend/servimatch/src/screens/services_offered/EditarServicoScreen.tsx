@@ -4,6 +4,7 @@ import {
   Pressable,
   TextInput,
   ActivityIndicator,
+  StyleSheet
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
@@ -14,6 +15,7 @@ import {
   obterDetalhesServicoPorId,
   editarServico,
 } from "../../api/serviceOffered";
+import { theme } from "../../styles/theme/theme";
 import { ServiceStackOfferedParamList } from "../../navigation/ServicesStack";
 export function EditarServico() {
   const [titulo, setTitulo] = useState("");
@@ -84,16 +86,16 @@ export function EditarServico() {
   }, [servico]);
 
   return (
-    <View>
+    <View style={styles.container}>
       {erroLocal && (
         <View>
           <Text>Erro ao editar serviço: {erroLocal}</Text>
         </View>
       )}
-      <View>
-        <Pressable onPress={() => navigation.goBack()}>
-          <MaterialCommunityIcons name="arrow-left" size={18} />
-          <Text>Voltar</Text>
+      <View style={styles.containerVoltar}>
+        <Pressable onPress={() => navigation.goBack()} style={styles.botaoVoltar}>
+          <MaterialCommunityIcons name="arrow-left" size={18} color={theme.colors.textPrimary}/>
+          <Text style={styles.textVoltar}>Voltar</Text>
         </Pressable>
       </View>
       <Text>Editar titulo</Text>
@@ -134,10 +136,27 @@ export function EditarServico() {
         </View>
       )}
       <Pressable onPress={handleSubmit} disabled={isPending}>
-        <Text>
           {isPending ? <ActivityIndicator /> : <Text>Editar Serviço</Text>}
-        </Text>
       </Pressable>
     </View>
   );
 }
+const styles = StyleSheet.create({
+container:{
+  flex:1, 
+  backgroundColor:theme.colors.background,
+  padding:theme.spacing.lg, 
+}, 
+containerVoltar:{
+flexDirection:"row",
+paddingBottom:theme.spacing.md
+}, 
+botaoVoltar:{
+flexDirection:"row", 
+alignItems:"center", 
+gap:theme.spacing.xs
+},
+textVoltar:{
+paddingVertical:theme.spacing.xs
+}
+})
