@@ -33,7 +33,7 @@ export function EditarServico() {
   const { mutate, isPending } = useMutation({
     mutationFn: editarServico,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["listarMeusServicos"] });
+      queryClient.invalidateQueries({ queryKey: ["Meus-servicos"] });
       navigation.goBack();
     },
     onError: (error) => {
