@@ -10,6 +10,7 @@ import {
   Text,
   Pressable,
   FlatList,
+  StyleSheet
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
@@ -17,6 +18,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ServiceStackOfferedParamList } from "../../navigation/ServicesStack";
 import { CompositeNavigationProp } from "@react-navigation/native";
+import { theme } from "../../styles/theme/theme";
 
 export function MeusServicos() {
   type ListarServicosNavigationProp = CompositeNavigationProp<
@@ -56,16 +58,16 @@ export function MeusServicos() {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <View>
         <Pressable onPress={() => navigation.openDrawer()}>
           <MaterialCommunityIcons name="menu" size={24} />
         </Pressable>
       </View>
-      <View>
-        <Pressable onPress={() => navigation.navigate("CriarServico")}>
-          <MaterialCommunityIcons name="plus" size={18} />
-          <Text>Criar novo serviço</Text>
+      <View style={styles.containerCriarServico}>
+        <Pressable onPress={() => navigation.navigate("CriarServico")} style={styles.botaoCriar}>
+          <MaterialCommunityIcons name="plus" size={18} color={theme.colors.surface}/>
+          <Text style={styles.textCriarServico}>Criar novo serviço</Text>
         </Pressable>
       </View>
       {isError && (
@@ -113,3 +115,33 @@ export function MeusServicos() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+container:{
+  flex:1, 
+  backgroundColor:theme.colors.background, 
+  padding:theme.spacing.lg
+},
+containerCriarServico:{
+}, 
+botaoCriar:{
+flexDirection:"row",
+gap:theme.spacing.xs,
+paddingBottom:theme.spacing.xs,
+backgroundColor:theme.colors.primary, 
+borderWidth:1,
+borderColor:theme.colors.border,
+paddingHorizontal:theme.spacing.md,
+paddingVertical:theme.spacing.md,
+justifyContent:"center",
+alignItems:"center",
+borderRadius:theme.spacing.xs
+
+}, 
+textCriarServico:{
+textAlign:"center",
+fontSize:14,
+color:theme.colors.surface,
+paddingVertical:theme.spacing.xs
+}
+})
