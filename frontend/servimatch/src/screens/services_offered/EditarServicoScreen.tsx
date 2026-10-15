@@ -151,7 +151,7 @@ export function EditarServico() {
         </View>
       )}
       <Pressable onPress={handleSubmit} disabled={isPending||isLoading || categorias?.length===0} style={styles.buttonEditar}>
-          {isPending ? <ActivityIndicator size="small" color={theme.colors.surface}/> : <Text style={styles.editarText}>Editar Serviço</Text>}
+          {isPending ? <ActivityIndicator size="small" color={theme.colors.primary}/> : <Text style={styles.editarText}>Editar Serviço</Text>}
       </Pressable>
     </ScrollView>
     </View>
