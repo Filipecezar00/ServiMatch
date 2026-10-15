@@ -37,7 +37,7 @@ export function EditarServico() {
       navigation.goBack();
     },
     onError: (error) => {
-      setErroLocal(`Erro ao realizar mutate: ${error}`);
+      setErroLocal(`Erro ao realizar mutate: ${error.message}`);
     },
   });
 
