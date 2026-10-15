@@ -95,8 +95,9 @@ export function MeusServicos() {
                 <Text style={styles.titulo}>{item.titulo}</Text>
                 <Text style={styles.descricao}>{item.descricao}</Text>
                 <Text style={[styles.statusAtual,item.ativo ? styles.ativo : styles.inativo]}>Status Atual: {item.ativo ? "Ativo" : "Inativo"}</Text>
-                <Pressable onPress={() => handleSubmit(item.id, item.ativo)}>
-                  <Text>
+                <View style={styles.containerBtns}>
+                <Pressable onPress={() => handleSubmit(item.id, item.ativo)} style={styles.btnStatus}>
+                  <Text style={styles.buttonText}>
                     {item.ativo ? "Desativar serviço" : "Ativar serviço"}
                   </Text>
                 </Pressable>
@@ -104,9 +105,12 @@ export function MeusServicos() {
                   onPress={() =>
                     navigation.navigate("EditarServico", { id: item.id })
                   }
+                  style={styles.btnEditar}
                 >
-                  <Text>Editar Serviço</Text>
+                  <Text style={styles.buttonTextEditar}>Editar Serviço</Text>
+                  <MaterialCommunityIcons name="pencil" size={18}/>
                 </Pressable>
+                </View>
               </View>
             )}
           />
@@ -188,5 +192,35 @@ color:theme.colors.primary
 }, 
 inativo:{
 color:theme.colors.error
+},
+btnStatus:{
+backgroundColor:theme.colors.primary, 
+paddingHorizontal:theme.spacing.xs, 
+paddingVertical:theme.spacing.xs,
+borderRadius:theme.spacing.xs, 
+
+}, 
+buttonText:{
+color:theme.colors.surface,
+textAlign:"center", 
+}, 
+buttonTextEditar:{
+color:theme.colors.primaryDark,
+textAlign:"center", 
+}, 
+btnEditar:{
+backgroundColor:theme.colors.surface, 
+paddingHorizontal:theme.spacing.xs, 
+paddingVertical:theme.spacing.xs,
+borderRadius:theme.spacing.xs, 
+marginHorizontal:theme.spacing.sm,
+borderColor:theme.colors.primaryDark,
+flexDirection:'row', 
+gap:theme.spacing.sm
+}, 
+containerBtns:{
+  flexDirection:"row",
+  alignItems:"flex-end",
+  
 }
 })
