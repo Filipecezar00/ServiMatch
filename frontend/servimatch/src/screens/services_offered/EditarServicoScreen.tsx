@@ -88,8 +88,8 @@ export function EditarServico() {
   return (
     <View style={styles.container}>
       {erroLocal && (
-        <View>
-          <Text>Erro ao editar serviço: {erroLocal}</Text>
+        <View style={styles.errorBox}>
+          <Text style={styles.textError}>Erro ao editar serviço: {erroLocal}</Text>
         </View>
       )}
       <View style={styles.containerVoltar}>
@@ -97,6 +97,10 @@ export function EditarServico() {
           <MaterialCommunityIcons name="arrow-left" size={18} color={theme.colors.textPrimary}/>
           <Text style={styles.textVoltar}>Voltar</Text>
         </Pressable>
+      </View>
+      <View style={styles.header}>
+        <Text style={styles.titleHeader}>Edite seu serviço</Text>
+        <Text style={styles.descriptionHeader}>Preencha os campos abaixo</Text>
       </View>
       <Text>Editar titulo</Text>
       <TextInput
@@ -158,5 +162,32 @@ gap:theme.spacing.xs
 },
 textVoltar:{
 paddingVertical:theme.spacing.xs
-}
+},
+header:{
+alignItems:"center",
+justifyContent:"center",
+marginBottom:theme.spacing.md 
+}, 
+titleHeader:{
+fontSize:20,
+fontWeight:"700",
+color:theme.colors.primaryDark,
+marginBottom:theme.spacing.xs
+}, 
+descriptionHeader:{
+fontSize:16,
+fontWeight:"400",
+color:theme.colors.textSecondary,
+},
+errorBox:{
+  backgroundColor:theme.colors.error,
+  padding:theme.spacing.sm,
+  borderRadius:theme.borderRadius.sm,
+  marginBottom:theme.spacing.md
+},
+textError:{
+  color:theme.colors.surface,
+  fontSize:14,
+  fontWeight:"500"
+}, 
 })
