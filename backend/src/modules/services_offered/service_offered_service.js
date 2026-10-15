@@ -127,7 +127,12 @@ export async function buscarServicoPorId_service(id) {
   if (!id) {
     throw new AppError("Serviço não encontrado", 404);
   }
+
   const servico = await buscarServicoPorId(id);
+
+  if(!servico) {
+    throw new AppError("Serviço não encontrado", 404);
+  }
   return servico;
 }
 
