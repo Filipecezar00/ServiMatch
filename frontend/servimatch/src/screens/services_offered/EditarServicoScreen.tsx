@@ -11,7 +11,7 @@ import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   listarCategorias,
-  obterServicoPorId,
+  obterDetalhesServicoPorId,
   editarServico,
 } from "../../api/serviceOffered";
 import { ServiceStackOfferedParamList } from "../../navigation/ServicesStack";
@@ -51,7 +51,7 @@ export function EditarServico() {
 
   const { data: servico } = useQuery({
     queryKey: ["servico", id],
-    queryFn: () => obterServicoPorId(id),
+    queryFn: () => obterDetalhesServicoPorId(id),
     enabled: !!id,
   });
 
