@@ -115,7 +115,7 @@ export function EditarServico() {
         style={styles.input}
       />
 
-      <Text>Editar descrição</Text>
+      <Text style={styles.titulo}>Editar descrição</Text>
       <TextInput
         placeholder="Digite a descrição"
         value={descricao}
@@ -127,9 +127,9 @@ export function EditarServico() {
         style={styles.inputDescricao}
       />
 
-      <Text>Editar Categoria</Text>
+      <Text style={styles.titulo}>Editar Categoria</Text>
       {isLoading ? (
-        <ActivityIndicator />
+        <ActivityIndicator size="small" color={theme.colors.surface}/>
       ) : (
         <View>
           {categorias?.map((categoria) => {
@@ -142,7 +142,7 @@ export function EditarServico() {
                   borderColor: isSelected ? "#0056b3" : "#c7c7cc",
                 }}
               >
-                <Pressable onPress={() => setCategoryId(categoria.id)}>
+                <Pressable onPress={() => setCategoryId(categoria.id)} style={({pressed})=>[styles.categoriaButton,pressed && {opacity:0.5}, isSelected && styles.categoriaSelecionada]}>
                   <Text>{categoria.nome}</Text>
                 </Pressable>
               </View>
@@ -232,4 +232,17 @@ inputDescricao:{
   borderColor:theme.colors.border,
   minHeight:150
 },
+categoriaButton:{
+marginBottom:theme.spacing.sm,
+backgroundColor:theme.colors.surface,
+paddingHorizontal:theme.spacing.md,
+paddingVertical:theme.spacing.sm,
+borderRadius:theme.borderRadius.sm,
+borderWidth:1,
+borderColor:theme.colors.border
+},
+categoriaSelecionada:{
+  borderColor:theme.colors.primaryDark,
+}, 
+
 })
