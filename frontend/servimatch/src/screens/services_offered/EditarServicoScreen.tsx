@@ -137,10 +137,6 @@ export function EditarServico() {
             return (
               <View
                 key={categoria.id}
-                style={{
-                  backgroundColor: isSelected ? "#007AFF" : "#e5e5ea",
-                  borderColor: isSelected ? "#0056b3" : "#c7c7cc",
-                }}
               >
                 <Pressable onPress={() => setCategoryId(categoria.id)} style={({pressed})=>[styles.categoriaButton,pressed && {opacity:0.5}, isSelected && styles.categoriaSelecionada]}>
                   <Text style={styles.categoriaNome}>{categoria.nome}</Text>
