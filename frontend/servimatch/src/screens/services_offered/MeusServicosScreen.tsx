@@ -60,7 +60,7 @@ export function MeusServicos() {
   return (
     <View style={styles.container}>
       <View>
-        <Pressable onPress={() => navigation.openDrawer()}>
+        <Pressable onPress={() => navigation.openDrawer()} style={styles.menu}>
           <MaterialCommunityIcons name="menu" size={24} />
         </Pressable>
       </View>
@@ -81,7 +81,7 @@ export function MeusServicos() {
       {isLoading ? (
         <ActivityIndicator size="small" color={theme.colors.primary} />
       ) : (
-        <View style={styles.container}>
+        <View style={styles.listacontainer}>
           <FlatList
             data={servicos}
             keyExtractor={(servico) => servico.id.toString()}
@@ -94,7 +94,9 @@ export function MeusServicos() {
               <View style={styles.cardMeusServicos}>
                 <Text style={styles.titulo}>{item.titulo}</Text>
                 <Text style={styles.descricao}>{item.descricao}</Text>
-                <Text style={[styles.statusAtual,item.ativo ? styles.ativo : styles.inativo]}>Status Atual: {item.ativo ? "Ativo" : "Inativo"}</Text>
+                <View style={[styles.statusContainer,item.ativo?styles.statusContainerAtivo : styles.statusContainerInativo]}>
+                  <Text style={[styles.statusAtual,item.ativo ? styles.ativo : styles.inativo]}>Status Atual: {item.ativo ? "Ativo" : "Inativo"}</Text>
+                </View>
                 <View style={styles.containerBtns}>
                 <Pressable onPress={() => handleSubmit(item.id, item.ativo)} style={styles.btnStatus}>
                   <Text style={styles.buttonText}>
@@ -126,6 +128,9 @@ container:{
   backgroundColor:theme.colors.background, 
   padding:theme.spacing.lg
 },
+listacontainer:{
+  flex:1,
+},
 containerCriarServico:{
 }, 
 botaoCriar:{
@@ -139,7 +144,8 @@ paddingHorizontal:theme.spacing.md,
 paddingVertical:theme.spacing.md,
 justifyContent:"center",
 alignItems:"center",
-borderRadius:theme.spacing.xs
+borderRadius:theme.spacing.xs,
+marginBottom:theme.spacing.xl
 
 }, 
 textCriarServico:{
@@ -149,16 +155,27 @@ color:theme.colors.surface,
 paddingVertical:theme.spacing.xs
 }, 
 erroBox:{
-
+  padding:theme.spacing.sm,
+  borderRadius:theme.borderRadius.sm,
+  marginBottom:theme.spacing.md
 }, 
 textError:{
-
+  color:theme.colors.error,
+  fontSize:16,
+  fontWeight:"500",
+  textAlign:"center"
 }, 
 buttonRefetch:{
+  alignItems:"center",
+  backgroundColor:theme.colors.primary, 
+  paddingHorizontal:theme.spacing.lg,
+  paddingVertical:theme.spacing.md, 
+  borderRadius:theme.spacing.md, 
+  marginTop:theme.spacing.md, 
 
 }, 
 textTentarNovamente:{
-
+  color:theme.colors.surface
 }, 
 textInformation:{
 
@@ -169,23 +186,25 @@ cardMeusServicos:{
  paddingVertical:theme.spacing.md, 
  backgroundColor:theme.colors.surface,
  borderWidth:1,
- borderColor:theme.colors.primary,
- borderRadius:theme.spacing.xs
+ borderColor:theme.colors.border,
+ borderRadius:theme.spacing.md,
+ marginBottom:theme.spacing.md
 }, 
 titulo:{
 fontSize:20, 
 fontWeight:"600",
+color:theme.colors.textPrimary,
 marginBottom:theme.spacing.xs
 }, 
 descricao:{
 fontSize:14, 
-fontWeight:"600", 
+fontWeight:"400", 
 color:theme.colors.textSecondary,
 marginBottom:theme.spacing.sm
 }, 
 statusAtual:{
-marginBottom:theme.spacing.sm, 
-fontWeight:"600"
+fontWeight:"600",
+fontSize:13
 },
 ativo:{
 color:theme.colors.primary
@@ -194,10 +213,15 @@ inativo:{
 color:theme.colors.error
 },
 btnStatus:{
+flex:1, 
+
 backgroundColor:theme.colors.primary, 
-paddingHorizontal:theme.spacing.xs, 
-paddingVertical:theme.spacing.xs,
-borderRadius:theme.spacing.xs, 
+paddingHorizontal:theme.spacing.sm, 
+paddingVertical:theme.spacing.md,
+borderRadius:theme.spacing.md, 
+alignItems:"center",
+justifyContent:"center",
+minHeight:48
 
 }, 
 buttonText:{
@@ -209,18 +233,39 @@ color:theme.colors.primaryDark,
 textAlign:"center", 
 }, 
 btnEditar:{
+flex:1,
 backgroundColor:theme.colors.surface, 
-paddingHorizontal:theme.spacing.xs, 
-paddingVertical:theme.spacing.xs,
-borderRadius:theme.spacing.xs, 
-marginHorizontal:theme.spacing.sm,
+paddingHorizontal:theme.spacing.sm, 
+paddingVertical:theme.spacing.md,
+borderRadius:theme.spacing.md, 
+borderWidth:1,
 borderColor:theme.colors.primaryDark,
 flexDirection:'row', 
-gap:theme.spacing.sm
+alignItems:"center", 
+justifyContent:"center", 
+gap:theme.spacing.xs, 
+minHeight:48
 }, 
 containerBtns:{
   flexDirection:"row",
-  alignItems:"flex-end",
+  alignItems:"center",
+  gap:theme.spacing.sm
   
-}
+}, 
+menu:{
+  marginBottom:theme.spacing.xs
+}, 
+statusContainer:{
+alignSelf:"flex-start", 
+paddingHorizontal:theme.spacing.sm, 
+paddingVertical:theme.spacing.xs,
+borderRadius:theme.borderRadius.md, 
+marginBottom:theme.spacing.md
+}, 
+statusContainerAtivo:{
+backgroundColor:"#E3F5F1"
+}, 
+statusContainerInativo:{
+backgroundColor:"#FCE8EA"
+}, 
 })
