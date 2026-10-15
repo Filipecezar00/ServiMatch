@@ -71,30 +71,30 @@ export function MeusServicos() {
         </Pressable>
       </View>
       {isError && (
-        <View>
-          <Text>Erro ao realizar operação</Text>
-          <Pressable onPress={() => refetch()}>
-            <Text>Tentar Novamente</Text>
+        <View style={styles.erroBox}>
+          <Text style={styles.textError}>Erro ao realizar operação</Text>
+          <Pressable onPress={() => refetch()} style={styles.buttonRefetch}>
+            <Text style={styles.textTentarNovamente}>Tentar Novamente</Text>
           </Pressable>
         </View>
       )}
       {isLoading ? (
-        <ActivityIndicator />
+        <ActivityIndicator size="small" color={theme.colors.primary} />
       ) : (
-        <View>
+        <View style={styles.container}>
           <FlatList
             data={servicos}
             keyExtractor={(servico) => servico.id.toString()}
             refreshing={isLoading}
             onRefresh={refetch}
             ListEmptyComponent={
-              <Text>Você ainda não possui nenhum serviço cadastrado!</Text>
+              <Text style={styles.textInformation}>Você ainda não possui nenhum serviço cadastrado!</Text>
             }
             renderItem={({ item }) => (
-              <View>
-                <Text>Titulo: {item.titulo}</Text>
-                <Text>Descrição: {item.descricao}</Text>
-                <Text>Status Atual: {item.ativo ? "Ativo" : "Inativo"}</Text>
+              <View style={styles.cardMeusServicos}>
+                <Text style={styles.titulo}>{item.titulo}</Text>
+                <Text style={styles.descricao}>{item.descricao}</Text>
+                <Text style={[styles.statusAtual,item.ativo ? styles.ativo : styles.inativo]}>Status Atual: {item.ativo ? "Ativo" : "Inativo"}</Text>
                 <Pressable onPress={() => handleSubmit(item.id, item.ativo)}>
                   <Text>
                     {item.ativo ? "Desativar serviço" : "Ativar serviço"}
@@ -143,5 +143,50 @@ textAlign:"center",
 fontSize:14,
 color:theme.colors.surface,
 paddingVertical:theme.spacing.xs
+}, 
+erroBox:{
+
+}, 
+textError:{
+
+}, 
+buttonRefetch:{
+
+}, 
+textTentarNovamente:{
+
+}, 
+textInformation:{
+
+}, 
+cardMeusServicos:{
+ flexDirection:"column", 
+ paddingHorizontal:theme.spacing.md, 
+ paddingVertical:theme.spacing.md, 
+ backgroundColor:theme.colors.surface,
+ borderWidth:1,
+ borderColor:theme.colors.primary,
+ borderRadius:theme.spacing.xs
+}, 
+titulo:{
+fontSize:20, 
+fontWeight:"600",
+marginBottom:theme.spacing.xs
+}, 
+descricao:{
+fontSize:14, 
+fontWeight:"600", 
+color:theme.colors.textSecondary,
+marginBottom:theme.spacing.sm
+}, 
+statusAtual:{
+marginBottom:theme.spacing.sm, 
+fontWeight:"600"
+},
+ativo:{
+color:theme.colors.primary
+}, 
+inativo:{
+color:theme.colors.error
 }
 })
