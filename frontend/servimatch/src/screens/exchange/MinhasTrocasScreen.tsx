@@ -315,8 +315,8 @@ export function MinhasTrocas() {
                     </View>
                   ) : (
                     <View style={styles.container_btn_avaliar}>
-                      <Pressable onPress={() => handleAvaliar(item)}>
-                        <Text>Avaliar</Text>
+                      <Pressable onPress={() => handleAvaliar(item)} style={styles.btnAvaliar}>
+                        <Text style={styles.textAvaliar}>Avaliar Troca</Text>
                       </Pressable>
                     </View>
                   )}
@@ -325,7 +325,7 @@ export function MinhasTrocas() {
 
               {item.status === "cancelled" && (
                 <View>
-                  <Text>Solicitação cancelada com sucesso ! </Text>
+                  <Text style={styles.textInfomation}>Solicitação cancelada com sucesso ! </Text>
                 </View>
               )}
 
@@ -456,6 +456,7 @@ containerAvaliacao:{
 textContainer:{
   fontSize:14,
   color:theme.colors.surface, 
+  textAlign:"center"
 }, 
 textNota:{
   color:theme.colors.surface,
@@ -527,6 +528,15 @@ textBtns:{
 fontSize:14, 
 color:theme.colors.surface
 }, 
-
-
+btnAvaliar:{
+backgroundColor:theme.colors.background, 
+borderColor:theme.colors.border,
+borderRadius:theme.borderRadius.md, 
+alignItems:"center",
+paddingHorizontal:theme.spacing.xs, 
+paddingVertical:theme.spacing.xs
+}, 
+textAvaliar:{
+fontWeight:"600"
+}
 })
