@@ -89,7 +89,7 @@ export function EditarServico() {
   }, [servico]);
 
   return (
-<KeyboardAvoidingView behavior={Platform.OS==="ios" ? "padding":"height"}>
+<KeyboardAvoidingView behavior={Platform.OS==="ios" ? "padding":"height"} style={styles.containerKeyboard}>
     <View style={styles.container}>
       {erroLocal && (
         <View style={styles.errorBox}>
@@ -271,6 +271,8 @@ color:theme.colors.textPrimary,
 inputAtivo:{
   borderColor:theme.colors.primary, 
   borderWidth:2, 
-
-}  
+}, 
+containerKeyboard:{
+  flex:1
+}
 })

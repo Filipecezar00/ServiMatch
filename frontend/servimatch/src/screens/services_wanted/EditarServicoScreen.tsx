@@ -93,8 +93,8 @@ export function EditarServicoWanted() {
     }
   }, [servico]);
   return (
-  <KeyboardAvoidingView behavior={Platform.OS==="ios" ? "padding":"height"} style={styles.container}>
-    <View>
+  <KeyboardAvoidingView behavior={Platform.OS==="ios" ? "padding":"height"} style={styles.containerKeyboard}>
+    <View style={styles.container}>
       {erroLocal && (
         <View style={styles.errorBox}>
           <Text style={styles.textError}>Erro ao Editar serviço: {erroLocal}</Text>
@@ -276,4 +276,7 @@ textError:{
   fontSize:14,
   fontWeight:"500"
 }, 
+containerKeyboard:{
+  flex:1
+}
 })
