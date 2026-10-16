@@ -16,7 +16,9 @@ import {
   FlatList,
   Pressable,
   Alert,
+  StyleSheet
 } from "react-native";
+import { theme } from "../../styles/theme/theme";
 import { EditarMinhaTroca } from "../../components/EditarMinhasTrocas";
 import { Troca } from "../../types/exchangeTypes";
 import { AvaliarTroca } from "../../components/AvaliarTroca";
@@ -211,7 +213,7 @@ export function MinhasTrocas() {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text>Historico de Trocas</Text>
       {isError && (
         <View>
@@ -243,35 +245,41 @@ export function MinhasTrocas() {
           );
           const estrelas = [1, 2, 3, 4, 5];
 
+          const status = ["scheduled","in_progress","completed","cancelled","disputed"]
+          const corStatus = ["#186497","#e7a61b","#0f6a07","#e93f3f","#e2b100"]
+          const funcaoStatus = ()=>{
+
+          }
           return (
-            <View>
-              <Text>Meu Serviço: {item.servico_oferecido_titulo}</Text>
-              <Text>Servico Desejado: {item.servico_desejado_titulo}</Text>
-              <Text>Usuario: {item.outro_usuario_nome}</Text>
-              <Text>Status Atual: {item.status}</Text>
-              <View>
+            <View style={styles.cardContainer}>
+              <Text style={styles.titleServiço}>Meu Serviço: {item.servico_oferecido_titulo}</Text>
+              <Text style={styles.titleServiço}>Servico Desejado: {item.servico_desejado_titulo}</Text>
+              <Text style={styles.usuarioTitle}>Usuario: {item.outro_usuario_nome}</Text>
+              <View style={styles.containerLocalizacao}>
                 {!item.location || item.location.trim() === "" ? (
-                  <Text>localização não definida</Text>
+                  <Text style={styles.textLocalizacao}>localização não definida</Text>
                 ) : (
-                  <Text>Localização: {item.location}</Text>
+                  <Text style={styles.textLocalizacao}>Localização: {item.location}</Text>
                 )}
                 {!item.scheduled_date || item.scheduled_date.trim() === "" ? (
-                  <Text>Data não definida</Text>
+                  <Text style={styles.textLocalizacao}>Data não definida</Text>
                 ) : (
-                  <Text>
+                  <Text style={styles.textData}>
                     Data do serviço: {formatarDataBr(item.scheduled_date)}
                   </Text>
                 )}
               </View>
+              <Text >Status Atual: {item.status}</Text>
+
               {item?.completed_at && (
-                <Text>Completado em: {formatarDataBr(item.completed_at)}</Text>
+                <Text style={styles.textcompletado}>Completado em: {formatarDataBr(item.completed_at)}</Text>
               )}
               {item.status == "completed" && (
-                <View>
-                  <Text>Solicitação completada com sucesso!</Text>
+                <View style={styles.containerAvaliacao}>
+                  <Text style={styles.textContainer}>Solicitação completada com sucesso!</Text>
                   {minhaReview ? (
                     <View>
-                      <Text>Detalhes da Minha avaliação</Text>
+                      <Text style={styles.textContainer}>Detalhes da Minha avaliação</Text>
                       <View
                         style={{
                           flexDirection: "row",
@@ -279,7 +287,7 @@ export function MinhasTrocas() {
                           gap: 4,
                         }}
                       >
-                        <Text style={{ marginRight: 6 }}>
+                        <Text style={styles.textNota}>
                           Nota: {minhaReview.rating}
                         </Text>
                         {estrelas.map((estrela) => {
@@ -295,11 +303,11 @@ export function MinhasTrocas() {
                         })}
                       </View>
                       {minhaReview.comment && (
-                        <Text>Comentário:{minhaReview.comment}</Text>
+                        <Text style={styles.textContainer}>Comentário:{minhaReview.comment}</Text>
                       )}
 
                       {minhaReview.created_at && (
-                        <Text>
+                        <Text style={styles.textContainer}>
                           Data de Criação:{" "}
                           {formatarDataBr(minhaReview.created_at)}
                         </Text>
@@ -391,3 +399,64 @@ export function MinhasTrocas() {
     </View>
   );
 }
+const styles = StyleSheet.create({
+  container:{
+    flex:1, 
+    padding:theme.spacing.md
+  }, 
+  cardContainer:{
+    backgroundColor:theme.colors.surface, 
+    borderWidth:1, 
+    borderColor:theme.colors.border, 
+    borderRadius:theme.borderRadius.md, 
+    padding:theme.spacing.md, 
+    marginBottom:theme.spacing.md
+  }, 
+  titleServiço:{
+    fontSize:16, 
+    fontWeight:"600", 
+    marginBottom:theme.spacing.sm
+  }, 
+  usuarioTitle:{
+    fontSize:16, 
+    marginBottom:theme.spacing.sm,
+    color:theme.colors.textPrimary, 
+    fontWeight:"400"
+  }, 
+containerLocalizacao:{
+  marginBottom:theme.spacing.xs,
+}, 
+textLocalizacao:{
+  fontSize:14,
+  fontWeight:"400", 
+  color:theme.colors.textSecondary
+}, 
+textData:{
+  fontSize:14,
+  fontWeight:"400", 
+  color:theme.colors.primaryDark
+},
+textcompletado:{
+  fontWeight:"600",
+  marginBottom:theme.spacing.xs
+}, 
+containerAvaliacao:{
+  flexDirection:"column",
+  paddingVertical:theme.spacing.sm,
+  justifyContent:"center",
+  backgroundColor:theme.colors.primaryDark,
+  borderColor:theme.colors.border,
+  borderWidth:1, 
+  borderRadius:theme.borderRadius.sm,
+  padding:theme.spacing.md, 
+  marginTop:theme.spacing.md
+}, 
+textContainer:{
+  fontSize:14,
+  color:theme.colors.surface, 
+}, 
+textNota:{
+  color:theme.colors.surface,
+  marginRight:theme.spacing.xs
+}
+})
