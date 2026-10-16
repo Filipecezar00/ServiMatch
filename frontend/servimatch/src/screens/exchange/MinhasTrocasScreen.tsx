@@ -214,7 +214,11 @@ export function MinhasTrocas() {
 
   return (
     <View style={styles.container}>
-      <Text>Historico de Trocas</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Historico de Trocas</Text>
+        <Text style={styles.subTitle}>Todas trocas que você faz fica aqui!</Text>
+      </View>
+      
       {isError && (
         <View>
           <Text>Erro durante Processamento</Text>
@@ -281,11 +285,7 @@ export function MinhasTrocas() {
                     <View>
                       <Text style={styles.textContainer}>Detalhes da Minha avaliação</Text>
                       <View
-                        style={{
-                          flexDirection: "row",
-                          alignItems: "center",
-                          gap: 4,
-                        }}
+                        style={styles.containerNota}
                       >
                         <Text style={styles.textNota}>
                           Nota: {minhaReview.rating}
@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
     marginBottom:theme.spacing.sm,
     color:theme.colors.textPrimary, 
     fontWeight:"400"
-  }, 
+  },
 containerLocalizacao:{
   marginBottom:theme.spacing.xs,
 }, 
@@ -458,5 +458,25 @@ textContainer:{
 textNota:{
   color:theme.colors.surface,
   marginRight:theme.spacing.xs
+}, 
+containerNota:{
+   flexDirection: "row",
+   alignItems: "center",
+   gap: 4,
+}, 
+title:{
+fontSize:20, 
+fontWeight:"600",
+textAlign:"center"
+}, 
+subTitle:{
+fontSize:14, 
+fontWeight:"400", 
+textAlign:"center", 
+color:theme.colors.textSecondary
+}, 
+header:{
+  marginBottom:theme.spacing.md, 
+  marginTop:theme.spacing.lg
 }
 })
