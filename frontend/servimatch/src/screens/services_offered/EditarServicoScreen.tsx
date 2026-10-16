@@ -5,7 +5,9 @@ import {
   TextInput,
   ActivityIndicator,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
@@ -87,6 +89,7 @@ export function EditarServico() {
   }, [servico]);
 
   return (
+<KeyboardAvoidingView behavior={Platform.OS==="ios" ? "padding":"height"}>
     <View style={styles.container}>
       {erroLocal && (
         <View style={styles.errorBox}>
@@ -155,6 +158,7 @@ export function EditarServico() {
       </Pressable>
     </ScrollView>
     </View>
+  </KeyboardAvoidingView>
   );
 }
 const styles = StyleSheet.create({

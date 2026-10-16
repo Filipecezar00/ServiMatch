@@ -14,8 +14,14 @@ import {
   Pressable,
   TextInput,
   ActivityIndicator,
+  StyleSheet,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform
 } from "react-native";
+import { theme } from "../../styles/theme/theme"; 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { opacity } from "react-native-reanimated/lib/typescript/Colors";
 
 export function EditarServicoWanted() {
   const [titulo, setTitulo] = useState("");
@@ -31,7 +37,7 @@ export function EditarServicoWanted() {
   const { id } = route.params;
   const queryClient = useQueryClient();
   const navigation = useNavigation();
-
+  const [campoAtivo,setCampoAtivo] = useState<"titulo" | "descricao" | null> (null)
   const {
     data: categorias,
     isLoading,
@@ -87,62 +93,187 @@ export function EditarServicoWanted() {
     }
   }, [servico]);
   return (
+  <KeyboardAvoidingView behavior={Platform.OS==="ios" ? "padding":"height"} style={styles.container}>
     <View>
       {erroLocal && (
-        <View>
-          <Text>Erro ao Editar serviço: {erroLocal}</Text>
+        <View style={styles.errorBox}>
+          <Text style={styles.textError}>Erro ao Editar serviço: {erroLocal}</Text>
         </View>
       )}
 
-      <View>
-        <Pressable onPress={() => navigation.goBack()}>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <View style={styles.containerVoltar}>
+        <Pressable onPress={() => navigation.goBack()} style={styles.botaoVoltar}>
           <MaterialCommunityIcons name="arrow-left" size={18} />
-          <Text>Voltar</Text>
+          <Text style={styles.textVoltar}>Voltar</Text>
         </Pressable>
       </View>
+      <View style={styles.header}>
+      <Text style={styles.titleHeader}>Edite o serviço procurado</Text>
+      <Text style={styles.descriptionHeader}>Preencha os campos abaixo</Text>
+      </View>
 
-      <Text>Editar Titulo</Text>
+      <Text style={styles.titulo}>Editar Titulo</Text>
       <TextInput
         placeholder="Digite o titulo"
         value={titulo}
         onChangeText={setTitulo}
+        onFocus={()=>setCampoAtivo("titulo")}
+        onChange={()=>setCampoAtivo(null)}
+        autoCapitalize="sentences"
+        maxLength={200}
+        style={[styles.input,campoAtivo=="titulo" && styles.inputAtivo]}
       />
 
-      <Text>Editar a Descrição</Text>
+      <Text style={styles.titulo}>Editar a Descrição</Text>
       <TextInput
         placeholder="Digite a Descrição"
         value={descricao}
         onChangeText={setDescricao}
+        maxLength={1000}
+        multiline
+        onFocus={()=>setCampoAtivo("descricao")}
+        onBlur={()=>setCampoAtivo(null)}
+        textAlignVertical="top"
+        autoCapitalize="sentences"
+        style={[styles.inputDescricao,campoAtivo=="descricao" && styles.inputAtivo]}
+
       />
 
-      <Text>Editar Categoria</Text>
+      <Text style={styles.titulo}>Editar Categoria</Text>
       {isLoading ? (
-        <ActivityIndicator />
+        <ActivityIndicator size={'small'} color={theme.colors.primaryDark}/>
       ) : (
         categorias?.map((categoria) => {
           const isSelected = categoria.id === categoryId;
           return (
             <View
               key={categoria.id}
-              style={{
-                backgroundColor: isSelected ? "#007Aff" : "#e5e5ea",
-                borderColor: isSelected ? "#0056b3" : "#c7c7cc",
-              }}
             >
-              <Pressable onPress={() => setCategoryId(categoria.id)}>
-                <Text>{categoria.nome}</Text>
+              <Pressable onPress={() => setCategoryId(categoria.id)} style={({pressed})=>[styles.btnCategoria,pressed && {opacity:0.5} , isSelected && styles.categoriaSelecionada ]}>
+                <Text style={styles.categoriaNome}>{categoria.nome}</Text>
               </Pressable>
             </View>
           );
         })
       )}
-      <Pressable onPress={handleSubmit} disabled={isPending}>
+      <Pressable onPress={handleSubmit} disabled={isPending} style={styles.btnConfirmar}>
         {isPending ? (
-          <ActivityIndicator size={"small"} />
+          <ActivityIndicator size={"small"} color={theme.colors.primaryDark} />
         ) : (
-          <Text>Confirmar</Text>
+          <Text style={styles.textBtnConfirmar}>Confirmar</Text>
         )}
       </Pressable>
+     </ScrollView>
     </View>
+  </KeyboardAvoidingView>
+    
   );
 }
+const styles = StyleSheet.create({
+container:{
+  flex:1, 
+  backgroundColor:theme.colors.background,
+  padding:theme.spacing.lg, 
+}, 
+containerVoltar:{
+flexDirection:"row", 
+paddingBottom:theme.spacing.md
+}, 
+botaoVoltar:{
+  flexDirection:'row', 
+  alignItems:"center", 
+  gap:theme.spacing.xs
+}, 
+textVoltar:{
+  paddingVertical:theme.spacing.xs
+}, 
+header:{
+alignItems:"center", 
+justifyContent:"center", 
+marginBottom:theme.spacing.md
+}, 
+titleHeader:{
+fontSize:20, 
+fontWeight:"700", 
+color:theme.colors.primaryDark, 
+marginBottom:theme.spacing.xs
+}, 
+descriptionHeader:{
+fontSize:16, 
+fontWeight:"400", 
+color:theme.colors.textSecondary
+}, 
+titulo:{
+fontSize:16,
+fontWeight:"600",
+color:theme.colors.textPrimary,
+marginBottom:theme.spacing.xs
+}, 
+input:{
+marginBottom:theme.spacing.md,
+backgroundColor:theme.colors.surface,
+paddingHorizontal:theme.spacing.md,
+paddingVertical:theme.spacing.sm,
+borderRadius:theme.borderRadius.sm,
+borderWidth:1,
+minHeight:48,
+borderColor:theme.colors.border 
+}, 
+inputAtivo:{
+  borderColor:theme.colors.primaryDark
+},
+inputDescricao:{
+  marginBottom:theme.spacing.md,
+  backgroundColor:theme.colors.surface,
+  paddingHorizontal:theme.spacing.md,
+  paddingVertical:theme.spacing.sm,
+  borderRadius:theme.borderRadius.sm,
+  borderWidth:1,
+  borderColor:theme.colors.border,
+  minHeight:150
+},
+btnCategoria:{
+marginBottom:theme.spacing.sm,
+backgroundColor:theme.colors.surface,
+paddingHorizontal:theme.spacing.md,
+paddingVertical:theme.spacing.sm,
+borderRadius:theme.borderRadius.sm,
+borderWidth:1,
+borderColor:theme.colors.border
+}, 
+categoriaSelecionada:{
+borderColor:theme.colors.primaryDark
+}, 
+categoriaNome:{
+fontSize:14,
+fontWeight:"400",
+color:theme.colors.textPrimary,
+}, 
+btnConfirmar:{
+marginTop:theme.spacing.md,
+backgroundColor:theme.colors.primary,
+paddingHorizontal:theme.spacing.md,
+paddingVertical:theme.spacing.sm,
+borderRadius:theme.borderRadius.sm,
+alignItems:"center",
+justifyContent:"center",
+minHeight:48
+}, 
+textBtnConfirmar:{
+fontSize:16,
+fontWeight:"600",
+color:theme.colors.surface  
+}, 
+errorBox:{
+  backgroundColor:theme.colors.error,
+  padding:theme.spacing.sm,
+  borderRadius:theme.borderRadius.sm,
+  marginBottom:theme.spacing.md
+},
+textError:{
+  color:theme.colors.surface,
+  fontSize:14,
+  fontWeight:"500"
+}, 
+})
