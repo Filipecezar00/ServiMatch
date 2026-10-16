@@ -119,7 +119,7 @@ export function EditarServicoWanted() {
         value={titulo}
         onChangeText={setTitulo}
         onFocus={()=>setCampoAtivo("titulo")}
-        onChange={()=>setCampoAtivo(null)}
+        onBlur={()=>setCampoAtivo(null)}
         autoCapitalize="sentences"
         maxLength={200}
         style={[styles.input,campoAtivo=="titulo" && styles.inputAtivo]}
