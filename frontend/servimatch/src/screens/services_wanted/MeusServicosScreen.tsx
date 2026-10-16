@@ -82,7 +82,7 @@ export function ListarServicosProcurados() {
       )}
       <View style={styles.containerHeader}>
         <Text style={styles.titleHeader}>Serviços Desejados</Text>
-        <Text style={styles.descriptionHeader}>Seus serviços desejados ficam aqui !</Text>
+        <Text style={styles.descriptionHeader}>Seus serviços desejados ficam aqui!</Text>
       </View>
       {isLoading ? (
         <ActivityIndicator  size="small" color={theme.colors.primary}/>
@@ -167,7 +167,7 @@ cardContainer:{
   backgroundColor:theme.colors.surface, 
   borderWidth:1, 
   borderColor:theme.colors.border,
-  borderRadius:theme.spacing.md, 
+  borderRadius:theme.borderRadius.md, 
   marginBottom:theme.spacing.md
 }, 
 titulo:{
@@ -235,7 +235,11 @@ borderRadius:theme.borderRadius.md,
 marginBottom:theme.spacing.md
 }, 
 textInformation:{
-
+fontSize:15,
+color:theme.colors.textSecondary, 
+textAlign:"center", 
+lineHeight:22, 
+paddingHorizontal:theme.spacing.md
 }, 
 errorBox:{
   padding:theme.spacing.sm,

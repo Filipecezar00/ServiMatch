@@ -80,7 +80,7 @@ export function MeusServicos() {
       )}
         <View style={styles.containerHeader}>
           <Text style={styles.titleHeader}>Serviços Oferecidos</Text>
-          <Text style={styles.descriptionHeader}>Seus serviços oferecidos ficam aqui !</Text>
+          <Text style={styles.descriptionHeader}>Seus serviços oferecidos ficam aqui!</Text>
         </View>
       {isLoading ? (
         <ActivityIndicator size="small" color={theme.colors.primary} />
