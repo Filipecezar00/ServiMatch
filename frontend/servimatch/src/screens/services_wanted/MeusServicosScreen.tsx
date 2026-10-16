@@ -74,7 +74,7 @@ export function ListarServicosProcurados() {
       </View>
       {isError && (
         <View style={styles.errorBox}>
-          <Text style={styles.textError}>Sua sessão expirou, logue novamente.</Text>
+          <Text style={styles.textError}>Não foi possível carregar seus serviços, tente logar novamente.</Text>
           <Pressable onPress={() => refetch()} style={styles.buttonRefetch}>
             <Text style={styles.textTentarNovamente}>Tentar Novamente</Text>
           </Pressable>
@@ -85,7 +85,9 @@ export function ListarServicosProcurados() {
         <Text style={styles.descriptionHeader}>Seus serviços desejados ficam aqui!</Text>
       </View>
       {isLoading ? (
-        <ActivityIndicator  size="small" color={theme.colors.primary}/>
+        <View style={styles.loadingContainer}>
+         <ActivityIndicator  size="small" color={theme.colors.primary}/>
+        </View>
       ) : (
         <View style={styles.listacontainer}>
           <FlatList
@@ -118,7 +120,7 @@ export function ListarServicosProcurados() {
                       id: item.id,
                     })
                   }
-                  style={styles.btnEditar}
+                  style={({pressed})=> [styles.btnEditar,pressed && styles.botaoPressionado]}
                 >
                   <Text style={styles.buttonTextEditar}>Editar Serviço</Text>
                  <MaterialCommunityIcons size={18} name="pencil"/>
@@ -294,6 +296,13 @@ descriptionHeader:{
   fontSize:14,
   color:theme.colors.textSecondary, 
   fontWeight:"600"
+}, 
+loadingContainer:{
+  flex:1, 
+  justifyContent:"center", 
+  alignItems:"center"
+}, 
+botaoPressionado: {
+  opacity:0.7,
 }
-
 })
