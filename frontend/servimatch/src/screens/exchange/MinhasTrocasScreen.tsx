@@ -330,28 +330,29 @@ export function MinhasTrocas() {
               )}
 
               {item.status == "scheduled" && (
-                <View>
+                <View style={styles.containerBtns}>
+                  <Pressable
+                    onPress={() => handleCancelar(item.id)}
+                    disabled={carregandoCancelar && variables?.id === item.id}
+                    style={styles.btnCancelar}
+                  >
+                    {carregandoCancelar && variables?.id === item.id && (
+                      <ActivityIndicator size={"small"} />
+                    )}
+                    <Text style={styles.textCancelar}>Cancelar Troca</Text>
+                  </Pressable>
                   <Pressable
                     onPress={() => handleIniciarServico(item.id)}
                     disabled={
                       carregandoIniciar &&
                       variablesIniciar?.exchangeId === item.id
                     }
+                    style={styles.btnIniciarServico}
                   >
-                    <Text>Iniciar Serviço</Text>
+                    <Text style={styles.textIniciar}>Iniciar Serviço</Text>
                   </Pressable>
-
-                  <Pressable
-                    onPress={() => handleCancelar(item.id)}
-                    disabled={carregandoCancelar && variables?.id === item.id}
-                  >
-                    {carregandoCancelar && variables?.id === item.id && (
-                      <ActivityIndicator size={"small"} />
-                    )}
-                    <Text>Cancelar Troca</Text>
-                  </Pressable>
-                  <Pressable onPress={() => handleEditar(item)}>
-                    <Text>Editar local e Agendamento</Text>
+                  <Pressable onPress={() => handleEditar(item)} style={styles.btnEditar}>
+                    <Text style={styles.textEditar}>Editar local e Agendamento</Text>
                   </Pressable>
                 </View>
               )}
@@ -377,7 +378,7 @@ export function MinhasTrocas() {
                     {carregandoCancelar && variables?.id === item.id && (
                       <ActivityIndicator size={"small"} />
                     )}
-                    <Text>Cancelar Troca</Text>
+                    <Text style={styles.textCancelar}>Cancelar Troca</Text>
                   </Pressable>
                 </View>
               )}
@@ -486,5 +487,48 @@ textInfomation:{
   fontSize:16,
   color:theme.colors.textPrimary,
   marginTop:theme.spacing.md
-}
+}, 
+containerBtns:{
+  flexDirection:"row",
+  justifyContent:'center', 
+  flexWrap:"wrap",
+  alignItems:"center",
+  marginVertical:theme.spacing.xs, 
+  gap:theme.spacing.lg, 
+  marginTop:theme.spacing.md
+},
+btnIniciarServico:{
+backgroundColor:theme.colors.primary, 
+borderWidth:1, 
+borderColor:theme.colors.border,
+padding:theme.spacing.xs,
+borderRadius:theme.spacing.xs
+}, 
+btnCancelar:{
+backgroundColor:theme.colors.error, 
+borderWidth:1, 
+borderColor:theme.colors.border,
+padding:theme.spacing.xs,
+borderRadius:theme.spacing.xs
+}, 
+btnEditar:{
+backgroundColor:theme.colors.surface, 
+borderWidth:1, 
+borderColor:theme.colors.border,
+padding:theme.spacing.xs,
+borderRadius:theme.spacing.xs
+}, 
+textEditar:{
+
+}, 
+textIniciar:{
+fontSize:14, 
+color:theme.colors.surface
+}, 
+textCancelar:{
+fontSize:14, 
+color:theme.colors.surface
+}, 
+
+
 })
