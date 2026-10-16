@@ -8,6 +8,8 @@ import {
   ActivityIndicator,
   StyleSheet,
   ScrollView,
+  KeyboardAvoidingView,
+  Platform
 } from "react-native";
 import { useState } from "react";
 import{ theme } from "../../styles/theme/theme";
@@ -63,7 +65,10 @@ export function CriarServicoScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS ==="ios" ? "padding" : 
+      'height'
+    }>
+    <View>
       <View style={styles.containerVoltar}>
         <Pressable onPress={() => navigation.goBack()} style={styles.botaoVoltar}>
           <MaterialCommunityIcons name="arrow-left" size={18} color={theme.colors.textPrimary} />
@@ -86,7 +91,7 @@ export function CriarServicoScreen() {
       </View>
       }
 
-    <ScrollView contentContainerStyle={styles.containerEdicao}>
+    <ScrollView contentContainerStyle={styles.containerEdicao} keyboardShouldPersistTaps="always" showsVerticalScrollIndicator={false} >
       <Text style={styles.titulo}>Titulo do Serviço</Text>
       <TextInput
         placeholder="Digite o Titulo"
@@ -142,6 +147,7 @@ export function CriarServicoScreen() {
       </Pressable>
       </ScrollView>
     </View>
+    </KeyboardAvoidingView>
   );
 }
 

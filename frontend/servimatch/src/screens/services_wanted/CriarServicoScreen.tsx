@@ -7,7 +7,10 @@ import {
   Text,
   TextInput,
   ActivityIndicator,
-  StyleSheet
+  StyleSheet,
+  ScrollView, 
+  KeyboardAvoidingView,
+  Platform
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { theme } from "../../styles/theme/theme"; 
@@ -67,7 +70,8 @@ export function CriarServicoWanted() {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS==="ios" ? "padding":"height"}>
+    <View >
       <View style={styles.containerVoltar}>
         <Pressable onPress={() => navigation.goBack()} style={styles.botaoVoltar}>
           <MaterialCommunityIcons name="arrow-left" size={18} />
@@ -80,6 +84,7 @@ export function CriarServicoWanted() {
         <Text style={styles.titleHeader}>Criar Serviço</Text>
         <Text style={styles.descriptionHeader}>Descreva o serviço que você procura</Text>
        </View>
+       <ScrollView contentContainerStyle={styles.containerEdicao} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
       <Text style={styles.titulo}>Titulo do Serviço</Text>
       <TextInput
         placeholder="Digite o titulo"
@@ -123,12 +128,14 @@ export function CriarServicoWanted() {
       </View>
       <Pressable onPress={handleSubmit} disabled={isPending} style={styles.buttonCadastrar}>
         {isPending ? (
-          <ActivityIndicator size="small" color={theme.colors.surface}/>
+          <ActivityIndicator size="small" color={theme.colors.primary}/>
         ) : (
           <Text style={styles.cadastrarText}>Cadastrar Serviço</Text>
         )}
       </Pressable>
+      </ScrollView>
     </View>
+    </KeyboardAvoidingView>
   );
 }
 const styles = StyleSheet.create({
@@ -177,8 +184,9 @@ const styles = StyleSheet.create({
     fontWeight:"500"
   }, 
   containerEdicao:{
-    flexDirection:"column",
-    marginTop:theme.spacing.md,
+    paddingTop:theme.spacing.sm,
+    paddingBottom:theme.spacing.xl
+
   }, 
   titulo:{
    fontSize:16,
