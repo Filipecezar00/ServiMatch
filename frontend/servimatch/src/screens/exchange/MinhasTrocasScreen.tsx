@@ -339,7 +339,7 @@ export function MinhasTrocas() {
                     {carregandoCancelar && variables?.id === item.id && (
                       <ActivityIndicator size={"small"} />
                     )}
-                    <Text style={styles.textCancelar}>Cancelar Troca</Text>
+                    <Text style={styles.textBtns}>Cancelar Troca</Text>
                   </Pressable>
                   <Pressable
                     onPress={() => handleIniciarServico(item.id)}
@@ -347,9 +347,9 @@ export function MinhasTrocas() {
                       carregandoIniciar &&
                       variablesIniciar?.exchangeId === item.id
                     }
-                    style={styles.btnIniciarServico}
+                    style={styles.btnAcaoServico}
                   >
-                    <Text style={styles.textIniciar}>Iniciar Serviço</Text>
+                    <Text style={styles.textBtns}>Iniciar Serviço</Text>
                   </Pressable>
                   <Pressable onPress={() => handleEditar(item)} style={styles.btnEditar}>
                     <Text style={styles.textEditar}>Editar local e Agendamento</Text>
@@ -357,28 +357,29 @@ export function MinhasTrocas() {
                 </View>
               )}
               {item.status == "in_progress" && (
-                <View>
+                <View style={styles.containerBtns}>
+                <Pressable
+                    onPress={() => handleCancelar(item.id)}
+                    disabled={carregandoCancelar && variables?.id === item.id}
+                    style={styles.btnCancelar}
+                  >
+                    {carregandoCancelar && variables?.id === item.id && (
+                      <ActivityIndicator size={"small"} />
+                    )}
+                    <Text style={styles.textBtns}>Cancelar Troca</Text>
+                  </Pressable>
                   <Pressable
                     onPress={() => handleCompletar(item)}
                     disabled={
                       carregandoConclusao && variablesConcluir?.id === item.id
                     }
+                    style={styles.btnAcaoServico}
                   >
                     {carregandoConclusao &&
                       variablesConcluir?.id === item.id && (
                         <ActivityIndicator size={"small"} />
                       )}
-                    <Text>Completar Troca</Text>
-                  </Pressable>
-
-                  <Pressable
-                    onPress={() => handleCancelar(item.id)}
-                    disabled={carregandoCancelar && variables?.id === item.id}
-                  >
-                    {carregandoCancelar && variables?.id === item.id && (
-                      <ActivityIndicator size={"small"} />
-                    )}
-                    <Text style={styles.textCancelar}>Cancelar Troca</Text>
+                    <Text style={styles.textBtns}>Completar Troca</Text>
                   </Pressable>
                 </View>
               )}
@@ -497,7 +498,7 @@ containerBtns:{
   gap:theme.spacing.lg, 
   marginTop:theme.spacing.md
 },
-btnIniciarServico:{
+btnAcaoServico:{
 backgroundColor:theme.colors.primary, 
 borderWidth:1, 
 borderColor:theme.colors.border,
@@ -519,13 +520,10 @@ padding:theme.spacing.xs,
 borderRadius:theme.spacing.xs
 }, 
 textEditar:{
-
+fontSize:14,
+color:theme.colors.textPrimary
 }, 
-textIniciar:{
-fontSize:14, 
-color:theme.colors.surface
-}, 
-textCancelar:{
+textBtns:{
 fontSize:14, 
 color:theme.colors.surface
 }, 
