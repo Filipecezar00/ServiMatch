@@ -10,11 +10,13 @@ import {
   FlatList,
   Pressable,
   Alert,
+  StyleSheet
 } from "react-native";
 import {
   CompositeNavigationProp,
   useNavigation,
 } from "@react-navigation/native";
+import { theme } from "../../styles/theme/theme";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ServiceStackWantedParamList } from "../../navigation/ServicesStack";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
@@ -56,7 +58,7 @@ export function ListarServicosProcurados() {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <View>
         <Pressable onPress={() => navigation.openDrawer()}>
           <MaterialCommunityIcons name="menu" size={24} />
@@ -73,9 +75,9 @@ export function ListarServicosProcurados() {
       {isLoading ? (
         <ActivityIndicator />
       ) : (
-        <View>
+        <View style={styles.listacontainer}>
           <Pressable
-            onPress={() => navigation.navigate("CriarServicoProcurado")}
+            onPress={() => navigation.navigate("CriarServicoProcurado")} style={styles.botaoCriar}
           >
             <MaterialCommunityIcons name="plus" size={18} />
             <Text>Adicionar novo serviço desejado</Text>
@@ -118,3 +120,26 @@ export function ListarServicosProcurados() {
     </View>
   );
 }
+const styles = StyleSheet.create({
+  container:{
+    flex:1,
+    backgroundColor:theme.colors.background, 
+    padding:theme.spacing.lg
+  },  
+  listacontainer:{
+    flex:1,
+ }, 
+ botaoCriar:{
+  flexDirection:"row", 
+  gap:theme.spacing.xs,
+  paddingBottom:theme.spacing.xs, 
+  backgroundColor:theme.colors.primary, 
+  borderWidth:1, 
+  borderColor:theme.colors.border, 
+  paddingHorizontal:theme.spacing.md, 
+  justifyContent:"center", 
+  alignItems:"center", 
+  borderRadius:theme.spacing.xs, 
+  marginBottom:theme.spacing.xl
+ }
+})
