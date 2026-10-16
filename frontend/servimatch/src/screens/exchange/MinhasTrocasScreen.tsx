@@ -232,7 +232,7 @@ export function MinhasTrocas() {
         data={trocas}
         keyExtractor={(item) => String(item.id)}
         ListEmptyComponent={
-          <Text>Você ainda não possui trocas em andamento</Text>
+          <Text style={styles.textInfomation}>Você ainda não possui trocas em andamento</Text>
         }
         onRefresh={refetch}
         refreshing={isFetching}
@@ -314,7 +314,7 @@ export function MinhasTrocas() {
                       )}
                     </View>
                   ) : (
-                    <View>
+                    <View style={styles.container_btn_avaliar}>
                       <Pressable onPress={() => handleAvaliar(item)}>
                         <Text>Avaliar</Text>
                       </Pressable>
@@ -478,5 +478,13 @@ color:theme.colors.textSecondary
 header:{
   marginBottom:theme.spacing.md, 
   marginTop:theme.spacing.lg
+},
+container_btn_avaliar:{
+  justifyContent:"center",
+}, 
+textInfomation:{
+  fontSize:16,
+  color:theme.colors.textPrimary,
+  marginTop:theme.spacing.md
 }
 })
