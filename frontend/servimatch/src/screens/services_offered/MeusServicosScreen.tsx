@@ -78,6 +78,10 @@ export function MeusServicos() {
           </Pressable>
         </View>
       )}
+        <View style={styles.containerHeader}>
+          <Text style={styles.titleHeader}>Serviços Oferecidos</Text>
+          <Text style={styles.descriptionHeader}>Seus serviços oferecidos ficam aqui !</Text>
+        </View>
       {isLoading ? (
         <ActivityIndicator size="small" color={theme.colors.primary} />
       ) : (
@@ -267,4 +271,21 @@ backgroundColor:"#E3F5F1"
 statusContainerInativo:{
 backgroundColor:"#FCE8EA"
 }, 
+containerHeader:{
+  justifyContent:"center", 
+  alignItems:"center",
+  marginBottom:theme.spacing.md
+}, 
+titleHeader:{
+  fontSize:20, 
+  color:theme.colors.textPrimary, 
+  fontWeight:"600", 
+  marginBottom:theme.spacing.sm
+}, 
+descriptionHeader:{
+  fontSize:14,
+  color:theme.colors.textSecondary, 
+  fontWeight:"600"
+}
+
 })
