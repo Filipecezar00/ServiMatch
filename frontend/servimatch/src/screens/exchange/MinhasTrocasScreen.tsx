@@ -207,7 +207,7 @@ export function MinhasTrocas() {
   if (isPending) {
     return (
       <View>
-        <ActivityIndicator size={"small"} />
+        <ActivityIndicator size={"small"}  color={theme.colors.primaryDark}/>
       </View>
     );
   }
@@ -220,10 +220,10 @@ export function MinhasTrocas() {
       </View>
       
       {isError && (
-        <View>
-          <Text>Erro durante Processamento</Text>
-          <Pressable onPress={() => refetch()}>
-            <Text>Tente Novamente</Text>
+        <View style={styles.containerError}>
+          <Text style={styles.textInfomation}>Erro durante Processamento</Text>
+          <Pressable onPress={() => refetch()} style={styles.btnAcaoServico}>
+            <Text style={styles.textBtns}>Tente Novamente</Text>
           </Pressable>
         </View>
       )}
@@ -364,7 +364,7 @@ export function MinhasTrocas() {
                     style={styles.btnCancelar}
                   >
                     {carregandoCancelar && variables?.id === item.id && (
-                      <ActivityIndicator size={"small"} />
+                      <ActivityIndicator size={"small"} color={theme.colors.primaryDark}/>
                     )}
                     <Text style={styles.textBtns}>Cancelar Troca</Text>
                   </Pressable>
@@ -377,7 +377,7 @@ export function MinhasTrocas() {
                   >
                     {carregandoConclusao &&
                       variablesConcluir?.id === item.id && (
-                        <ActivityIndicator size={"small"} />
+                        <ActivityIndicator size={"small"} color={theme.colors.primaryDark}/>
                       )}
                     <Text style={styles.textBtns}>Completar Troca</Text>
                   </Pressable>
@@ -538,5 +538,9 @@ paddingVertical:theme.spacing.xs
 }, 
 textAvaliar:{
 fontWeight:"600"
+}, 
+containerError:{
+  justifyContent:'center', 
+  alignItems:'center'
 }
 })
