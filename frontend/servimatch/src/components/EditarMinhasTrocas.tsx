@@ -98,7 +98,7 @@ export function EditarMinhaTroca({visible,troca,onClose}:EditarMinhaTroca){
          }}>
 
            <ScrollView keyboardShouldPersistTaps="handled">
-            <Text>
+            <Text style={{textAlign:"center",fontWeight:"600",marginBottom:15}}>
                 Editar Agendamento
             </Text>
             <TextInput
@@ -132,7 +132,7 @@ export function EditarMinhaTroca({visible,troca,onClose}:EditarMinhaTroca){
             />
 
             <Pressable onPress={handleUpdate} disabled={isPending} style={{padding:10,backgroundColor:"#0284c7",marginBottom:8}}>
-                <Text>{isPending ? "Salvando...":"Salvar Alterações"}</Text>
+                <Text style={{textAlign:"center",color:"#ffffff"}}>{isPending ? "Salvando...":"Salvar Alterações"}</Text>
             </Pressable>
             
             <Pressable onPress={onClose} style={{padding:10}}>
