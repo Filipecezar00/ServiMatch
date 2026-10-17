@@ -24,32 +24,8 @@ import { Troca } from "../../types/exchangeTypes";
 import { AvaliarTroca } from "../../components/AvaliarTroca";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useAuthStore } from "../../stores/useAuthStore";
-export function MinhasTrocas() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isTrocaSelecionada, setIsTrocaSelecionada] = useState<Troca | null>(
-    null,
-  );
-
-  const [isModalAvaliarOpen, setIsModalAvaliarOpen] = useState(false);
-  const [exchangeToReviewId, setExchangeToReviewId] = useState<number | null>(
-    null,
-  );
-  const [isTrocaAvaliada, setIsTrocaAvaliada] = useState<Troca | null>(null);
-  const { usuario } = useAuthStore();
-
-  const {
-    data: trocas,
-    isError,
-    isPending,
-    refetch,
-    isFetching,
-  } = useQuery({
-    queryKey: ["MinhasTrocas"],
-    queryFn: listarTrocas,
-  });
-
-  
-  const statusTroca = {
+type StatusTroca = Troca["status"]
+const statusTroca:Record<StatusTroca,{label:string; backgroundColor:string; color:string;}> = {
     scheduled:{
       label:"Agendada", 
       backgroundColor:"#E8F2FA", 
@@ -76,6 +52,29 @@ export function MinhasTrocas() {
       color:"#A34B00", 
     }, 
   }
+export function MinhasTrocas() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTrocaSelecionada, setIsTrocaSelecionada] = useState<Troca | null>(
+    null,
+  );
+
+  const [isModalAvaliarOpen, setIsModalAvaliarOpen] = useState(false);
+  const [isTrocaAvaliada, setIsTrocaAvaliada] = useState<Troca | null>(null);
+  const { usuario } = useAuthStore();
+
+  const {
+    data: trocas,
+    isError,
+    isPending,
+    refetch,
+    isFetching,
+  } = useQuery({
+    queryKey: ["MinhasTrocas"],
+    queryFn: listarTrocas,
+  });
+
+  
+  
   const { data: reviews } = useQuery({
     queryKey: ["MeusReviews", usuario?.id],
     queryFn: () => listarReview(usuario?.id ?? null),
@@ -85,7 +84,6 @@ export function MinhasTrocas() {
 
   const {
     mutate,
-    isError: errorConcluir,
     isPending: carregandoConclusao,
     variables: variablesConcluir,
   } = useMutation({
@@ -101,7 +99,6 @@ export function MinhasTrocas() {
 
   const {
     mutate: mutateCancelar,
-    isError: errorCancelar,
     isPending: carregandoCancelar,
     variables,
   } = useMutation({
@@ -185,7 +182,7 @@ export function MinhasTrocas() {
 
   const handleCloseAvaliar = () => {
     setIsModalAvaliarOpen(false);
-    setIsTrocaSelecionada(null);
+    setIsTrocaAvaliada(null);
   };
 
   const handleAvaliar = (item: Troca) => {
@@ -234,8 +231,9 @@ export function MinhasTrocas() {
 
   if (isPending) {
     return (
-      <View>
-        <ActivityIndicator size={"small"}  color={theme.colors.primaryDark}/>
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size={"large"}  color={theme.colors.primaryDark}/>
+        <Text style={styles.textInfomation}>Carregando suas trocas...</Text>
       </View>
     );
   }
@@ -249,8 +247,8 @@ export function MinhasTrocas() {
       
       {isError && (
         <View style={styles.containerError}>
-          <Text style={styles.textInfomation}>Erro durante Processamento</Text>
-          <Pressable onPress={() => refetch()} style={styles.btnAcaoServico}>
+          <Text style={styles.textInfomation}>Não foi possível carregar seu histórico de trocas</Text>
+          <Pressable onPress={() => refetch()} style={styles.btnRefetch}>
             <Text style={styles.textBtns}>Tente Novamente</Text>
           </Pressable>
         </View>
@@ -261,7 +259,9 @@ export function MinhasTrocas() {
         keyExtractor={(item) => String(item.id)}
         contentContainerStyle={styles.listaContainer}
         ListEmptyComponent={
-          <Text style={styles.textInfomation}>Você ainda não possui trocas em andamento</Text>
+          !isError ? (
+            <Text style={styles.textInfomation}>Você ainda não possui trocas em andamento</Text>
+          ):null
         }
         onRefresh={refetch}
         refreshing={isFetching}
@@ -476,28 +476,26 @@ textcompletado:{
   marginBottom:theme.spacing.xs
 }, 
 containerAvaliacao:{
-  flexDirection:"column",
-  paddingVertical:theme.spacing.sm,
-  justifyContent:"center",
-  backgroundColor:theme.colors.primaryDark,
+  backgroundColor:theme.colors.background,
   borderColor:theme.colors.border,
   borderWidth:1, 
-  borderRadius:theme.borderRadius.sm,
+  borderRadius:theme.borderRadius.md,
   padding:theme.spacing.md, 
   marginTop:theme.spacing.md
 }, 
 textContainer:{
   fontSize:14,
-  color:theme.colors.surface, 
+  color:theme.colors.textPrimary, 
   textAlign:"center"
 }, 
 textNota:{
-  color:theme.colors.surface,
-  marginRight:theme.spacing.xs
+  color:theme.colors.textPrimary,
+  textAlign:"center",
 }, 
 containerNota:{
    flexDirection: "row",
    alignItems: "center",
+   justifyContent:"center",
    gap: 4,
 }, 
 title:{
@@ -522,8 +520,10 @@ container_btn_avaliar:{
   justifyContent:"center",
 }, 
 textInfomation:{
-  fontSize:16,
-  color:theme.colors.textPrimary,
+  fontSize:15,
+  color:theme.colors.textSecondary,
+  textAlign:"center", 
+  lineHeight:22, 
   marginTop:theme.spacing.md
 }, 
 containerBtns:{
@@ -535,6 +535,19 @@ containerBtns:{
   gap:theme.spacing.lg, 
   marginTop:theme.spacing.md
 },
+btnRefetch:{
+marginBottom:theme.spacing.lg,
+marginTop:theme.spacing.sm,
+flex:1,
+minHeight:48,
+backgroundColor:theme.colors.primary, 
+borderColor:theme.colors.border,
+paddingHorizontal:theme.spacing.md,
+paddingVertical:theme.spacing.sm,
+borderRadius:theme.borderRadius.md,
+alignItems:"center",
+justifyContent:"center"
+}, 
 btnAcaoServico:{
 flex:1,
 minHeight:48,
@@ -547,7 +560,6 @@ alignItems:"center",
 justifyContent:"center"
 }, 
 btnCancelar:{
-flex:1,
 minHeight:48, 
 backgroundColor:theme.colors.error,  
 borderColor:theme.colors.border,
@@ -558,7 +570,6 @@ alignItems:"center",
 justifyContent:"center"
 }, 
 btnEditar:{
-flex:1,
 minHeight:48,
 backgroundColor:theme.colors.surface, 
 paddingHorizontal:theme.spacing.md,
@@ -577,19 +588,26 @@ fontSize:14,
 color:theme.colors.surface
 }, 
 btnAvaliar:{
-backgroundColor:theme.colors.background, 
-borderColor:theme.colors.border,
+backgroundColor:theme.colors.surface, 
+borderWidth:1,
+borderColor:theme.colors.primary,
 borderRadius:theme.borderRadius.md, 
 alignItems:"center",
-paddingHorizontal:theme.spacing.xs, 
-paddingVertical:theme.spacing.xs
+justifyContent:"center",
+minHeight:44,
+paddingHorizontal:theme.spacing.md, 
+paddingVertical:theme.spacing.sm
 }, 
 textAvaliar:{
-fontWeight:"600"
+fontWeight:"600",
+color:theme.colors.primaryDark
 }, 
 containerError:{
-  justifyContent:'center', 
-  alignItems:'center'
+  alignItems:'center',
+  padding:theme.spacing.md,
+  backgroundColor:theme.colors.surface, 
+  borderRadius:theme.borderRadius.md,
+  marginBottom:theme.spacing.md
 }, 
 statusContainer:{
   alignSelf:"flex-start", 
@@ -602,5 +620,12 @@ statusContainer:{
 statusText:{
   fontSize:13,
   fontWeight:"600"
+}, 
+loadingContainer:{
+  flex:1,
+  alignItems:"center", 
+  justifyContent:"center",
+  backgroundColor:theme.colors.background,
+  gap:theme.spacing.sm
 }
 })
