@@ -88,7 +88,7 @@ export async function mudar_status(id, usuarioId, statusProposta) {
     throw new AppError("Você não pode alterar essa proposta", 403);
   }
 
-  if (statusProposta !== "accepted" && status !== "rejected") {
+  if (statusProposta !== "accepted" && statusProposta !== "rejected") {
     throw new AppError("Esse status não é válido", 403);
   }
 
