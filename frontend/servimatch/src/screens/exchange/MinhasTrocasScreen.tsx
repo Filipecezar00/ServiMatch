@@ -48,6 +48,34 @@ export function MinhasTrocas() {
     queryFn: listarTrocas,
   });
 
+  
+  const statusTroca = {
+    scheduled:{
+      label:"Agendada", 
+      backgroundColor:"#E8F2FA", 
+      color:"#186497"
+    }, 
+    in_progress:{
+      label:"Em andamento", 
+      backgroundColor:"#FFF3D6", 
+      color:"#946200"
+    }, 
+    completed:{
+      label:"Concluída", 
+      backgroundColor:"#E3F5F1", 
+      color:"#18794E"
+    }, 
+    cancelled:{
+      label:"Cancelada", 
+      backgroundColor:"#FCE8EA", 
+      color:"#B42332", 
+    }, 
+    disputed:{
+      label:"Em disputa", 
+      backgroundColor:"#FFF0E0", 
+      color:"#A34B00", 
+    }, 
+  }
   const { data: reviews } = useQuery({
     queryKey: ["MeusReviews", usuario?.id],
     queryFn: () => listarReview(usuario?.id ?? null),
@@ -231,6 +259,7 @@ export function MinhasTrocas() {
       <FlatList
         data={trocas}
         keyExtractor={(item) => String(item.id)}
+        contentContainerStyle={styles.listaContainer}
         ListEmptyComponent={
           <Text style={styles.textInfomation}>Você ainda não possui trocas em andamento</Text>
         }
@@ -249,16 +278,13 @@ export function MinhasTrocas() {
           );
           const estrelas = [1, 2, 3, 4, 5];
 
-          const status = ["scheduled","in_progress","completed","cancelled","disputed"]
-          const corStatus = ["#186497","#e7a61b","#0f6a07","#e93f3f","#e2b100"]
-          const funcaoStatus = ()=>{
-
-          }
+          const etiloStatus = statusTroca[item.status]
+        
           return (
             <View style={styles.cardContainer}>
-              <Text style={styles.titleServiço}>Meu Serviço: {item.servico_oferecido_titulo}</Text>
-              <Text style={styles.titleServiço}>Servico Desejado: {item.servico_desejado_titulo}</Text>
-              <Text style={styles.usuarioTitle}>Usuario: {item.outro_usuario_nome}</Text>
+              <Text style={styles.titleServiço}>Serviço oferecido: {item.servico_oferecido_titulo}</Text>
+              <Text style={styles.titleServiço}>Servico desejado: {item.servico_desejado_titulo}</Text>
+              <Text style={styles.usuarioTitle}>Outro participante: {item.outro_usuario_nome}</Text>
               <View style={styles.containerLocalizacao}>
                 {!item.location || item.location.trim() === "" ? (
                   <Text style={styles.textLocalizacao}>localização não definida</Text>
@@ -273,7 +299,9 @@ export function MinhasTrocas() {
                   </Text>
                 )}
               </View>
-              <Text >Status Atual: {item.status}</Text>
+              <View style={[styles.statusContainer,{backgroundColor:etiloStatus.backgroundColor},]}>
+                <Text style={[styles.statusText,{color:etiloStatus.color}]} >Status Atual: {etiloStatus.label}</Text>
+              </View>
 
               {item?.completed_at && (
                 <Text style={styles.textcompletado}>Completado em: {formatarDataBr(item.completed_at)}</Text>
@@ -404,7 +432,11 @@ export function MinhasTrocas() {
 const styles = StyleSheet.create({
   container:{
     flex:1, 
-    padding:theme.spacing.md
+    padding:theme.spacing.md, 
+    backgroundColor:theme.colors.background
+  }, 
+  listaContainer:{
+    paddingBottom:theme.spacing.xl
   }, 
   cardContainer:{
     backgroundColor:theme.colors.surface, 
@@ -417,12 +449,13 @@ const styles = StyleSheet.create({
   titleServiço:{
     fontSize:16, 
     fontWeight:"600", 
+    color:theme.colors.textPrimary,
     marginBottom:theme.spacing.sm
   }, 
   usuarioTitle:{
-    fontSize:16, 
+    fontSize:14, 
     marginBottom:theme.spacing.sm,
-    color:theme.colors.textPrimary, 
+    color:theme.colors.textSecondary, 
     fontWeight:"400"
   },
 containerLocalizacao:{
@@ -468,19 +501,22 @@ containerNota:{
    gap: 4,
 }, 
 title:{
-fontSize:20, 
-fontWeight:"600",
+fontSize:22, 
+fontWeight:"700",
+color:theme.colors.textPrimary,
+marginBottom:theme.spacing.xs,
 textAlign:"center"
 }, 
 subTitle:{
 fontSize:14, 
 fontWeight:"400", 
+lineHeight:20,
 textAlign:"center", 
 color:theme.colors.textSecondary
 }, 
 header:{
-  marginBottom:theme.spacing.md, 
-  marginTop:theme.spacing.lg
+  marginBottom:theme.spacing.lg, 
+  marginTop:theme.spacing.sm
 },
 container_btn_avaliar:{
   justifyContent:"center",
@@ -542,5 +578,17 @@ fontWeight:"600"
 containerError:{
   justifyContent:'center', 
   alignItems:'center'
+}, 
+statusContainer:{
+  alignSelf:"flex-start", 
+  paddingHorizontal:theme.spacing.sm,
+  paddingVertical:theme.spacing.xs, 
+  borderRadius:theme.borderRadius.md, 
+  marginTop:theme.spacing.sm,
+  marginBottom:theme.spacing.md
+}, 
+statusText:{
+  fontSize:13,
+  fontWeight:"600"
 }
 })
