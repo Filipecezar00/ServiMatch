@@ -47,7 +47,6 @@ export function MinhasPropostas() {
   const erroAtual = abaAtiva === "recebidas" ? isError : erroPropostaEnviada; 
   const tentarNovamente = abaAtiva === "recebidas" ? refetch : refetchPropostasEnviadas; 
   const carregamentoAtual = abaAtiva === "recebidas" ? isLoading : carregamentoPropostaEnviada; 
-  const atualizandoAtual = abaAtiva === "recebidas" ? isFetching : isFetchingPropostasEnviadas; 
 
 
 

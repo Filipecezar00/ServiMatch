@@ -131,7 +131,7 @@ export function EditarMinhaTroca({visible,troca,onClose}:EditarMinhaTroca){
             isDarkModeEnabled={false}
             />
 
-            <Pressable onPress={handleUpdate} disabled={isPending} style={{padding:10,backgroundColor:"#0284c7",marginBottom:8}}>
+            <Pressable onPress={handleUpdate} disabled={isPending} style={{padding:10,backgroundColor:"#2298af",marginBottom:8}}>
                 <Text style={{textAlign:"center",color:"#ffffff"}}>{isPending ? "Salvando...":"Salvar Alterações"}</Text>
             </Pressable>
             
