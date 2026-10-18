@@ -105,16 +105,17 @@ if(!roomId){
 
 return (
 <KeyboardAvoidingView behavior={Platform.OS ==="ios"? 'padding':"height"} style={{flex:1}} keyboardVerticalOffset={Platform.OS === "ios"?90:0} >
-     {mensagens?.data.length==0&&(
-            <View>
-                <Text>Nenhuma mensagem ainda, mande um Oi!</Text>
-            </View>
-    )}
+   
     <FlatList
     data={mensagens?.data||[]}
     inverted
     keyExtractor={(mensagem)=>String(mensagem.id)}
     style={{flex:1}}
+    ListEmptyComponent={
+        <View style={styles.estadoCentralizado}>
+          <Text style={styles.textoEstado}>Nenhuma mensagem ainda, mande um Oi!</Text>
+        </View>
+    }
     renderItem={(({item})=>{
         const ehMinhaMensagem =  item.sender_id === usuario?.id
         return(
