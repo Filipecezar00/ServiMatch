@@ -87,7 +87,9 @@ return(
 }
 if(isPending){
 return(
-   <ActivityIndicator size={"large"} color={theme.colors.primary}/>
+    <View style={[styles.container,styles.estadoCentralizado]}>
+     <ActivityIndicator size="large" color={theme.colors.primary}/>
+    </View>
 )
 }
 if(!roomId){
