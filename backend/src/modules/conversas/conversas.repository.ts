@@ -1,6 +1,7 @@
 import { ResultSetHeader } from "mysql2";
 import { pool } from "../../config/database";
-    
+import {MarcarMensagemComoLidaInput} from "../../types/socket"
+
 export async function buscaUsuarioId(usuarioId: number, conversa_id: number) {
   const [resposta]:any = await pool.query(
     `
@@ -45,6 +46,13 @@ export async function buscaMensagens(conversa_id:number,limit:number,offset:numb
   const [mensagens] = mensagensPromise; 
   const [totalRows]:any = quantidade_mensagem
   return {mensagens:mensagens,total:totalRows[0].total}
+}
+
+export async function marcarLido({mensagemId,conversaId,usuarioId}:  MarcarMensagemComoLidaInput):Promise<boolean>{
+  const [resposta] = await pool.query<ResultSetHeader>(`
+    UPDATE mensagens SET lido = 1 WHERE id = ? AND conversa_id = ? AND sender_id <> ? AND lido = 0 
+  `,[mensagemId,conversaId,usuarioId])
+  return resposta.affectedRows > 0; 
 }
 
 export async function buscaConversas(usuarioId:number){

@@ -1,5 +1,6 @@
 import AppError from "../../utils/AppError";
-import { buscaUsuarioId,inserirMensagem,buscaMensagens,buscaConversas,criarConversa,buscaService_id } from "../conversas/conversas.repository";
+import { buscaUsuarioId,inserirMensagem,buscaMensagens,buscaConversas,criarConversa,buscaService_id,marcarLido } from "../conversas/conversas.repository";
+import { MarcarMensagemComoLidaInput} from "../../types/socket"
 
 export async function buscaUsuarioId_service(
   usuarioId: number,
@@ -72,6 +73,36 @@ if(!usuarioId){
 const conversas = await buscaConversas(usuarioId)
 
 return conversas
+}
+
+export async function marcaComoLida_service({mensagemId,conversaId,usuarioId}:MarcarMensagemComoLidaInput){
+  if(!Number.isInteger(conversaId)||conversaId<=0){
+    throw new AppError("Conversa inválida.",400); 
+  }
+  if(!Number.isInteger(mensagemId) || mensagemId <=0){
+    throw new AppError("Mensagem inválida",400)
+  }
+  if(!Number.isInteger(usuarioId) || usuarioId<=0){
+    throw new AppError("Usuário não autenticado",400)
+  }
+
+  const participa = await buscaUsuarioId(usuarioId,conversaId); 
+
+  if(!participa){
+    throw new AppError("Você não tem permissão para acessar essa conversa.",403)
+  }
+
+  const atualizada = await marcarLido({mensagemId,conversaId,usuarioId})
+
+  if(!atualizada){
+    return null; 
+  }
+
+  return {
+    conversaId, 
+    mensagemId, 
+    leitorId:usuarioId
+  }
 }
 
 export async function criarConversa_service(proposer_id:number,receiver_id:number,service_id?:number|null){

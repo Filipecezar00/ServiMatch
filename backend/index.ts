@@ -20,7 +20,7 @@ import {
   SocketData,
 } from "./src/types/socket.js";
 import { authSocket } from "./src/middleware/authSocket.js";
-import {buscaUsuarioId_service,inserirMensagem_service} from "./src/modules/conversas/conversas.service.js"
+import {buscaUsuarioId_service,inserirMensagem_service,marcaComoLida_service} from "./src/modules/conversas/conversas.service.js"
 
 const app = express();
 app.use(express.json());
@@ -72,6 +72,29 @@ socket.on("join_room", async (payload:{roomId:number}) => {
       socket.emit("error_message",error.message)
     }
 })
+
+
+socket.on("read_message",async (payload:{conversaId:number,mensagemId:number})=>{
+  try{
+    const usuarioId = socket.data.user.id; 
+
+    const resultado = await marcaComoLida_service({
+      conversaId:payload.conversaId,
+      mensagemId:payload.mensagemId, 
+      usuarioId
+    }); 
+
+    if(!resultado){
+      return; 
+    }
+
+    io.to(`conversa:${payload.conversaId}`).emit("read_message",resultado,); 
+  }catch(error:any){
+    socket.emit("error_message",error.message)
+  }
+})
+
+
  socket.on("send_message",async ({roomId,mensagem}:{roomId:number;mensagem:string})=>{
      try{
       let usuarioId = socket.data.user.id

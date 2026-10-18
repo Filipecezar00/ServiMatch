@@ -10,10 +10,10 @@ import {
   Pressable,
   KeyboardAvoidingView,
   Platform,
-  StyleSheet
+  StyleSheet,
+  TextInput
 } from "react-native";
-import { Mensagens,HistoricoMensagens } from "../../types/chat";
-import { TextInput } from "react-native-gesture-handler";
+import { Mensagens,HistoricoMensagens,MensagemLidaPayload } from "../../types/chat";
 import { useRoute } from "@react-navigation/native";
 import { theme } from "../../styles/theme/theme";
 export function ChatScreen(){
@@ -41,6 +41,27 @@ queryClient.setQueryData<Mensagens[]>(["historicoMensagens",roomId],(historicoAn
 })
 }
 
+const handleMensagemLida = (payload:MensagemLidaPayload)=>{
+if(payload.conversaId!==roomId){
+    return; 
+}
+queryClient.setQueryData<HistoricoMensagens>(
+    ["historicoMensagens",roomId], 
+    (historicoAnterior)=>{
+        if(!historicoAnterior){
+            return historicoAnterior; 
+        }
+        return {
+            ...historicoAnterior,
+            data:historicoAnterior.data.map((mensagem)=>
+            mensagem.id === payload.mensagemId ? {...mensagem,lido:true}: mensagem
+            )
+        }
+    }
+   
+)
+}
+
 useEffect(()=>{
 if(!socket || !roomId){
     return
@@ -49,6 +70,7 @@ if(!socket || !roomId){
 socket?.emit("join_room",{roomId})
 
 socket?.on("receive_message",handleNewMessage); 
+socket?.on("read_message",handleMensagemLida); 
 return()=>{
 socket?.off("receive_message")
 socket?.emit("leave_room",{roomId})
@@ -80,7 +102,7 @@ if(isError){
 return(
 <View style={[styles.container,styles.estadoCentralizado]}>
     <Text style={styles.textoEstado}>
-        Erro ao renderizar historico de mensagens
+    Erro ao renderizar historico de mensagens
     </Text>
 </View>
 )
@@ -105,7 +127,6 @@ if(!roomId){
 
 return (
 <KeyboardAvoidingView behavior={Platform.OS ==="ios"? 'padding':"height"} style={{flex:1}} keyboardVerticalOffset={Platform.OS === "ios"?90:0} >
-   
     <FlatList
     data={mensagens?.data||[]}
     inverted
@@ -119,11 +140,14 @@ return (
     renderItem={(({item})=>{
         const ehMinhaMensagem =  item.sender_id === usuario?.id
         return(
-            <View style={[styles.containerMensagem,ehMinhaMensagem?styles.minhaMensagem:styles.mensagemRecebida]}>
-                <Text style={[styles.textoMensagem,ehMinhaMensagem ? styles.textoMinhaMensagem:styles.textoMensagemRecebida]}>{item.mensagem}</Text>
-                <Text style={[styles.dataMensagem,ehMinhaMensagem?styles.dataMinhaMensagem:styles.dataMensagemRecebidas]}>{formatarHora(item.created_at)}</Text>
-                {ehMinhaMensagem && item.lido && <Text style={styles.statusLeitura}>Visualizado</Text>}
-            </View>
+          <View style={[styles.containerMensagem,ehMinhaMensagem ? styles.minhaMensagem:styles.mensagemRecebida]}>
+            <Text style={[styles.textoMensagem,ehMinhaMensagem? styles.textoMinhaMensagem:styles.textoMensagemRecebida]}>{item.mensagem}</Text>
+            <Text style={[styles.dataMensagem,ehMinhaMensagem?styles.dataMinhaMensagem:styles.dataMensagemRecebidas]}>{formatarHora(item.created_at)}</Text>
+           
+            {Boolean(ehMinhaMensagem && item.lido) && (        
+              <Text style={styles.statusLeitura}>Visualizado</Text>
+            )}
+          </View>
         )
     })}
     />

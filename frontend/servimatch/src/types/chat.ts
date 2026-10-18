@@ -25,3 +25,9 @@ export interface Conversas{
     updated_at:string;
     nome_outro_usuario:string; 
 }
+
+export type MensagemLidaPayload = {
+    conversaId:number; 
+    mensagemId:number; 
+    leitorId:number; 
+}
