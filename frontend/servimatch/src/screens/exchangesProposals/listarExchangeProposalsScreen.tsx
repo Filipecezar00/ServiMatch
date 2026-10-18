@@ -127,7 +127,7 @@ header:{
 backgroundColor:theme.colors.surface,
 paddingHorizontal:theme.spacing.lg, 
 paddingVertical:theme.spacing.lg, 
-alignItems:"flex-start", 
+alignItems:"flex-start",
 }, 
 title:{
 fontSize:22,

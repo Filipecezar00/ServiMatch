@@ -63,6 +63,29 @@ export function PropostaCardRecebida({
     mutate({ id, statusProposta });
   };
 
+  const statusStyle = {
+    accepted:{
+      label:"Aceita", 
+      backgroundColor:"#1b8b26", 
+      color:"#acffa8"
+    }, 
+    rejected:{
+      label:"Rejeitada", 
+      backgroundColor:"#da2121", 
+      color:"#ecb1b1"
+    }, 
+    pending:{
+      label:"Pendente", 
+      backgroundColor:"#0d5c79", 
+      color:"#a8cae0"
+    },
+    cancelled:{
+      label:"Cancelada", 
+      backgroundColor:"#da2121", 
+      color:"#ecb1b1"
+    }
+  }
+  const statusReference = statusStyle[status]
   return (
     <View style={styles.containerPropostas}>
       <Text style={styles.title}>Proposta Recebida</Text>
@@ -71,8 +94,8 @@ export function PropostaCardRecebida({
         <Text style={styles.titleServico}>Serviço oferecido: {servico_oferecido_titulo}</Text>
         <Text style={styles.subTitle}>Remetente da proposta: {outro_usuario_nome}</Text>
         <Text style={styles.observacoes}>Observações:{mensagem}</Text>
-        <View>
-          <Text style={styles.subTitle}>Status Atual: {status} </Text>
+        <View style={styles.containerText}>
+          <Text style={styles.textStatusInformation}>Status Atual:</Text>
           {status === "pending" ? (
             <View style={styles.containerBtns}>
               <Pressable
@@ -91,7 +114,9 @@ export function PropostaCardRecebida({
               </Pressable>
             </View>
           ) : (
-            <Text>{status}</Text>
+            <View style={[styles.containerStatus,{backgroundColor:statusReference.backgroundColor}]}>
+              <Text style={[styles.statusText, {color:statusReference.color}]}>{statusReference.label}</Text>
+            </View>
           )}
         </View>
       </View>
@@ -154,6 +179,21 @@ padding:theme.spacing.md
 textBtn:{
   color:theme.colors.surface,
   fontWeight:"400"
+}, 
+containerText:{
+  flexDirection:"row"
+},
+statusText:{
+
+},
+textStatusInformation:{
+  fontSize:14,
+  fontWeight:"600", 
+}, 
+containerStatus:{
+alignItems:"center", 
+borderRadius:theme.spacing.sm, 
+paddingHorizontal:theme.spacing.xs, 
 }
 
 })
