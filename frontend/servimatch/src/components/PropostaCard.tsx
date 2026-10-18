@@ -4,6 +4,28 @@ import { alterarStatusProposta } from "../api/exchangeProposals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { theme } from "../styles/theme/theme";
 
+ const statusStyle = {
+    accepted:{
+      label:"Aceita", 
+      backgroundColor:theme.colors.success, 
+      color:theme.colors.surface
+    }, 
+    rejected:{
+      label:"Rejeitada", 
+      backgroundColor:theme.colors.error, 
+      color:theme.colors.surface
+    }, 
+    pending:{
+      label:"Pendente", 
+      backgroundColor:theme.colors.primaryDark, 
+      color:theme.colors.surface
+    },
+    cancelled:{
+      label:"Cancelada", 
+      backgroundColor:theme.colors.error, 
+      color:theme.colors.surface
+    }
+  }
 export function PropostaCardEnviada({
   outro_usuario_nome,
   mensagem,
@@ -11,15 +33,35 @@ export function PropostaCardEnviada({
   servico_oferecido_titulo,
   servico_desejado_titulo,
 }: PropostaEnviada) {
+  const statusReference = statusStyle[status]
   return (
-    <View>
-      <Text>Proposta Enviada</Text>
-      <View>
-        <Text>Serviço Oferecido: {servico_oferecido_titulo}</Text>
-        <Text>Serviço Desejado: {servico_desejado_titulo}</Text>
-        <Text>Destinatario da proposta: {outro_usuario_nome}</Text>
-        <Text>Observações:{mensagem}</Text>
-        <Text>Status Atual: {status}</Text>
+    <View style={styles.containerPropostas}>
+      <View style={styles.cabecalhoCard}>
+        <Text style={styles.title}>Proposta Enviada</Text>
+        {status!=="pending"&&(
+          <View style={[styles.containerStatus,{backgroundColor:statusReference.backgroundColor}]}>
+            <Text style={[styles.statusText,{color:statusReference.color}]}>{statusReference.label}</Text>
+          </View>
+        )}
+       
+      </View>
+      <View style={styles.containerInformations}>
+        <View style={styles.informacaoServico}>
+         <Text style={styles.informacaoTexto}>Serviço Oferecido:</Text>
+        <Text style={styles.valorInformacao}>{servico_oferecido_titulo}</Text>
+        </View>
+      <View style={styles.informacaoServico}>
+        <Text style={styles.informacaoTexto}>Serviço Desejado:</Text>
+        <Text style={styles.valorInformacao}>{servico_desejado_titulo}</Text>
+      </View>
+      <View style={styles.informacaoServico}>
+        <Text style={styles.informacaoTexto}>Destinatario da proposta:</Text>
+        <Text style={styles.valorInformacao}>{outro_usuario_nome}</Text>
+      </View>
+      <View style={styles.containerObservacoes}>
+        <Text style={styles.informacaoTexto}>Observações:</Text>
+        <Text style={styles.informacaoServico}>{mensagem}</Text>
+      </View>
       </View>
     </View>
   );
@@ -63,28 +105,7 @@ export function PropostaCardRecebida({
     mutate({ id, statusProposta });
   };
 
-  const statusStyle = {
-    accepted:{
-      label:"Aceita", 
-      backgroundColor:theme.colors.success, 
-      color:theme.colors.surface
-    }, 
-    rejected:{
-      label:"Rejeitada", 
-      backgroundColor:theme.colors.error, 
-      color:theme.colors.surface
-    }, 
-    pending:{
-      label:"Pendente", 
-      backgroundColor:theme.colors.primaryDark, 
-      color:theme.colors.surface
-    },
-    cancelled:{
-      label:"Cancelada", 
-      backgroundColor:theme.colors.error, 
-      color:theme.colors.surface
-    }
-  }
+ 
   const statusReference = statusStyle[status]
   return (
     <View style={styles.containerPropostas}>
