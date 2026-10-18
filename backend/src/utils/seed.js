@@ -10,6 +10,7 @@ async function runSeeder() {
     await pool.query(`TRUNCATE TABLE services_offered`);
     await pool.query(`TRUNCATE TABLE services_wanted`);
     await pool.query(`TRUNCATE TABLE categories`);
+    await pool.query(`TRUNCATE TABLE conversas`); 
     await pool.query(`TRUNCATE TABLE users`);
     await pool.query(`TRUNCATE TABLE reviews`);
 
@@ -32,16 +33,16 @@ async function runSeeder() {
       `INSERT INTO categories(nome) VALUES('esporte'),('tecnologia')`,
     );
     await pool.query(
-      `INSERT INTO services_offered (user_id,titulo,descricao,ativo) VALUES(1,'aulas de danca','aulas de zumba online',1)`,
+      `INSERT INTO services_offered (user_id,titulo,category_id,descricao,ativo) VALUES(1,'aulas de danca',1,'aulas de zumba online',1)`,
     );
     await pool.query(
-      `INSERT INTO services_offered (user_id,titulo,descricao,ativo) VALUES(2,'aulas de java','aulas de springboot',1)`,
+      `INSERT INTO services_offered (user_id,titulo,category_id,descricao,ativo) VALUES(2,'aulas de java',1,'aulas de springboot',1)`,
     );
     await pool.query(
-      `INSERT INTO services_wanted (user_id,titulo,descricao,ativo) VALUES(1,'aulas de java','aulas de springboot',1) `,
+      `INSERT INTO services_wanted (user_id,titulo,category_id,descricao,ativo) VALUES(1,'aulas de java',2,'aulas de springboot',1) `,
     );
     await pool.query(
-      `INSERT INTO services_wanted (user_id,titulo,descricao,ativo) VALUES (2,'aulas de danca','aulas de zumba online',1)`,
+      `INSERT INTO services_wanted (user_id,titulo,category_id,descricao,ativo) VALUES (2,'aulas de danca',1,'aulas de zumba online',1)`,
     );
     await pool.query(
       `INSERT INTO exchange_proposals(proposer_id,receiver_id,offered_service_id,wanted_service_id,status,mensagem) VALUES(1,2,1,1,'accepted','desejo aprender java, tem interesse em trocar ?')`,

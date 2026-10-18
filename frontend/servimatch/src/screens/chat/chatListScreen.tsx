@@ -38,9 +38,9 @@ export function ChatList(){
                 <ActivityIndicator size={18}/>
             )}
             {conversas?.length==0?(
-            <View>
-                <Text>Nenhuma conversa por enquanto</Text>
-                <Text>Quando você iniciar uma negociação, suas conversas aparecerão aqui</Text>
+            <View style={styles.estadoVazio}>
+                <Text style={styles.textoEstadoVazio}>Nenhuma conversa por enquanto</Text>
+                <Text style={styles.descricaoEstadoVazio}>Quando você iniciar uma negociação, suas conversas aparecerão aqui</Text>
             </View>
             ):(
         <View>
@@ -53,7 +53,7 @@ export function ChatList(){
                 <View style={styles.lista}>
                  <View style={styles.card}>
                     <Text style={styles.nomeUsuario}>{item.nome_outro_usuario}</Text>
-                    <Text>Atualizado em: {formatarData(item.updated_at)}</Text>
+                    <Text style={styles.informacaoData}>Atualizado em: {formatarData(item.updated_at)}</Text>
                     <Text>Desde de : {formatarData(item.created_at)}</Text>
                  </View>
                 </View>
@@ -100,9 +100,22 @@ borderColor:theme.colors.border,
 marginBottom:theme.spacing.md
 }, 
 nomeUsuario:{
-    fontSize:16, 
-    fontWeight:"700",
-    color:theme.colors.textPrimary,
-    marginBottom:theme.spacing.sm
+fontSize:16, 
+fontWeight:"700",
+color:theme.colors.textPrimary,
+marginBottom:theme.spacing.sm
+}, 
+informacaoData:{
+fontSize:13,
+color:theme.colors.textSecondary, 
+marginTop:theme.spacing.xs
+}, 
+estadoVazio:{
+}, 
+textoEstadoVazio:{
+
+}, 
+descricaoEstadoVazio:{
+
 }
 })
