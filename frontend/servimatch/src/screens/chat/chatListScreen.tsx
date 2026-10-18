@@ -20,20 +20,27 @@ export function ChatList(){
     if(isPending){
         return(
             <View>
-                <ActivityIndicator size="large"/>
+                <ActivityIndicator size="large" color={theme.colors.primaryDark}/>
             </View>
         )
+    }
+
+    if(isError){
+    return(
+    <View style={[styles.container,styles.estadoVazio]}>
+     <Text>Erro ao renderizar Lista de conversas</Text>
+      <Pressable onPress={()=>refetch()} style={styles.btnTentarNovamente}>
+        <Text style={styles.textoBtn}>Tentar Novamente</Text>
+      </Pressable>
+    </View>
+            
+    )
     }
     
 
     return (
         <View style={styles.container}>
-            {isError&&(
-                <View>
-                    <Text>Erro ao renderizar Lista de conversas</Text>
-                    <Pressable onPress={()=>refetch()}>Tentar Novamente</Pressable>
-                </View>
-            )}
+           
             {isPending&&(
                 <ActivityIndicator size={18}/>
             )}
@@ -128,5 +135,17 @@ color:theme.colors.textSecondary,
 textAlign:"center", 
 marginTop:theme.spacing.sm,
 lineHeight:20
+},
+btnTentarNovamente:{
+backgroundColor:theme.colors.primary, 
+paddingHorizontal:theme.spacing.lg,
+paddingVertical:theme.spacing.md,
+borderRadius:theme.borderRadius.md, 
+marginTop:theme.spacing.md
+}, 
+textoBtn:{
+color:theme.colors.surface,
+fontWeight:"600", 
+textAlign:"center"
 }
 })
