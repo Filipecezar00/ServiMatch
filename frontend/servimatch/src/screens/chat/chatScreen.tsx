@@ -63,7 +63,10 @@ const {data:mensagens,isError,isPending} = useQuery<HistoricoMensagens>({
 })
 
 function formatarHora(data:string){
-return new Date(data).toLocaleString("pt-br")
+return new Date(data).toLocaleString("pt-br",{
+    hour:"2-digit",
+    minute:'2-digit'
+})
 }
 
 const handleEnviarMensagem = ()=>{
@@ -73,19 +76,33 @@ const handleEnviarMensagem = ()=>{
     setIsMensagens(""); 
 }
 
-return (
-<KeyboardAvoidingView behavior={Platform.OS ==="ios"? 'padding':"height"} style={{flex:1}} keyboardVerticalOffset={Platform.OS === "ios"?90:0} >
-  <View style={styles.container}>
-    {isError&&(
-        <View>
-            <Text>
-                Erro ao renderizar historico de mensagens
+if(isError){
+return(
+<View style={[styles.container,styles.estadoCentralizado]}>
+    <Text style={styles.textoEstado}>
+        Erro ao renderizar historico de mensagens
+    </Text>
+</View>
+)
+}
+if(isPending){
+return(
+   <ActivityIndicator size={"large"} color={theme.colors.primary}/>
+)
+}
+if(!roomId){
+    return(
+        <View style={[styles.container,styles.estadoCentralizado]}>
+            <Text style={styles.textoEstado}>
+                Não foi possível identificar a conversa
             </Text>
         </View>
-    )}
-    {isPending&&(
-        <ActivityIndicator size={18}/>
-    )}
+    )
+}
+
+
+return (
+<KeyboardAvoidingView behavior={Platform.OS ==="ios"? 'padding':"height"} style={{flex:1}} keyboardVerticalOffset={Platform.OS === "ios"?90:0} >
      {mensagens?.data.length==0&&(
             <View>
                 <Text>Nenhuma mensagem ainda, mande um Oi!</Text>
@@ -115,7 +132,6 @@ return (
         !isMensagens.trim() && styles.btnEnviarDesabilitado
     ]}><Text style={styles.textBtnEnviar}>Enviar</Text></Pressable>
     </View>
-  </View>  
   </KeyboardAvoidingView>
 )
 }
@@ -211,5 +227,17 @@ opacity:0.8,
 }, 
 btnEnviarDesabilitado:{
 opacity:0.5,
-}
+},
+estadoCentralizado:{
+    flex:1,
+    justifyContent:"center",
+    alignItems:"center",
+    padding:theme.spacing.xl
+}, 
+textoEstado:{
+    color:theme.colors.textSecondary,
+    fontSize:15,
+    textAlign:"center"
+},
+
 })
