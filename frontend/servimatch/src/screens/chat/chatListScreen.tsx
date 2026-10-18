@@ -14,13 +14,16 @@ export function ChatList(){
 
 
     function formatarData(data:string){
-        return new Date(data).toLocaleString("pt-br");
+        return new Date(data).toLocaleDateString("pt-BR");
     }
 
+    function formatarDataHora(data:string){
+        return new Date(data).toLocaleString("pt-BR")
+    }
     if(isPending){
         return(
-            <View>
-                <ActivityIndicator size="large" color={theme.colors.primaryDark}/>
+            <View style={[styles.container,styles.estadoVazio]}>
+                <ActivityIndicator size="large" color={theme.colors.primary}/>
             </View>
         )
     }
@@ -40,12 +43,9 @@ export function ChatList(){
 
     return (
         <View style={styles.container}>
-           
-            {isPending&&(
-                <ActivityIndicator size={18}/>
-            )}
-            {conversas?.length==0?(
-            <View style={styles.estadoVazio}>
+         
+        {conversas?.length===0?(
+            <View style={[styles.container,styles.estadoVazio]}>
                 <Text style={styles.textoEstadoVazio}>Nenhuma conversa por enquanto</Text>
                 <Text style={styles.descricaoEstadoVazio}>Quando você iniciar uma negociação, suas conversas aparecerão aqui</Text>
             </View>
@@ -55,14 +55,17 @@ export function ChatList(){
           <Text style={styles.title}>Minhas Conversas</Text>
           <Text style={styles.subtitle}>Acompanhe suas mensagens</Text>
         </View>
-            <FlatList data={conversas || []} keyExtractor={(item)=>String(item?.id)} renderItem={({item})=>(
-                <Pressable onPress={()=>navigation.navigate("Chat",{conversa_id:item.id})}>
+            <FlatList data={conversas || []} keyExtractor={(item)=>String(item?.id)} contentContainerStyle={styles.lista} renderItem={({item})=>(
+                <Pressable onPress={()=>navigation.navigate("Chat",{conversa_id:item.id})} style={({pressed})=>[
+                    styles.card, 
+                    pressed && styles.cardPressionado
+                ]}>
                 <View style={styles.lista}>
-                 <View style={styles.card}>
                     <Text style={styles.nomeUsuario}>{item.nome_outro_usuario}</Text>
-                    <Text style={styles.informacaoData}>Atualizado em: {formatarData(item.updated_at)}</Text>
-                    <Text>Desde de : {formatarData(item.created_at)}</Text>
-                 </View>
+                    <Text style={styles.informacaoData}>Atualizado em: {formatarDataHora(item.updated_at)}</Text>
+                    <View style={styles.containerData}>
+                        <Text style={styles.textoDesde}>Desde de:{formatarData(item.created_at)}</Text>
+                    </View>
                 </View>
                 </Pressable>
             )}/>
@@ -147,5 +150,22 @@ textoBtn:{
 color:theme.colors.surface,
 fontWeight:"600", 
 textAlign:"center"
+},
+containerData:{
+backgroundColor:theme.colors.primary,
+borderWidth:1, 
+borderRadius:theme.borderRadius.sm,
+borderColor:theme.colors.border,
+alignSelf:"flex-start", 
+marginTop:theme.spacing.sm
+}, 
+textoDesde:{
+fontSize:14,
+color:theme.colors.surface, 
+marginHorizontal:theme.spacing.xs
+},
+cardPressionado:{
+opacity:0.8,
+borderColor:theme.colors.primaryDark
 }
 })
