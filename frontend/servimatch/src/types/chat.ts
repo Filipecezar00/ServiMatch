@@ -23,5 +23,5 @@ export interface Conversas{
     service_id:number; 
     created_at:string; 
     updated_at:string;
-    nome:string; 
+    nome_outro_usuario:string; 
 }
