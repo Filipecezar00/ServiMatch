@@ -37,7 +37,7 @@ export function PropostaCardRecebida({
 }: PropostaRecebida) {
   const queryClient = useQueryClient();
 
-  const { mutate, isPending, isError, error } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationKey: ["statusProposta"],
     mutationFn: alterarStatusProposta,
 
@@ -66,37 +66,60 @@ export function PropostaCardRecebida({
   const statusStyle = {
     accepted:{
       label:"Aceita", 
-      backgroundColor:"#1b8b26", 
-      color:"#acffa8"
+      backgroundColor:theme.colors.success, 
+      color:theme.colors.surface
     }, 
     rejected:{
       label:"Rejeitada", 
-      backgroundColor:"#da2121", 
-      color:"#ecb1b1"
+      backgroundColor:theme.colors.error, 
+      color:theme.colors.surface
     }, 
     pending:{
       label:"Pendente", 
-      backgroundColor:"#0d5c79", 
-      color:"#a8cae0"
+      backgroundColor:theme.colors.primaryDark, 
+      color:theme.colors.surface
     },
     cancelled:{
       label:"Cancelada", 
-      backgroundColor:"#da2121", 
-      color:"#ecb1b1"
+      backgroundColor:theme.colors.error, 
+      color:theme.colors.surface
     }
   }
   const statusReference = statusStyle[status]
   return (
     <View style={styles.containerPropostas}>
+      <View style={styles.cabecalhoCard}>
       <Text style={styles.title}>Proposta Recebida</Text>
+      {status!=="pending"&&(
+          <View style={[styles.containerStatus,{backgroundColor:statusReference.backgroundColor}]}>
+              <Text style={[styles.statusText, {color:statusReference.color}]}>{statusReference.label}</Text>
+            </View>
+      )}
+      </View>
+      
       <View style={styles.containerInformations}>
-        <Text style={styles.titleServico}>Serviço desejado: {servico_desejado_titulo}</Text>
-        <Text style={styles.titleServico}>Serviço oferecido: {servico_oferecido_titulo}</Text>
-        <Text style={styles.subTitle}>Remetente da proposta: {outro_usuario_nome}</Text>
-        <Text style={styles.observacoes}>Observações:{mensagem}</Text>
+
+        <View style={styles.informacaoServico}>  
+          <Text style={styles.informacaoTexto}>Serviço desejado: </Text>
+          <Text style={styles.valorInformacao}>{servico_desejado_titulo}</Text>
+        </View>
+        <View style={styles.informacaoServico}>
+          <Text style={styles.informacaoTexto}>Serviço oferecido:</Text>
+          <Text style={styles.valorInformacao}>{servico_oferecido_titulo}</Text>
+        </View>
+        
+        <View style={styles.informacaoServico}>
+          <Text style={styles.informacaoTexto}>Remetente da proposta:</Text>
+          <Text style={styles.valorInformacao}>{outro_usuario_nome}</Text>
+        </View>
+
+        <View style={styles.containerObservacoes}>
+          <Text style={styles.informacaoTexto}>Observações:</Text>
+          <Text style={styles.textoObservacoes}>{mensagem?.trim() || "Nenhuma observação informada"}</Text>
+        </View>
+        
         <View style={styles.containerText}>
-          <Text style={styles.textStatusInformation}>Status Atual:</Text>
-          {status === "pending" ? (
+          {status === "pending" && (
             <View style={styles.containerBtns}>
               <Pressable
                 onPress={() => handleStatus(id, "rejected")}
@@ -113,10 +136,6 @@ export function PropostaCardRecebida({
                 <Text style={styles.textBtn}>Aceitar</Text>
               </Pressable>
             </View>
-          ) : (
-            <View style={[styles.containerStatus,{backgroundColor:statusReference.backgroundColor}]}>
-              <Text style={[styles.statusText, {color:statusReference.color}]}>{statusReference.label}</Text>
-            </View>
           )}
         </View>
       </View>
@@ -126,19 +145,19 @@ export function PropostaCardRecebida({
 
 const styles = StyleSheet.create({
 containerPropostas:{
-  flexDirection:"column",
-  justifyContent:"center",
-  alignItems:"center",
   backgroundColor:theme.colors.surface,
   padding:theme.spacing.lg, 
-  borderRadius:theme.borderRadius.md, 
+  borderRadius:theme.borderRadius.lg, 
+  borderWidth:1,
   borderColor:theme.colors.border,
-  margin:theme.spacing.md
+  marginHorizontal:theme.spacing.md,
+  marginVertical:theme.spacing.sm
 }, 
 title:{
-  fontSize:16, 
-  fontWeight:"600",
-  marginBottom:theme.spacing.md
+  fontSize:17, 
+  fontWeight:"700",
+  color:theme.colors.textPrimary, 
+  marginBottom:theme.spacing.lg
 }, 
 containerInformations:{
   
@@ -154,46 +173,78 @@ subTitle:{
   fontWeight:"600", 
   marginBottom:theme.spacing.md
 }, 
-observacoes:{
-  fontWeight:"600", 
-  marginBottom:theme.spacing.md
-}, 
 containerBtns:{
-  flexDirection:"row",
-justifyContent:"space-evenly"
+flexDirection:"row",
+gap:theme.spacing.md,
+marginTop:theme.spacing.sm,
 }, 
 btnRecusar:{
+flex:1,
+minHeight:48, 
 backgroundColor:theme.colors.error,
-borderRadius:theme.spacing.xs, 
-borderWidth:1, 
-borderColor:theme.colors.border, 
-padding:theme.spacing.md
+borderRadius:theme.borderRadius.md, 
+paddingHorizontal:theme.spacing.md,
+paddingVertical:theme.spacing.sm,
+alignItems:"center",
+justifyContent:"center",
 }, 
 btnAceitar:{
+flex:1, 
+minHeight:48,
 backgroundColor:theme.colors.primary,
-borderRadius:theme.spacing.xs, 
-borderWidth:1, 
-borderColor:theme.colors.border, 
-padding:theme.spacing.md
+borderRadius:theme.borderRadius.md, 
+paddingHorizontal:theme.spacing.md,
+paddingVertical:theme.spacing.sm,
+alignItems:"center", 
+justifyContent:"center", 
 }, 
 textBtn:{
   color:theme.colors.surface,
-  fontWeight:"400"
+  fontSize:14,
+  fontWeight:"400", 
+  textAlign:'center'
 }, 
 containerText:{
   flexDirection:"row"
 },
 statusText:{
-
+fontSize:12,
+fontWeight:"700"
 },
-textStatusInformation:{
-  fontSize:14,
-  fontWeight:"600", 
-}, 
 containerStatus:{
-alignItems:"center", 
+alignSelf:"flex-start", 
 borderRadius:theme.spacing.sm, 
-paddingHorizontal:theme.spacing.xs, 
+paddingHorizontal:theme.spacing.sm, 
+paddingVertical:theme.spacing.xs,
+}, 
+informacaoServico:{
+marginBottom:theme.spacing.md,
+}, 
+informacaoTexto:{
+fontSize:12,
+fontWeight:"600", 
+color:theme.colors.textSecondary, 
+marginBottom:theme.spacing.xs
+}, 
+valorInformacao:{
+fontSize:15, 
+fontWeight:"600", 
+color:theme.colors.textPrimary
+}, 
+containerObservacoes:{
+marginTop:theme.spacing.xs, 
+marginBottom:theme.spacing.lg
+}, 
+textoObservacoes:{
+fontSize:14,
+lineHeight:20, 
+color:theme.colors.textPrimary
+}, 
+cabecalhoCard:{
+  flexDirection:"row", 
+  justifyContent:"space-between", 
+  alignItems:"center", 
+  gap:theme.spacing.sm, 
+  marginBottom:theme.spacing.lg
 }
-
 })
