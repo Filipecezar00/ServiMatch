@@ -38,7 +38,7 @@ export function PropostaCardEnviada({
     <View style={styles.containerPropostas}>
       <View style={styles.cabecalhoCard}>
         <Text style={styles.title}>Proposta Enviada</Text>
-        {status!=="pending"&&(
+        {status&&(
           <View style={[styles.containerStatus,{backgroundColor:statusReference.backgroundColor}]}>
             <Text style={[styles.statusText,{color:statusReference.color}]}>{statusReference.label}</Text>
           </View>
@@ -60,7 +60,7 @@ export function PropostaCardEnviada({
       </View>
       <View style={styles.containerObservacoes}>
         <Text style={styles.informacaoTexto}>Observações:</Text>
-        <Text style={styles.informacaoServico}>{mensagem}</Text>
+        <Text style={styles.textoObservacoes}>{mensagem?.trim() || "Nenhuma observação informada"}</Text>
       </View>
       </View>
     </View>
@@ -85,7 +85,7 @@ export function PropostaCardRecebida({
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["PropostasRecebidas"] });
-      Alert.alert("Status alterado com sucesso");
+      Alert.alert("Sucesso","O status da proposta foi atualizado.");
     },
     onError: () => {
       Alert.alert("Erro ao alterar Status da Proposta");
@@ -139,26 +139,27 @@ export function PropostaCardRecebida({
           <Text style={styles.textoObservacoes}>{mensagem?.trim() || "Nenhuma observação informada"}</Text>
         </View>
         
-        <View style={styles.containerText}>
           {status === "pending" && (
             <View style={styles.containerBtns}>
               <Pressable
                 onPress={() => handleStatus(id, "rejected")}
                 disabled={isPending}
-                style={styles.btnRecusar}
+                style={({pressed})=>[styles.btnRecusar,pressed && !isPending && styles.btnPressionado,isPending && styles.btnDesabilitado]}
               >
                 <Text style={styles.textBtn}>Recusar</Text>
               </Pressable>
                <Pressable
                 onPress={() => handleStatus(id, "accepted")}
                 disabled={isPending}
-                style={styles.btnAceitar}
+                style={({pressed})=>[
+                  styles.btnAceitar,pressed && !isPending && styles.btnPressionado,
+                  isPending && styles.btnDesabilitado, 
+                ]}
               >
-                <Text style={styles.textBtn}>Aceitar</Text>
+                <Text style={styles.textBtn}>{isPending ? "Aguarde...":"Aceitar"}</Text>
               </Pressable>
             </View>
           )}
-        </View>
       </View>
     </View>
   );
@@ -175,24 +176,13 @@ containerPropostas:{
   marginVertical:theme.spacing.sm
 }, 
 title:{
+  flexShrink:1,
   fontSize:17, 
   fontWeight:"700",
   color:theme.colors.textPrimary, 
-  marginBottom:theme.spacing.lg
 }, 
 containerInformations:{
   
-}, 
-titleServico:{
-  fontSize:14, 
-  fontWeight:"600",
-  marginBottom:theme.spacing.md
-}, 
-subTitle:{
-  fontSize:14,
-  color:theme.colors.textSecondary, 
-  fontWeight:"600", 
-  marginBottom:theme.spacing.md
 }, 
 containerBtns:{
 flexDirection:"row",
@@ -200,7 +190,6 @@ gap:theme.spacing.md,
 marginTop:theme.spacing.sm,
 }, 
 btnRecusar:{
-flex:1,
 minHeight:48, 
 backgroundColor:theme.colors.error,
 borderRadius:theme.borderRadius.md, 
@@ -210,7 +199,6 @@ alignItems:"center",
 justifyContent:"center",
 }, 
 btnAceitar:{
-flex:1, 
 minHeight:48,
 backgroundColor:theme.colors.primary,
 borderRadius:theme.borderRadius.md, 
@@ -225,9 +213,7 @@ textBtn:{
   fontWeight:"400", 
   textAlign:'center'
 }, 
-containerText:{
-  flexDirection:"row"
-},
+
 statusText:{
 fontSize:12,
 fontWeight:"700"
@@ -267,5 +253,11 @@ cabecalhoCard:{
   alignItems:"center", 
   gap:theme.spacing.sm, 
   marginBottom:theme.spacing.lg
+},
+btnPressionado:{
+  opacity:0.8,
+}, 
+btnDesabilitado:{
+  opacity:0.6
 }
 })
