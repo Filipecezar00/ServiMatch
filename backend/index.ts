@@ -88,6 +88,7 @@ socket.on("read_message",async (payload:{conversaId:number,mensagemId:number})=>
       return; 
     }
 
+
     io.to(`conversa:${payload.conversaId}`).emit("read_message",resultado,); 
   }catch(error:any){
     socket.emit("error_message",error.message)

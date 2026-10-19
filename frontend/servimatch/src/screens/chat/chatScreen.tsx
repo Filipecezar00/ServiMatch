@@ -13,6 +13,7 @@ import {
   StyleSheet,
   TextInput
 } from "react-native";
+import { ViewToken } from "react-native";
 import { Mensagens,HistoricoMensagens,MensagemLidaPayload } from "../../types/chat";
 import { useRoute } from "@react-navigation/native";
 import { theme } from "../../styles/theme/theme";
@@ -42,9 +43,11 @@ queryClient.setQueryData<Mensagens[]>(["historicoMensagens",roomId],(historicoAn
 }
 
 const handleMensagemLida = (payload:MensagemLidaPayload)=>{
+
 if(payload.conversaId!==roomId){
     return; 
 }
+
 queryClient.setQueryData<HistoricoMensagens>(
     ["historicoMensagens",roomId], 
     (historicoAnterior)=>{
@@ -71,10 +74,13 @@ socket?.emit("join_room",{roomId})
 
 socket?.on("receive_message",handleNewMessage); 
 socket?.on("read_message",handleMensagemLida); 
+
 return()=>{
-socket?.off("receive_message")
-socket?.emit("leave_room",{roomId})
+socket?.off("read_message",handleMensagemLida);
+socket?.off("receive_message");
+socket?.emit("leave_room",{roomId});
 }
+
 
 },[socket,roomId])
 
@@ -97,6 +103,27 @@ const handleEnviarMensagem = ()=>{
 
     setIsMensagens(""); 
 }
+
+const handleMensagensVisiveis = ({
+viewableItems,
+}:{
+viewableItems:ViewToken<Mensagens>[]; 
+})=>{
+viewableItems.forEach(({item})=>{
+if(!item) return; 
+
+const ehMinhaMensagem = item.sender_id === usuario?.id; 
+if(ehMinhaMensagem||item.lido){
+return; 
+}
+
+socket?.emit("read_message",{
+conversaId:roomId, 
+mensagemId:item.id,
+});
+});
+};
+
 
 if(isError){
 return(
@@ -132,6 +159,7 @@ return (
     inverted
     keyExtractor={(mensagem)=>String(mensagem.id)}
     style={{flex:1}}
+    onViewableItemsChanged={handleMensagensVisiveis}
     ListEmptyComponent={
         <View style={styles.estadoCentralizado}>
           <Text style={styles.textoEstado}>Nenhuma mensagem ainda, mande um Oi!</Text>
