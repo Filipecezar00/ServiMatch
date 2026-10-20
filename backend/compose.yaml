@@ -1,0 +1,29 @@
+services:
+ mysql:
+   image: mysql:8.4
+   container_name: servimatch-mysql
+   restart: unless-stopped
+
+   environment:
+   MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD}
+   MYSQL_DATABASE:servi_match
+
+   ports:
+     - "127.0.0.1:3307:3306"
+   volumes: 
+     - servimatch_mysql_data:/var/lib/mysql
+     - ./backend/database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+
+   healthcheck:
+     test:
+     [
+      "CMD-SHELL",
+      "mysqladmin ping -h 127.0.0.1 -uroot -p\"$${MYSQL_ROOT_PASSWORD}\" -- silent"
+     ]
+     interval: 10s
+     timeout: 5s
+     retries: 10
+     start_period: 30s
+
+   volumes:
+     servimatch_mysql_data
