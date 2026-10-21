@@ -5,15 +5,17 @@ async function runSeeder() {
   try {
     await pool.query(`SET FOREIGN_KEY_CHECKS = 0`);
 
-    await pool.query(`TRUNCATE TABLE exchanges`);
-    await pool.query(`TRUNCATE TABLE exchange_proposals`);
-    await pool.query(`TRUNCATE TABLE services_offered`);
-    await pool.query(`TRUNCATE TABLE services_wanted`);
-    await pool.query(`TRUNCATE TABLE categories`);
-    await pool.query(`TRUNCATE TABLE conversas`); 
-    await pool.query(`TRUNCATE TABLE users`);
-    await pool.query(`TRUNCATE TABLE reviews`);
+    await pool.query(`DELETE FROM reviews`);
+    await pool.query(`DELETE FROM mensagens`); 
+    await pool.query(`DELETE FROM exchanges`);
+    await pool.query(`DELETE FROM conversas`); 
+    await pool.query(`DELETE FROM exchange_proposals`);
+    await pool.query(`DELETE FROM services_wanted`);
+    await pool.query(`DELETE FROM services_offered`);
+    await pool.query(`DELETE FROM categories`);
+    await pool.query(`DELETE FROM users`);
 
+    console.log("Dados anteriores removidos"); 
     await pool.query(`SET FOREIGN_KEY_CHECKS = 1`);
 
     const senhaCarlos = await bcrypt.hash("Carlos@22", 10);
@@ -33,16 +35,10 @@ async function runSeeder() {
       `INSERT INTO categories(nome) VALUES('esporte'),('tecnologia')`,
     );
     await pool.query(
-      `INSERT INTO services_offered (user_id,titulo,category_id,descricao,ativo) VALUES(1,'aulas de danca',1,'aulas de zumba online',1)`,
+      `INSERT INTO services_offered (user_id,titulo,category_id,descricao,ativo) VALUES(1,'aulas de danca',1,'aulas de zumba online',1),(2,'aulas de java',2,'aulas de springboot',1)`,
     );
     await pool.query(
-      `INSERT INTO services_offered (user_id,titulo,category_id,descricao,ativo) VALUES(2,'aulas de java',1,'aulas de springboot',1)`,
-    );
-    await pool.query(
-      `INSERT INTO services_wanted (user_id,titulo,category_id,descricao,ativo) VALUES(1,'aulas de java',2,'aulas de springboot',1) `,
-    );
-    await pool.query(
-      `INSERT INTO services_wanted (user_id,titulo,category_id,descricao,ativo) VALUES (2,'aulas de danca',1,'aulas de zumba online',1)`,
+      `INSERT INTO services_wanted (user_id,titulo,category_id,descricao,ativo) VALUES(1,'aulas de java',2,'aulas de springboot',1),(2,'aulas de danca',1,'aulas de zumba online',1) `,
     );
     await pool.query(
       `INSERT INTO exchange_proposals(proposer_id,receiver_id,offered_service_id,wanted_service_id,status,mensagem) VALUES(1,2,1,1,'accepted','desejo aprender java, tem interesse em trocar ?')`,
