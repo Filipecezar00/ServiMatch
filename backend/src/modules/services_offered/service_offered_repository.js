@@ -15,14 +15,14 @@ export async function listarCategorias_repository() {
   return resultado;
 }
 
-export async function salvar(userId, titulo, descricao, categoryId) {
+export async function salvar(userId, titulo, descricao, categoryId,imageUrl=null) {
   const [resultado] = await pool.query(
     `
-    INSERT INTO services_offered (user_id,category_id,titulo,descricao)
-    values (?,?,?,?)`,
-    [userId, categoryId, titulo, descricao],
+    INSERT INTO services_offered (user_id,category_id,titulo,descricao,image_url)
+    VALUES (?,?,?,?)`,
+    [userId, categoryId, titulo, descricao,imageUrl],
   );
-  return { id: resultado.insertId, userId, titulo, descricao, categoryId };
+  return { id: resultado.insertId, userId, titulo, descricao, categoryId,imageUrl };
 }
 
 export async function buscarTodosAtivos() {
