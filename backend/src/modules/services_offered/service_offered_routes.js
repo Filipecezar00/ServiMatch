@@ -12,6 +12,7 @@ import {
   buscarDetalhesServico_controller,
   filtro_listar_servicos_offered_controller,
 } from "./service_offered_controller.js";
+import upload from "../../middleware/upload.js";
 
 const service_router_offered = express.Router();
 
@@ -52,7 +53,7 @@ const service_router_offered = express.Router();
  *         description: Token ausente ou inválido
  *
  */
-service_router_offered.post("/criar", authMiddleware, criar_controller);
+service_router_offered.post("/criar", authMiddleware, upload.single("imagem") ,criar_controller);
 
 /**
  * @openapi
