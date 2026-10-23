@@ -308,18 +308,36 @@ mensagemCategoria:{
   marginBottom:theme.spacing.md
 },
 buttonImage:{
-
+flexDirection:"row",
+alignItems:"center", 
+justifyContent:"center", 
+gap:theme.spacing.sm,
+backgroundColor:theme.colors.surface, 
+padding:theme.spacing.md, 
+borderRadius:theme.colors.border,
+marginBottom:theme.spacing.md
 }, 
 textBotaoImagem:{
-
+color:theme.colors.primary,
+fontSize:15,
+fontWeight:"600"
 }, 
 previewImagem:{
-
+width:"100%", 
+height:200, 
+borderRadius:theme.borderRadius.md,
+backgroundColor:theme.colors.border
 }, 
 botaoRemoverImagem:{
-
+flexDirection:"row", 
+alignItems:"center", 
+alignSelf:"flex-end", 
+gap:theme.spacing.xs, 
+paddingVertical:theme.spacing.sm,
 },
 textRemoverImagem:{
-  
+ color:theme.colors.error,
+ fontSize:14,
+ fontWeight:"500"
 }
 })
