@@ -15,12 +15,15 @@ import { useState } from "react";
 import{ theme } from "../../styles/theme/theme";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker"; 
+import { Image } from "react-native";
 
 export function CriarServicoScreen() {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [erroLocal, setErroLocal] = useState("");
   const [categoryId, setCategoryId] = useState<number | null>(null);
+  const [imagem,setImagem] = useState<ImagePicker.ImagePickerAsset | null>(null); 
   const queryClient = useQueryClient();
   const navigation = useNavigation();
 
@@ -42,6 +45,19 @@ export function CriarServicoScreen() {
       navigation.navigate("Home");
     },
   });
+
+  async function selecionarImagem(){
+    const resultado = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes:["images"],
+      allowsEditing:true,
+      aspect:[4,3], 
+      quality:0.8, 
+    }); 
+
+    if(!resultado.canceled){
+      setImagem(resultado.assets[0]); 
+    }
+  }
 
   function handleSubmit() {
     setErroLocal("");
