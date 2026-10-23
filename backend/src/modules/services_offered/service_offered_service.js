@@ -11,10 +11,11 @@ import {
   buscaDetalhesServico,
   filtro_listar_servicos_offered_repository,
 } from "./service_offered_repository.js";
+import {enviarImagemCloudinary} from "../../utils/upload.service.js"
 
 let categoriasCache = null;
 
-export async function criar_service(userId, titulo, descricao, categoryId) {
+export async function criar_service(userId, titulo, descricao, categoryId,imagemBuffer) {
   if (!titulo || !descricao) {
     throw new AppError("Campos obrigatórios ausentes", 400);
   }
@@ -32,7 +33,14 @@ export async function criar_service(userId, titulo, descricao, categoryId) {
       throw new AppError("Categoria não encontrada", 404);
     }
   }
-  const dados_solicitacao = await salvar(userId, titulo, descricao, categoryId);
+  let imagemUrl = null; 
+
+  if(imagemBuffer){
+    const resultadoUpload = await enviarImagemCloudinary(imagemBuffer);
+     imagemBuffer
+    imagemUrl = resultadoUpload.imageUrl; 
+  }
+  const dados_solicitacao = await salvar(userId, titulo, descricao, categoryId,imagemUrl);
   return dados_solicitacao;
 }
 
