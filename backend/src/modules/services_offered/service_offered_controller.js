@@ -13,11 +13,14 @@ export async function criar_controller(req, res, next) {
   try {
     const { titulo, descricao, categoryId } = req.body;
     const userId = req.usuario.id;
+    const imagemBuffer = req.file?.buffer;
+
     const criar_service_value = await criar_service(
       userId,
       titulo,
       descricao,
       categoryId,
+      imagemBuffer
     );
     return res.status(201).json(criar_service_value);
   } catch (erro) {
