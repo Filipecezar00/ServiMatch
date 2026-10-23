@@ -21,6 +21,7 @@ export interface ServicoCriado {
   descricao: string;
   userId: number;
   categoryId: number;
+  imagem?:ImagePickerAsset | null; 
 }
 
 export interface Servico {
