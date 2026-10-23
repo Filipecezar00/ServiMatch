@@ -154,6 +154,26 @@ export function CriarServicoScreen() {
         )}
       </View>
 
+      <Text style={styles.titulo}>Imagem do serviço</Text>
+      <Pressable onPress={selecionarImagem} style={styles.buttonImage}>
+          <MaterialCommunityIcons name="image-plus" size={22} color={theme.colors.primary}/>  
+          <Text style={styles.textBotaoImagem}>
+            {imagem ? 'Alterar Imagem':'Selecionar Imagem'}
+          </Text>
+      </Pressable>
+      {imagem&&(
+        <View>
+          <Image source={{uri:imagem.uri}}
+          style={styles.previewImagem}
+          resizeMode="cover"
+          />
+          <Pressable onPress={()=>setImagem(null)} style={styles.botaoRemoverImagem}>
+            <MaterialCommunityIcons name="delete-outline" size={20} color={theme.colors.error}/>
+            <Text style={styles.textRemoverImagem}>Remover imagem</Text>
+          </Pressable>
+        </View>
+      )}
+
       <Pressable onPress={handleSubmit} disabled={isPending || isLoading || isErrorCategorias || categorias?.length===0} style={styles.buttonCadastrar}>
         {isPending ? (
           <ActivityIndicator size="small" color={theme.colors.surface} />
@@ -286,5 +306,20 @@ mensagemCategoria:{
   textAlign:"center",
   fontSize:14, 
   marginBottom:theme.spacing.md
+},
+buttonImage:{
+
+}, 
+textBotaoImagem:{
+
+}, 
+previewImagem:{
+
+}, 
+botaoRemoverImagem:{
+
+},
+textRemoverImagem:{
+  
 }
 })
