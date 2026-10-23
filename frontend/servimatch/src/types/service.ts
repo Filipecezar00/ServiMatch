@@ -1,3 +1,5 @@
+import type { ImagePickerAsset } from "expo-image-picker";
+
 export interface HomeResponse {
   id: number;
   titulo: string;
@@ -10,6 +12,7 @@ export interface CriarServico {
   titulo: string;
   descricao: string;
   categoryId: number;
+  imagem?:ImagePickerAsset | null; 
 }
 
 export interface ServicoCriado {
