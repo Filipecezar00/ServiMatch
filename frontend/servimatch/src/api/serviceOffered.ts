@@ -14,9 +14,30 @@ export async function criarServico(
   payload: CriarServico,
 ): Promise<ServicoCriado> {
   try {
+    const formData = new FormData(); 
+
+    formData.append("titulo",payload.titulo); 
+    formData.append("descricao",payload.descricao); 
+    formData.append("categoryId",String(payload.categoryId)); 
+
+    if(payload.imagem){
+      formData.append("imagem",{
+        uri:payload.imagem.uri, 
+        name:
+        payload.imagem.fileName ?? `servico-${Date.now()}.jpg`, 
+        type: payload.imagem.mimeType ?? "image/jpeg",
+      }as any,
+    );
+    }
+
     const resposta_api = await api.post<ServicoCriado>(
       "/services-offered/criar",
-      payload,
+      formData,
+      {
+        headers:{
+          "Content-Type":"multipart/form-data", 
+        },
+      }, 
     );
     return resposta_api.data;
   } catch (error: unknown) {
