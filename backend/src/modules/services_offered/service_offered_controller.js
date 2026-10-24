@@ -108,6 +108,7 @@ export async function buscarDetalhesServico_controller(req, res, next) {
     next(error);
   }
 }
+
 export async function filtro_listar_servicos_offered_controller(
   req,
   res,
