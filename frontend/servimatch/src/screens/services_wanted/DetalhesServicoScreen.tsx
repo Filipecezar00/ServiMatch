@@ -24,6 +24,7 @@ import { AppStackParamList } from "../../types/types";
 import {criarConversa} from "../../api/chat"; 
 import { useAuthStore } from "../../stores/useAuthStore";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Image } from "react-native";
 
 export function DetalhesServico() {
   const route = useRoute();
@@ -174,8 +175,16 @@ export function DetalhesServico() {
           </View>
           <Text style={styles.tituloServico}>{detalhes.titulo}</Text>
           <Text style={styles.descricaoServico}>{detalhes.descricao}</Text>
-        </View>
 
+          {detalhes.image_url?(
+            <Image 
+            source={{uri:detalhes.image_url}}
+            style={styles.imagemServico}
+            resizeMode="cover"
+            />
+          ):null}
+
+        </View>
         <View>
            <Pressable
            style={({pressed})=>[
@@ -209,7 +218,6 @@ export function DetalhesServico() {
             <MaterialCommunityIcons name="chevron-right" size={24} color={theme.colors.textSecondary}/>
           </Pressable>
         </View>
-
       </ScrollView>
 
   {Number(usuarioId)!= Number(detalhes?.user_id)?(
@@ -231,8 +239,6 @@ export function DetalhesServico() {
           <Text style={styles.textSeuServico}>Esse é seu serviço!</Text>
         </View>
       )}
-
- 
 
       <Modal
        visible={modalVisual}
@@ -627,5 +633,8 @@ textoBotaoCancelar:{
 fontSize:15,
 fontWeight:"600", 
 color:theme.colors.textSecondary,
+}, 
+imagemServico:{
+
 }
 })
