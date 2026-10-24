@@ -635,6 +635,10 @@ fontWeight:"600",
 color:theme.colors.textSecondary,
 }, 
 imagemServico:{
-
+  width:"100%", 
+  height:220,
+  borderRadius:theme.borderRadius.md,
+  marginTop:theme.spacing.md,
+  backgroundColor:theme.colors.border
 }
 })
