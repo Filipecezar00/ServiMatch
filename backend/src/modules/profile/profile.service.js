@@ -1,5 +1,6 @@
 import AppError from "../../utils/AppError.js";
-import { Informacoes_profile, EditarProfile } from "./profile.repository.js";
+import { Informacoes_profile, EditarProfile,AtualizarFotoPerfil } from "./profile.repository.js"; 
+import {enviarImagemCloudinary} from "../../utils/upload.service.js"
 
 export async function Informacoes_profile_service(usuarioId) {
   if (!usuarioId) {
@@ -44,4 +45,24 @@ export async function editarInformacoes(nome, email, usuarioId) {
   }
 
   return resposta;
+}
+
+export async function editarFoto(fotoPerfil,usuarioId){
+if(!usuarioId){
+  throw new AppError("Id do usuário é obrigatório",400); 
+}
+if(!fotoPerfil){
+  throw new AppError("Uma imagem é obrigatória",400); 
+}
+
+const imagem = await enviarImagemCloudinary(fotoPerfil); 
+const imagem_url = imagem.imageUrl; 
+
+const resposta = await AtualizarFotoPerfil(imagem_url,usuarioId); 
+
+if(resposta===0 || !resposta){
+  throw new AppError("Erro ao realizar atualização de perfil",500); 
+}
+
+return resposta; 
 }
