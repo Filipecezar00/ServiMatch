@@ -3,7 +3,7 @@ import { pool } from "../../config/database.js";
 export async function Informacoes_profile(usuarioId) {
   const [usuarioInformations] = await pool.query(
     `
-        SELECT u.id,u.nome,u.email,u.criado_em,
+        SELECT u.id,u.nome,u.email,u.criado_em,u.image_url,
         COALESCE((SELECT AVG(rating) FROM reviews r WHERE reviewed_id=u.id),0)AS media_rating,
         (SELECT COUNT(id) FROM reviews WHERE reviewed_id = u.id) AS total_reviews,
         (SELECT COUNT(id) FROM exchange_proposals WHERE (proposer_id = u.id OR receiver_id = u.id)AND status = 'completed') AS trocas_concluidas
@@ -50,4 +50,14 @@ export async function EditarProfile(nome, email, usuarioId) {
     [nome, email, usuarioId],
   );
   return resposta.affectedRows;
+}
+
+export async function AtualizarFotoPerfil(fotoPerfil,usuarioId){
+  const [resposta] = await pool.query(
+    `
+    UPDATE users SET image_url = ? WHERE id = ?
+    `,
+    [fotoPerfil,usuarioId]
+  )
+  return resposta.affectedRows; 
 }
