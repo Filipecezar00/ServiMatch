@@ -12,7 +12,8 @@ import {
   Alert,
   Modal,
   TextInput,
-  StyleSheet
+  StyleSheet,
+  Image
 } from "react-native";
 import {criarConversa} from "../../api/chat"
 import { editar_profile } from "../../api/profile";
@@ -158,6 +159,18 @@ export function Profile() {
         <View>
           <View>
             <View style={styles.cartaoPerfil}>
+            {profile?.usuario.image_url?(
+              <Image
+              source={{uri:profile.usuario.image_url}}
+              style={styles.fotoPerfil}
+              />
+            ):(
+              <MaterialCommunityIcons
+              name="account-circle"
+              size={100}
+              color={theme.colors.textSecondary}
+              />
+            )}
               <Text style={styles.nomeUsuario}>{profile?.usuario.nome}</Text>
               <View style={styles.descricaoUsuario}>
                 {profile.usuario.total_reviews === 0 ? (
@@ -514,5 +527,12 @@ const styles = StyleSheet.create({
       fontSize:14,
       fontWeight:"700",
       color:theme.colors.surface
-    }
+    }, 
+    fotoPerfil:{
+      width:100, 
+      height:100,
+      borderRadius:50,
+      alignSelf:"center", 
+      marginBottom:theme.spacing.md
+    }, 
 })

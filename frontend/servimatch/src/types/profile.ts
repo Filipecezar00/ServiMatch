@@ -1,3 +1,4 @@
+import type { ImagePickerAsset } from "expo-image-picker";
 export interface Servico {
   id: number;
   titulo: string;
@@ -19,6 +20,7 @@ export interface UsuarioPerfil {
   media_rating: number;
   total_reviews: number;
   trocas_concluidas: number;
+  image_url:ImagePickerAsset | null;
   servicos: Servico[];
 }
 
