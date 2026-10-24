@@ -77,7 +77,7 @@ export function CriarServicoScreen() {
       return setErroLocal("Preencha uma categoria antes de criar o Serviço");
     }
 
-    mutate({ titulo:titulo.trim(), descricao:descricao.trim(), categoryId: categoryId });
+    mutate({ titulo:titulo.trim(), descricao:descricao.trim(), categoryId: categoryId,imagem:imagem });
   }
 
   return (

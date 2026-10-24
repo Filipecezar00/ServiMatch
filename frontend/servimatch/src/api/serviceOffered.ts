@@ -37,7 +37,7 @@ export async function criarServico(
         headers:{
           "Content-Type":"multipart/form-data", 
         },
-      }, 
+      },  
     );
     return resposta_api.data;
   } catch (error: unknown) {
