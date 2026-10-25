@@ -4,7 +4,7 @@ import {
   DrawerItemList,
   DrawerContentComponentProps,
 } from "@react-navigation/drawer";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, View, Image,StyleSheet } from "react-native";
 import { useAuthStore } from "../stores/useAuthStore";
 import {
   ServicesOfferedStack,
@@ -16,7 +16,9 @@ import {
   Profile_Stack
 } from "../navigation/ServicesStack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
+import { useQuery } from "@tanstack/react-query";
+import { profile_informations } from "../api/profile";
+import { theme } from "../styles/theme/theme";
 type AppDrawerParamList = {
   HomeStack: undefined;
   MeusServicosOffered: undefined;
@@ -33,27 +35,50 @@ export function CustomDrawerContent(props: DrawerContentComponentProps) {
   const logout = useAuthStore((state) => state.logout);
   const usuario = useAuthStore((state) => state.usuario);
 
+  const {data:profile,isLoading} = useQuery({
+    queryKey:["Profile",usuario?.id],
+    queryFn:()=>profile_informations(usuario?.id),
+    enabled:!!usuario?.id
+  })
+
+  const fotoPerfil = profile?.usuario?.image_url
+
+  function abrirMeuPerfil(){
+    props.navigation.closeDrawer(); 
+    props.navigation.navigate("ProfileStack",{
+      screen:"Profile",
+      params:{id:undefined},
+    });
+  }
+
   return (
-    <DrawerContentScrollView {...props}>
+    <DrawerContentScrollView {...props} contentContainerStyle={styles.drawerContent}>
       <View>
         <Pressable
-          onPress={() => {
-            props.navigation.closeDrawer();
-            props.navigation.navigate("ProfileStack",{
-              screen:"Profile",
-              params:{id:undefined}, 
-            });
-          }}
+          onPress={abrirMeuPerfil}
+          style={styles.cabecalho}
         >
-          <MaterialCommunityIcons name="account-circle" size={50} />
-          <Text>Bem vindo, {usuario?.nome}</Text>
-          <Text>Email: {usuario?.email}</Text>
+        <View style={styles.containerFoto}>
+             
+         {fotoPerfil?(
+          <Image source={{uri:fotoPerfil}}
+          style={styles.fotoPerfil}
+          />
+          ):(
+            <MaterialCommunityIcons name="account-circle" size={64} color={theme.colors.primary}/>
+          )}
+         </View>
+    
+          <View style={styles.informacoesUsuario}>
+          <Text style={styles.nomeUsuario} numberOfLines={1}>Bem vindo, {usuario?.nome}</Text>
+          <Text style={styles.emailUsuario} numberOfLines={1}>Email: {usuario?.email}</Text>
+          </View>
         </Pressable>
       </View>
       <DrawerItemList {...props} />
-      <Pressable onPress={() => logout()}>
-        <MaterialCommunityIcons name="exit-to-app" size={22} />
-        <Text>Sair</Text>
+      <Pressable onPress={() => logout()} style={styles.botaoSair}>
+        <MaterialCommunityIcons name="exit-to-app" size={22} color={theme.colors.error}/>
+        <Text style={styles.textoSair}>Sair</Text>
       </Pressable>
     </DrawerContentScrollView>
   );
@@ -114,3 +139,57 @@ export function AppDrawer() {
     </Drawer.Navigator>
   );
 }
+const styles = StyleSheet.create({
+  drawerContent:{
+    flexGrow:1,
+  }, 
+  cabecalho:{
+    flexDirection:"row",
+    alignItems:"center", 
+    paddingHorizontal:16,
+    paddingVertical:24,
+    backgroundColor:theme.colors.surface
+  }, 
+  containerFoto:{
+    width:64,
+    height:64,
+    borderRadius:32,
+    alignItems:"center", 
+    justifyContent:"center", 
+    overflow:"hidden", 
+    backgroundColor:theme.colors.background
+  }, 
+  informacoesUsuario:{
+    flex:1,
+    marginLeft:12,
+    marginRight:8
+  },
+  nomeUsuario:{
+    fontSize:16,
+    fontWeight:"700",
+    color:theme.colors.textPrimary
+  }, 
+  emailUsuario:{
+    fontSize:12,
+    color:theme.colors.textSecondary,
+    marginTop:4,
+  }, 
+  fotoPerfil:{
+    width:"100%",
+    height:"100%",
+    borderRadius:32
+  },
+  textoSair:{
+    marginLeft:12,
+    fontSize:14,
+    fontWeight:"600",
+    color:theme.colors.error
+  },
+  botaoSair:{
+    flexDirection:"row",
+    alignItems:"center", 
+    paddingHorizontal:16,
+    paddingVertical:14,
+    marginTop:"auto"
+  }
+})

@@ -2,6 +2,7 @@ import { api } from "../config/api";
 import { extractErrorMessage } from "./utils";
 import { DadosEdicao, PerfilResponse } from "../types/profile";
 import type { ImagePickerAsset } from "expo-image-picker";
+import axios from "axios";
 
 export async function profile_informations(
   usuarioId?: number,
@@ -38,7 +39,7 @@ export async function editar_foto(fotoPerfil:ImagePickerAsset){
       } as any,
     ); 
   
-  const resposta = await api.patch(`/fotoPerfil`,formData,{
+  const resposta = await api.patch(`profile/fotoPerfil`,formData,{
     headers:{
       "Content-Type":"multipart/form-data", 
     }, 

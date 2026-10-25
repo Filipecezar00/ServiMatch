@@ -16,9 +16,11 @@ import {
   Image
 } from "react-native";
 import {criarConversa} from "../../api/chat"
+import {editar_foto} from "../../api/profile"
 import { editar_profile } from "../../api/profile";
 import {theme} from "../../styles/theme/theme"
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker"; 
 
 export function Profile() {
   const usuarioId = useAuthStore((store) => store.usuario?.id);
@@ -31,6 +33,7 @@ export function Profile() {
   const perfilTargetId = params?.id || usuarioId;
   const ehMeuPerfil = !params?.id || Number(params.id) === Number(usuarioId);
   const queryClient = useQueryClient();
+  const [imagem,setImagem] = useState<ImagePicker.ImagePickerAsset | null>(null); 
 
   const [isOpenModal, setOpenModal] = useState(false);
 
@@ -45,6 +48,32 @@ export function Profile() {
     enabled: !!perfilTargetId,
   });
 
+ 
+   const {mutate:mutateEditarFoto,isPending:isEnviandoFoto} = useMutation({
+    mutationFn:editar_foto,
+    onSuccess:()=>{
+      queryClient.invalidateQueries({queryKey:["Profile",perfilTargetId],}); 
+      Alert.alert("Sucesso","Foto atualizada com sucesso!"); 
+    }, 
+    onError:(error)=>{
+      Alert.alert("Atenção:",error.message); 
+    }
+  })
+
+    async function selecionarImagem(){
+    const resultado = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes:["images"],
+      allowsEditing:true,
+      aspect:[1,1], 
+      quality:0.8
+    }); 
+    if(resultado.canceled){
+      return
+    }
+    const imagemSelecionada = resultado.assets[0]; 
+    setImagem(imagemSelecionada); 
+    mutateEditarFoto(imagemSelecionada);
+  }
 
   const {
     mutate: mutateSalvar,
@@ -170,8 +199,16 @@ export function Profile() {
               size={100}
               color={theme.colors.textSecondary}
               />
-            )}      
-                
+              
+            )}
+            <Pressable onPress={selecionarImagem} disabled={!ehMeuPerfil || isEnviandoFoto}>
+              {isEnviandoFoto ? (
+                <ActivityIndicator size="small" color={theme.colors.primary}/>
+              ):( 
+                <MaterialCommunityIcons name="camera" size={18} color={theme.colors.primary} style={styles.iconeCamera}/>    
+              )}
+            </Pressable>    
+            
               <Text style={styles.nomeUsuario}>{profile?.usuario.nome}</Text>
               <View style={styles.descricaoUsuario}>
                 {profile.usuario.total_reviews === 0 ? (
@@ -352,7 +389,7 @@ const styles = StyleSheet.create({
       borderWidth:1, 
       borderColor:theme.colors.border,
       alignItems:"center",
-      height:200, 
+      height:220, 
       
     }, 
     nomeUsuario:{
