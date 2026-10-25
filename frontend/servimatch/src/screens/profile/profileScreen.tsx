@@ -159,9 +159,9 @@ export function Profile() {
         <View>
           <View>
             <View style={styles.cartaoPerfil}>
-            {profile?.usuario.image_url?(
+              {profile?.usuario.image_url?(
               <Image
-              source={{uri:profile.usuario.image_url.uri}}
+              source={{uri:profile.usuario.image_url}}
               style={styles.fotoPerfil}
               />
             ):(
@@ -170,7 +170,8 @@ export function Profile() {
               size={100}
               color={theme.colors.textSecondary}
               />
-            )}
+            )}      
+                
               <Text style={styles.nomeUsuario}>{profile?.usuario.nome}</Text>
               <View style={styles.descricaoUsuario}>
                 {profile.usuario.total_reviews === 0 ? (
@@ -346,16 +347,18 @@ const styles = StyleSheet.create({
     cartaoPerfil:{
       backgroundColor:theme.colors.surface, 
       borderRadius:theme.borderRadius.lg, 
-      padding:theme.spacing.lg, 
+      padding:theme.spacing.md, 
       marginBottom:theme.spacing.lg,
       borderWidth:1, 
-      borderColor:theme.colors.border
+      borderColor:theme.colors.border,
+      alignItems:"center",
+      height:200, 
+      
     }, 
     nomeUsuario:{
       fontSize:24,
       fontWeight:"700", 
       color:theme.colors.textPrimary, 
-      marginBottom:theme.spacing.sm
     }, 
     cartaoCard:{
       backgroundColor:theme.colors.surface,
@@ -373,7 +376,6 @@ const styles = StyleSheet.create({
       marginBottom:theme.spacing.md
     },
     descricaoUsuario:{
-      
     }, 
     containerNotas:{
       flexDirection:"row",
@@ -533,6 +535,6 @@ const styles = StyleSheet.create({
       height:100,
       borderRadius:50,
       alignSelf:"center", 
-      marginBottom:theme.spacing.md
     }, 
+ 
 })
