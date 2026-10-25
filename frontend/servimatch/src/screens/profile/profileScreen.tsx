@@ -161,7 +161,7 @@ export function Profile() {
             <View style={styles.cartaoPerfil}>
             {profile?.usuario.image_url?(
               <Image
-              source={{uri:profile.usuario.image_url}}
+              source={{uri:profile.usuario.image_url.uri}}
               style={styles.fotoPerfil}
               />
             ):(
