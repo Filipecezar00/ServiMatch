@@ -53,7 +53,7 @@ const service_router_offered = express.Router();
  *         description: Token ausente ou inválido
  *
  */
-service_router_offered.post("/criar", authMiddleware, upload.single("imagem") ,criar_controller);
+service_router_offered.post("/criar", authMiddleware, upload.array("imagens",3) ,criar_controller);
 
 /**
  * @openapi
