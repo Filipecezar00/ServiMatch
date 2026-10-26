@@ -13,7 +13,8 @@ import {
   TextInput,
   StyleSheet, 
   KeyboardAvoidingView, 
-  Platform
+  Platform,
+  Image
 } from "react-native";
 import {theme} from "../../styles/theme/theme";
 import { obterDetalhesServicoPorId } from "../../api/serviceOffered";
@@ -24,7 +25,7 @@ import { AppStackParamList } from "../../types/types";
 import {criarConversa} from "../../api/chat"; 
 import { useAuthStore } from "../../stores/useAuthStore";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Image } from "react-native";
+import {profile_informations} from "../../api/profile"
 
 export function DetalhesServico() {
   const route = useRoute();
@@ -32,6 +33,8 @@ export function DetalhesServico() {
   const navigation = useNavigation<NavigationProps>();
   const [modalVisual, setModalVisual] = useState(false);
   const [mensagem, setMensagem] = useState("");
+  const params = route.params as {id?:number} | undefined; 
+  const perfilTargetId = params?.id 
   const [servicoSelecionadoId, setServicoSelecionadoId] = useState<
     number | null
   >(null);
@@ -73,6 +76,12 @@ export function DetalhesServico() {
       Alert.alert("Erro ao enviar Proposta", error?.message);
     },
   });
+
+  const {data:profile} = useQuery({
+    queryKey:["Profile",perfilTargetId], 
+    queryFn: ()=>profile_informations(perfilTargetId), 
+    enabled:!!perfilTargetId
+  }); 
 
   const handleSubmit = (
     wanted_service_id: number,
@@ -203,10 +212,18 @@ export function DetalhesServico() {
             accessibilityRole="button"
           >
             <View style={styles.iconePrestador}>
+              {profile?.usuario.image_url?(
+                <Image
+                source={{uri:profile.usuario.image_url}}
+                style={styles.fotoPerfil}
+                />     
+              ):(
               <MaterialCommunityIcons name="account-outline"
               size={26}
               color={theme.colors.primaryDark}
               />
+              )}
+             
             </View>
             <View style={styles.informacoesPrestador}>
               <Text style={styles.rotuloPrestador}>
@@ -640,5 +657,11 @@ imagemServico:{
   borderRadius:theme.borderRadius.md,
   marginTop:theme.spacing.md,
   backgroundColor:theme.colors.border
+},
+fotoPerfil:{
+      width:60, 
+      height:60,
+      borderRadius:50,
+      alignSelf:"center", 
 }
 })
