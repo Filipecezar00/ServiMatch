@@ -202,11 +202,13 @@ export function Profile() {
               
             )}
             <Pressable onPress={selecionarImagem} disabled={!ehMeuPerfil || isEnviandoFoto}>
-              {isEnviandoFoto ? (
+              {isEnviandoFoto && (
                 <ActivityIndicator size="small" color={theme.colors.primary}/>
-              ):( 
+              )}
+              {ehMeuPerfil&&(
                 <MaterialCommunityIcons name="camera" size={18} color={theme.colors.primary} style={styles.iconeCamera}/>    
               )}
+              
             </Pressable>    
             
               <Text style={styles.nomeUsuario}>{profile?.usuario.nome}</Text>
@@ -573,5 +575,6 @@ const styles = StyleSheet.create({
       borderRadius:50,
       alignSelf:"center", 
     }, 
- 
+    iconeCamera:{
+    }
 })
