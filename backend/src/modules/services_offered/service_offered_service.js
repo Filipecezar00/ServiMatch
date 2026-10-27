@@ -15,7 +15,7 @@ import {enviarImagemCloudinary} from "../../utils/upload.service.js"
 
 let categoriasCache = null;
 
-export async function criar_service(userId, titulo, descricao, categoryId,imagemBuffer) {
+export async function criar_service(userId, titulo, descricao, categoryId,imagens=[]) {
   if (!titulo || !descricao) {
     throw new AppError("Campos obrigatórios ausentes", 400);
   }
@@ -25,6 +25,9 @@ export async function criar_service(userId, titulo, descricao, categoryId,imagem
   if (descricao.trim().length < 10 || descricao.trim().length > 1000) {
     throw new AppError("descrição deve ter entre 10 e 1000 caracteres", 400);
   }
+  if(!Array.isArray(imagens) || imagens.length > 3){
+    throw new AppError("O serviço pode ter no máximo 3 imagens",400); 
+  }
   if (!categoryId) {
     categoryId = null;
   } else {
@@ -33,14 +36,14 @@ export async function criar_service(userId, titulo, descricao, categoryId,imagem
       throw new AppError("Categoria não encontrada", 404);
     }
   }
-  let imagemUrl = null; 
+  let imagemUrls = []; 
 
-  if(imagemBuffer){
-    const resultadoUpload = await enviarImagemCloudinary(imagemBuffer);
-     imagemBuffer
-    imagemUrl = resultadoUpload.imageUrl; 
+  for(const imagemBuffer of imagens){
+    const resultadoUpload = await enviarImagemCloudinary(imagemBuffer); 
+    imagemUrls.push(resultadoUpload.imageUrl);
   }
-  const dados_solicitacao = await salvar(userId, titulo, descricao, categoryId,imagemUrl);
+
+  const dados_solicitacao = await salvar(userId, titulo, descricao, categoryId,imagemUrls);
   return dados_solicitacao;
 }
 
