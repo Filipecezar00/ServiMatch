@@ -21,7 +21,7 @@ export async function salvar(userId, titulo, descricao, categoryId,imagensUrls=[
     await conexao.beginTransaction(); 
 
   const imagemPrincipal = imagensUrls[0] ?? null
-  const [resultado] = await pool.query(
+  const [resultado] = await conexao.query(
     `
     INSERT INTO services_offered (user_id,category_id,titulo,descricao,image_url)
     VALUES (?,?,?,?,?)`,
@@ -30,7 +30,7 @@ export async function salvar(userId, titulo, descricao, categoryId,imagensUrls=[
   const serviceId = resultado.insertId; 
 
   for(let i = 0; i<imagensUrls.length; i++){
-    await pool.query(
+    await conexao.query(
       `INSERT INTO service_images (service_id,image_url,ordem) VALUES (?,?,?)`,
       [serviceId,imagensUrls[i],i+1],
     )
