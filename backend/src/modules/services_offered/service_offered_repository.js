@@ -15,14 +15,40 @@ export async function listarCategorias_repository() {
   return resultado;
 }
 
-export async function salvar(userId, titulo, descricao, categoryId,imageUrl=null) {
+export async function salvar(userId, titulo, descricao, categoryId,imagensUrls=[]) {
+  const conexao = await pool.getConnection(); 
+  try{
+    await conexao.beginTransaction(); 
+
+  const imagemPrincipal = imagensUrls[0] ?? null
   const [resultado] = await pool.query(
     `
     INSERT INTO services_offered (user_id,category_id,titulo,descricao,image_url)
     VALUES (?,?,?,?,?)`,
-    [userId, categoryId, titulo, descricao,imageUrl],
+    [userId, categoryId, titulo, descricao,imagemPrincipal],
   );
-  return { id: resultado.insertId, userId, titulo, descricao, categoryId,imageUrl };
+  const serviceId = resultado.insertId; 
+
+  for(let i = 0; i<imagensUrls.length; i++){
+    await pool.query(
+      `INSERT INTO service_images (service_id,image_url,ordem) VALUES (?,?,?)`,
+      [serviceId,imagensUrls[i],i+1],
+    )
+  }
+  await conexao.commit(); 
+  return { id: serviceId, userId, titulo, descricao, categoryId,imageUrl:imagemPrincipal, imagens: imagensUrls.map((imageUrl,index)=>({
+    imageUrl,
+    ordem:index +1,
+  })),
+}
+  }catch(error){
+    await conexao.rollback(); 
+    throw error; 
+  }finally{
+    conexao.release(); 
+  }
+ 
+
 }
 
 export async function buscarTodosAtivos() {
