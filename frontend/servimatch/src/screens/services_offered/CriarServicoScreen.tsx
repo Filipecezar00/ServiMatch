@@ -39,11 +39,14 @@ export function CriarServicoScreen() {
 
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: criarServico,
-    onSuccess: () => {
+    onSuccess: (dados) => {
+      console.log("Serviço criado com sucesso:",dados); 
       queryClient.invalidateQueries({ queryKey: ["homeAtivos"] });
 
       navigation.navigate("Home");
-    },
+    },onError:(erro)=>{
+      console.log("Erro ao criar serviço:",erro); 
+    }
   });
 
   async function selecionarImagem(){
