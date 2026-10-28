@@ -330,7 +330,7 @@ justifyContent:"center",
 gap:theme.spacing.sm,
 backgroundColor:theme.colors.surface, 
 padding:theme.spacing.md, 
-borderRadius:theme.colors.border,
+borderRadius:theme.borderRadius.md,
 marginBottom:theme.spacing.md
 }, 
 textBotaoImagem:{
