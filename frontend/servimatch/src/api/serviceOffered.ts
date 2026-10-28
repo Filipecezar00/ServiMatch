@@ -20,17 +20,17 @@ export async function criarServico(
     formData.append("descricao",payload.descricao); 
     formData.append("categoryId",String(payload.categoryId)); 
 
-    if(payload.imagem){
-      formData.append("imagem",{
-        uri:payload.imagem.uri, 
-        name:
-        payload.imagem.fileName ?? `servico-${Date.now()}.jpg`, 
-        type: payload.imagem.mimeType ?? "image/jpeg",
-      }as any,
-    );
-    }
-
-    const resposta_api = await api.post<ServicoCriado>(
+    payload.imagens?.forEach((imagem)=>{
+      formData.append(
+        "imagens",
+        {
+          uri:imagem.uri,
+          name:imagem.fileName ?? `servico=${Date.now()}.jpg`, 
+          type:imagem.mimeType ?? "image/jpeg", 
+        }as any
+      )
+    })
+     const resposta_api = await api.post<ServicoCriado>(
       "/services-offered/criar",
       formData,
       {
@@ -40,7 +40,7 @@ export async function criarServico(
       },  
     );
     return resposta_api.data;
-  } catch (error: unknown) {
+  }catch (error: unknown) {
     throw new Error(extractErrorMessage(error));
   }
 }
