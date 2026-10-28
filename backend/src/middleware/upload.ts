@@ -6,7 +6,9 @@ const storage = multer.memoryStorage();
  const tiposPermitidos = [
    "image/jpeg", 
    "image/png", 
-   "image/webp"
+   "image/webp",
+   "image/heic",
+   "image/heif",
 ]; 
 
 const upload = multer({
@@ -15,8 +17,9 @@ const upload = multer({
         fileSize: 5 * 1024 * 1024,
         files:3,
     }, 
-    fileFilter:(req:Request,file:{ mimetype: string },callback:multer.FileFilterCallback) =>{
-       
+    fileFilter:(req:Request,file:Express.Multer.File,callback:multer.FileFilterCallback) =>{
+    console.log("MIME type recebido:",file.mimetype); 
+
     if(!tiposPermitidos.includes(file.mimetype)){
         return callback(new Error("Formato de imagem não permitido")); 
     }
