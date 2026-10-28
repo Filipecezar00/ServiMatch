@@ -163,23 +163,30 @@ export function CriarServicoScreen() {
         )}
       </View>
 
-      <Text style={styles.titulo}>Imagem do serviço</Text>
-      <Pressable onPress={selecionarImagem} style={styles.buttonImage}>
+      <Text style={styles.titulo}>Imagens do serviço</Text>
+      <Pressable onPress={selecionarImagem} style={[styles.buttonImage, imagens.length>=3 && {opacity:0.5}]} disabled={imagens.length>=3}>
           <MaterialCommunityIcons name="image-plus" size={22} color={theme.colors.primary}/>  
           <Text style={styles.textBotaoImagem}>
-            {imagens? 'Alterar Imagens':'Selecionar Imagens'}
+            {imagens.length>=3? 'Limite de imagens atingido':'Selecionar Imagens'}
           </Text>
       </Pressable>
       {imagens&&(
-        <View>
-          <Image source={{uri:imagens.map((imagem)=>imagem.uri)}}
+        <View style={styles.containerImagens}>
+        {imagens.map((imagem,index)=>(
+        <View key={`${imagem.uri}-${index}`} style={styles.itemImagem}>
+         <Image source={{uri:imagem.uri}}
           style={styles.previewImagem}
           resizeMode="cover"
           />
-          <Pressable onPress={()=>setImagens([])} style={styles.botaoRemoverImagem}>
+        <Pressable onPress={()=>setImagens((imagensAtuais)=>imagensAtuais.filter((_,i)=>i!==index))} style={styles.botaoRemoverImagem}>
             <MaterialCommunityIcons name="delete-outline" size={20} color={theme.colors.error}/>
             <Text style={styles.textRemoverImagem}>Remover imagem</Text>
-          </Pressable>
+        </Pressable>
+          </View>
+          ))}
+        <Text style={styles.containerImagens}>
+        {imagens.length}/3 imagens selecionadas
+        </Text>
         </View>
       )}
 
@@ -348,5 +355,22 @@ textRemoverImagem:{
  color:theme.colors.error,
  fontSize:14,
  fontWeight:"500"
-}
+},
+containerImagens: {
+gap:theme.spacing.md, 
+marginBottom:theme.spacing.sm
+}, 
+itemImagem:{
+  backgroundColor:theme.colors.surface,
+  borderRadius:theme.borderRadius.md, 
+  padding:theme.spacing.sm,
+  borderWidth:1, 
+  borderColor:theme.colors.border
+}, 
+contadorImagens:{
+fontSize:13, 
+color:theme.colors.textSecondary, 
+marginBottom:theme.spacing.sm
+}, 
+
 })
