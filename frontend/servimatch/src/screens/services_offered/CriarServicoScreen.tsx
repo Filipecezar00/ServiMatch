@@ -47,15 +47,24 @@ export function CriarServicoScreen() {
   });
 
   async function selecionarImagem(){
+    if(imagens.length>=3){
+      setErroLocal("Você pode selecionar no máximo 3 imagens"); 
+      return; 
+    }
     const resultado = await ImagePicker.launchImageLibraryAsync({
       mediaTypes:["images"],
-      allowsEditing:true,
-      aspect:[4,3], 
+      allowsMultipleSelection:true,
+      selectionLimit:3 - imagens.length, 
       quality:0.8, 
     }); 
 
     if(!resultado.canceled){
-      setImagem(resultado.assets[0]); 
+      const novasImagens = resultado.assets; 
+      setImagens((imagensAtuais)=>[
+        ...imagensAtuais,
+        ...novasImagens, 
+      ].slice(0,3)); 
+      setErroLocal(""); 
     }
   }
 
@@ -77,7 +86,7 @@ export function CriarServicoScreen() {
       return setErroLocal("Preencha uma categoria antes de criar o Serviço");
     }
 
-    mutate({ titulo:titulo.trim(), descricao:descricao.trim(), categoryId: categoryId,imagem:imagem });
+    mutate({ titulo:titulo.trim(), descricao:descricao.trim(), categoryId: categoryId,imagens:imagens });
   }
 
   return (
@@ -158,16 +167,16 @@ export function CriarServicoScreen() {
       <Pressable onPress={selecionarImagem} style={styles.buttonImage}>
           <MaterialCommunityIcons name="image-plus" size={22} color={theme.colors.primary}/>  
           <Text style={styles.textBotaoImagem}>
-            {imagem ? 'Alterar Imagem':'Selecionar Imagem'}
+            {imagens? 'Alterar Imagens':'Selecionar Imagens'}
           </Text>
       </Pressable>
-      {imagem&&(
+      {imagens&&(
         <View>
-          <Image source={{uri:imagem.uri}}
+          <Image source={{uri:imagens.map((imagem)=>imagem.uri)}}
           style={styles.previewImagem}
           resizeMode="cover"
           />
-          <Pressable onPress={()=>setImagem(null)} style={styles.botaoRemoverImagem}>
+          <Pressable onPress={()=>setImagens([])} style={styles.botaoRemoverImagem}>
             <MaterialCommunityIcons name="delete-outline" size={20} color={theme.colors.error}/>
             <Text style={styles.textRemoverImagem}>Remover imagem</Text>
           </Pressable>

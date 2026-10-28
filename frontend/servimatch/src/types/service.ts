@@ -12,7 +12,7 @@ export interface CriarServico {
   titulo: string;
   descricao: string;
   categoryId: number;
-  imagem?:ImagePickerAsset | null; 
+  imagens?:ImagePickerAsset[]; 
 }
 
 export interface ServicoCriado {
