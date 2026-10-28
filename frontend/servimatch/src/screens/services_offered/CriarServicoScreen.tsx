@@ -91,9 +91,9 @@ export function CriarServicoScreen() {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS ==="ios" ? "padding" : 
-      'height'
+      undefined
     }>
-    <View>
+    <View style={styles.conteudoPrincipal}>
       <View style={styles.containerVoltar}>
         <Pressable onPress={() => navigation.goBack()} style={styles.botaoVoltar}>
           <MaterialCommunityIcons name="arrow-left" size={18} color={theme.colors.textPrimary} />
@@ -116,7 +116,13 @@ export function CriarServicoScreen() {
       </View>
       }
 
-    <ScrollView contentContainerStyle={styles.containerEdicao} keyboardShouldPersistTaps="always" showsVerticalScrollIndicator={false} >
+    <ScrollView
+     style={styles.scrollFormulario}
+     contentContainerStyle={styles.containerEdicao}
+     keyboardShouldPersistTaps="handled"
+     showsVerticalScrollIndicator={true}
+     nestedScrollEnabled={true}
+     >
       <Text style={styles.titulo}>Titulo do Serviço</Text>
       <TextInput
         placeholder="Digite o Titulo"
@@ -184,7 +190,7 @@ export function CriarServicoScreen() {
         </Pressable>
           </View>
           ))}
-        <Text style={styles.containerImagens}>
+        <Text style={styles.contadorImagens}>
         {imagens.length}/3 imagens selecionadas
         </Text>
         </View>
@@ -207,8 +213,6 @@ const styles = StyleSheet.create({
 container:{
 flex:1,
 backgroundColor:theme.colors.background,
-padding:theme.spacing.lg,
-
 }, 
 containerVoltar:{
 flexDirection:"row",
@@ -216,8 +220,8 @@ paddingBottom:theme.spacing.md,
 
 }, 
 containerEdicao:{
-flexDirection:"column",
-marginTop:theme.spacing.md,
+paddingTop:theme.spacing.md, 
+paddingBottom:40,
 }, 
 containerCategorias:{
 
@@ -372,5 +376,12 @@ fontSize:13,
 color:theme.colors.textSecondary, 
 marginBottom:theme.spacing.sm
 }, 
-
+conteudoPrincipal:{
+  flex:1, 
+  paddingHorizontal:theme.spacing.lg,
+  paddingTop:theme.spacing.lg
+},
+scrollFormulario:{
+  flex:1
+}
 })
