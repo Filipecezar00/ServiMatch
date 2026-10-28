@@ -23,7 +23,7 @@ export function CriarServicoScreen() {
   const [descricao, setDescricao] = useState("");
   const [erroLocal, setErroLocal] = useState("");
   const [categoryId, setCategoryId] = useState<number | null>(null);
-  const [imagem,setImagem] = useState<ImagePicker.ImagePickerAsset | null>(null); 
+  const [imagens,setImagens] = useState<ImagePicker.ImagePickerAsset[]>([]); 
   const queryClient = useQueryClient();
   const navigation = useNavigation();
 
