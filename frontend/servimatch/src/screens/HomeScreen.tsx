@@ -52,6 +52,9 @@ export function HomeScreen() {
   });
 
   const handleOptionsDetails = (id: number) => {
+    console.log("ID do serviço selecionado:",id); 
+    console.log("Estado da navegação na Home:",navigation.getState()); 
+    console.log("Navegador pai da Home:",navigation.getParent()?.getState()); 
     navigation.navigate("DetalhesServico", { id });
   };
 

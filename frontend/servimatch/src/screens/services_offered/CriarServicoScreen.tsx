@@ -43,7 +43,9 @@ export function CriarServicoScreen() {
       console.log("Serviço criado com sucesso:",dados); 
       queryClient.invalidateQueries({ queryKey: ["homeAtivos"] });
 
-      navigation.navigate("Home");
+      navigation.getParent()?.navigate("HomeStack",{
+        screen:"Home"
+      });
     },onError:(erro)=>{
       console.log("Erro ao criar serviço:",erro); 
     }
