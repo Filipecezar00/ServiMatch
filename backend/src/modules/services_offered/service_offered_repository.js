@@ -86,7 +86,7 @@ export async function buscarServicoPorId(id) {
 }
 
 export async function buscaDetalhesServico(id) {
-  const [servico] = await pool.query(
+  const [servicos] = await pool.query(
     `
     SELECT s.id, s.titulo, s.descricao,s.image_url, s.category_id, c.nome AS categoria, 
     s.user_id, u.nome AS prestador_nome FROM services_offered s LEFT JOIN categories c 
@@ -94,7 +94,15 @@ export async function buscaDetalhesServico(id) {
     `,
     [id],
   );
-  return servico[0];
+  const servico = servicos[0]; 
+  if(!servico){
+    return undefined
+  }
+  const [imagens] = await pool.query(`
+    SELECT image_url AS imageUrl, ordem FROM service_images WHERE service_id = ? ORDER BY ordem ASC
+  `,[id]); 
+
+  return {...servico,imagens}
 }
 
 export async function atualizar(id, titulo, descricao, categoryId) {

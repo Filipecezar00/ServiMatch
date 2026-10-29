@@ -54,6 +54,9 @@ export function DetalhesServico() {
     enabled: !!id,
   });
 
+  console.log("Detalhes do serviço:",JSON.stringify(detalhes,null,2))
+  console.log("Imagens recebidas:",detalhes?.imagens); 
+
   const { data: servicos, isLoading: LoadingServices } = useQuery({
     queryKey: ["meusServicos"],
     queryFn: listaMeusServicos,
@@ -185,14 +188,25 @@ export function DetalhesServico() {
           <Text style={styles.tituloServico}>{detalhes.titulo}</Text>
           <Text style={styles.descricaoServico}>{detalhes.descricao}</Text>
 
-          {detalhes.image_url?(
+        <FlatList
+        data={[...(detalhes.imagens ?? [])].sort(
+          (a,b)=>a.ordem - b.ordem
+        )}
+        keyExtractor={(item)=>String(item.ordem)}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{gap:theme.spacing.md}}
+        renderItem={({item})=>(
             <Image 
-            source={{uri:detalhes.image_url}}
+            source={{uri:item.image_url}}
             style={styles.imagemServico}
             resizeMode="cover"
+            onError={(event)=>{
+              console.log("Erro ao carregar imagem:",event.nativeEvent.error)
+            }}
             />
-          ):null}
-
+        )}
+        />
         </View>
         <View>
            <Pressable
@@ -652,7 +666,7 @@ fontWeight:"600",
 color:theme.colors.textSecondary,
 }, 
 imagemServico:{
-  width:"100%", 
+  width:280, 
   height:220,
   borderRadius:theme.borderRadius.md,
   marginTop:theme.spacing.md,
