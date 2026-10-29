@@ -197,14 +197,16 @@ export function DetalhesServico() {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{gap:theme.spacing.md}}
         renderItem={({item})=>(
-            <Image 
-            source={{uri:item.image_url}}
+          <View>
+             <Image 
+            source={{uri:item.imageUrl}}
             style={styles.imagemServico}
             resizeMode="cover"
             onError={(event)=>{
               console.log("Erro ao carregar imagem:",event.nativeEvent.error)
             }}
             />
+          </View>           
         )}
         />
         </View>
@@ -677,5 +679,5 @@ fotoPerfil:{
       height:60,
       borderRadius:50,
       alignSelf:"center", 
-}
+}, 
 })
