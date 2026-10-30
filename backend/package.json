@@ -10,7 +10,9 @@
     "build": "tsc"
   },
   "jest": {
-    "transform": {},
+    "transform": {
+      "^.+\\.[jt]s$":"babel-jest"
+    },
     "extensionsToTreatAsEsm": [
       ".ts"
     ],
