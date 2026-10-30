@@ -1,7 +1,23 @@
-import { listar_reviews_service } from "../src/modules/reviews/reviews.service.js";
-import * as reviewsRepository from "../src/modules/reviews/reviews.repository.js";
+import {jest} from "@jest/globals";
 
-jest.mock("../src/modules/reviews/reviews.repository.js");
+jest.unstable_mockModule(
+ "../src/modules/reviews/reviews.repository.js",
+ ()=>({
+  buscar_dados_review_repository:jest.fn(), 
+  criar_review_repository:jest.fn(), 
+  buscar_review_existente_repository:jest.fn(), 
+  listar_review_repository:jest.fn(), 
+  buscar_media_repository:jest.fn(), 
+ }),
+);
+
+const reviewsRepository = await import(
+  "../src/modules/reviews/reviews.repository.js"
+); 
+
+const {listar_reviews_service} = await import(
+"../src/modules/reviews/reviews.service.js"
+)
 
 describe("listar_reviews_service", () => {
   test("Retorna a lista de reviews e a média com sucesso", async () => {
