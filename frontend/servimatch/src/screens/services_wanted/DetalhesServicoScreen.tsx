@@ -41,6 +41,7 @@ export function DetalhesServico() {
   const [loadingChat,setLoadingChat] = useState(false)
   const { id } = route.params as { id: number };
   const usuarioId = useAuthStore((state)=>state.usuario?.id)
+  const [imagemAtual,setImagemAtual] = useState(0); 
 
   const {
     data: detalhes,
@@ -161,6 +162,10 @@ export function DetalhesServico() {
     );
   }
 
+  const imagensOrdenadas = [...(detalhes.imagens??[])].sort(
+    (a,b)=>a.ordem - b.ordem
+  )
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.conteudo} showsVerticalScrollIndicator={false}>
@@ -189,13 +194,21 @@ export function DetalhesServico() {
           <Text style={styles.descricaoServico}>{detalhes.descricao}</Text>
 
         <FlatList
-        data={[...(detalhes.imagens ?? [])].sort(
-          (a,b)=>a.ordem - b.ordem
-        )}
+        data={imagensOrdenadas}
         keyExtractor={(item)=>String(item.ordem)}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{gap:theme.spacing.md}}
+        snapToInterval={280+theme.spacing.md}
+        decelerationRate="fast"
+        onMomentumScrollEnd={(event)=>{
+          const deslocamento = event.nativeEvent.contentOffset.x; 
+
+          const indice = Math.round(
+            deslocamento/(280+theme.spacing.md)
+          ); 
+          setImagemAtual(indice)
+        }}
         renderItem={({item})=>(
           <View>
              <Image 
@@ -209,6 +222,15 @@ export function DetalhesServico() {
           </View>           
         )}
         />
+        {imagensOrdenadas.length > 1 &&(
+          <View style={styles.containerOrdemImagens}>
+            {imagensOrdenadas.map((imagem,index)=>(
+              <View key={imagem.ordem} style={{width:8,height:8,borderRadius:4,backgroundColor:imagemAtual===index?theme.colors.primary:theme.colors.border}}>
+
+              </View>
+            ))}
+          </View>
+        )}
         </View>
         <View>
            <Pressable
@@ -679,5 +701,17 @@ fotoPerfil:{
       height:60,
       borderRadius:50,
       alignSelf:"center", 
-}, 
+},
+containerOrdemImagens:{
+flexDirection:"row",
+justifyContent:"center",
+alignItems:"center",
+marginTop:theme.spacing.md, 
+gap:theme.spacing.sm
+},
+ordemImagens:{
+width:8,
+height:8,
+borderRadius:4,
+} 
 })
