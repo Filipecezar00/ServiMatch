@@ -1,9 +1,35 @@
-import { pool } from "../src/config/database.js";
-import { mudar_status } from "../src/modules/exchange_proposals/exchange_proposal_service.js";
-import * as exchangesRepository from "../src/modules/exchange_proposals/exchange_proposal_repository.js";
+import { jest } from "@jest/globals"; 
 
-jest.mock("../src/config/database.js");
-jest.mock("../src/modules/exchange_proposals/exchange_proposal_repository.js");
+jest.unstable_mockModule("../src/config/database.js",()=>({
+  pool:{
+    getConnection:jest.fn(), 
+  }
+}))
+
+jest.unstable_mockModule(
+"../src/modules/exchange_proposals/exchange_proposal_repository.js", 
+()=>({
+  criar:jest.fn(), 
+  buscar_offered_service:jest.fn(), 
+  buscar_wanted_service:jest.fn(), 
+  verify_pending:jest.fn(), 
+  buscar_proposta_porId:jest.fn(), 
+  alterar_status_repository:jest.fn(), 
+  exchange_criar:jest.fn(), 
+  listarPropostasEnviadas_repository:jest.fn(), 
+  listaPropostasRecebidas_repository:jest.fn()
+}), 
+); 
+
+const {pool} = await import("../src/config/database.ts"); 
+
+const exchangesRepository = await import(
+  "../src/modules/exchange_proposals/exchange_proposal_repository.js"
+); 
+
+const {mudar_status} = await import(
+  "../src/modules/exchange_proposals/exchange_proposal_service.js"
+)
 
 const mockConnection = {
   beginTransaction: jest.fn().mockResolvedValue(),
