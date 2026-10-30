@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const conversas_controller_1 = require("../conversas/conversas.controller");
+const auth_1 = require("../../middleware/auth");
+const conversas_router = (0, express_1.Router)();
+conversas_router.get("/:conversa_id/mensagens", auth_1.authMiddleware, conversas_controller_1.buscaMensagens_controller);
+conversas_router.get("/conversas", auth_1.authMiddleware, conversas_controller_1.buscaConversas_controller);
+conversas_router.post("/criarConversa", auth_1.authMiddleware, conversas_controller_1.criarConversa_controller);
+exports.default = conversas_router;
