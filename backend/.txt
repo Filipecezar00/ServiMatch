@@ -187,4 +187,22 @@ CREATE TABLE servicos_monitorados(
     FOREIGN KEY (service_id)
     REFERENCES services_offered(id)
     ON DELETE CASCADE
-); 
+);
+
+CREATE TABLE servi_match.service_images (
+id INT NOT NULL AUTO_INCREMENT,
+service_id INT NOT NULL,
+image_url VARCHAR(2048) NOT NULL,
+ordem TINYINT UNSIGNED NOT NULL DEFAULT 1,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+PRIMARY KEY (id), 
+
+CONSTRAINT fk_service_images_service
+FOREIGN KEY (service_id) REFERENCES services_offered(id)
+ON DELETE CASCADE, 
+
+UNIQUE KEY uq_service_image_order (service_id,ordem)
+)ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_0900_ai_ci; 
