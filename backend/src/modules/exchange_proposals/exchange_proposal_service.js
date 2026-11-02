@@ -67,6 +67,8 @@ export async function criar_service(
     mensagem,
   );
 
+  const dados_notificacao = await buscar_dados_notificacao(idCriado);
+  console.log("Dados da notificação:", dados_notificacao);
   return {
     id: idCriado,
     proposer_id,

@@ -129,10 +129,10 @@ const [resposta] = await pool.query(
   servico_oferecido.titulo AS offered_service,
   servico_solicitado.titulo AS wanted_service
   FROM exchange_proposals ep
-  INNER JOIN users remetetente ON ep.proposer_id = remetente.id
+  INNER JOIN users remetente ON ep.proposer_id = remetente.id
   INNER JOIN users destinatario ON ep.receiver_id = destinatario.id
   INNER JOIN services_offered servico_oferecido ON ep.offered_service_id = servico_oferecido.id
-  INNER JOIN service_offered servico_solicitado ON ep.wanted_service_id = servico_solicitado.id
+  INNER JOIN services_offered servico_solicitado ON ep.wanted_service_id = servico_solicitado.id
   WHERE ep.id = ?
   `,
   [proposalId]
