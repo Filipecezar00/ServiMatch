@@ -11,6 +11,7 @@ import {
   listaPropostasRecebidas_repository,
   buscar_dados_notificacao
 } from "./exchange_proposal_repository.js";
+import {notificar_proposta_recebida} from "../../integrations/n8n.js"
 import { pool } from "../../config/database.js";
 
 export async function criar_service(
@@ -68,7 +69,16 @@ export async function criar_service(
   );
 
   const dados_notificacao = await buscar_dados_notificacao(idCriado);
-  console.log("Dados da notificação:", dados_notificacao);
+
+  if(dados_notificacao){
+    try{
+      await notificar_proposta_recebida(dados_notificacao); 
+      console.log("Notificação enviada com sucesso para o n8n"); 
+    }catch(error){
+      console.error("Falha ao enviar notificação para o n8n:",error.message); 
+    }
+  }
+
   return {
     id: idCriado,
     proposer_id,
