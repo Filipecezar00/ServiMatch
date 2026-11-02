@@ -9,6 +9,7 @@ import {
   exchange_criar,
   listarPropostasEnviadas_repository,
   listaPropostasRecebidas_repository,
+  buscar_dados_notificacao
 } from "./exchange_proposal_repository.js";
 import { pool } from "../../config/database.js";
 
