@@ -113,3 +113,29 @@ export async function listaPropostasRecebidas_repository(usuarioId) {
   );
   return resposta;
 }
+
+export async function buscar_dados_notificacao(proposalId){
+const [resposta] = await pool.query(
+  `
+  SELECT ep.id AS proposal_id,
+  ep.mensagem,
+  ep.status,
+  ep.created_at, 
+  remetente.id AS proposer_id,
+  remetente.nome AS proposer_nome, 
+  destinatario.id AS receiver_id,
+  destinatario.nome AS receiver_nome, 
+  destinatario.email AS receiver_email,
+  servico_oferecido.titulo AS offered_service,
+  servico_solicitado.titulo AS wanted_service
+  FROM exchange_proposals ep
+  INNER JOIN users remetetente ON ep.proposer_id = remetente.id
+  INNER JOIN users destinatario ON ep.receiver_id = destinatario.id
+  INNER JOIN services_offered servico_oferecido ON ep.offered_service_id = servico_oferecido.id
+  INNER JOIN service_offered servico_solicitado ON ep.wanted_service_id = servico_solicitado.id
+  WHERE ep.id = ?
+  `,
+  [proposalId]
+)
+return resposta[0] ?? null; 
+}
