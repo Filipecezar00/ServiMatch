@@ -10,11 +10,12 @@ export async function notificar_proposta_recebida(dados){
             "Content-Type":"application/json",
         },
         body:JSON.stringify(dados),
-        signal:AbortSignal.timeOut(10000)
+        signal:AbortSignal.timeout(10000),
     });
     if(!resposta.ok){
         throw new Error(`Falha ao enviar notificação para o n8n: HTTP ${resposta.status}`,    
         ); 
     }
+    console.log("Resposta do n8n:",resposta.status)
     return true; 
 }
