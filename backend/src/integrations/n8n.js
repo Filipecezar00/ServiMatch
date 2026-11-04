@@ -8,6 +8,7 @@ export async function notificar_proposta_recebida(dados){
         method:"POST",
         headers:{
             "Content-Type":"application/json",
+            "x-ServiMatch-webhook-secret":process.env.N8N_WEBHOOK_SECRET
         },
         body:JSON.stringify(dados),
         signal:AbortSignal.timeout(10000),
