@@ -221,3 +221,13 @@ reminder_type
 FOREIGN KEY (exchange_id) REFERENCES exchanges(id) ON DELETE CASCADE,
 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ); 
+
+ALTER TABLE exchange_reminders
+ADD COLUMN status ENUM('pending','sent','failed')
+NOT NULL DEFAULT 'sent',
+ADD COLUMN attempts INT UNSIGNED NOT NULL DEFAULT 0,
+ADD COLUMN last_attempt_at DATETIME NULL,
+ADD COLUMN error_message TEXT NULL,
+ADD COLUMN updated_at TIMESTAMP
+DEFAULT CURRENT_TIMESTAMP
+ON UPDATE CURRENT_TIMESTAMP;
