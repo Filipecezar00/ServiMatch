@@ -231,3 +231,23 @@ ADD COLUMN error_message TEXT NULL,
 ADD COLUMN updated_at TIMESTAMP
 DEFAULT CURRENT_TIMESTAMP
 ON UPDATE CURRENT_TIMESTAMP;
+
+
+CREATE TABLE review_alerts(
+id INT NOT NULL AUTO_INCREMENT,
+review_id INT NOT NULL, 
+status ENUM('pending','sent','failed') NOT NULL DEFAULT 'pending',
+sent_at TIMESTAMP NULL DEFAULT NULL,
+attempts INT NOT NULL DEFAULT 0,
+last_attempt_at TIMESTAMP NULL DEFAULT NULL,
+error_message TEXT DEFAULT NULL,
+reservation_token VARCHAR(100) DEFAULT NULL,
+created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP, 
+PRIMARY KEY (id), 
+UNIQUE KEY unique_review_alert (review_id),
+
+CONSTRAINT review_alert_fk  
+FOREIGN KEY (review_id) REFERENCES reviews(id)
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_0900_ai_ci;
