@@ -20,8 +20,10 @@ import {
   ServerToClientEvents,
   SocketData,
 } from "./src/types/socket.js";
+import { buscarParticipantesConversa_service } from "./src/modules/conversas/conversas.service.js";
 import { authSocket } from "./src/middleware/authSocket.js";
 import {buscaUsuarioId_service,inserirMensagem_service,marcaComoLida_service} from "./src/modules/conversas/conversas.service.js"
+
 
 const app = express();
 app.use(express.json());
@@ -103,8 +105,18 @@ socket.on("read_message",async (payload:{conversaId:number,mensagemId:number})=>
      try{
       let usuarioId = socket.data.user.id
       let mensagem_enviada = await inserirMensagem_service(roomId,usuarioId,mensagem);
+      const participantes = await buscarParticipantesConversa_service(roomId); 
 
-      io.to(`conversa:${roomId}`).emit("receive_message",mensagem_enviada)
+      if(!participantes){
+        throw new Error("Participantes da conversa não encontrados"); 
+      }
+
+      const destinatarioId = participantes.proposer_id === usuarioId ? participantes.receiver_id : participantes.proposer_id;
+
+      io.to(`conversa:${roomId}`).emit("receive_message",mensagem_enviada); 
+
+      console.log("Destinatário da mensagem:",destinatarioId);
+      console.log("Destinatário online:",usuarioEstaOnline(destinatarioId));
      }catch(error:any){
       socket.emit("error_message",error.message)
      }
