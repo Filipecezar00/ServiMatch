@@ -7,3 +7,13 @@ export function adicionarConexao(usuarioId:number,socketId:string){
     usuariosOnline.get(usuarioId)!.add(socketId); 
 }
 
+export function removerConexao(usuarioId:number,socketId:string){
+    const conexoes = usuariosOnline.get(usuarioId); 
+    if(!conexoes){
+        return; 
+    }
+    conexoes.delete(socketId); 
+    if(conexoes.size === 0 ) {
+        usuariosOnline.delete(usuarioId); 
+    }
+}
