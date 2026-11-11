@@ -1,5 +1,5 @@
 import e, {Request,Response,NextFunction} from "express"
-import {buscaMensagens_service,buscaConversas_service,criarConversa_service} from "../conversas/conversas.service"
+import {buscaMensagens_service,buscaConversas_service,criarConversa_service,buscarParticipantesConversa_service} from "../conversas/conversas.service"
 
 
 export async function buscaMensagens_controller(req:Request,res:Response,next:NextFunction){
@@ -36,5 +36,15 @@ export async function criarConversa_controller(req:Request, res:Response,next:Ne
     return res.status(201).json(resposta)
   }catch(error){
     next(error)
+  }
+}
+
+export async function buscarParticipantesConversa_controller(req:Request,res:Response,next:NextFunction){
+  try{
+    const conversa_id = Number(req.params.conversa_id); 
+    const resposta = await buscarParticipantesConversa_service(conversa_id);  
+    return res.status(200).json(resposta)
+  }catch(error){
+    next(error);
   }
 }
