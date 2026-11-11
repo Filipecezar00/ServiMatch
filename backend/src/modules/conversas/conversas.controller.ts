@@ -38,13 +38,3 @@ export async function criarConversa_controller(req:Request, res:Response,next:Ne
     next(error)
   }
 }
-
-export async function buscarParticipantesConversa_controller(req:Request,res:Response,next:NextFunction){
-  try{
-    const conversa_id = Number(req.params.conversa_id); 
-    const resposta = await buscarParticipantesConversa_service(conversa_id);  
-    return res.status(200).json(resposta)
-  }catch(error){
-    next(error);
-  }
-}
