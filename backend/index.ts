@@ -13,6 +13,7 @@ import { setupSwagger } from "./src/config/swagger.js";
 import conversas_router from "./src/modules/conversas/conversas.routes.js"; "./src/modules/conversas/conversas.routes.js"
 import { createServer } from "node:http";
 import { Server } from "socket.io";
+import {adicionarConexao,removerConexao,usuarioEstaOnline} from "./src/modules/conversas/presenca.js"; 
 import {
   ClientToServerEvents,
   InterServerEvents,
@@ -64,6 +65,8 @@ io.on("connection", async (socket) => {
 socket.on("join_room", async (payload:{roomId:number}) => {
     try{
     let usuarioId = socket.data.user.id;
+    adicionarConexao(usuarioId,socket.id); 
+    console.log(`Usuário ${usuarioId} conectado`); 
     let consulta_banco = await buscaUsuarioId_service(usuarioId,payload.roomId)
   if(consulta_banco){
       socket.join(`conversa:${payload.roomId}`)
