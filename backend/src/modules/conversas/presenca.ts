@@ -17,3 +17,7 @@ export function removerConexao(usuarioId:number,socketId:string){
         usuariosOnline.delete(usuarioId); 
     }
 }
+
+export function usuarioEstaOnline(usuarioId:number):boolean{
+    return usuariosOnline.has(usuarioId); 
+}
