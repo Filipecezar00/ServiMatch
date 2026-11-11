@@ -1,5 +1,5 @@
 import AppError from "../../utils/AppError";
-import { buscaUsuarioId,inserirMensagem,buscaMensagens,buscaConversas,criarConversa,buscaService_id,marcarLido } from "../conversas/conversas.repository";
+import { buscaUsuarioId,inserirMensagem,buscaMensagens,buscaConversas,criarConversa,buscaService_id,marcarLido,buscarParticipantesConversa } from "../conversas/conversas.repository";
 import { MarcarMensagemComoLidaInput} from "../../types/socket"
 
 export async function buscaUsuarioId_service(
@@ -122,4 +122,15 @@ export async function criarConversa_service(proposer_id:number,receiver_id:numbe
   const conversas = await criarConversa(proposer_id,receiver_id,service_id!==undefined && service_id!==null ? Number(service_id):null); 
 
   return conversas
+}
+
+export async function buscarParticipantesConversa_service(conversa_id:number){
+  if(!conversa_id || !Number.isInteger(conversa_id) || conversa_id <=0){
+    throw new AppError("Conversa inválida",400); 
+  }
+  const participantes = await buscarParticipantesConversa(conversa_id);
+  if(!participantes){
+    throw new AppError("Conversa não localizada",404); 
+  }
+  return participantes;
 }
