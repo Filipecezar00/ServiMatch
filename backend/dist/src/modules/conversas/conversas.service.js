@@ -9,6 +9,7 @@ exports.buscaMensagens_service = buscaMensagens_service;
 exports.buscaConversas_service = buscaConversas_service;
 exports.marcaComoLida_service = marcaComoLida_service;
 exports.criarConversa_service = criarConversa_service;
+exports.buscarParticipantesConversa_service = buscarParticipantesConversa_service;
 const AppError_1 = __importDefault(require("../../utils/AppError"));
 const conversas_repository_1 = require("../conversas/conversas.repository");
 async function buscaUsuarioId_service(usuarioId, conversa_id) {
@@ -108,4 +109,14 @@ async function criarConversa_service(proposer_id, receiver_id, service_id) {
     }
     const conversas = await (0, conversas_repository_1.criarConversa)(proposer_id, receiver_id, service_id !== undefined && service_id !== null ? Number(service_id) : null);
     return conversas;
+}
+async function buscarParticipantesConversa_service(conversa_id) {
+    if (!conversa_id || !Number.isInteger(conversa_id) || conversa_id <= 0) {
+        throw new AppError_1.default("Conversa inválida", 400);
+    }
+    const participantes = await (0, conversas_repository_1.buscarParticipantesConversa)(conversa_id);
+    if (!participantes) {
+        throw new AppError_1.default("Conversa não localizada", 404);
+    }
+    return participantes;
 }

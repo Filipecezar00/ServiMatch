@@ -19,8 +19,10 @@ const conversas_routes_js_1 = __importDefault(require("./src/modules/conversas/c
 "./src/modules/conversas/conversas.routes.js";
 const node_http_1 = require("node:http");
 const socket_io_1 = require("socket.io");
-const authSocket_js_1 = require("./src/middleware/authSocket.js");
+const presenca_js_1 = require("./src/modules/conversas/presenca.js");
 const conversas_service_js_1 = require("./src/modules/conversas/conversas.service.js");
+const authSocket_js_1 = require("./src/middleware/authSocket.js");
+const conversas_service_js_2 = require("./src/modules/conversas/conversas.service.js");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 const httpServer = (0, node_http_1.createServer)(app);
@@ -53,7 +55,9 @@ io.on("connection", async (socket) => {
     socket.on("join_room", async (payload) => {
         try {
             let usuarioId = socket.data.user.id;
-            let consulta_banco = await (0, conversas_service_js_1.buscaUsuarioId_service)(usuarioId, payload.roomId);
+            (0, presenca_js_1.adicionarConexao)(usuarioId, socket.id);
+            console.log(`Usuário ${usuarioId} conectado`);
+            let consulta_banco = await (0, conversas_service_js_2.buscaUsuarioId_service)(usuarioId, payload.roomId);
             if (consulta_banco) {
                 socket.join(`conversa:${payload.roomId}`);
             }
@@ -65,7 +69,7 @@ io.on("connection", async (socket) => {
     socket.on("read_message", async (payload) => {
         try {
             const usuarioId = socket.data.user.id;
-            const resultado = await (0, conversas_service_js_1.marcaComoLida_service)({
+            const resultado = await (0, conversas_service_js_2.marcaComoLida_service)({
                 conversaId: payload.conversaId,
                 mensagemId: payload.mensagemId,
                 usuarioId
@@ -82,14 +86,23 @@ io.on("connection", async (socket) => {
     socket.on("send_message", async ({ roomId, mensagem }) => {
         try {
             let usuarioId = socket.data.user.id;
-            let mensagem_enviada = await (0, conversas_service_js_1.inserirMensagem_service)(roomId, usuarioId, mensagem);
+            let mensagem_enviada = await (0, conversas_service_js_2.inserirMensagem_service)(roomId, usuarioId, mensagem);
+            const participantes = await (0, conversas_service_js_1.buscarParticipantesConversa_service)(roomId);
+            if (!participantes) {
+                throw new Error("Participantes da conversa não encontrados");
+            }
+            const destinatarioId = participantes.proposer_id === usuarioId ? participantes.receiver_id : participantes.proposer_id;
             io.to(`conversa:${roomId}`).emit("receive_message", mensagem_enviada);
+            console.log("Destinatário da mensagem:", destinatarioId);
+            console.log("Destinatário online:", (0, presenca_js_1.usuarioEstaOnline)(destinatarioId));
         }
         catch (error) {
             socket.emit("error_message", error.message);
         }
     });
     socket.on("disconnect", () => {
+        let usuarioId = socket.data.user.id;
+        (0, presenca_js_1.removerConexao)(usuarioId, socket.id);
         console.log("Usuário desconectado:", socket.data.user.id);
     });
 });

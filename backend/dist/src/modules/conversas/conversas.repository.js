@@ -7,6 +7,7 @@ exports.marcarLido = marcarLido;
 exports.buscaConversas = buscaConversas;
 exports.buscaService_id = buscaService_id;
 exports.criarConversa = criarConversa;
+exports.buscarParticipantesConversa = buscarParticipantesConversa;
 const database_1 = require("../../config/database");
 async function buscaUsuarioId(usuarioId, conversa_id) {
     const [resposta] = await database_1.pool.query(`
@@ -91,4 +92,11 @@ async function criarConversa(proposer_id, receiver_id, service_id) {
     INSERT INTO conversas (proposer_id,receiver_id,service_id) VALUES (?,?,?)
   `, [proposer_id, receiver_id, service_id || null]);
     return { id: resposta.insertId };
+}
+async function buscarParticipantesConversa(conversa_id) {
+    const [resposta] = await database_1.pool.query(`
+    SELECT proposer_id,receiver_id FROM conversas
+    WHERE id = ? 
+    `, [conversa_id]);
+    return resposta[0] || null;
 }

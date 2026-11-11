@@ -9,6 +9,7 @@ exports.listarPropostasEnviadas_service = listarPropostasEnviadas_service;
 exports.listaPropostasRecebidas_service = listaPropostasRecebidas_service;
 const AppError_js_1 = __importDefault(require("../../utils/AppError.js"));
 const exchange_proposal_repository_js_1 = require("./exchange_proposal_repository.js");
+const n8n_js_1 = require("../../integrations/n8n.js");
 const database_js_1 = require("../../config/database.js");
 async function criar_service(proposer_id, receiver_id, offered_service_id, wanted_service_id, mensagem) {
     if (Number(proposer_id) === Number(receiver_id)) {
@@ -35,6 +36,16 @@ async function criar_service(proposer_id, receiver_id, offered_service_id, wante
         throw new AppError_js_1.default("Já existe uma proposta pendente para esses serviços", 409);
     }
     const idCriado = await (0, exchange_proposal_repository_js_1.criar)(proposer_id, receiver_id, offered_service_id, wanted_service_id, mensagem);
+    const dados_notificacao = await (0, exchange_proposal_repository_js_1.buscar_dados_notificacao)(idCriado);
+    if (dados_notificacao) {
+        try {
+            await (0, n8n_js_1.notificar_proposta_recebida)(dados_notificacao);
+            console.log("Notificação enviada com sucesso para o n8n");
+        }
+        catch (error) {
+            console.error("Falha ao enviar notificação para o n8n:", error.message);
+        }
+    }
     return {
         id: idCriado,
         proposer_id,
