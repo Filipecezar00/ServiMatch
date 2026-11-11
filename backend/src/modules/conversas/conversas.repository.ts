@@ -105,3 +105,12 @@ export async function criarConversa(proposer_id:number,receiver_id:number,servic
   )
   return {id:resposta.insertId};
 }
+
+export async function buscarParticipantesConversa(conversa_id:number){
+  const [resposta]:any = await pool.query(`
+    SELECT proposer_id,receiver_id FROM conversas
+    WHERE id = ? 
+    `,
+  [conversa_id]);
+  return resposta[0] || null;
+}
