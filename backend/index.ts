@@ -111,6 +111,8 @@ socket.on("read_message",async (payload:{conversaId:number,mensagemId:number})=>
     })
 
   socket.on("disconnect", () => {
+    let usuarioId = socket.data.user.id;  
+    removerConexao(usuarioId,socket.id)
     console.log("Usuário desconectado:", socket.data.user.id);
   });
 });
