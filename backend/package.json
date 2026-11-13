@@ -11,7 +11,7 @@
   },
   "jest": {
     "transform": {
-      "^.+\\.[jt]s$":"babel-jest"
+      "^.+\\.[jt]s$": "babel-jest"
     },
     "extensionsToTreatAsEsm": [
       ".ts"
@@ -50,6 +50,7 @@
     "multer": "^2.4.0",
     "mysql2": "^3.24.5",
     "socket.io": "^4.8.4",
+    "socket.io-client": "^4.8.4",
     "swagger-jsdoc": "^6.3.0",
     "swagger-ui-express": "^5.0.1",
     "typescript": "^7.0.2"
