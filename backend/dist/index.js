@@ -52,11 +52,16 @@ app.use("/api/profile", profile_routes_js_1.default);
 app.use("/api/conversas", conversas_routes_js_1.default);
 app.use(error_js_1.default);
 io.on("connection", async (socket) => {
+    let usuarioId = socket.data.user.id;
+    (0, presenca_js_1.adicionarConexao)(usuarioId, socket.id);
+    console.log("Conexão registrada:", {
+        usuarioId,
+        socketId: socket.id,
+        online: (0, presenca_js_1.usuarioEstaOnline)(usuarioId)
+    });
+    console.log(`Usuário ${usuarioId} conectado`);
     socket.on("join_room", async (payload) => {
         try {
-            let usuarioId = socket.data.user.id;
-            (0, presenca_js_1.adicionarConexao)(usuarioId, socket.id);
-            console.log(`Usuário ${usuarioId} conectado`);
             let consulta_banco = await (0, conversas_service_js_2.buscaUsuarioId_service)(usuarioId, payload.roomId);
             if (consulta_banco) {
                 socket.join(`conversa:${payload.roomId}`);
@@ -101,7 +106,6 @@ io.on("connection", async (socket) => {
         }
     });
     socket.on("disconnect", () => {
-        let usuarioId = socket.data.user.id;
         (0, presenca_js_1.removerConexao)(usuarioId, socket.id);
         console.log("Usuário desconectado:", socket.data.user.id);
     });
