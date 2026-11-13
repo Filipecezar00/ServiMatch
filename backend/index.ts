@@ -64,11 +64,16 @@ app.use("/api/conversas",conversas_router)
 app.use(errorMiddleware);
 
 io.on("connection", async (socket) => {
+let usuarioId = socket.data.user.id;
+adicionarConexao(usuarioId,socket.id); 
+console.log("Conexão registrada:",{
+  usuarioId,
+  socketId:socket.id,
+  online:usuarioEstaOnline(usuarioId)
+})
+console.log(`Usuário ${usuarioId} conectado`); 
 socket.on("join_room", async (payload:{roomId:number}) => {
     try{
-    let usuarioId = socket.data.user.id;
-    adicionarConexao(usuarioId,socket.id); 
-    console.log(`Usuário ${usuarioId} conectado`); 
     let consulta_banco = await buscaUsuarioId_service(usuarioId,payload.roomId)
   if(consulta_banco){
       socket.join(`conversa:${payload.roomId}`)
@@ -123,7 +128,6 @@ socket.on("read_message",async (payload:{conversaId:number,mensagemId:number})=>
     })
 
   socket.on("disconnect", () => {
-    let usuarioId = socket.data.user.id;  
     removerConexao(usuarioId,socket.id)
     console.log("Usuário desconectado:", socket.data.user.id);
   });

@@ -2,7 +2,7 @@ import {io} from "socket.io-client";
 
 const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Nywibm9tZSI6IkNhcmxvcyIsImVtYWlsIjoiY2FybG9zQGdtYWlsLmNvbSIsImlhdCI6MTc5NDUzMTk0NSwiZXhwIjoxNzk0NTM1NTQ1fQ.Kb5LwjiU_TNimwZoAeeVc_B5P2Zxbgn0U9r7d4dfNWA";
 
-const socket = io("http://192.168.15.5:3000",{
+const socket = io("http://localhost:3000",{
     transports:['websocket'],
     auth:{
         token:`Bearer ${token}`
