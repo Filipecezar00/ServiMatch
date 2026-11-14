@@ -24,7 +24,6 @@ import { buscarParticipantesConversa_service } from "./src/modules/conversas/con
 import { authSocket } from "./src/middleware/authSocket.js";
 import {buscaUsuarioId_service,inserirMensagem_service,marcaComoLida_service} from "./src/modules/conversas/conversas.service.js"
 
-
 const app = express();
 app.use(express.json());
 
@@ -120,8 +119,27 @@ socket.on("read_message",async (payload:{conversaId:number,mensagemId:number})=>
 
       io.to(`conversa:${roomId}`).emit("receive_message",mensagem_enviada); 
 
-      console.log("Destinatário da mensagem:",destinatarioId);
-      console.log("Destinatário online:",usuarioEstaOnline(destinatarioId));
+      const destinatarioOnline = usuarioEstaOnline(destinatarioId); 
+
+      if(!destinatarioOnline){
+        console.log("Destinatário offline. Enviando notificação para o n8n");
+         try{
+          await fetch(process.env.N8N_WEBHOOK_URL!, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              mensagem_id:mensagem_enviada.id,
+              conversa_id:roomId,
+              remetente_id:usuarioId,
+              destinatario_id:destinatarioId
+            }),
+          });
+          console.log("Notificação enviada ao n8n com sucesso."); 
+         }catch(error){
+          console.error("Erro ao enviar notificação para o n8n:",error); 
+         }
+      }
+
      }catch(error:any){
       socket.emit("error_message",error.message)
      }

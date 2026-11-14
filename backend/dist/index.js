@@ -98,8 +98,26 @@ io.on("connection", async (socket) => {
             }
             const destinatarioId = participantes.proposer_id === usuarioId ? participantes.receiver_id : participantes.proposer_id;
             io.to(`conversa:${roomId}`).emit("receive_message", mensagem_enviada);
-            console.log("Destinatário da mensagem:", destinatarioId);
-            console.log("Destinatário online:", (0, presenca_js_1.usuarioEstaOnline)(destinatarioId));
+            const destinatarioOnline = (0, presenca_js_1.usuarioEstaOnline)(destinatarioId);
+            if (!destinatarioOnline) {
+                console.log("Destinatário offline. Enviando notificação para o n8n");
+                try {
+                    await fetch(process.env.N8N_WEBHOOK_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            mensagem_id: mensagem_enviada.id,
+                            conversa_id: roomId,
+                            remetente_id: usuarioId,
+                            destinatario_id: destinatarioId
+                        }),
+                    });
+                    console.log("Notificação enviada ao n8n com sucesso.");
+                }
+                catch (error) {
+                    console.error("Erro ao enviar notificação para o n8n:", error);
+                }
+            }
         }
         catch (error) {
             socket.emit("error_message", error.message);
