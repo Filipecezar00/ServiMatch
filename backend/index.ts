@@ -139,7 +139,6 @@ socket.on("read_message",async (payload:{conversaId:number,mensagemId:number})=>
           console.error("Erro ao enviar notificação para o n8n:",error); 
          }
       }
-
      }catch(error:any){
       socket.emit("error_message",error.message)
      }
