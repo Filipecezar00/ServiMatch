@@ -13,10 +13,12 @@ import {
   Platform
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { theme } from "../../styles/theme/theme"; 
+import { useAppTheme } from "../../styles/theme/useAppTheme";
 import { useNavigation } from "@react-navigation/native";
 
 export function CriarServicoWanted() {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [categoryId, setCategoryId] = useState<number | null>(null);
@@ -138,7 +140,8 @@ export function CriarServicoWanted() {
     </KeyboardAvoidingView>
   );
 }
-const styles = StyleSheet.create({
+const createStyles = (theme: ReturnType<typeof useAppTheme>) =>
+ StyleSheet.create({
   container:{ 
     flex:1,
     backgroundColor:theme.colors.background,
