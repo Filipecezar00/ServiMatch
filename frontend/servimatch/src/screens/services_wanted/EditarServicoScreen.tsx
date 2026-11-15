@@ -106,7 +106,7 @@ export function EditarServicoWanted() {
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.containerVoltar}>
         <Pressable onPress={() => navigation.goBack()} style={styles.botaoVoltar}>
-          <MaterialCommunityIcons name="arrow-left" size={18} />
+          <MaterialCommunityIcons name="arrow-left" size={18} color={theme.colors.textPrimary}/>
           <Text style={styles.textVoltar}>Voltar</Text>
         </Pressable>
       </View>
@@ -189,7 +189,8 @@ botaoVoltar:{
   gap:theme.spacing.xs
 }, 
 textVoltar:{
-  paddingVertical:theme.spacing.xs
+  paddingVertical:theme.spacing.xs,
+  color:theme.colors.textPrimary
 }, 
 header:{
 alignItems:"center", 
