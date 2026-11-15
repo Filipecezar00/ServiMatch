@@ -3,9 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import {listarConversas} from "../../api/chat"
 import { useNavigation } from "@react-navigation/native";
 import {Conversas} from "../../types/chat"
-import { theme } from "../../styles/theme/theme";
+import { useAppTheme } from "../../styles/theme/useAppTheme";
 
 export function ChatList(){
+    const theme = useAppTheme();
+    const styles = createStyles(theme);
     const {data:conversas,isError,isPending,refetch} = useQuery<Conversas[]>({
         queryKey:["listaConversas"],
         queryFn:listarConversas
@@ -74,7 +76,8 @@ export function ChatList(){
         </View>
     )
 }
-const styles = StyleSheet.create({
+const createStyles = (theme:ReturnType<typeof useAppTheme>)=>
+StyleSheet.create({
 container:{
 flex:1, 
 backgroundColor:theme.colors.background
