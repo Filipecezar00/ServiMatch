@@ -16,7 +16,7 @@ import {
   Platform,
   Image
 } from "react-native";
-import {theme} from "../../styles/theme/theme";
+import { useAppTheme } from "../../styles/theme/useAppTheme";
 import { obterDetalhesServicoPorId } from "../../api/serviceOffered";
 import { listaMeusServicos } from "../../api/serviceOffered";
 import { criarProposta } from "../../api/exchangeProposals";
@@ -28,6 +28,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {profile_informations} from "../../api/profile"
 
 export function DetalhesServico() {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const route = useRoute();
   type NavigationProps = NativeStackNavigationProp<AppStackParamList>;
   const navigation = useNavigation<NavigationProps>();
@@ -387,7 +389,8 @@ export function DetalhesServico() {
     </View>
   );
 }
-const styles= StyleSheet.create({
+const createStyles= (theme:ReturnType<typeof useAppTheme>)=>
+StyleSheet.create({
 container:{
 flex:1,
 backgroundColor:theme.colors.background
