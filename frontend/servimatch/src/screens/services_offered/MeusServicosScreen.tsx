@@ -18,9 +18,11 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ServiceStackOfferedParamList } from "../../navigation/ServicesStack";
 import { CompositeNavigationProp } from "@react-navigation/native";
-import { theme } from "../../styles/theme/theme";
+import { useAppTheme } from "../../styles/theme/useAppTheme";
 
 export function MeusServicos() {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   type ListarServicosNavigationProp = CompositeNavigationProp<
     NativeStackNavigationProp<
       ServiceStackOfferedParamList,
@@ -126,7 +128,8 @@ export function MeusServicos() {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (theme: ReturnType<typeof useAppTheme>) =>
+StyleSheet.create({
 container:{
   flex:1, 
   backgroundColor:theme.colors.background, 
