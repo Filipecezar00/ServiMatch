@@ -159,7 +159,7 @@ return (
     data={mensagens?.data||[]}
     inverted
     keyExtractor={(mensagem)=>String(mensagem.id)}
-    style={{flex:1}}
+    style={{flex:1,backgroundColor:theme.colors.background}}
     onViewableItemsChanged={handleMensagensVisiveis}
     ListEmptyComponent={
         <View style={styles.estadoCentralizado}>
