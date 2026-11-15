@@ -82,6 +82,16 @@ export function CustomDrawerContent(props: DrawerContentComponentProps) {
         </Pressable>
       </View>
       <DrawerItemList {...props} />
+      <Pressable onPress={()=>setThemeMode("system")} style={[
+        styles.opcaoTema, themeMode === "system" && styles.opcaoSelecionada,
+      ]}>
+        <MaterialCommunityIcons
+        name="theme-light-dark"
+        size={20}
+        color={theme.colors.textPrimary}
+        />
+        <Text style={styles.textoOpcao}>Auto</Text>
+      </Pressable>
       <Pressable onPress={() => logout()} style={styles.botaoSair}>
         <MaterialCommunityIcons name="exit-to-app" size={22} color={theme.colors.error}/>
         <Text style={styles.textoSair}>Sair</Text>
@@ -198,5 +208,14 @@ StyleSheet.create({
     paddingHorizontal:16,
     paddingVertical:14,
     marginTop:"auto"
+  },
+  opcaoTema:{
+
+  },
+  opcaoSelecionada:{
+
+  },
+  textoOpcao:{
+    
   }
 })
