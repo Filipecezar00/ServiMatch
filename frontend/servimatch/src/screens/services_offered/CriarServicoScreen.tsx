@@ -12,13 +12,15 @@ import {
   Platform
 } from "react-native";
 import { useState } from "react";
-import{ theme } from "../../styles/theme/theme";
+import { useAppTheme } from "../../styles/theme/useAppTheme";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker"; 
 import { Image } from "react-native";
 
 export function CriarServicoScreen() {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [erroLocal, setErroLocal] = useState("");
@@ -214,7 +216,8 @@ export function CriarServicoScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (theme: ReturnType<typeof useAppTheme>) =>
+StyleSheet.create({
 container:{
 flex:1,
 backgroundColor:theme.colors.background,
