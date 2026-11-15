@@ -18,7 +18,7 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useQuery } from "@tanstack/react-query";
 import { profile_informations } from "../api/profile";
-import { theme } from "../styles/theme/theme";
+import { useAppTheme } from "../styles/theme/useAppTheme";
 type AppDrawerParamList = {
   HomeStack: undefined;
   MeusServicosOffered: undefined;
@@ -32,6 +32,8 @@ type AppDrawerParamList = {
 const Drawer = createDrawerNavigator<AppDrawerParamList>();
 
 export function CustomDrawerContent(props: DrawerContentComponentProps) {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const logout = useAuthStore((state) => state.logout);
   const usuario = useAuthStore((state) => state.usuario);
 
@@ -139,7 +141,8 @@ export function AppDrawer() {
     </Drawer.Navigator>
   );
 }
-const styles = StyleSheet.create({
+const createStyles = (theme: ReturnType<typeof useAppTheme>) =>
+StyleSheet.create({
   drawerContent:{
     flexGrow:1,
   }, 
