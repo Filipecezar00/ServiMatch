@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import {useMutation, useQueryClient } from "@tanstack/react-query";
 import { View, Modal, Text, Pressable, TextInput, Alert, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import { avaliarTroca } from "../api/reviews";
-import { theme } from "../styles/theme/theme";
+import { useAppTheme } from "../styles/theme/useAppTheme";
 import { AvaliarTrocaProps, Review } from "../types/reviews";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useAuthStore } from "../stores/useAuthStore";
@@ -12,6 +12,8 @@ export function AvaliarTroca({
   onClose,
   onSuccess,
 }: AvaliarTrocaProps) {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const [isRating, setIsRating] = useState<number | null>(null);
   const [isNotes, setIsNotes] = useState("");
 
@@ -125,7 +127,8 @@ export function AvaliarTroca({
     </Modal>
   );
 } 
-const styles= StyleSheet.create({
+const createStyles = (theme: ReturnType<typeof useAppTheme>) =>
+StyleSheet.create({
 modalOverlay:{
 flex: 1,
 backgroundColor:"rgba(0,0,0,0.45)",
