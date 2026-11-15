@@ -3,30 +3,30 @@ import { PropostaEnviada, PropostaRecebida } from "../types/exchangeTypes";
 import { alterarStatusProposta } from "../api/exchangeProposals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppTheme } from "../styles/theme/useAppTheme";
-const theme = useAppTheme();
 
- const statusStyle = {
-    accepted:{
-      label:"Aceita", 
-      backgroundColor:theme.colors.success, 
-      color:theme.colors.surface
-    }, 
-    rejected:{
-      label:"Rejeitada", 
-      backgroundColor:theme.colors.error, 
-      color:theme.colors.surface
-    }, 
-    pending:{
-      label:"Pendente", 
-      backgroundColor:theme.colors.primaryDark, 
-      color:theme.colors.surface
-    },
-    cancelled:{
-      label:"Cancelada", 
-      backgroundColor:theme.colors.error, 
-      color:theme.colors.surface
-    }
-  }
+const statusStyle = (theme: ReturnType<typeof useAppTheme>) => ({
+  accepted: {
+    label: "Aceita",
+    backgroundColor: theme.colors.success,
+    color: theme.colors.surface,
+  },
+  rejected: {
+    label: "Rejeitada",
+    backgroundColor: theme.colors.error,
+    color: theme.colors.surface,
+  },
+  pending: {
+    label: "Pendente",
+    backgroundColor: theme.colors.primaryDark,
+    color: theme.colors.surface,
+  },
+  cancelled: {
+    label: "Cancelada",
+    backgroundColor: theme.colors.error,
+    color: theme.colors.surface,
+  },
+});
+
 export function PropostaCardEnviada({
   outro_usuario_nome,
   mensagem,
@@ -34,8 +34,9 @@ export function PropostaCardEnviada({
   servico_oferecido_titulo,
   servico_desejado_titulo,
 }: PropostaEnviada) {
+  const theme = useAppTheme();
   const styles = createStyles(theme);
-  const statusReference = statusStyle[status]
+  const statusReference = statusStyle(theme)[status];
   return (
     <View style={styles.containerPropostas}>
       <View style={styles.cabecalhoCard}>
@@ -79,6 +80,7 @@ export function PropostaCardRecebida({
   titulo,
   created_at,
 }: PropostaRecebida) {
+  const theme = useAppTheme();
   const queryClient = useQueryClient();
   const styles = createStyles(theme);
 
@@ -109,8 +111,7 @@ export function PropostaCardRecebida({
     mutate({ id, statusProposta });
   };
 
- 
-  const statusReference = statusStyle[status]
+  const statusReference = statusStyle(theme)[status];
   return (
     <View style={styles.containerPropostas}>
       <View style={styles.cabecalhoCard}>
