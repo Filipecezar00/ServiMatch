@@ -261,7 +261,7 @@ export function MinhasTrocas() {
         ListEmptyComponent={
           !isError ? (
             <Text style={styles.textInfomation}>Você ainda não possui trocas em andamento</Text>
-          ):null
+          ):undefined
         }
         onRefresh={refetch}
         refreshing={isFetching}
