@@ -216,19 +216,19 @@ export function Profile() {
               <Text style={styles.nomeUsuario}>{profile?.usuario.nome}</Text>
               <View style={styles.descricaoUsuario}>
                 {profile.usuario.total_reviews === 0 ? (
-                  <Text>Novo na plataforma</Text>
+                  <Text style={styles.textSubtitle}>Novo na plataforma</Text>
                 ) : (
                   <View style={styles.containerNotas}>
-                  <Text>
+                  <Text style={styles.textSubtitle}>
                     Nota: {Number(profile.usuario.media_rating).toFixed(1)}{" "}
                   </Text>
                   <MaterialCommunityIcons name="star" size={18} color="#F4B400"/>
                   {profile.usuario.total_reviews ==1 ? (
-                   <Text>
+                   <Text style={styles.textSubtitle}>
                    {profile.usuario.total_reviews} Avaliação 
                   </Text>
                   ):(
-                    <Text>
+                    <Text style={styles.textSubtitle}>
                       {profile.usuario.total_reviews} Avaliações
                     </Text>
                   )} 
@@ -492,6 +492,7 @@ const createStyles = (theme:ReturnType<typeof useAppTheme>)=>
     }, 
     informacoesEstatisticas:{
       fontSize:14,
+      color:theme.colors.textPrimary,
       marginTop:theme.spacing.sm,
     }, 
     modalContainer:{  
@@ -577,6 +578,9 @@ const createStyles = (theme:ReturnType<typeof useAppTheme>)=>
       height:100,
       borderRadius:50,
     }, 
+    textSubtitle:{
+      color:theme.colors.textPrimary
+    },
     iconeCamera:{
     }
 })
