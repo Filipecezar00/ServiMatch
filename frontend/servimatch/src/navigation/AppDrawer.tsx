@@ -128,11 +128,19 @@ export function CustomDrawerContent(props: DrawerContentComponentProps) {
 }
 
 export function AppDrawer() {
+  const theme = useAppTheme(); 
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={{
-        drawerActiveTintColor: "#4a5344",
+        drawerActiveTintColor:theme.colors.primary,
+        drawerInactiveTintColor:theme.colors.textSecondary,
+        drawerStyle:{
+          backgroundColor:theme.colors.background,
+        },
+        drawerLabelStyle:{
+          color:theme.colors.textPrimary
+        },
         drawerType: "slide",
       }}
     >
@@ -186,6 +194,7 @@ const createStyles = (theme: ReturnType<typeof useAppTheme>) =>
 StyleSheet.create({
   drawerContent:{
     flexGrow:1,
+    backgroundColor:theme.colors.background
   }, 
   cabecalho:{
     flexDirection:"row",
@@ -273,5 +282,5 @@ StyleSheet.create({
     flexDirection:"row",
     justifyContent:"space-between",
     gap:8
-  }
+  },
 })
