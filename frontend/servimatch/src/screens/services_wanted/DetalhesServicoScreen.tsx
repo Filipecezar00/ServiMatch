@@ -646,7 +646,7 @@ descricaoServicoModal:{
 }, 
 categoriaServicoSelecionado:{
 borderColor:theme.colors.primary,
-backgroundColor:"#E5F4F6",
+backgroundColor:theme.colors.background,
 },
 textoListaVazia:{
 fontSize:14,
