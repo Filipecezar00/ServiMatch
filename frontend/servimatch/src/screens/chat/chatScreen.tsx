@@ -15,8 +15,10 @@ import {
 } from "react-native";
 import { Mensagens,HistoricoMensagens,MensagemLidaPayload } from "../../types/chat";
 import { useRoute } from "@react-navigation/native";
-import { theme } from "../../styles/theme/theme";
+import { useAppTheme } from "../../styles/theme/useAppTheme"; 
 export function ChatScreen(){
+const theme = useAppTheme();
+const styles = createStyles(theme);
 const socket = useAuthStore((state)=>state.socket);
 const [isMensagens,setIsMensagens] = useState(""); 
 const usuario = useAuthStore((state)=>state.usuario)
@@ -189,7 +191,8 @@ return (
   </KeyboardAvoidingView>
 )
 }
-const styles = StyleSheet.create({
+const createStyles = (theme:ReturnType<typeof useAppTheme>)=>
+StyleSheet.create({
 container:{
 flex:1,
 backgroundColor:theme.colors.background
