@@ -11,7 +11,7 @@ import {
   ScrollView,
   Platform
 } from "react-native";
-import {theme} from "../../styles/theme/theme"
+import { useAppTheme } from "../../styles/theme/useAppTheme";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../../types/types";
 import { useNavigation } from "@react-navigation/native";
@@ -23,6 +23,8 @@ type RegisterScreenNavigationProp = NativeStackNavigationProp<
   "Register"
 >;
 export default function RegisterScreen() {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const [email, setEmail] = useState("");
   const [nome, setNome] = useState("");
   const [senha, setSenha] = useState("");
@@ -149,7 +151,8 @@ export default function RegisterScreen() {
     </KeyboardAvoidingView>
   );
 }
-const styles = StyleSheet.create({
+const createStyles = (theme:ReturnType<typeof useAppTheme>)=>
+StyleSheet.create({
   scrollContent:{
   flexGrow:1,
   justifyContent:"center",
