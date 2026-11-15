@@ -16,12 +16,14 @@ import {
   CompositeNavigationProp,
   useNavigation,
 } from "@react-navigation/native";
-import { theme } from "../../styles/theme/theme";
+import { useAppTheme } from "../../styles/theme/useAppTheme";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ServiceStackWantedParamList } from "../../navigation/ServicesStack";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 export function ListarServicosProcurados() {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   type ListarServicosWantedNavigationProp = CompositeNavigationProp<
     NativeStackNavigationProp<
       ServiceStackWantedParamList,
@@ -134,7 +136,8 @@ export function ListarServicosProcurados() {
     </View>
   );
 }
-const styles = StyleSheet.create({
+const createStyles =(theme:ReturnType<typeof useAppTheme>)=>
+ StyleSheet.create({
   container:{
     flex:1,
     backgroundColor:theme.colors.background, 
