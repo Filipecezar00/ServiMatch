@@ -19,11 +19,13 @@ import {
   ScrollView,
   Platform
 } from "react-native";
-import { theme } from "../../styles/theme/theme"; 
+import { useAppTheme } from "../../styles/theme/useAppTheme";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { opacity } from "react-native-reanimated/lib/typescript/Colors";
 
 export function EditarServicoWanted() {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [categoryId, setCategoryId] = useState<number | null>(null);
@@ -170,7 +172,8 @@ export function EditarServicoWanted() {
     
   );
 }
-const styles = StyleSheet.create({
+const createStyles = (theme: ReturnType<typeof useAppTheme>) =>
+StyleSheet.create({
 container:{
   flex:1, 
   backgroundColor:theme.colors.background,
