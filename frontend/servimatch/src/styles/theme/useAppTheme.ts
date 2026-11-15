@@ -1,14 +1,18 @@
 import { useColorScheme } from "react-native";
 import {lightColors,darkColors,spacing,borderRadius} from "./theme";
+import {useThemeStore} from "../../stores/useThemeStore";
 
 export function useAppTheme(){
-    const colorScheme = useColorScheme(); 
+    const systemColorScheme = useColorScheme(); 
+    const themeMode = useThemeStore((state) => state.themeMode);
 
-    const colors = colorScheme ===  "dark" ? darkColors : lightColors;
+
+    const activeScheme = themeMode ===  "system" ? systemColorScheme : themeMode;
 
     return {
-        colors,
+        colors:activeScheme === "dark" ? darkColors : lightColors,
         spacing,
         borderRadius,
+        themeMode,
     };
 }
