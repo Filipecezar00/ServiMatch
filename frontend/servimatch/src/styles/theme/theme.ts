@@ -41,9 +41,3 @@ export const borderRadius = {
     md: 8,
     lg: 16,
 };
-
-export const theme = {
-    colors: lightColors,
-    spacing,
-    borderRadius,
-};
