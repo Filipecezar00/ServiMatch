@@ -8,7 +8,7 @@ import {
   TextInput,
   StyleSheet
 } from "react-native";
-import {theme} from "../styles/theme/theme"
+import {useAppTheme} from "../styles/theme/useAppTheme";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
@@ -16,6 +16,8 @@ import { listarCategorias } from "../api/serviceWanted";
 import { BuscarServicoOffered } from "../api/serviceOffered";
 import { useAuthStore } from "../stores/useAuthStore";
 export function HomeScreen() {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const {
     data: categorias,
     isLoading,
@@ -155,7 +157,8 @@ export function HomeScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (theme:ReturnType<typeof useAppTheme>)=>
+StyleSheet.create({
 containerBusca:{
 paddingHorizontal:theme.spacing.lg, 
 paddingTop:theme.spacing.xl, 
