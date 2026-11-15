@@ -16,8 +16,10 @@ import {
   PropostaCardEnviada,
   PropostaCardRecebida,
 } from "../../components/PropostaCard";
-import { theme } from "../../styles/theme/theme";
+import { useAppTheme } from "../../styles/theme/useAppTheme";
 export function MinhasPropostas() {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const [abaAtiva, setAbaAtiva] = useState<"recebidas" | "oferecidas">(
     "recebidas",
   );
@@ -117,7 +119,8 @@ export function MinhasPropostas() {
   );
 }
 
-const styles= StyleSheet.create({
+const createStyles= (theme:ReturnType<typeof useAppTheme>)=>
+StyleSheet.create({
 container:{
 flex:1, 
 backgroundColor:theme.colors.background,
