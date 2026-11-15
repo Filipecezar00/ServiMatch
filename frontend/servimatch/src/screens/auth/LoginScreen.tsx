@@ -15,14 +15,17 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../../types/types";
 import { useNavigation } from "@react-navigation/native";
 import { useAuthStore } from "../../stores/useAuthStore";
-import {theme} from "../../styles/theme/theme"
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useAppTheme } from "../../styles/theme/useAppTheme";
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
   "Login"
 >;
 
 export default function LoginScreen() {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
+
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
@@ -146,7 +149,8 @@ export default function LoginScreen() {
     </KeyboardAvoidingView>
   );
 }
-const styles = StyleSheet.create({
+const createStyles = (theme:ReturnType<typeof useAppTheme>)=>
+StyleSheet.create({
 keyboardContainer:{
 flex:1,
 backgroundColor:theme.colors.background
