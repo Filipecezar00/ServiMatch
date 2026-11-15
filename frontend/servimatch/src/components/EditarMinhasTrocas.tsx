@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useMutation,useQueryClient } from "@tanstack/react-query";
 import {updateTroca} from "../api/exchange"
 import { TrocaEditada } from "../types/exchangeTypes";
-import { Alert,View,Pressable,Text ,TextInput,Modal,TouchableWithoutFeedbackBase, Platform,Keyboard,KeyboardAvoidingViewBase,TouchableWithoutFeedback, ScrollView} from "react-native";
+import { Alert, View, Pressable, Text, TextInput, Modal, Platform, Keyboard, TouchableWithoutFeedback, ScrollView } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 

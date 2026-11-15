@@ -13,7 +13,6 @@ import {
   StyleSheet,
   TextInput
 } from "react-native";
-import { ViewToken } from "react-native";
 import { Mensagens,HistoricoMensagens,MensagemLidaPayload } from "../../types/chat";
 import { useRoute } from "@react-navigation/native";
 import { theme } from "../../styles/theme/theme";
@@ -107,7 +106,7 @@ const handleEnviarMensagem = ()=>{
 const handleMensagensVisiveis = ({
 viewableItems,
 }:{
-viewableItems:ViewToken<Mensagens>[]; 
+viewableItems:{item:Mensagens|null}[]; 
 })=>{
 viewableItems.forEach(({item})=>{
 if(!item) return; 

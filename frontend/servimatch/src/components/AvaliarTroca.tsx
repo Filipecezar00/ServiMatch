@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import {useMutation, useQueryClient } from "@tanstack/react-query";
-import { View, Modal, Text, Pressable, TextInput, Alert,StyleSheet, KeyboardAvoidingView, ScrollViewComponent,Platform, ScrollView } from "react-native";
+import { View, Modal, Text, Pressable, TextInput, Alert, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import { avaliarTroca } from "../api/reviews";
 import { theme } from "../styles/theme/theme";
 import { AvaliarTrocaProps, Review } from "../types/reviews";
