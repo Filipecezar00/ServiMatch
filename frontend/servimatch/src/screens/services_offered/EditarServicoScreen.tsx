@@ -116,6 +116,7 @@ export function EditarServico() {
         value={titulo}
         onChangeText={setTitulo}
         autoCapitalize="sentences"
+        placeholderTextColor={theme.colors.textSecondary}
         maxLength={200}
         onFocus={()=>setCampoAtivo("titulo")}
         onBlur={()=>setCampoAtivo(null)}
@@ -127,6 +128,7 @@ export function EditarServico() {
         placeholder="Digite a descrição"
         value={descricao}
         onChangeText={setDescricao}
+        placeholderTextColor={theme.colors.textSecondary}
         multiline
         textAlignVertical="top"
         onFocus={()=>setCampoAtivo("descricao")}
@@ -227,7 +229,8 @@ paddingVertical:theme.spacing.sm,
 borderRadius:theme.borderRadius.sm,
 borderWidth:1,
 minHeight:48,
-borderColor:theme.colors.border 
+borderColor:theme.colors.border,
+color:theme.colors.textPrimary
 }, 
 inputDescricao:{
   marginBottom:theme.spacing.md,
@@ -237,7 +240,9 @@ inputDescricao:{
   borderRadius:theme.borderRadius.sm,
   borderWidth:1,
   borderColor:theme.colors.border,
-  minHeight:150
+  minHeight:150,
+  color:theme.colors.textPrimary
+
 },
 categoriaButton:{
 marginBottom:theme.spacing.sm,
