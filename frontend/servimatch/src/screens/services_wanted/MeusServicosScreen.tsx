@@ -125,7 +125,7 @@ export function ListarServicosProcurados() {
                   style={({pressed})=> [styles.btnEditar,pressed && styles.botaoPressionado]}
                 >
                   <Text style={styles.buttonTextEditar}>Editar Serviço</Text>
-                 <MaterialCommunityIcons size={18} name="pencil"/>
+                 <MaterialCommunityIcons size={18} name="pencil" color={theme.colors.primaryDark}/>
                 </Pressable>
                 </View>
               </View>
@@ -226,7 +226,7 @@ color:theme.colors.surface,
 textAlign:"center", 
 }, 
 buttonTextEditar:{
-color:theme.colors.primaryDark,
+color:theme.colors.textPrimary,
 textAlign:"center", 
 }, 
 containerAdicionar:{
