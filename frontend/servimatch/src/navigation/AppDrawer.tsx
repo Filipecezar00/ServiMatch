@@ -82,16 +82,43 @@ export function CustomDrawerContent(props: DrawerContentComponentProps) {
         </Pressable>
       </View>
       <DrawerItemList {...props} />
-      <Pressable onPress={()=>setThemeMode("system")} style={[
-        styles.opcaoTema, themeMode === "system" && styles.opcaoSelecionada,
-      ]}>
-        <MaterialCommunityIcons
-        name="theme-light-dark"
-        size={20}
-        color={theme.colors.textPrimary}
-        />
-        <Text style={styles.textoOpcao}>Auto</Text>
-      </Pressable>
+      <View style={styles.seletorTema}>
+        <Text style={styles.tituloTema}>Aparência</Text>
+          <View style={styles.opcoesTema}> 
+            <Pressable onPress={()=>setThemeMode("light")} style={[styles.opcaoTema,themeMode==="light"&&styles.opcaoSelecionada]}>
+              <MaterialCommunityIcons
+              name="white-balance-sunny"
+              size={20}
+              color={theme.colors.textPrimary}
+              />
+              <Text style={styles.textoOpcao}>Claro</Text>
+            </Pressable>
+            <Pressable onPress={()=>setThemeMode("dark")} 
+            style={[
+              styles.opcaoTema,
+              themeMode ==='dark' && styles.opcaoSelecionada
+            ]}  
+            >
+              <MaterialCommunityIcons
+              name="moon-waning-crescent"
+              size={20}
+              color={theme.colors.textPrimary}
+              />
+              <Text style={styles.textoOpcao}>Escuro</Text>
+            </Pressable>
+
+            <Pressable onPress={()=>setThemeMode("system")} style={[
+             styles.opcaoTema, themeMode === "system" && styles.opcaoSelecionada,
+              ]}>
+              <MaterialCommunityIcons
+                name="theme-light-dark"
+                size={20}
+                color={theme.colors.textPrimary}
+                />
+              <Text style={styles.textoOpcao}>Auto</Text>
+            </Pressable>
+          </View>
+      </View>
       <Pressable onPress={() => logout()} style={styles.botaoSair}>
         <MaterialCommunityIcons name="exit-to-app" size={22} color={theme.colors.error}/>
         <Text style={styles.textoSair}>Sair</Text>
@@ -216,6 +243,15 @@ StyleSheet.create({
 
   },
   textoOpcao:{
-    
+
+  },
+  seletorTema:{
+
+  },
+  tituloTema:{
+
+  }, 
+  opcoesTema:{
+
   }
 })
