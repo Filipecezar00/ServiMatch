@@ -19,6 +19,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useQuery } from "@tanstack/react-query";
 import { profile_informations } from "../api/profile";
 import { useAppTheme } from "../styles/theme/useAppTheme";
+import {useThemeStore} from "../stores/useThemeStore";
 type AppDrawerParamList = {
   HomeStack: undefined;
   MeusServicosOffered: undefined;
@@ -36,6 +37,9 @@ export function CustomDrawerContent(props: DrawerContentComponentProps) {
   const styles = createStyles(theme);
   const logout = useAuthStore((state) => state.logout);
   const usuario = useAuthStore((state) => state.usuario);
+
+  const themeMode = useThemeStore((state)=>state.themeMode); 
+  const setThemeMode = useThemeStore((state)=>state.setThemeMode)
 
   const {data:profile,isLoading} = useQuery({
     queryKey:["Profile",usuario?.id],
