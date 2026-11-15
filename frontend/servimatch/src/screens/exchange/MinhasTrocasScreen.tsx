@@ -18,7 +18,7 @@ import {
   Alert,
   StyleSheet
 } from "react-native";
-import { theme } from "../../styles/theme/theme";
+import { useAppTheme } from "../../styles/theme/useAppTheme";
 import { EditarMinhaTroca } from "../../components/EditarMinhasTrocas";
 import { Troca } from "../../types/exchangeTypes";
 import { AvaliarTroca } from "../../components/AvaliarTroca";
@@ -53,6 +53,8 @@ const statusTroca:Record<StatusTroca,{label:string; backgroundColor:string; colo
     }, 
   }
 export function MinhasTrocas() {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTrocaSelecionada, setIsTrocaSelecionada] = useState<Troca | null>(
     null,
@@ -429,7 +431,8 @@ export function MinhasTrocas() {
     </View>
   );
 }
-const styles = StyleSheet.create({
+const createStyles = ( theme:ReturnType<typeof useAppTheme>)=>
+ StyleSheet.create({
   container:{
     flex:1, 
     padding:theme.spacing.md, 
