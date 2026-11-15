@@ -79,6 +79,7 @@ export function HomeScreen() {
     <FlatList
       data={servicos}
       keyExtractor={(item) => item?.id?.toString()}
+      style={styles.listaPrincipal}
       ListEmptyComponent={() => {
           return isLoadingServicos ? (
           <ActivityIndicator size="large" color={theme.colors.primary}/>
@@ -292,5 +293,9 @@ textLink:{
   color:theme.colors.surface,
   fontWeight:"700", 
   fontSize:14
+},
+listaPrincipal:{
+  flex:1,
+  backgroundColor:theme.colors.background
 }
 })
