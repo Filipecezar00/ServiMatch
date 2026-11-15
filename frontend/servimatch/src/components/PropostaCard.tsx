@@ -2,7 +2,8 @@ import { View, Text, Pressable, Alert,StyleSheet } from "react-native";
 import { PropostaEnviada, PropostaRecebida } from "../types/exchangeTypes";
 import { alterarStatusProposta } from "../api/exchangeProposals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { theme } from "../styles/theme/theme";
+import { useAppTheme } from "../styles/theme/useAppTheme";
+const theme = useAppTheme();
 
  const statusStyle = {
     accepted:{
@@ -33,6 +34,7 @@ export function PropostaCardEnviada({
   servico_oferecido_titulo,
   servico_desejado_titulo,
 }: PropostaEnviada) {
+  const styles = createStyles(theme);
   const statusReference = statusStyle[status]
   return (
     <View style={styles.containerPropostas}>
@@ -78,6 +80,8 @@ export function PropostaCardRecebida({
   created_at,
 }: PropostaRecebida) {
   const queryClient = useQueryClient();
+  const styles = createStyles(theme);
+
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["statusProposta"],
@@ -165,7 +169,8 @@ export function PropostaCardRecebida({
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles =(theme:ReturnType<typeof useAppTheme>)=>
+ StyleSheet.create({
 containerPropostas:{
   backgroundColor:theme.colors.surface,
   padding:theme.spacing.lg, 
