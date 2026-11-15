@@ -18,11 +18,13 @@ import {
 import {criarConversa} from "../../api/chat"
 import {editar_foto} from "../../api/profile"
 import { editar_profile } from "../../api/profile";
-import {theme} from "../../styles/theme/theme"
+import { useAppTheme } from "../../styles/theme/useAppTheme";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker"; 
 
 export function Profile() {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const usuarioId = useAuthStore((store) => store.usuario?.id);
   const logout = useAuthStore((store) => store.logout);
   const route = useRoute();
@@ -374,7 +376,8 @@ export function Profile() {
     </View>
   ); 
 }
-const styles = StyleSheet.create({
+const createStyles = (theme:ReturnType<typeof useAppTheme>)=>
+ StyleSheet.create({
     container:{
      flex: 1,
      backgroundColor:theme.colors.background, 
