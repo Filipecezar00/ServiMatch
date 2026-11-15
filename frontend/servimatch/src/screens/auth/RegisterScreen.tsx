@@ -129,9 +129,9 @@ export default function RegisterScreen() {
           accessibilityRole="button"
           >
             {mostrarSenha===true?(
-              <MaterialCommunityIcons name="eye-off" size={18}/>
+              <MaterialCommunityIcons name="eye-off" size={18} color={theme.colors.textPrimary}/>
             ):(
-              <MaterialCommunityIcons name="eye" size={18}/>
+              <MaterialCommunityIcons name="eye" size={18} color={theme.colors.textPrimary}/>
             )}
         </Pressable>
       </View>
