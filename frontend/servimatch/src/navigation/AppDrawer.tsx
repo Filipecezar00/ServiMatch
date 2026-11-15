@@ -237,21 +237,41 @@ StyleSheet.create({
     marginTop:"auto"
   },
   opcaoTema:{
-
+    flex:1,
+    alignItems:"center",
+    justifyContent:"center",
+    paddingVertical:10,
+    borderRadius:8,
+    backgroundColor:theme.colors.background,
+    gap:5
   },
   opcaoSelecionada:{
-
+    backgroundColor:theme.colors.primary + "25",
+    borderWidth:1,
+    borderColor:theme.colors.primary
   },
   textoOpcao:{
-
+    fontSize:12,
+    color:theme.colors.textPrimary,
+    fontWeight:"600"  
   },
   seletorTema:{
+    paddingHorizontal:16,
+    paddingVertical:16,
+    borderTopWidth:1,
+    borderBottomWidth:1,
+    borderColor:theme.colors.border
 
   },
   tituloTema:{
-
+    fontSize:14,
+    fontWeight:"700",
+    color:theme.colors.textPrimary,
+    marginBottom:12
   }, 
   opcoesTema:{
-
+    flexDirection:"row",
+    justifyContent:"space-between",
+    gap:8
   }
 })
