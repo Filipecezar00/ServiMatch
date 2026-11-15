@@ -18,9 +18,11 @@ import {
   obterDetalhesServicoPorId,
   editarServico,
 } from "../../api/serviceOffered";
-import { theme } from "../../styles/theme/theme";
+import { useAppTheme } from "../../styles/theme/useAppTheme";
 import { ServiceStackOfferedParamList } from "../../navigation/ServicesStack";
 export function EditarServico() {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [erroLocal, setErroLocal] = useState("");
@@ -161,7 +163,8 @@ export function EditarServico() {
   </KeyboardAvoidingView>
   );
 }
-const styles = StyleSheet.create({
+const createStyles = (theme: ReturnType<typeof useAppTheme>) =>
+StyleSheet.create({
 container:{
   flex:1, 
   backgroundColor:theme.colors.background,
