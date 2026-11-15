@@ -101,7 +101,7 @@ export function HomeScreen() {
               onChangeText={setTermoBusca}
               style={styles.inputPesquisa}
             ></TextInput>
-            <MaterialCommunityIcons name="magnify" size={24} style={styles.iconeLupa}/>
+            <MaterialCommunityIcons name="magnify" size={24} style={styles.iconeLupa} color={theme.colors.textPrimary}/>
           </View>
 
           <FlatList
