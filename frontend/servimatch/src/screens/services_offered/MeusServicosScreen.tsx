@@ -116,7 +116,7 @@ export function MeusServicos() {
                   style={styles.btnEditar}
                 >
                   <Text style={styles.buttonTextEditar}>Editar Serviço</Text>
-                  <MaterialCommunityIcons name="pencil" size={18}/>
+                  <MaterialCommunityIcons name="pencil" size={18} color={theme.colors.primaryDark}/>
                 </Pressable>
                 </View>
               </View>
@@ -235,7 +235,7 @@ color:theme.colors.surface,
 textAlign:"center", 
 }, 
 buttonTextEditar:{
-color:theme.colors.primaryDark,
+color:theme.colors.textPrimary,
 textAlign:"center", 
 }, 
 btnEditar:{
