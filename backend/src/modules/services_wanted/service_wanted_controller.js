@@ -20,7 +20,8 @@ export async function criar_controller(req, res, next) {
 
 export async function listar_ativos_controller(req, res, next) {
   try {
-    const reposta = await listar_ativos_service();
+    const {busca,categoryId} = req.query;
+    const reposta = await listar_ativos_service(busca,categoryId);
     return res.status(200).json(reposta);
   } catch (erro) {
     next(erro);
