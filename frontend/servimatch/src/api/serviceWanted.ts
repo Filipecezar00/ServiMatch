@@ -74,3 +74,20 @@ export async function listarCategorias(): Promise<Categoria[]> {
     throw new Error(extractErrorMessage(erro));
   }
 }
+
+export async function BuscarServicoWanted(
+  busca?:string,
+  categoryId?:number | null,
+):Promise<Servico[]>{
+  try{
+    const resposta_api = await api.get("/services-wanted/listar-ativos",{
+      params:{
+        busca:busca && busca.trim() !== "" ? busca : undefined,
+        categoryId:categoryId ?? undefined,
+      },
+    });
+    return resposta_api.data;
+  }catch(error){
+    throw new Error(extractErrorMessage(error)); 
+  }
+}
