@@ -13,7 +13,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { listarCategorias } from "../api/serviceWanted";
-import { BuscarServicoOffered } from "../api/serviceOffered";
+import { BuscarServicoWanted } from "../api/serviceWanted";
 import { useAuthStore } from "../stores/useAuthStore";
 export function HomeScreen() {
   const theme = useAppTheme();
