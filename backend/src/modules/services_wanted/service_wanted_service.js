@@ -40,8 +40,8 @@ export async function criar_service(user_id, titulo, descricao, categoryId) {
   return dados_solicitacao;
 }
 
-export async function listar_ativos_service() {
-  const servicos_ativos = await listar_ativos();
+export async function listar_ativos_service(busca,categoryId) {
+  const servicos_ativos = await listar_ativos(busca,categoryId);
   return servicos_ativos;
 }
 
