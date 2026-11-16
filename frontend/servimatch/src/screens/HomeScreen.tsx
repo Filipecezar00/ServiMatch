@@ -50,7 +50,7 @@ export function HomeScreen() {
       termoDebounced,
       categoriaSelecionadaId,
     ],
-    queryFn: () => BuscarServicoOffered(termoDebounced, categoriaSelecionadaId),
+    queryFn: () => BuscarServicoWanted(termoDebounced, categoriaSelecionadaId),
   });
 
   const handleOptionsDetails = (id: number) => {
