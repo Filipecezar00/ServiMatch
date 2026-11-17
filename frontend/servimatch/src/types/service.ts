@@ -31,6 +31,10 @@ export interface Servico {
   ativo: boolean;
 }
 
+export interface ServicoHome extends Servico {
+  tipo: "offered" | "wanted"; 
+}
+
 export interface ServicoEditado {
   id: number;
   titulo: string;
