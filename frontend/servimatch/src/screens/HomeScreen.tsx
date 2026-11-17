@@ -17,6 +17,7 @@ import { BuscarServicoWanted } from "../api/serviceWanted";
 import { BuscarServicoOffered } from "../api/serviceOffered";
 import { ServicoHome } from "../types/service";
 import { useAuthStore } from "../stores/useAuthStore";
+import { createMetroServerAndBundleRequestAsync } from "expo/internal/unstable-expo-updates-cli-exports";
 export function HomeScreen() {
   const theme = useAppTheme();
   const styles = createStyles(theme);
@@ -46,7 +47,7 @@ export function HomeScreen() {
     };
   }, [termoBusca]);
 
-  const { data: servicos, isLoading: isLoadingServicos,isError:isErrorServicos,error:errorServicos, refetch:refetchServicos } = useQuery({
+  const { data: servicosWanted, isLoading: isLoadingWanted,isError:isErrorWanted,error:errorWanted, refetch:refetchServicos } = useQuery({
     queryKey: [
       "listarServicosProcurados",
       termoDebounced,
@@ -54,6 +55,26 @@ export function HomeScreen() {
     ],
     queryFn: () => BuscarServicoWanted(termoDebounced, categoriaSelecionadaId),
   });
+
+  const {data:servicosOffered,isLoading:isLoadingOffered,isError:isErrorOffered,error:errorOffered} = useQuery({
+    queryKey:["listarServicosOferecidos",termoDebounced,categoriaSelecionadaId],
+    queryFn: () => BuscarServicoOffered(termoDebounced,categoriaSelecionadaId),
+  })
+
+  const servicos:ServicoHome[] = [
+    ...(servicosOffered ?? []).map((servico)=>({
+      ...servico,
+      tipo:"offered" as const,
+    })),
+    ...(servicosWanted??[]).map((servico)=>({
+      ...servico,
+      tipo:"wanted" as const,
+    })),
+  ]
+
+  const isLoadingServicos  = isLoadingWanted || isLoadingOffered
+  const isErrorServicos = isErrorWanted || isErrorOffered
+  const errorServicos = errorWanted ?? errorOffered
 
   const handleOptionsDetails = (id: number) => {
     console.log("ID do serviço selecionado:",id); 
@@ -85,9 +106,13 @@ export function HomeScreen() {
       ListEmptyComponent={() => {
           return isLoadingServicos ? (
           <ActivityIndicator size="large" color={theme.colors.primary}/>
-        ) : (
+        ) : isErrorServicos ?(
+          <Text style={styles.errorText}>
+            {errorServicos?.message ?? "Erro ao carregar serviços"}
+          </Text>
+        ) :(
           <Text style={styles.errorText}>Não encontramos serviços com esses filtros</Text>
-        );
+        )
       }}
       ListHeaderComponent={
         <View style={styles.containerBusca}>
