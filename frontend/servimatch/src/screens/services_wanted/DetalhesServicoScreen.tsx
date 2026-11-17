@@ -17,7 +17,7 @@ import {
   Image
 } from "react-native";
 import { useAppTheme } from "../../styles/theme/useAppTheme";
-import { obterDetalhesServicoPorId } from "../../api/serviceOffered";
+import { obterServicoWantedId } from "../../api/serviceWanted";
 import { listaMeusServicos } from "../../api/serviceOffered";
 import { criarProposta } from "../../api/exchangeProposals";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -53,7 +53,7 @@ export function DetalhesServico() {
     refetch,
   } = useQuery({
     queryKey: ["detalhesServicos", id],
-    queryFn: () => obterDetalhesServicoPorId(id),
+    queryFn: () => obterServicoWantedId(id),
     enabled: !!id,
   });
 
