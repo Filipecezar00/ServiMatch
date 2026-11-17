@@ -14,6 +14,8 @@ import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { listarCategorias } from "../api/serviceWanted";
 import { BuscarServicoWanted } from "../api/serviceWanted";
+import { BuscarServicoOffered } from "../api/serviceOffered";
+import { ServicoHome } from "../types/service";
 import { useAuthStore } from "../stores/useAuthStore";
 export function HomeScreen() {
   const theme = useAppTheme();
