@@ -3,7 +3,13 @@ import { pool } from "../../config/database.js";
 export async function buscarServicoPorId(id) {
   const [resposta] = await pool.query(
     `
-    SELECT * FROM services_wanted WHERE id = ?
+    SELECT s.id,s.user_id,s.titulo,s.descricao,
+    s.category_id,s.ativo,c.nome AS categoria,
+    u.nome AS prestador_nome
+    FROM services_wanted s 
+    LEFT JOIN categories c ON s.category_id = c.id
+    INNER JOIN users u ON s.user_id = u.id
+    WHERE s.id = ?
     `,
     [id],
   );
