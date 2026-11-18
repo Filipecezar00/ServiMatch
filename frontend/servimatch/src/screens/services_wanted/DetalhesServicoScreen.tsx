@@ -17,7 +17,7 @@ import {
   Image
 } from "react-native";
 import { useAppTheme } from "../../styles/theme/useAppTheme";
-import { obterServicoWantedId } from "../../api/serviceWanted";
+import { obterServicoWantedId,listarServicosWantedPorUsuario } from "../../api/serviceWanted";
 import { obterDetalhesServicoPorId } from "../../api/serviceOffered";
 import { listaMeusServicos } from "../../api/serviceOffered";
 import { criarProposta } from "../../api/exchangeProposals";
@@ -66,6 +66,15 @@ export function DetalhesServico() {
     queryFn: listaMeusServicos,
     enabled: modalVisual,
   });
+
+  const {
+    data:servicoWantedUsuario,
+    isLoading:loadingWantedUsuario,
+  } = useQuery({
+    queryKey:["servicosWantedUsuario",detalhes?.user_id],
+    queryFn:()=>listarServicosWantedPorUsuario(detalhes!.user_id),
+    enabled:modalVisual && tipo ==="offered" && !!detalhes?.user_id,
+  })
 
   const {
     mutate,
