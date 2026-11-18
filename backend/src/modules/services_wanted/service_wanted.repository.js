@@ -84,7 +84,7 @@ export async function listar_servicos_por_usuario(userId){
     s.ativo,
     c.nome AS categoria
     FROM services_wanted s
-    LEFT JOIN categories u ON s.category_id = c.id
+    LEFT JOIN categories c ON s.category_id = c.id
     WHERE s.user_id = ?
     AND s.ativo = true
     `,
