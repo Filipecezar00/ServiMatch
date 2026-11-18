@@ -8,7 +8,8 @@ import {
   editar_servico_controller,
   editar_statusServico_controller,
   listar_categorias_controller,
-  buscar_servico_controller
+  buscar_servico_controller,
+  listar_servicos_por_usuario_controller
 } from "./service_wanted_controller.js";
 
 const service_router_wanted = express.Router();
@@ -127,6 +128,8 @@ service_router_wanted.get(
   authMiddleware,
   listar_meusAtivos_controller,
 );
+
+service_router_wanted.get("/listar-usuario/:userId",authMiddleware,listar_servicos_por_usuario_controller)
 
 service_router_wanted.get("/:id",buscar_servico_controller); 
 

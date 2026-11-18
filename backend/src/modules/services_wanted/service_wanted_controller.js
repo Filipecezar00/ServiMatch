@@ -41,11 +41,11 @@ export async function listar_meusAtivos_controller(req, res, next) {
 
 export async function listar_servicos_por_usuario_controller(req,res,next){
   try{
-    const userId = req.usuario.id; 
+    const {userId} = req.params; 
     const resposta = listar_servicos_por_usuario_service(userId); 
     return res.status(200).json(resposta); 
   }catch(erro){
-    next(erro); 
+    next(erro);
   }
 }
 
