@@ -72,6 +72,27 @@ export async function listar_meusServicos(userId) {
   return resposta;
 }
 
+export async function listar_servicos_por_usuario(userId){
+  const [resposta] = await pool.query(
+    `
+    SELECT
+    s.id,
+    s.user_id,
+    s.titulo,
+    s.descricao,
+    s.category_id,
+    s.ativo,
+    c.nome AS categoria
+    FROM services_wanted s
+    LEFT JOIN categories u ON s.category_id = c.id
+    WHERE s.user_id = ?
+    AND s.ativo = true
+    `,
+    [userId]
+  )
+  return resposta;
+}
+
 export async function editar_servico_repository(
   id,
   titulo,
