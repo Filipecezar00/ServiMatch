@@ -91,3 +91,13 @@ export async function BuscarServicoWanted(
     throw new Error(extractErrorMessage(error)); 
   }
 }
+
+export async function listarServicosWantedPorUsuario(userId:number):Promise<Servico[]>{
+  try{
+    const resposta_api = await api.get(`/services-wanted/listar-usuario/${userId}`)
+    return resposta_api.data
+    }catch(error){
+    throw new Error(extractErrorMessage(error))
+  }
+
+}
