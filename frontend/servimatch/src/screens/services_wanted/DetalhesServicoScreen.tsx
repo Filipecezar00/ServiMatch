@@ -18,6 +18,7 @@ import {
 } from "react-native";
 import { useAppTheme } from "../../styles/theme/useAppTheme";
 import { obterServicoWantedId } from "../../api/serviceWanted";
+import { obterDetalhesServicoPorId } from "../../api/serviceOffered";
 import { listaMeusServicos } from "../../api/serviceOffered";
 import { criarProposta } from "../../api/exchangeProposals";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -35,13 +36,13 @@ export function DetalhesServico() {
   const navigation = useNavigation<NavigationProps>();
   const [modalVisual, setModalVisual] = useState(false);
   const [mensagem, setMensagem] = useState("");
-  const params = route.params as {id?:number} | undefined; 
-  const perfilTargetId = params?.id 
+  const params = route.params as {id:number;tipo:"offered" | "wanted";};
   const [servicoSelecionadoId, setServicoSelecionadoId] = useState<
     number | null
   >(null);
   const [loadingChat,setLoadingChat] = useState(false)
-  const { id } = route.params as { id: number };
+  const { id,tipo } = params; 
+  const perfilTargetId = id 
   const usuarioId = useAuthStore((state)=>state.usuario?.id)
   const [imagemAtual,setImagemAtual] = useState(0); 
 
@@ -52,9 +53,9 @@ export function DetalhesServico() {
     error,
     refetch,
   } = useQuery({
-    queryKey: ["detalhesServicos", id],
-    queryFn: () => obterServicoWantedId(id),
-    enabled: !!id,
+    queryKey: ["detalhesServicos", id,tipo],
+    queryFn: () => tipo==="wanted" ?  obterServicoWantedId(id) : obterDetalhesServicoPorId(id),
+    enabled: !!id && !!tipo,
   });
 
   console.log("Detalhes do serviço:",JSON.stringify(detalhes,null,2))
