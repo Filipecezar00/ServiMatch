@@ -6,6 +6,7 @@ import {
   editar_statusServico_service,
   buscarServicoPorId_service,
   listarCategorias_service,
+  listar_servicos_por_usuario_service
 } from "./service_wanted_service.js";
 export async function criar_controller(req, res, next) {
   try {
@@ -35,6 +36,16 @@ export async function listar_meusAtivos_controller(req, res, next) {
     return res.status(200).json(resposta);
   } catch (erro) {
     next(erro);
+  }
+}
+
+export async function listar_servicos_por_usuario_controller(req,res,next){
+  try{
+    const userId = req.usuario.id; 
+    const resposta = listar_servicos_por_usuario_service(userId); 
+    return res.status(200).json(resposta); 
+  }catch(erro){
+    next(erro); 
   }
 }
 
