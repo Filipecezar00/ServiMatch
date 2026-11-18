@@ -17,7 +17,8 @@ import { BuscarServicoWanted } from "../api/serviceWanted";
 import { BuscarServicoOffered } from "../api/serviceOffered";
 import { ServicoHome } from "../types/service";
 import { useAuthStore } from "../stores/useAuthStore";
-import { createMetroServerAndBundleRequestAsync } from "expo/internal/unstable-expo-updates-cli-exports";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { HomeStack } from "../navigation/ServicesStack";
 export function HomeScreen() {
   const theme = useAppTheme();
   const styles = createStyles(theme);
@@ -35,7 +36,7 @@ export function HomeScreen() {
     number | null
   >(null);
   const [termoDebounced, setTermoDebounced] = useState("");
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<HomeStack>>();
 
   const logout = useAuthStore((state) => state.logout);
   useEffect(() => {
@@ -67,7 +68,7 @@ export function HomeScreen() {
       tipo:"offered" as const,
     })),
     ...(servicosWanted??[]).map((servico)=>({
-      ...servico,
+        ...servico,
       tipo:"wanted" as const,
     })),
   ]
@@ -76,11 +77,11 @@ export function HomeScreen() {
   const isErrorServicos = isErrorWanted || isErrorOffered
   const errorServicos = errorWanted ?? errorOffered
 
-  const handleOptionsDetails = (id: number) => {
+  const handleOptionsDetails = (id: number,tipo:"offered" | "wanted") => {
     console.log("ID do serviço selecionado:",id); 
     console.log("Estado da navegação na Home:",navigation.getState()); 
     console.log("Navegador pai da Home:",navigation.getParent()?.getState()); 
-    navigation.navigate("DetalhesServico", { id });
+    navigation.navigate("DetalhesServico", { id,tipo });
   };
 
   if (isLoading) {
@@ -167,7 +168,7 @@ export function HomeScreen() {
         return (
           <Pressable
             style={({ pressed }) => [styles.containerServico, pressed && styles.servicoPressionado,]}
-            onPress={() => handleOptionsDetails(item.id)}
+            onPress={() => handleOptionsDetails(item.id,item.tipo)}
             accessibilityRole="button"
             accessibilityLabel={`Ver detalhes do serviço ${item.titulo}`}
           >

@@ -28,7 +28,7 @@ export type ServiceStackWantedParamList = {
 
 export type HomeStack = {
   Home: undefined;
-  DetalhesServico: { id: number };
+  DetalhesServico: { id: number; tipo: "offered" | "wanted"; };
   Chat:{conversa_id:number}
 };
 
