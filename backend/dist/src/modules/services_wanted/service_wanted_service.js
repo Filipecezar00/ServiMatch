@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.criar_service = criar_service;
 exports.listar_ativos_service = listar_ativos_service;
 exports.listar_meusAtivos_service = listar_meusAtivos_service;
+exports.listar_servicos_por_usuario_service = listar_servicos_por_usuario_service;
 exports.editar_servico_service = editar_servico_service;
 exports.editar_statusServico_service = editar_statusServico_service;
 exports.buscarServicoPorId_service = buscarServicoPorId_service;
@@ -35,12 +36,19 @@ async function criar_service(user_id, titulo, descricao, categoryId) {
     const dados_solicitacao = await (0, service_wanted_repository_js_1.salvar)(user_id, titulo, descricao, categoryId);
     return dados_solicitacao;
 }
-async function listar_ativos_service() {
-    const servicos_ativos = await (0, service_wanted_repository_js_1.listar_ativos)();
+async function listar_ativos_service(busca, categoryId) {
+    const servicos_ativos = await (0, service_wanted_repository_js_1.listar_ativos)(busca, categoryId);
     return servicos_ativos;
 }
 async function listar_meusAtivos_service(userId) {
     const resposta = await (0, service_wanted_repository_js_1.listar_meusServicos)(userId);
+    return resposta;
+}
+async function listar_servicos_por_usuario_service(userId) {
+    if (!userId) {
+        throw new AppError_js_1.default("Usuário não informado", 400);
+    }
+    const resposta = await (0, service_wanted_repository_js_1.listar_servicos_por_usuario)(userId);
     return resposta;
 }
 async function editar_servico_service(id, userId, titulo, descricao, categoryId) {

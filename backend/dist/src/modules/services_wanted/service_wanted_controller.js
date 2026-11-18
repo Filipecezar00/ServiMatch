@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.criar_controller = criar_controller;
 exports.listar_ativos_controller = listar_ativos_controller;
 exports.listar_meusAtivos_controller = listar_meusAtivos_controller;
+exports.listar_servicos_por_usuario_controller = listar_servicos_por_usuario_controller;
 exports.editar_servico_controller = editar_servico_controller;
 exports.editar_statusServico_controller = editar_statusServico_controller;
 exports.buscar_servico_controller = buscar_servico_controller;
@@ -21,7 +22,8 @@ async function criar_controller(req, res, next) {
 }
 async function listar_ativos_controller(req, res, next) {
     try {
-        const reposta = await (0, service_wanted_service_js_1.listar_ativos_service)();
+        const { busca, categoryId } = req.query;
+        const reposta = await (0, service_wanted_service_js_1.listar_ativos_service)(busca, categoryId);
         return res.status(200).json(reposta);
     }
     catch (erro) {
@@ -32,6 +34,16 @@ async function listar_meusAtivos_controller(req, res, next) {
     try {
         const userId = req.usuario.id;
         const resposta = await (0, service_wanted_service_js_1.listar_meusAtivos_service)(userId);
+        return res.status(200).json(resposta);
+    }
+    catch (erro) {
+        next(erro);
+    }
+}
+async function listar_servicos_por_usuario_controller(req, res, next) {
+    try {
+        const { userId } = req.params;
+        const resposta = (0, service_wanted_service_js_1.listar_servicos_por_usuario_service)(userId);
         return res.status(200).json(resposta);
     }
     catch (erro) {

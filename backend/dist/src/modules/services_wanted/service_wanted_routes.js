@@ -110,6 +110,8 @@ service_router_wanted.get("/listar-ativos", service_wanted_controller_js_1.lista
  *          description: Token ausente ou inválido
  */
 service_router_wanted.get("/listar-minhas", auth_js_1.authMiddleware, service_wanted_controller_js_1.listar_meusAtivos_controller);
+service_router_wanted.get("/listar-usuario/:userId", auth_js_1.authMiddleware, service_wanted_controller_js_1.listar_servicos_por_usuario_controller);
+service_router_wanted.get("/:id", service_wanted_controller_js_1.buscar_servico_controller);
 /**
  * @openapi
  * /api/services-wanted/{id}:

@@ -5,13 +5,20 @@ exports.buscarCategoriaPorId = buscarCategoriaPorId;
 exports.salvar = salvar;
 exports.listar_ativos = listar_ativos;
 exports.listar_meusServicos = listar_meusServicos;
+exports.listar_servicos_por_usuario = listar_servicos_por_usuario;
 exports.editar_servico_repository = editar_servico_repository;
 exports.editar_statusServico_repository = editar_statusServico_repository;
 exports.listar_Categorias_repository = listar_Categorias_repository;
 const database_js_1 = require("../../config/database.js");
 async function buscarServicoPorId(id) {
     const [resposta] = await database_js_1.pool.query(`
-    SELECT * FROM services_wanted WHERE id = ?
+    SELECT s.id,s.user_id,s.titulo,s.descricao,
+    s.category_id,s.ativo,c.nome AS categoria,
+    u.nome AS prestador_nome
+    FROM services_wanted s 
+    LEFT JOIN categories c ON s.category_id = c.id
+    INNER JOIN users u ON s.user_id = u.id
+    WHERE s.id = ?
     `, [id]);
     return resposta[0];
 }
@@ -28,13 +35,24 @@ async function salvar(user_id, titulo, descricao, categoryId) {
 `, [user_id, categoryId, titulo, descricao]);
     return { id: resposta.insertId, user_id, titulo, descricao, categoryId };
 }
-async function listar_ativos() {
-    const [resposta] = await database_js_1.pool.query(`SELECT s.id,s.titulo,s.descricao,c.nome AS categoria,
+async function listar_ativos(busca, categoryId) {
+    let query = `
+    SELECT s.id,s.titulo,s.descricao,c.nome AS categoria,
     u.nome AS prestador_nome FROM services_wanted s 
     LEFT JOIN categories c ON s.category_id = c.id
     INNER JOIN users u ON s.user_id = u.id 
     WHERE s.ativo = true
-    `);
+    `;
+    const parametros = [];
+    if (busca) {
+        query += `AND s.titulo LIKE ?`;
+        parametros.push(`%${busca}%`);
+    }
+    if (categoryId) {
+        query += `AND s.category_id = ?`;
+        parametros.push(categoryId);
+    }
+    const [resposta] = await database_js_1.pool.query(query, parametros);
     return resposta;
 }
 async function listar_meusServicos(userId) {
@@ -42,6 +60,23 @@ async function listar_meusServicos(userId) {
     SELECT s.id,s.titulo,s.descricao,s.ativo, c.nome AS categoria
     FROM services_wanted s LEFT JOIN categories c ON s.category_id = c.id 
     WHERE s.user_id = ?    
+    `, [userId]);
+    return resposta;
+}
+async function listar_servicos_por_usuario(userId) {
+    const [resposta] = await database_js_1.pool.query(`
+    SELECT
+    s.id,
+    s.user_id,
+    s.titulo,
+    s.descricao,
+    s.category_id,
+    s.ativo,
+    c.nome AS categoria
+    FROM services_wanted s
+    LEFT JOIN categories c ON s.category_id = c.id
+    WHERE s.user_id = ?
+    AND s.ativo = true
     `, [userId]);
     return resposta;
 }
