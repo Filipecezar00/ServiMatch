@@ -5,6 +5,7 @@ import {
   salvar,
   listar_ativos,
   listar_meusServicos,
+  listar_servicos_por_usuario,
   editar_servico_repository,
   editar_statusServico_repository,
   listar_Categorias_repository,
@@ -48,6 +49,14 @@ export async function listar_ativos_service(busca,categoryId) {
 export async function listar_meusAtivos_service(userId) {
   const resposta = await listar_meusServicos(userId);
   return resposta;
+}
+
+export async function listar_servicos_por_usuario_service(userId){
+  if(!userId){
+    throw new AppError("Usuário não informado",400); 
+  }
+  const resposta = await listar_servicos_por_usuario(userId); 
+  return resposta; 
 }
 
 export async function editar_servico_service(
@@ -137,3 +146,4 @@ export async function listarCategorias_service() {
   categoriasCache = lista_categorias;
   return categoriasCache;
 }
+
