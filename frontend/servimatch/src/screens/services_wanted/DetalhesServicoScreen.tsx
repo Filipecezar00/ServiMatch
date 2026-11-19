@@ -88,6 +88,7 @@ export function DetalhesServico() {
       setModalVisual(false);
       setMensagem("");
       setServicoSelecionadoId(null);
+      setServicoWantedSelecionadoId(null); 
     },
     onError: (error) => {
       Alert.alert("Erro ao enviar Proposta", error?.message);
