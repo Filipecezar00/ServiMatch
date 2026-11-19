@@ -40,6 +40,7 @@ export function DetalhesServico() {
   const [servicoSelecionadoId, setServicoSelecionadoId] = useState<
     number | null
   >(null);
+  const [servicoWantedSelecionadoId,setServicoWantedSelecionadoId] = useState<number | null>(null); 
   const [loadingChat,setLoadingChat] = useState(false)
   const { id,tipo } = params; 
   const perfilTargetId = id 
