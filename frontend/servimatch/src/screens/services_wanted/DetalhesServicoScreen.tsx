@@ -101,11 +101,11 @@ export function DetalhesServico() {
   }); 
 
   const handleSubmit = (
-    wanted_service_id: number,
     offered_service_id: number | null,
     mensagem: string,
   ) => {
     const receiver_id = detalhes?.user_id;
+    const wanted_service_id = tipo === "wanted" ? id : servicoWantedSelecionadoId;
 
     if (!receiver_id) {
       Alert.alert("Usuário sem Permissão");
@@ -380,7 +380,7 @@ export function DetalhesServico() {
                   style={styles.inputMensagem}
                 />
                 <Pressable
-                  onPress={() => handleSubmit(id, servicoSelecionadoId, mensagem)}
+                  onPress={() => handleSubmit(servicoSelecionadoId, mensagem)}
                   disabled={isPending}
                   style={styles.botaoEnviarProposta}
                   >
