@@ -379,6 +379,46 @@ export function DetalhesServico() {
                   maxLength={500}
                   style={styles.inputMensagem}
                 />
+
+                {tipo==="offered"&&(
+                  <View>
+                    <Text style={styles.rotuloServicos}>
+                        Serviços desejados pelo prestador: 
+                    </Text>
+                    {loadingWantedUsuario ? (
+                      <ActivityIndicator
+                      size="small"
+                      color={theme.colors.primary}
+                      />
+                    ):(
+                      <FlatList
+                      data={servicoWantedUsuario??[]}
+                      keyExtractor={(item)=>String(item.id)}
+                      keyboardShouldPersistTaps="handled"
+                      renderItem={({item})=>(
+                        <Pressable
+                        onPress={()=>setServicoWantedSelecionadoId(item.id)}
+                        accessibilityRole="button"
+                        accessibilityState={{selected:servicoWantedSelecionadoId===item.id}}
+                        style={[styles.cartaoServico,servicoWantedSelecionadoId===item.id && styles.categoriaServicoSelecionado]}
+                        >
+                          <Text style={styles.tituloServicoModal}>
+                            {item.titulo}
+                          </Text>
+                          <Text style={styles.descricaoServicoModal}>
+                            {item.descricao}
+                          </Text>
+                        </Pressable>
+                      )}
+                      ListEmptyComponent={
+                        <Text style={styles.textoListaVazia}>
+                          Esse prestador ainda não possui serviços desejados.
+                        </Text>
+                      }
+                      />
+                    )}
+                  </View>
+                )}
                 <Pressable
                   onPress={() => handleSubmit(servicoSelecionadoId, mensagem)}
                   disabled={isPending}
