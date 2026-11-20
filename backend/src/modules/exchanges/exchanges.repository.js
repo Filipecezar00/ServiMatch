@@ -17,7 +17,7 @@ export async function listar_exchanges_repository(usuarioId) {
      JOIN users u_proposer ON ep.proposer_id = u_proposer.id
      JOIN users u_receiver ON ep.receiver_id = u_receiver.id
      JOIN services_offered so ON ep.offered_service_id = so.id
-     JOIN services_wanted sw ON ep.wanted_service_id = sw.id
+     LEFT JOIN services_wanted sw ON ep.wanted_service_id = sw.id
      WHERE ep.proposer_id = ? OR ep.receiver_id = ?
     `,
     [usuarioId, usuarioId, usuarioId, usuarioId, usuarioId],
