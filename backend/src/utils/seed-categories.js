@@ -1,5 +1,5 @@
 import "dotenv/config"; 
-import {pool} from "../config/database.js";
+import {pool} from "../config/database.ts";
 
 const categorias = [
     "esporte",
