@@ -1,4 +1,4 @@
-import { pool } from "../../config/database";
+import { pool } from "../../config/database.js";
 export async function buscaUsuarioId(usuarioId, conversa_id) {
     const [resposta] = await pool.query(`
   SELECT * FROM conversas

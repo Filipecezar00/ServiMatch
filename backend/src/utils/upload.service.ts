@@ -1,5 +1,9 @@
 import {Readable} from "node:stream"; 
 import cloudinary from "../config/cloudinary.js";
+import type {
+    UploadApiErrorResponse,
+    UploadApiResponse,
+} from "cloudinary"
 
 export function enviarImagemCloudinary(buffer:Buffer):Promise<{imageUrl:string; publicId:string}>{
 return new Promise((resolve,reject)=>{
@@ -8,7 +12,7 @@ return new Promise((resolve,reject)=>{
             folder:"servimatch/utils",
             resource_type:"image", 
         }, 
-        (error,result)=>{
+        (error?:UploadApiErrorResponse,result?:UploadApiResponse)=>{
             if(error){
                 return reject(error); 
             }

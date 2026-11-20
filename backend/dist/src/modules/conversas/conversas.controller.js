@@ -1,4 +1,4 @@
-import { buscaMensagens_service, buscaConversas_service, criarConversa_service } from "../conversas/conversas.service";
+import { buscaMensagens_service, buscaConversas_service, criarConversa_service } from "../conversas/conversas.service.js";
 export async function buscaMensagens_controller(req, res, next) {
     try {
         const conversa_id = Number(req.params.conversa_id);

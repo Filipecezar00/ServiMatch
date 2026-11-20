@@ -1,5 +1,5 @@
-import AppError from "../../utils/AppError";
-import { buscaUsuarioId, inserirMensagem, buscaMensagens, buscaConversas, criarConversa, buscaService_id, marcarLido, buscarParticipantesConversa } from "../conversas/conversas.repository";
+import AppError from "../../utils/AppError.js";
+import { buscaUsuarioId, inserirMensagem, buscaMensagens, buscaConversas, criarConversa, buscaService_id, marcarLido, buscarParticipantesConversa } from "../conversas/conversas.repository.js";
 export async function buscaUsuarioId_service(usuarioId, conversa_id) {
     if (!usuarioId) {
         throw new AppError("Usuário não localizado", 404);
