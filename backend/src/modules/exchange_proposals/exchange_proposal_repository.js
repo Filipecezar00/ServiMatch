@@ -84,7 +84,7 @@ export async function listarPropostasEnviadas_repository(usuarioId) {
     FROM exchange_proposals ep 
     JOIN users u ON ep.receiver_id = u.id 
     JOIN services_offered so ON ep.offered_service_id = so.id 
-    JOIN services_wanted sw ON ep.wanted_service_id = sw.id
+    LEFT JOIN services_wanted sw ON ep.wanted_service_id = sw.id
     WHERE ep.proposer_id = ? 
     ORDER BY ep.created_at DESC
   `,
@@ -92,7 +92,6 @@ export async function listarPropostasEnviadas_repository(usuarioId) {
   );
   return resposta;
 }
-
 export async function listaPropostasRecebidas_repository(usuarioId) {
   const [resposta] = await pool.query(
     `
@@ -104,7 +103,7 @@ export async function listaPropostasRecebidas_repository(usuarioId) {
   FROM exchange_proposals ep 
   JOIN users u ON ep.proposer_id = u.id 
   JOIN services_offered so ON ep.offered_service_id = so.id
-  JOIN services_wanted sw ON ep.wanted_service_id = sw.id
+  LEFT JOIN services_wanted sw ON ep.wanted_service_id = sw.id
   WHERE ep.receiver_id = ?
   ORDER BY CASE WHEN ep.status = 'pending' THEN 1 ELSE 2 END, 
   ep.created_at DESC  
@@ -132,7 +131,7 @@ const [resposta] = await pool.query(
   INNER JOIN users remetente ON ep.proposer_id = remetente.id
   INNER JOIN users destinatario ON ep.receiver_id = destinatario.id
   INNER JOIN services_offered servico_oferecido ON ep.offered_service_id = servico_oferecido.id
-  INNER JOIN services_wanted servico_solicitado ON ep.wanted_service_id = servico_solicitado.id
+  LEFT JOIN services_wanted servico_solicitado ON ep.wanted_service_id = servico_solicitado.id
   WHERE ep.id = ?
   `,
   [proposalId]
