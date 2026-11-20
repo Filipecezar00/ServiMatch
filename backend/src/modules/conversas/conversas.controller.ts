@@ -1,5 +1,5 @@
 import e, {Request,Response,NextFunction} from "express"
-import {buscaMensagens_service,buscaConversas_service,criarConversa_service,buscarParticipantesConversa_service} from "../conversas/conversas.service"
+import {buscaMensagens_service,buscaConversas_service,criarConversa_service,buscarParticipantesConversa_service} from "../conversas/conversas.service.js"
 
 
 export async function buscaMensagens_controller(req:Request,res:Response,next:NextFunction){

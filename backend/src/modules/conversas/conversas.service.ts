@@ -1,6 +1,6 @@
-import AppError from "../../utils/AppError";
-import { buscaUsuarioId,inserirMensagem,buscaMensagens,buscaConversas,criarConversa,buscaService_id,marcarLido,buscarParticipantesConversa } from "../conversas/conversas.repository";
-import { MarcarMensagemComoLidaInput} from "../../types/socket"
+import AppError from "../../utils/AppError.js";
+import { buscaUsuarioId,inserirMensagem,buscaMensagens,buscaConversas,criarConversa,buscaService_id,marcarLido,buscarParticipantesConversa } from "../conversas/conversas.repository.js";
+import { MarcarMensagemComoLidaInput} from "../../types/socket.js"
 
 export async function buscaUsuarioId_service(
   usuarioId: number,
