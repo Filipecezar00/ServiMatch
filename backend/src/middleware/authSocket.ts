@@ -5,7 +5,7 @@ import {
   ServerToClientEvents,
   InterServerEvents,
   SocketData,
-} from "../types/socket";
+} from "../types/socket.js";
 
 interface JWTPayload {
   id: number;

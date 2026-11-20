@@ -1,5 +1,5 @@
 import {Readable} from "node:stream"; 
-import cloudinary from "../config/cloudinary";
+import cloudinary from "../config/cloudinary.js";
 
 export function enviarImagemCloudinary(buffer:Buffer):Promise<{imageUrl:string; publicId:string}>{
 return new Promise((resolve,reject)=>{

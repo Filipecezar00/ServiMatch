@@ -1,6 +1,6 @@
 import { ResultSetHeader } from "mysql2";
-import { pool } from "../../config/database";
-import {MarcarMensagemComoLidaInput} from "../../types/socket"
+import { pool } from "../../config/database.js";
+import {MarcarMensagemComoLidaInput} from "../../types/socket.js"
 
 export async function buscaUsuarioId(usuarioId: number, conversa_id: number) {
   const [resposta]:any = await pool.query(
