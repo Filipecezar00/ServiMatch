@@ -123,6 +123,7 @@ io.on("connection", async (socket) => {
         console.log("Usuário desconectado:", socket.data.user.id);
     });
 });
-httpServer.listen(process.env.PORT, () => {
+const PORT = Number(process.env.PORT) || 3000;
+httpServer.listen(PORT, () => {
     console.log(`Servidor rodando em porta ${process.env.PORT}`);
 });

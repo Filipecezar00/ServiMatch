@@ -149,6 +149,7 @@ socket.on("read_message",async (payload:{conversaId:number,mensagemId:number})=>
     console.log("Usuário desconectado:", socket.data.user.id);
   });
 });
-httpServer.listen(process.env.PORT, () => {
-  console.log(`Servidor rodando em porta ${process.env.PORT}`);
+const PORT = Number(process.env.PORT) || 3000; 
+httpServer.listen(PORT, () => {
+  console.log(`Servidor rodando em porta ${PORT}`);
 });

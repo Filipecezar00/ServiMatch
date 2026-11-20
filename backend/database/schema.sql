@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: servi_match
 -- ------------------------------------------------------
--- Server version	8.4.11-0ubuntu0.26.04.1
+-- Server version	8.4.11
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -27,7 +27,7 @@ CREATE TABLE `categories` (
   `nome` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nome` (`nome`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -51,7 +51,7 @@ CREATE TABLE `conversas` (
   CONSTRAINT `fk_conversas_proposer` FOREIGN KEY (`proposer_id`) REFERENCES `users` (`id`),
   CONSTRAINT `fk_conversas_receiver` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`),
   CONSTRAINT `fk_conversas_service` FOREIGN KEY (`service_id`) REFERENCES `services_offered` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +66,7 @@ CREATE TABLE `exchange_proposals` (
   `proposer_id` int unsigned NOT NULL,
   `receiver_id` int unsigned NOT NULL,
   `offered_service_id` int NOT NULL,
-  `wanted_service_id` int NOT NULL,
+  `wanted_service_id` int DEFAULT NULL,
   `status` enum('pending','accepted','rejected','cancelled') DEFAULT 'pending',
   `mensagem` varchar(200) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -79,8 +79,55 @@ CREATE TABLE `exchange_proposals` (
   CONSTRAINT `fk_proposals_offered_service` FOREIGN KEY (`offered_service_id`) REFERENCES `services_offered` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_proposals_proposer_user` FOREIGN KEY (`proposer_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_proposals_receiver_user` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `fk_proposals_wanted_service` FOREIGN KEY (`wanted_service_id`) REFERENCES `services_offered` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `fk_proposals_wanted_service` FOREIGN KEY (`wanted_service_id`) REFERENCES `services_wanted` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `exchange_proposals_backup`
+--
+
+DROP TABLE IF EXISTS `exchange_proposals_backup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `exchange_proposals_backup` (
+  `id` int NOT NULL DEFAULT '0',
+  `proposer_id` int unsigned NOT NULL,
+  `receiver_id` int unsigned NOT NULL,
+  `offered_service_id` int NOT NULL,
+  `wanted_service_id` int NOT NULL,
+  `status` enum('pending','accepted','rejected','cancelled') DEFAULT 'pending',
+  `mensagem` varchar(200) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `exchange_reminders`
+--
+
+DROP TABLE IF EXISTS `exchange_reminders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `exchange_reminders` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `exchange_id` int NOT NULL,
+  `user_id` int unsigned NOT NULL,
+  `reminder_type` varchar(50) NOT NULL,
+  `sent_at` timestamp NULL DEFAULT NULL,
+  `status` enum('pending','sent','failed') NOT NULL DEFAULT 'sent',
+  `attempts` int unsigned NOT NULL DEFAULT '0',
+  `last_attempt_at` datetime DEFAULT NULL,
+  `error_message` text,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `reservation_token` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_reminder` (`exchange_id`,`user_id`,`reminder_type`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `exchange_reminders_ibfk_1` FOREIGN KEY (`exchange_id`) REFERENCES `exchanges` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `exchange_reminders_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,7 +147,7 @@ CREATE TABLE `exchanges` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `proposal_id` (`proposal_id`),
   CONSTRAINT `fk_exchange_proposal` FOREIGN KEY (`proposal_id`) REFERENCES `exchange_proposals` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +169,30 @@ CREATE TABLE `mensagens` (
   KEY `fk_sender_id` (`sender_id`),
   CONSTRAINT `fk_conversa_id` FOREIGN KEY (`conversa_id`) REFERENCES `conversas` (`id`),
   CONSTRAINT `fk_sender_id` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `review_alerts`
+--
+
+DROP TABLE IF EXISTS `review_alerts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `review_alerts` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `review_id` int NOT NULL,
+  `status` enum('pending','sent','failed') NOT NULL DEFAULT 'pending',
+  `sent_at` timestamp NULL DEFAULT NULL,
+  `attempts` int NOT NULL DEFAULT '0',
+  `last_attempt_at` timestamp NULL DEFAULT NULL,
+  `error_message` text,
+  `reservation_token` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_review_alert` (`review_id`),
+  CONSTRAINT `review_alert_fk` FOREIGN KEY (`review_id`) REFERENCES `reviews` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,7 +219,26 @@ CREATE TABLE `reviews` (
   CONSTRAINT `reviewerKey` FOREIGN KEY (`reviewer_id`) REFERENCES `users` (`id`),
   CONSTRAINT `review_validation` CHECK ((`reviewer_id` <> `reviewed_id`)),
   CONSTRAINT `reviews_chk_1` CHECK (((`rating` >= 1) and (`rating` <= 5)))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `service_images`
+--
+
+DROP TABLE IF EXISTS `service_images`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `service_images` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `service_id` int NOT NULL,
+  `image_url` varchar(2048) NOT NULL,
+  `ordem` tinyint unsigned NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_service_image_order` (`service_id`,`ordem`),
+  CONSTRAINT `fk_service_images_service` FOREIGN KEY (`service_id`) REFERENCES `services_offered` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -167,12 +256,13 @@ CREATE TABLE `services_offered` (
   `descricao` text NOT NULL,
   `ativo` tinyint(1) DEFAULT '1',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `image_url` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_services_offered_user` (`user_id`),
   KEY `fk_categories_offered_user` (`category_id`),
   CONSTRAINT `fk_categories_offered_user` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL,
   CONSTRAINT `fk_services_offered_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -195,7 +285,22 @@ CREATE TABLE `services_wanted` (
   KEY `fk_categories_wanted_user` (`category_id`),
   CONSTRAINT `fk_categories_wanted_user` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL,
   CONSTRAINT `fk_services_wanted_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `servicos_monitorados`
+--
+
+DROP TABLE IF EXISTS `servicos_monitorados`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `servicos_monitorados` (
+  `service_id` int NOT NULL,
+  `processado_em` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`service_id`),
+  CONSTRAINT `fk_servicos_monitorados` FOREIGN KEY (`service_id`) REFERENCES `services_offered` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -212,18 +317,11 @@ CREATE TABLE `users` (
   `senha` varchar(250) NOT NULL,
   `criado_em` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `atualizado_em` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `image_url` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping events for database 'servi_match'
---
-
---
--- Dumping routines for database 'servi_match'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -234,4 +332,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-10-19 10:40:47
+-- Dump completed on 2026-11-20 18:31:35
