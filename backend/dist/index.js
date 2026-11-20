@@ -1,39 +1,34 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-require("dotenv/config");
-const express_1 = __importDefault(require("express"));
-const database_js_1 = require("./src/config/database.js");
-const error_js_1 = __importDefault(require("./src/middleware/error.js"));
-const users_routes_js_1 = __importDefault(require("./src/modules/users/users.routes.js"));
-const service_wanted_routes_js_1 = __importDefault(require("./src/modules/services_wanted/service_wanted_routes.js"));
-const service_offered_routes_js_1 = __importDefault(require("./src/modules/services_offered/service_offered_routes.js"));
-const exchange_proposal_routes_js_1 = __importDefault(require("./src/modules/exchange_proposals/exchange_proposal_routes.js"));
-const exchanges_routes_js_1 = __importDefault(require("./src/modules/exchanges/exchanges.routes.js"));
-const reviews_routes_js_1 = __importDefault(require("./src/modules/reviews/reviews.routes.js"));
-const profile_routes_js_1 = __importDefault(require("./src/modules/profile/profile.routes.js"));
-const swagger_js_1 = require("./src/config/swagger.js");
-const conversas_routes_js_1 = __importDefault(require("./src/modules/conversas/conversas.routes.js"));
+import "dotenv/config";
+import express from "express";
+import { pool } from "./src/config/database.js";
+import errorMiddleware from "./src/middleware/error.js";
+import user_router from "./src/modules/users/users.routes.js";
+import service_router_wanted from "./src/modules/services_wanted/service_wanted_routes.js";
+import service_router_offered from "./src/modules/services_offered/service_offered_routes.js";
+import exchange_proposal_router from "./src/modules/exchange_proposals/exchange_proposal_routes.js";
+import exchange_router from "./src/modules/exchanges/exchanges.routes.js";
+import review_router from "./src/modules/reviews/reviews.routes.js";
+import profile_router from "./src/modules/profile/profile.routes.js";
+import { setupSwagger } from "./src/config/swagger.js";
+import conversas_router from "./src/modules/conversas/conversas.routes.js";
 "./src/modules/conversas/conversas.routes.js";
-const node_http_1 = require("node:http");
-const socket_io_1 = require("socket.io");
-const presenca_js_1 = require("./src/modules/conversas/presenca.js");
-const conversas_service_js_1 = require("./src/modules/conversas/conversas.service.js");
-const authSocket_js_1 = require("./src/middleware/authSocket.js");
-const conversas_service_js_2 = require("./src/modules/conversas/conversas.service.js");
-const app = (0, express_1.default)();
-app.use(express_1.default.json());
-const httpServer = (0, node_http_1.createServer)(app);
-const io = new socket_io_1.Server(httpServer, {
+import { createServer } from "node:http";
+import { Server } from "socket.io";
+import { adicionarConexao, removerConexao, usuarioEstaOnline } from "./src/modules/conversas/presenca.js";
+import { buscarParticipantesConversa_service } from "./src/modules/conversas/conversas.service.js";
+import { authSocket } from "./src/middleware/authSocket.js";
+import { buscaUsuarioId_service, inserirMensagem_service, marcaComoLida_service } from "./src/modules/conversas/conversas.service.js";
+const app = express();
+app.use(express.json());
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
     cors: { origin: "*" },
 });
-io.use(authSocket_js_1.authSocket);
-(0, swagger_js_1.setupSwagger)(app);
+io.use(authSocket);
+setupSwagger(app);
 app.get("/health", async (req, res) => {
     try {
-        const consulta = await database_js_1.pool.query(`SELECT 1`);
+        const consulta = await pool.query(`SELECT 1`);
         res.status(200).json({ status: "ok", database: "connected" });
     }
     catch (error) {
@@ -42,27 +37,27 @@ app.get("/health", async (req, res) => {
             .json({ status: "error", database: "Erro ao executar servidor" });
     }
 });
-app.use("/api/users", users_routes_js_1.default);
-app.use("/api/services-offered", service_offered_routes_js_1.default);
-app.use("/api/services-wanted", service_wanted_routes_js_1.default);
-app.use("/api/exchange-proposals", exchange_proposal_routes_js_1.default);
-app.use("/api/exchange", exchanges_routes_js_1.default);
-app.use("/api/reviews", reviews_routes_js_1.default);
-app.use("/api/profile", profile_routes_js_1.default);
-app.use("/api/conversas", conversas_routes_js_1.default);
-app.use(error_js_1.default);
+app.use("/api/users", user_router);
+app.use("/api/services-offered", service_router_offered);
+app.use("/api/services-wanted", service_router_wanted);
+app.use("/api/exchange-proposals", exchange_proposal_router);
+app.use("/api/exchange", exchange_router);
+app.use("/api/reviews", review_router);
+app.use("/api/profile", profile_router);
+app.use("/api/conversas", conversas_router);
+app.use(errorMiddleware);
 io.on("connection", async (socket) => {
     let usuarioId = socket.data.user.id;
-    (0, presenca_js_1.adicionarConexao)(usuarioId, socket.id);
+    adicionarConexao(usuarioId, socket.id);
     console.log("Conexão registrada:", {
         usuarioId,
         socketId: socket.id,
-        online: (0, presenca_js_1.usuarioEstaOnline)(usuarioId)
+        online: usuarioEstaOnline(usuarioId)
     });
     console.log(`Usuário ${usuarioId} conectado`);
     socket.on("join_room", async (payload) => {
         try {
-            let consulta_banco = await (0, conversas_service_js_2.buscaUsuarioId_service)(usuarioId, payload.roomId);
+            let consulta_banco = await buscaUsuarioId_service(usuarioId, payload.roomId);
             if (consulta_banco) {
                 socket.join(`conversa:${payload.roomId}`);
             }
@@ -74,7 +69,7 @@ io.on("connection", async (socket) => {
     socket.on("read_message", async (payload) => {
         try {
             const usuarioId = socket.data.user.id;
-            const resultado = await (0, conversas_service_js_2.marcaComoLida_service)({
+            const resultado = await marcaComoLida_service({
                 conversaId: payload.conversaId,
                 mensagemId: payload.mensagemId,
                 usuarioId
@@ -91,14 +86,14 @@ io.on("connection", async (socket) => {
     socket.on("send_message", async ({ roomId, mensagem }) => {
         try {
             let usuarioId = socket.data.user.id;
-            let mensagem_enviada = await (0, conversas_service_js_2.inserirMensagem_service)(roomId, usuarioId, mensagem);
-            const participantes = await (0, conversas_service_js_1.buscarParticipantesConversa_service)(roomId);
+            let mensagem_enviada = await inserirMensagem_service(roomId, usuarioId, mensagem);
+            const participantes = await buscarParticipantesConversa_service(roomId);
             if (!participantes) {
                 throw new Error("Participantes da conversa não encontrados");
             }
             const destinatarioId = participantes.proposer_id === usuarioId ? participantes.receiver_id : participantes.proposer_id;
             io.to(`conversa:${roomId}`).emit("receive_message", mensagem_enviada);
-            const destinatarioOnline = (0, presenca_js_1.usuarioEstaOnline)(destinatarioId);
+            const destinatarioOnline = usuarioEstaOnline(destinatarioId);
             if (!destinatarioOnline) {
                 console.log("Destinatário offline. Enviando notificação para o n8n");
                 try {
@@ -124,7 +119,7 @@ io.on("connection", async (socket) => {
         }
     });
     socket.on("disconnect", () => {
-        (0, presenca_js_1.removerConexao)(usuarioId, socket.id);
+        removerConexao(usuarioId, socket.id);
         console.log("Usuário desconectado:", socket.data.user.id);
     });
 });

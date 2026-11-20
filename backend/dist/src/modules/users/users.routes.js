@@ -1,11 +1,6 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const users_controller_js_1 = require("../../modules/users/users.controller.js");
-const user_router = express_1.default.Router();
+import express from "express";
+import { criarUsuario, loginUsuario, } from "../../modules/users/users.controller.js";
+const user_router = express.Router();
 /**
  * @openapi
  * /api/users/cadastro:
@@ -41,7 +36,7 @@ const user_router = express_1.default.Router();
  *         400:
  *           description: Dados de entrada inválidos ou ausentes
  */
-user_router.post("/cadastro", users_controller_js_1.criarUsuario);
+user_router.post("/cadastro", criarUsuario);
 /**
  * @openapi
  * /api/users/login:
@@ -73,5 +68,5 @@ user_router.post("/cadastro", users_controller_js_1.criarUsuario);
  *         400:
  *           description: Dados de entrada inválidos
  */
-user_router.post("/login", users_controller_js_1.loginUsuario);
-exports.default = user_router;
+user_router.post("/login", loginUsuario);
+export default user_router;

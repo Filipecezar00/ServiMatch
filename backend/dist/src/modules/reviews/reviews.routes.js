@@ -1,13 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-require("dotenv/config");
-const express_1 = __importDefault(require("express"));
-const auth_js_1 = require("../../middleware/auth.js");
-const reviews_controller_js_1 = require("./reviews.controller.js");
-const review_router = express_1.default.Router();
+import "dotenv/config";
+import express from "express";
+import { authMiddleware } from "../../middleware/auth.js";
+import { criar_review_controller, listar_reviews_controller, } from "./reviews.controller.js";
+const review_router = express.Router();
 /**
  * @openapi
  * /api/reviews/criar/{exchangeId}:
@@ -54,7 +49,7 @@ const review_router = express_1.default.Router();
  *         description: Você já avaliou esta troca
  *
  */
-review_router.post("/criar/:exchangeId", auth_js_1.authMiddleware, reviews_controller_js_1.criar_review_controller);
+review_router.post("/criar/:exchangeId", authMiddleware, criar_review_controller);
 /**
  * @openapi
  * /api/reviews/{reviewedId}/reviews:
@@ -97,5 +92,5 @@ review_router.post("/criar/:exchangeId", auth_js_1.authMiddleware, reviews_contr
  *         404:
  *           description: Usuário não encontrado
  */
-review_router.get("/:reviewedId/reviews", reviews_controller_js_1.listar_reviews_controller);
-exports.default = review_router;
+review_router.get("/:reviewedId/reviews", listar_reviews_controller);
+export default review_router;

@@ -1,13 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-require("dotenv/config");
-const auth_js_1 = require("../../middleware/auth.js");
-const express_1 = __importDefault(require("express"));
-const service_wanted_controller_js_1 = require("./service_wanted_controller.js");
-const service_router_wanted = express_1.default.Router();
+import "dotenv/config";
+import { authMiddleware } from "../../middleware/auth.js";
+import express from "express";
+import { criar_controller, listar_ativos_controller, listar_meusAtivos_controller, editar_servico_controller, editar_statusServico_controller, listar_categorias_controller, buscar_servico_controller, listar_servicos_por_usuario_controller } from "./service_wanted_controller.js";
+const service_router_wanted = express.Router();
 /**
  * @openapi
  * /api/services-wanted/criar:
@@ -44,8 +39,8 @@ const service_router_wanted = express_1.default.Router();
  *       401:
  *         description: Token ausente ou inválido
  */
-service_router_wanted.post("/criar", auth_js_1.authMiddleware, service_wanted_controller_js_1.criar_controller);
-service_router_wanted.get("/categorias", auth_js_1.authMiddleware, service_wanted_controller_js_1.listar_categorias_controller);
+service_router_wanted.post("/criar", authMiddleware, criar_controller);
+service_router_wanted.get("/categorias", authMiddleware, listar_categorias_controller);
 /**
  * @openapi
  * /api/services-wanted/listar-ativos:
@@ -77,7 +72,7 @@ service_router_wanted.get("/categorias", auth_js_1.authMiddleware, service_wante
  *         401:
  *          description: Token ausente ou inválido
  */
-service_router_wanted.get("/listar-ativos", service_wanted_controller_js_1.listar_ativos_controller);
+service_router_wanted.get("/listar-ativos", listar_ativos_controller);
 /**
  * @openapi
  * /api/services-wanted/listar-minhas:
@@ -109,9 +104,9 @@ service_router_wanted.get("/listar-ativos", service_wanted_controller_js_1.lista
  *       401:
  *          description: Token ausente ou inválido
  */
-service_router_wanted.get("/listar-minhas", auth_js_1.authMiddleware, service_wanted_controller_js_1.listar_meusAtivos_controller);
-service_router_wanted.get("/listar-usuario/:userId", auth_js_1.authMiddleware, service_wanted_controller_js_1.listar_servicos_por_usuario_controller);
-service_router_wanted.get("/:id", service_wanted_controller_js_1.buscar_servico_controller);
+service_router_wanted.get("/listar-minhas", authMiddleware, listar_meusAtivos_controller);
+service_router_wanted.get("/listar-usuario/:userId", authMiddleware, listar_servicos_por_usuario_controller);
+service_router_wanted.get("/:id", buscar_servico_controller);
 /**
  * @openapi
  * /api/services-wanted/{id}:
@@ -156,7 +151,7 @@ service_router_wanted.get("/:id", service_wanted_controller_js_1.buscar_servico_
  *       404:
  *         description: Serviço não encontrado
  */
-service_router_wanted.put("/:id", auth_js_1.authMiddleware, service_wanted_controller_js_1.editar_servico_controller);
+service_router_wanted.put("/:id", authMiddleware, editar_servico_controller);
 /**
  * @openapi
  * /api/services-wanted/{id}/status:
@@ -197,5 +192,5 @@ service_router_wanted.put("/:id", auth_js_1.authMiddleware, service_wanted_contr
  *       404:
  *         description: Serviço não encontrado
  */
-service_router_wanted.patch("/:id/status", auth_js_1.authMiddleware, service_wanted_controller_js_1.editar_statusServico_controller);
-exports.default = service_router_wanted;
+service_router_wanted.patch("/:id/status", authMiddleware, editar_statusServico_controller);
+export default service_router_wanted;

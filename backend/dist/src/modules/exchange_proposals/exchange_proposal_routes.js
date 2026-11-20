@@ -1,13 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-require("dotenv/config");
-const express_1 = __importDefault(require("express"));
-const exchange_proposal_controller_js_1 = require("./exchange_proposal_controller.js");
-const auth_js_1 = require("../../middleware/auth.js");
-const exchange_proposal_router = express_1.default.Router();
+import "dotenv/config";
+import express from "express";
+import { criar_controller, mudar_status_controller, listaPropostasRecebidas_controller, listaPropostasEnviadas_controller, } from "./exchange_proposal_controller.js";
+import { authMiddleware } from "../../middleware/auth.js";
+const exchange_proposal_router = express.Router();
 /**
  * @openapi
  * /api/exchange-proposals/criar:
@@ -51,9 +46,9 @@ const exchange_proposal_router = express_1.default.Router();
  *         description: Usuário receptor ou serviço não encontrado
  *
  */
-exchange_proposal_router.post("/criar", auth_js_1.authMiddleware, exchange_proposal_controller_js_1.criar_controller);
-exchange_proposal_router.get("/listar-recebidas", auth_js_1.authMiddleware, exchange_proposal_controller_js_1.listaPropostasRecebidas_controller);
-exchange_proposal_router.get("/listar-enviadas", auth_js_1.authMiddleware, exchange_proposal_controller_js_1.listaPropostasEnviadas_controller);
+exchange_proposal_router.post("/criar", authMiddleware, criar_controller);
+exchange_proposal_router.get("/listar-recebidas", authMiddleware, listaPropostasRecebidas_controller);
+exchange_proposal_router.get("/listar-enviadas", authMiddleware, listaPropostasEnviadas_controller);
 /**
  * @openapi
  * /api/exchange-proposals/{id}/status:
@@ -90,5 +85,5 @@ exchange_proposal_router.get("/listar-enviadas", auth_js_1.authMiddleware, excha
  *       404:
  *         description: Proposta não encontrada
  */
-exchange_proposal_router.patch("/:id/status", auth_js_1.authMiddleware, exchange_proposal_controller_js_1.mudar_status_controller);
-exports.default = exchange_proposal_router;
+exchange_proposal_router.patch("/:id/status", authMiddleware, mudar_status_controller);
+export default exchange_proposal_router;

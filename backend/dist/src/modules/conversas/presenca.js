@@ -1,16 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.adicionarConexao = adicionarConexao;
-exports.removerConexao = removerConexao;
-exports.usuarioEstaOnline = usuarioEstaOnline;
 const usuariosOnline = new Map();
-function adicionarConexao(usuarioId, socketId) {
+export function adicionarConexao(usuarioId, socketId) {
     if (!usuariosOnline.has(usuarioId)) {
         usuariosOnline.set(usuarioId, new Set());
     }
     usuariosOnline.get(usuarioId).add(socketId);
 }
-function removerConexao(usuarioId, socketId) {
+export function removerConexao(usuarioId, socketId) {
     const conexoes = usuariosOnline.get(usuarioId);
     if (!conexoes) {
         return;
@@ -20,6 +15,6 @@ function removerConexao(usuarioId, socketId) {
         usuariosOnline.delete(usuarioId);
     }
 }
-function usuarioEstaOnline(usuarioId) {
+export function usuarioEstaOnline(usuarioId) {
     return usuariosOnline.has(usuarioId);
 }

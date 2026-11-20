@@ -1,13 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-require("dotenv/config");
-const express_1 = __importDefault(require("express"));
-const auth_js_1 = require("../../middleware/auth.js");
-const exchanges_controller_js_1 = require("./exchanges.controller.js");
-const exchange_router = express_1.default.Router();
+import "dotenv/config";
+import express from "express";
+import { authMiddleware } from "../../middleware/auth.js";
+import { listar_exchange_controller, update_exchange_controller, completed_exchange_controller, canceled_exchange_controller, } from "./exchanges.controller.js";
+const exchange_router = express.Router();
 /**
  * @openapi
  * /api/exchange/listar:
@@ -49,7 +44,7 @@ const exchange_router = express_1.default.Router();
  *       401:
  *          description: Token ausente ou inválido
  */
-exchange_router.get("/listar", auth_js_1.authMiddleware, exchanges_controller_js_1.listar_exchange_controller);
+exchange_router.get("/listar", authMiddleware, listar_exchange_controller);
 /**
  * @openapi
  * /api/exchange/{id}/editar:
@@ -95,7 +90,7 @@ exchange_router.get("/listar", auth_js_1.authMiddleware, exchanges_controller_js
  *        description: Proposta não encontrada
  *
  */
-exchange_router.patch("/:id/editar", auth_js_1.authMiddleware, exchanges_controller_js_1.update_exchange_controller);
+exchange_router.patch("/:id/editar", authMiddleware, update_exchange_controller);
 /**
  * @openapi
  * /api/exchange/{id}/concluir:
@@ -124,7 +119,7 @@ exchange_router.patch("/:id/editar", auth_js_1.authMiddleware, exchanges_control
  *        404:
  *          description: Proposta não encontrada
  */
-exchange_router.patch("/:id/concluir", auth_js_1.authMiddleware, exchanges_controller_js_1.completed_exchange_controller);
+exchange_router.patch("/:id/concluir", authMiddleware, completed_exchange_controller);
 /**
  * @openapi
  * /api/exchange/{id}/cancelar:
@@ -154,5 +149,5 @@ exchange_router.patch("/:id/concluir", auth_js_1.authMiddleware, exchanges_contr
  *          description: Proposta não encontra
  *
  */
-exchange_router.patch("/:id/cancelar", auth_js_1.authMiddleware, exchanges_controller_js_1.canceled_exchange_controller);
-exports.default = exchange_router;
+exchange_router.patch("/:id/cancelar", authMiddleware, canceled_exchange_controller);
+export default exchange_router;

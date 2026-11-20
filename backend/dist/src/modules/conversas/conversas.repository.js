@@ -1,23 +1,13 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.buscaUsuarioId = buscaUsuarioId;
-exports.inserirMensagem = inserirMensagem;
-exports.buscaMensagens = buscaMensagens;
-exports.marcarLido = marcarLido;
-exports.buscaConversas = buscaConversas;
-exports.buscaService_id = buscaService_id;
-exports.criarConversa = criarConversa;
-exports.buscarParticipantesConversa = buscarParticipantesConversa;
-const database_1 = require("../../config/database");
-async function buscaUsuarioId(usuarioId, conversa_id) {
-    const [resposta] = await database_1.pool.query(`
+import { pool } from "../../config/database";
+export async function buscaUsuarioId(usuarioId, conversa_id) {
+    const [resposta] = await pool.query(`
   SELECT * FROM conversas
   WHERE id = ? AND (proposer_id = ? OR receiver_id = ? )
   `, [conversa_id, usuarioId, usuarioId]);
     return resposta;
 }
-async function inserirMensagem(conversa_id, usuarioId, mensagem) {
-    const [resposta] = await database_1.pool.query(`
+export async function inserirMensagem(conversa_id, usuarioId, mensagem) {
+    const [resposta] = await pool.query(`
         INSERT INTO mensagens (conversa_id,sender_id,mensagem) VALUES (?,?,?)
     `, [conversa_id, usuarioId, mensagem]);
     return {
@@ -29,14 +19,14 @@ async function inserirMensagem(conversa_id, usuarioId, mensagem) {
         created_at: new Date()
     };
 }
-async function buscaMensagens(conversa_id, limit, offset) {
+export async function buscaMensagens(conversa_id, limit, offset) {
     const [mensagensPromise, quantidade_mensagem] = await Promise.all([
-        database_1.pool.query(`
+        pool.query(`
   SELECT * FROM mensagens WHERE conversa_id  = ?
   ORDER BY created_at DESC
   LIMIT ? OFFSET ?
   `, [conversa_id, limit, offset]),
-        database_1.pool.query(`
+        pool.query(`
     SELECT COUNT(*) AS total
     FROM mensagens WHERE conversa_id = ? 
   `, [conversa_id])
@@ -45,14 +35,14 @@ async function buscaMensagens(conversa_id, limit, offset) {
     const [totalRows] = quantidade_mensagem;
     return { mensagens: mensagens, total: totalRows[0].total };
 }
-async function marcarLido({ mensagemId, conversaId, usuarioId }) {
-    const [resposta] = await database_1.pool.query(`
+export async function marcarLido({ mensagemId, conversaId, usuarioId }) {
+    const [resposta] = await pool.query(`
     UPDATE mensagens SET lido = 1 WHERE id = ? AND conversa_id = ? AND sender_id <> ? AND lido = 0 
   `, [mensagemId, conversaId, usuarioId]);
     return resposta.affectedRows > 0;
 }
-async function buscaConversas(usuarioId) {
-    const respostas = await database_1.pool.query(`
+export async function buscaConversas(usuarioId) {
+    const respostas = await pool.query(`
     SELECT c.*,u.nome AS nome_outro_usuario FROM conversas c
     JOIN users u ON (
     (c.proposer_id = ? AND c.receiver_id = u.id) OR
@@ -62,8 +52,8 @@ async function buscaConversas(usuarioId) {
   `, [usuarioId, usuarioId, usuarioId, usuarioId]);
     return respostas[0];
 }
-async function buscaService_id(service_id) {
-    const [service] = await database_1.pool.query(`
+export async function buscaService_id(service_id) {
+    const [service] = await pool.query(`
    SELECT id FROM services_offered WHERE id = ?
   `, [service_id]);
     if (!service || service.length === 0) {
@@ -71,7 +61,7 @@ async function buscaService_id(service_id) {
     }
     return service[0];
 }
-async function criarConversa(proposer_id, receiver_id, service_id) {
+export async function criarConversa(proposer_id, receiver_id, service_id) {
     let query = `
   SELECT id FROM conversas
   WHERE ((proposer_id = ? AND receiver_id = ?) OR (proposer_id = ? AND receiver_id = ?))
@@ -84,17 +74,17 @@ async function criarConversa(proposer_id, receiver_id, service_id) {
     else {
         query += `AND service_id IS NULL`;
     }
-    const [conversas] = await database_1.pool.query(query, params);
+    const [conversas] = await pool.query(query, params);
     if (conversas.length > 0) {
         return conversas[0];
     }
-    const [resposta] = await database_1.pool.query(`
+    const [resposta] = await pool.query(`
     INSERT INTO conversas (proposer_id,receiver_id,service_id) VALUES (?,?,?)
   `, [proposer_id, receiver_id, service_id || null]);
     return { id: resposta.insertId };
 }
-async function buscarParticipantesConversa(conversa_id) {
-    const [resposta] = await database_1.pool.query(`
+export async function buscarParticipantesConversa(conversa_id) {
+    const [resposta] = await pool.query(`
     SELECT proposer_id,receiver_id FROM conversas
     WHERE id = ? 
     `, [conversa_id]);

@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.notificar_proposta_recebida = notificar_proposta_recebida;
-async function notificar_proposta_recebida(dados) {
+export async function notificar_proposta_recebida(dados) {
     const webhookUrl = process.env.N8N_PROPOSTA_WEBHOOK_URL;
     if (!webhookUrl) {
         throw new Error("URL do webhook n8n não configurada.");
