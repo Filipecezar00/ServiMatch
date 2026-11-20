@@ -43,7 +43,6 @@ export function DetalhesServico() {
   const [servicoWantedSelecionadoId,setServicoWantedSelecionadoId] = useState<number | null>(null); 
   const [loadingChat,setLoadingChat] = useState(false)
   const { id,tipo } = params; 
-  const perfilTargetId = id 
   const usuarioId = useAuthStore((state)=>state.usuario?.id)
   const [imagemAtual,setImagemAtual] = useState(0); 
 
@@ -58,6 +57,9 @@ export function DetalhesServico() {
     queryFn: () => tipo==="wanted" ?  obterServicoWantedId(id) : obterDetalhesServicoPorId(id),
     enabled: !!id && !!tipo,
   });
+
+  const perfilTargetId = detalhes?.user_id
+
 
   console.log("Detalhes do serviço:",JSON.stringify(detalhes,null,2))
   console.log("Imagens recebidas:",detalhes?.imagens); 
