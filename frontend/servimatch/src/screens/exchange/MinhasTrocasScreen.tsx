@@ -476,7 +476,8 @@ textData:{
 },
 textcompletado:{
   fontWeight:"600",
-  marginBottom:theme.spacing.xs
+  marginBottom:theme.spacing.xs,
+  color:theme.colors.textSecondary
 }, 
 containerAvaliacao:{
   backgroundColor:theme.colors.background,
@@ -489,7 +490,8 @@ containerAvaliacao:{
 textContainer:{
   fontSize:14,
   color:theme.colors.textPrimary, 
-  textAlign:"center"
+  textAlign:"center", 
+  marginBottom:theme.spacing.md
 }, 
 textNota:{
   color:theme.colors.textPrimary,
