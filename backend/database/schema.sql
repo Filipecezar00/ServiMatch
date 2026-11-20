@@ -84,24 +84,8 @@ CREATE TABLE `exchange_proposals` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `exchange_proposals_backup`
 --
 
-DROP TABLE IF EXISTS `exchange_proposals_backup`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `exchange_proposals_backup` (
-  `id` int NOT NULL DEFAULT '0',
-  `proposer_id` int unsigned NOT NULL,
-  `receiver_id` int unsigned NOT NULL,
-  `offered_service_id` int NOT NULL,
-  `wanted_service_id` int NOT NULL,
-  `status` enum('pending','accepted','rejected','cancelled') DEFAULT 'pending',
-  `mensagem` varchar(200) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `exchange_reminders`
