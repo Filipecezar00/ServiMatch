@@ -11,7 +11,6 @@ import review_router from "./src/modules/reviews/reviews.routes.js";
 import profile_router from "./src/modules/profile/profile.routes.js";
 import { setupSwagger } from "./src/config/swagger.js";
 import conversas_router from "./src/modules/conversas/conversas.routes.js";
-"./src/modules/conversas/conversas.routes.js";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
 import { adicionarConexao, removerConexao, usuarioEstaOnline } from "./src/modules/conversas/presenca.js";
@@ -125,5 +124,5 @@ io.on("connection", async (socket) => {
 });
 const PORT = Number(process.env.PORT) || 3000;
 httpServer.listen(PORT, () => {
-    console.log(`Servidor rodando em porta ${process.env.PORT}`);
+    console.log(`Servidor rodando em porta ${PORT}`);
 });

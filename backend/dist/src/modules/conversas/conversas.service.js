@@ -68,10 +68,7 @@ export async function marcaComoLida_service({ mensagemId, conversaId, usuarioId 
     if (!Number.isInteger(usuarioId) || usuarioId <= 0) {
         throw new AppError("Usuário não autenticado", 400);
     }
-    const participa = await buscaUsuarioId(usuarioId, conversaId);
-    if (!participa) {
-        throw new AppError("Você não tem permissão para acessar essa conversa.", 403);
-    }
+    await buscaUsuarioId_service(usuarioId, conversaId);
     const atualizada = await marcarLido({ mensagemId, conversaId, usuarioId });
     if (!atualizada) {
         return null;
