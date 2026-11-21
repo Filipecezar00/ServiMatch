@@ -143,7 +143,7 @@ export function DetalhesServico() {
     }
     try{
     setLoadingChat(true)
-    const data = await criarConversa({receiver_id:detalhes.user_id,service_id:id}); 
+    const data = await criarConversa({receiver_id:detalhes.user_id,...(tipo==="offered" ? {service_id:id}:{})}); 
     const conversa_id = data?.id || data?.conversas?.id
 
     if(conversa_id){
