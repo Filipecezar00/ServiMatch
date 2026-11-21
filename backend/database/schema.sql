@@ -100,7 +100,7 @@ CREATE TABLE `exchange_reminders` (
   `user_id` int unsigned NOT NULL,
   `reminder_type` varchar(50) NOT NULL,
   `sent_at` timestamp NULL DEFAULT NULL,
-  `status` enum('pending','sent','failed') NOT NULL DEFAULT 'sent',
+  `status` enum('pending','sent','failed') NOT NULL DEFAULT 'pending',
   `attempts` int unsigned NOT NULL DEFAULT '0',
   `last_attempt_at` datetime DEFAULT NULL,
   `error_message` text,
