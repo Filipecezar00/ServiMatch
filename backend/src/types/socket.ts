@@ -1,8 +1,6 @@
 export type SocketData = {
   user: {
     id: number;
-    email: string;
-    nome: string;
   };
 };
 
