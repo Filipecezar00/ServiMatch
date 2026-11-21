@@ -69,7 +69,7 @@ export async function buscaConversas(usuarioId:number){
 
 export async function buscaService_id(service_id:number){
   const [service] = await pool.query<any>(`
-   SELECT id FROM services_offered WHERE id = ?
+   SELECT id, user_id FROM services_offered WHERE id = ?
   `,[service_id]);
 
    if(!service || service.length === 0){
