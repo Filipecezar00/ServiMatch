@@ -43,7 +43,7 @@ return resposta
 export async function buscaMensagens_service(usuarioId:number,conversa_id:number,page:number,limit:number){
 await buscaUsuarioId_service(usuarioId,conversa_id); 
 let page_number = Number(page) || 1; 
-let limit_number = Number(limit) || 20; 
+let limit_number = Math.min(Number(limit) || 20,100); 
 
 if(page_number<1){
   page_number = 1 
