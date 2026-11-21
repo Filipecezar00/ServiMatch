@@ -36,7 +36,7 @@ export async function cadastro(nome, email, senha) {
   const usuario = { id, nome, email };
 
   const token = jwt.sign({ id: usuario.id }, process.env.TOKEN_JWT, {
-    expiresIn: "1d",
+    expiresIn: "1h",
   });
 
   return { usuario, token };
@@ -63,8 +63,6 @@ export async function autenticar(email, senha) {
 
   const payload = {
     id,
-    nome,
-    email,
   };
   const token_jwt = jwt.sign(payload, process.env.TOKEN_JWT, {
     expiresIn: "1h",
