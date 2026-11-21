@@ -19,3 +19,11 @@ export async function criar(nome, email, senha) {
   const resultado = cadastro[0].insertId;
   return resultado;
 }
+
+export async function buscarPorId(id){
+const [resultado] = await pool.query(
+  `SELECT id FROM users WHERE id = ?`,
+  [id]
+); 
+return resultado[0] || null
+}
