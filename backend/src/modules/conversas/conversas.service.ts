@@ -1,6 +1,7 @@
 import AppError from "../../utils/AppError.js";
 import { buscaUsuarioId,inserirMensagem,buscaMensagens,buscaConversas,criarConversa,buscaService_id,marcarLido,buscarParticipantesConversa } from "../conversas/conversas.repository.js";
 import { MarcarMensagemComoLidaInput} from "../../types/socket.js"
+import { buscarPorId } from "../users/user.repository.js";
 
 export async function buscaUsuarioId_service(
   usuarioId: number,
@@ -113,6 +114,12 @@ export async function criarConversa_service(proposer_id:number,receiver_id:numbe
     throw new AppError("Não é possivel criar uma conversa consigo mesmo",400); 
   }
 
+  const destinatario = await buscarPorId(receiver_id); 
+
+  if(!destinatario){
+    throw new AppError("Destinatário não encontrado",404); 
+  }
+  
   if(service_id!== undefined &&service_id!==null){ 
    if(!Number.isInteger(service_id) || service_id<=0){
     throw new AppError("Serviço inválido",400); 

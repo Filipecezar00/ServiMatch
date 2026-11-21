@@ -54,7 +54,7 @@ export async function buscaConversas(usuarioId) {
 }
 export async function buscaService_id(service_id) {
     const [service] = await pool.query(`
-   SELECT id FROM services_offered WHERE id = ?
+   SELECT id, user_id FROM services_offered WHERE id = ?
   `, [service_id]);
     if (!service || service.length === 0) {
         return null;

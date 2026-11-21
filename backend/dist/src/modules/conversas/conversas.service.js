@@ -1,5 +1,6 @@
 import AppError from "../../utils/AppError.js";
 import { buscaUsuarioId, inserirMensagem, buscaMensagens, buscaConversas, criarConversa, buscaService_id, marcarLido, buscarParticipantesConversa } from "../conversas/conversas.repository.js";
+import { buscarPorId } from "../users/user.repository.js";
 export async function buscaUsuarioId_service(usuarioId, conversa_id) {
     if (!usuarioId) {
         throw new AppError("Usuário não localizado", 404);
@@ -33,7 +34,7 @@ export async function inserirMensagem_service(conversa_id, usuarioId, mensagem) 
 export async function buscaMensagens_service(usuarioId, conversa_id, page, limit) {
     await buscaUsuarioId_service(usuarioId, conversa_id);
     let page_number = Number(page) || 1;
-    let limit_number = Number(limit) || 20;
+    let limit_number = Math.min(Number(limit) || 20, 100);
     if (page_number < 1) {
         page_number = 1;
     }
@@ -80,19 +81,32 @@ export async function marcaComoLida_service({ mensagemId, conversaId, usuarioId 
     };
 }
 export async function criarConversa_service(proposer_id, receiver_id, service_id) {
-    if (!proposer_id) {
+    if (!Number.isInteger(proposer_id) || proposer_id <= 0) {
         throw new AppError("Usuário não localizado", 404);
     }
-    if (!receiver_id) {
+    if (!Number.isInteger(receiver_id) || receiver_id <= 0) {
         throw new AppError("Usuário não localizado", 404);
     }
-    if (service_id != null) {
+    if (proposer_id === receiver_id) {
+        throw new AppError("Não é possivel criar uma conversa consigo mesmo", 400);
+    }
+    const destinatario = await buscarPorId(receiver_id);
+    if (!destinatario) {
+        throw new AppError("Destinatário não encontrado", 404);
+    }
+    if (service_id !== undefined && service_id !== null) {
+        if (!Number.isInteger(service_id) || service_id <= 0) {
+            throw new AppError("Serviço inválido", 400);
+        }
         const servicoExistente = await buscaService_id(service_id);
         if (!servicoExistente) {
             throw new AppError("Serviço não localizado", 404);
         }
+        if (Number(servicoExistente.user_id) !== receiver_id) {
+            throw new AppError("Este serviço não pertence ao destinatário", 403);
+        }
     }
-    const conversas = await criarConversa(proposer_id, receiver_id, service_id !== undefined && service_id !== null ? Number(service_id) : null);
+    const conversas = await criarConversa(proposer_id, receiver_id, service_id ?? null);
     return conversas;
 }
 export async function buscarParticipantesConversa_service(conversa_id) {
