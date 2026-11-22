@@ -17,11 +17,14 @@ import { adicionarConexao, removerConexao, usuarioEstaOnline } from "./src/modul
 import { buscarParticipantesConversa_service } from "./src/modules/conversas/conversas.service.js";
 import { authSocket } from "./src/middleware/authSocket.js";
 import { buscaUsuarioId_service, inserirMensagem_service, marcaComoLida_service } from "./src/modules/conversas/conversas.service.js";
+import cors from "cors";
+import { corsOptions } from "./src/config/cors.js";
 const app = express();
+app.use(cors(corsOptions));
 app.use(express.json());
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-    cors: { origin: "*" },
+    cors: corsOptions,
 });
 io.use(authSocket);
 setupSwagger(app);
