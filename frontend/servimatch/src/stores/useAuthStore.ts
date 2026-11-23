@@ -23,7 +23,16 @@ export const useAuthStore = create<AuthState>()(
         const newSocket = io(socketUrl,{
           transports:["websocket"],
           auth:{token:`Bearer ${token}`},
-        })
+        });
+        newSocket.on("connect",()=>{
+          console.log("Socket conectado:",newSocket.id); 
+        });
+        newSocket.on("connect_error",(error)=>{
+          console.log("Erro na conexão Socket.IO:",error.message); 
+        });
+        newSocket.on("disconnect",(reason)=>{
+          console.log("Socket desconectado:",reason)
+        });
         set({socket:newSocket}); 
       },  
       disconnectSocket:()=> {
