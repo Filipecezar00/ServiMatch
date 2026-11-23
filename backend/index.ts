@@ -24,9 +24,12 @@ import { buscarParticipantesConversa_service } from "./src/modules/conversas/con
 import { authSocket } from "./src/middleware/authSocket.js";
 import {buscaUsuarioId_service,inserirMensagem_service,marcaComoLida_service} from "./src/modules/conversas/conversas.service.js"
 import cors from "cors"
+import helmet from "helmet";
 import { corsOptions,allowedOrigins } from "./src/config/cors.js";
 
 const app = express();
+app.use(helmet());
+
 app.use((req,res,next)=>{
   console.log("ORIGIN RECEBIDA PELO EXPRESS:",req.headers.origin); 
   next(); 
