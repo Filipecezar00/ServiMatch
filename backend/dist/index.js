@@ -25,6 +25,17 @@ app.use(express.json());
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
     cors: corsOptions,
+    allowRequest: (req, callback) => {
+        const origin = req.headers.origin;
+        if (!origin) {
+            return callback(null, true);
+        }
+        const allowedOrigins = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(",").map((item) => item.trim()) : [];
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
+        return callback("Origem não autorizada", false);
+    },
 });
 io.use(authSocket);
 setupSwagger(app);
