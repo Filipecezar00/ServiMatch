@@ -3,6 +3,7 @@ import {
   criarUsuario,
   loginUsuario,
 } from "../../modules/users/users.controller.js";
+import {cadastroLimiter,loginLimiter} from "../../middleware/rateLimit.js"
 const user_router = express.Router();
 
 /**
@@ -40,7 +41,7 @@ const user_router = express.Router();
  *         400:
  *           description: Dados de entrada inválidos ou ausentes
  */
-user_router.post("/cadastro", criarUsuario);
+user_router.post("/cadastro", cadastroLimiter,criarUsuario);
 /**
  * @openapi
  * /api/users/login:
@@ -72,6 +73,6 @@ user_router.post("/cadastro", criarUsuario);
  *         400:
  *           description: Dados de entrada inválidos
  */
-user_router.post("/login", loginUsuario);
+user_router.post("/login", loginLimiter,loginUsuario);
 
 export default user_router;
