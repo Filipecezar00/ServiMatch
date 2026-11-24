@@ -5,7 +5,6 @@ export default function errorMiddleware(erro, req, res, next) {
       message:"O tamanho da requisição excede o limite permitido."
     });
   }
-  
   if (erro instanceof AppError) {
     return res.status(erro.statusCode).json({ mensagem: erro.message });
   } else {
