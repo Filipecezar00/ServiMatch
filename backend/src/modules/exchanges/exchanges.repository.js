@@ -61,25 +61,35 @@ export async function update_exchange_repository(
   return resposta.affectedRows;
 }
 
-export async function completed_exchange_repository(id) {
+export async function completed_exchange_repository(id,usuarioId) {
   const [resposta] = await pool.query(
     `
-        UPDATE exchanges set status = 'completed',
-        completed_at = NOW() WHERE id = ?
+        UPDATE exchanges e
+        JOIN exchange_proposals ep ON e.proposal_id = ep.id
+        SET e.status = 'completed',
+        e.completed_at = NOW()
+        WHERE e.id = ? 
+        AND(ep.proposer_id = ? OR ep.receiver_id = ?)
+        AND e.status = 'in_progress' 
     `,
-    [id],
+    [id,usuarioId,usuarioId],
   );
   return resposta.affectedRows;
 }
 
-export async function canceled_exchange_repository(id) {
+export async function canceled_exchange_repository(id,usuarioId) {
   const [resposta] = await pool.query(
     `
-        UPDATE exchanges set status = 'cancelled' WHERE id = ?
+        UPDATE exchanges e
+        JOIN exchange_proposals ep ON e.proposal_id = ep.id
+        set e.status = 'cancelled'
+        WHERE e.id = ?
+        AND (ep.proposer_id = ? OR ep.receiver_id = ?)
+        AND e.status IN ('scheduled','in_progress')
     `,
-    [id],
+    [id,usuarioId,usuarioId],
   );
-
+  
   return resposta.affectedRows;
 }
 
