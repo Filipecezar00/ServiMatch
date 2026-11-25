@@ -43,16 +43,19 @@ export async function update_exchange_repository(
   status,
   scheduled_date,
   location,
+  usuarioId
 ) {
   const [resposta] = await pool.query(
     `
-    UPDATE exchanges
-    SET status = COALESCE(?,status),
-    scheduled_date = COALESCE(?,scheduled_date),
-    location = COALESCE(?,location)
-    WHERE id = ? 
+    UPDATE exchanges e
+    JOIN exchange_proposals ep ON e.proposal_id = ep.id
+    SET e.status = COALESCE(?,e.status),
+    e.scheduled_date = COALESCE(?,e.scheduled_date),
+    e.location = COALESCE(?,e.location)
+    WHERE e.id = ? 
+    AND (ep.proposer_id = ? OR ep.receiver_id = ?)
 `,
-    [status, scheduled_date, location, exchangeId],
+    [status, scheduled_date, location, exchangeId,usuarioId,usuarioId],
   );
 
   return resposta.affectedRows;
