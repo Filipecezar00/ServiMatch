@@ -63,7 +63,7 @@ export async function update_exchange_service(status, scheduled_date, location, 
             throw new AppError("Localização inválida", 400);
         }
     }
-    const resposta = await update_exchange_repository(exchangeId, status, scheduled_date, location);
+    const resposta = await update_exchange_repository(exchangeId, status, scheduled_date, location, usuarioId);
     if (resposta === 0) {
         throw new AppError("Registro não encontrado em atualização", 404);
     }

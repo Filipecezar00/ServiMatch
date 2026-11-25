@@ -28,14 +28,16 @@ export async function buscar_dados_proposta_repository(exchangeId, usuarioId) {
     `, [exchangeId, usuarioId, usuarioId]);
     return resultado[0];
 }
-export async function update_exchange_repository(exchangeId, status, scheduled_date, location) {
+export async function update_exchange_repository(exchangeId, status, scheduled_date, location, usuarioId) {
     const [resposta] = await pool.query(`
-    UPDATE exchanges
-    SET status = COALESCE(?,status),
-    scheduled_date = COALESCE(?,scheduled_date),
-    location = COALESCE(?,location)
-    WHERE id = ? 
-`, [status, scheduled_date, location, exchangeId]);
+    UPDATE exchanges e
+    JOIN exchange_proposals ep ON e.proposal_id = ep.id
+    SET e.status = COALESCE(?,e.status),
+    e.scheduled_date = COALESCE(?,e.scheduled_date),
+    e.location = COALESCE(?,e.location)
+    WHERE e.id = ? 
+    AND (ep.proposer_id = ? OR ep.receiver_id = ?)
+`, [status, scheduled_date, location, exchangeId, usuarioId, usuarioId]);
     return resposta.affectedRows;
 }
 export async function completed_exchange_repository(id) {

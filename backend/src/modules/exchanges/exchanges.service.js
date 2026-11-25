@@ -101,6 +101,7 @@ export async function update_exchange_service(
     status,
     scheduled_date,
     location,
+    usuarioId
   );
 
   if (resposta === 0) {
