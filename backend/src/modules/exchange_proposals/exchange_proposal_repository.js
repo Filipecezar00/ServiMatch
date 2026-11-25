@@ -51,8 +51,9 @@ export async function alterar_status_repository(id, status, connection = pool) {
   const [resposta] = await connection.query(
     `
     UPDATE exchange_proposals SET status = ? WHERE id = ?
+    AND status = 'pending'
     `,
-    [status, id],
+    [status, id]
   );
   return resposta.affectedRows;
 }
