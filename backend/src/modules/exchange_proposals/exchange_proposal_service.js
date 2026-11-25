@@ -120,7 +120,7 @@ export async function mudar_status(id, usuarioId, statusProposta) {
     );
 
     if (retorno_banco === 0) {
-      throw new AppError("O banco não respondeu essa consulta", 404);
+      throw new AppError("Essa proposta já foi processada por outra requisição.", 409);
     }
 
     if (statusProposta === "accepted") {
