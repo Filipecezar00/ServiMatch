@@ -27,6 +27,7 @@ export async function verify_pending(offered_service_id, wanted_service_id) {
 export async function alterar_status_repository(id, status, connection = pool) {
     const [resposta] = await connection.query(`
     UPDATE exchange_proposals SET status = ? WHERE id = ?
+    AND status = 'pending'
     `, [status, id]);
     return resposta.affectedRows;
 }

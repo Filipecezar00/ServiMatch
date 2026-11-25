@@ -128,10 +128,14 @@ export async function mudar_status(id, usuarioId, statusProposta) {
     }
     await connection.commit();
   } catch (error) {
-    console.log("Erro na transação:", error);
     if (connection) {
       await connection.rollback();
     }
+    if(error instanceof AppError){
+      throw error;
+    }
+
+    console.error("Erro na transação:",error);
     throw new AppError("Erro ao atualizar o status da proposta", 500);
   } finally {
     if (connection) {

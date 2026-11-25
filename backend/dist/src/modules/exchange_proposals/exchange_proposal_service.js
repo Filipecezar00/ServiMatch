@@ -67,7 +67,7 @@ export async function mudar_status(id, usuarioId, statusProposta) {
         await connection.beginTransaction();
         const retorno_banco = await alterar_status_repository(id, statusProposta, connection);
         if (retorno_banco === 0) {
-            throw new AppError("O banco não respondeu essa consulta", 404);
+            throw new AppError("Essa proposta já foi processada por outra requisição.", 409);
         }
         if (statusProposta === "accepted") {
             await exchange_criar(proposal.id, connection);
@@ -75,10 +75,13 @@ export async function mudar_status(id, usuarioId, statusProposta) {
         await connection.commit();
     }
     catch (error) {
-        console.log("Erro na transação:", error);
         if (connection) {
             await connection.rollback();
         }
+        if (error instanceof AppError) {
+            throw error;
+        }
+        console.error("Erro na transação:", error);
         throw new AppError("Erro ao atualizar o status da proposta", 500);
     }
     finally {
