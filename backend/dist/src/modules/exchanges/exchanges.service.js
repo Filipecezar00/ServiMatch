@@ -81,7 +81,7 @@ export async function completed_exchange_service(id, usuarioId) {
         busca_status.status !== "scheduled") {
         throw new AppError("Status inválido para realizar a conclusão", 409);
     }
-    const resposta = await completed_exchange_repository(id);
+    const resposta = await completed_exchange_repository(id, usuarioId);
     if (resposta === 0) {
         throw new AppError("Registro não encontrado para atualização", 404);
     }
@@ -98,7 +98,7 @@ export async function canceled_exchange_service(id, usuarioId) {
     if (busca_status.status === "cancelled") {
         throw new AppError("Essa troca já foi cancelada", 409);
     }
-    const resposta = await canceled_exchange_repository(id);
+    const resposta = await canceled_exchange_repository(id, usuarioId);
     if (resposta === 0) {
         throw new AppError("Registro não encontrado para atualização", 404);
     }
