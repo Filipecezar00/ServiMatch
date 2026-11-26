@@ -26,6 +26,10 @@ export const pool = mysql.createPool({
   password: env.DB_PASSWORD,
   database: env.DB_NAME,
   port: Number(env.DB_PORT ?? 3306),
+  ssl:{
+    minVersion:"TLSv1.2",
+    rejectUnauthorized:true,
+  },
   waitForConnections:true,
   connectionLimit:10,
   maxIdle:5,
