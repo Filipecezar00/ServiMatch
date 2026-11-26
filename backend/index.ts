@@ -65,9 +65,13 @@ setupSwagger(app);
 
 app.get("/health", async (req, res) => {
   try {
-    const consulta = await pool.query(`SELECT 1`);
+    await pool.query(`SELECT 1`);
     res.status(200).json({ status: "ok", database: "connected" });
-  } catch (error) {
+  } catch (error:any) {
+    console.log("ERRO NA CONEXÃO COM O BANCO:",{
+      code:error.code,
+      message:error.message,
+    });
     return res
       .status(500)
       .json({ status: "error", database: "Erro ao executar servidor" });
