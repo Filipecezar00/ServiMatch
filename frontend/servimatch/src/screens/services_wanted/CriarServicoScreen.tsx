@@ -206,7 +206,8 @@ const createStyles = (theme: ReturnType<typeof useAppTheme>) =>
   borderRadius:theme.borderRadius.sm,
   borderWidth:1,
   minHeight:48,
-  borderColor:theme.colors.border 
+  borderColor:theme.colors.border,
+  color:theme.colors.textPrimary 
   }, 
   inputDescricao:{
   marginBottom:theme.spacing.md,
@@ -216,7 +217,8 @@ const createStyles = (theme: ReturnType<typeof useAppTheme>) =>
   borderRadius:theme.borderRadius.sm,
   borderWidth:1,
   borderColor:theme.colors.border,
-  minHeight:150
+  minHeight:150,
+  color:theme.colors.textPrimary
   }, 
   containerCategorias:{
 
