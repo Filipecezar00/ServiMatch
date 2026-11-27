@@ -185,7 +185,8 @@ textTentarNovamente:{
   color:theme.colors.surface
 }, 
 textInformation:{
-
+color:theme.colors.primary,
+textAlign:"center"
 }, 
 cardMeusServicos:{
  flexDirection:"column", 
