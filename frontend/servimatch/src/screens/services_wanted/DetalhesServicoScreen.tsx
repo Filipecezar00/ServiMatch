@@ -281,7 +281,7 @@ export function DetalhesServico() {
             </View>
             <View style={styles.informacoesPrestador}>
               <Text style={styles.rotuloPrestador}>
-                Prestador
+                {tipo==="offered"?"Prestador":"Interessado"}
               </Text>
               <Text style={styles.nomePrestador}>{detalhes.prestador_nome}</Text>
               <Text style={styles.textoPerfil}>Ver Perfil</Text>
@@ -301,7 +301,7 @@ export function DetalhesServico() {
          {loadingChat?(
           <ActivityIndicator size="small" />
          ):(
-          <Text style={styles.textConversar}>Conversar com o prestador</Text>
+          <Text style={styles.textConversar}>{tipo==="offered"?"Conversar com o prestador":"Conversar com quem procura o serviço"}</Text>
          )}
        </Pressable>
     </View>

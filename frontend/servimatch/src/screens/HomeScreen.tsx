@@ -175,6 +175,9 @@ export function HomeScreen() {
               <View style={styles.textoServico}>
                 <Text style={styles.tituloServico}>{item.titulo}</Text>
                 <Text style={styles.descricao}>{item.descricao}</Text>
+                <Text style={styles.tipoServico}>
+                  {item.tipo === "offered" ? "SERVIÇO OFERECIDO":"SERVIÇO PROCURADO"}
+                </Text>
               </View>
               <MaterialCommunityIcons name="chevron-right" size={24} color={theme.colors.textSecondary}/>
           </Pressable>
@@ -325,5 +328,11 @@ textLink:{
 listaPrincipal:{
   flex:1,
   backgroundColor:theme.colors.background
+},
+tipoServico:{
+  fontSize:11,
+  fontWeight:"700",
+  color:theme.colors.primary,
+  marginTop:theme.spacing.sm
 }
 })
