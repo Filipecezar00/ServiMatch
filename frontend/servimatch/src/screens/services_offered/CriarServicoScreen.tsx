@@ -138,6 +138,7 @@ export function CriarServicoScreen() {
         maxLength={200}
         onChangeText={setTitulo}
         style={styles.input}
+        
       />
 
       <Text style={styles.titulo}>Descrição do Serviço</Text>
@@ -248,7 +249,8 @@ paddingVertical:theme.spacing.sm,
 borderRadius:theme.borderRadius.sm,
 borderWidth:1,
 minHeight:48,
-borderColor:theme.colors.border 
+borderColor:theme.colors.border, 
+color:theme.colors.textPrimary
 }, 
 inputDescricao:{
   marginBottom:theme.spacing.md,
@@ -258,7 +260,8 @@ inputDescricao:{
   borderRadius:theme.borderRadius.sm,
   borderWidth:1,
   borderColor:theme.colors.border,
-  minHeight:150
+  minHeight:150,
+  color:theme.colors.textPrimary
 },
 categoriaButton:{
 marginBottom:theme.spacing.sm,
