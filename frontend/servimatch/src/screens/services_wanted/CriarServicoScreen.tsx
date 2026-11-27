@@ -10,7 +10,9 @@ import {
   StyleSheet,
   ScrollView, 
   KeyboardAvoidingView,
-  Platform
+  Platform,
+  Keyboard,
+  TouchableWithoutFeedback
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useAppTheme } from "../../styles/theme/useAppTheme";
@@ -73,7 +75,8 @@ export function CriarServicoWanted() {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS==="ios" ? "padding":"height"}>
-    <View >
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+    <View style={styles.conteudoPrincipal}>
       <View style={styles.containerVoltar}>
         <Pressable onPress={() => navigation.goBack()} style={styles.botaoVoltar}>
           <MaterialCommunityIcons name="arrow-left" size={18} color={theme.colors.textPrimary}/>
@@ -86,7 +89,7 @@ export function CriarServicoWanted() {
         <Text style={styles.titleHeader}>Criar Serviço</Text>
         <Text style={styles.descriptionHeader}>Descreva o serviço que você procura</Text>
        </View>
-       <ScrollView contentContainerStyle={styles.containerEdicao} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+       <ScrollView contentContainerStyle={styles.containerEdicao} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} style={styles.scrollFormulario}>
       <Text style={styles.titulo}>Titulo do Serviço</Text>
       <TextInput
         placeholder="Digite o titulo"
@@ -137,6 +140,7 @@ export function CriarServicoWanted() {
       </Pressable>
       </ScrollView>
     </View>
+</TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 }
@@ -147,6 +151,12 @@ const createStyles = (theme: ReturnType<typeof useAppTheme>) =>
     backgroundColor:theme.colors.background,
     padding:theme.spacing.lg,
   }, 
+  conteudoPrincipal:{
+    flex:1
+  },
+  scrollFormulario:{
+    flex:1
+  },
   containerVoltar:{
     flexDirection:"row",
     paddingBottom:theme.spacing.md,

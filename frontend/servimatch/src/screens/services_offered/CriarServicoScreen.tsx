@@ -9,7 +9,9 @@ import {
   StyleSheet,
   ScrollView,
   KeyboardAvoidingView,
-  Platform
+  Platform,
+  Keyboard,
+  TouchableWithoutFeedback
 } from "react-native";
 import { useState } from "react";
 import { useAppTheme } from "../../styles/theme/useAppTheme";
@@ -100,6 +102,7 @@ export function CriarServicoScreen() {
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS ==="ios" ? "padding" : 
       undefined
     }>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View style={styles.conteudoPrincipal}>
       <View style={styles.containerVoltar}>
         <Pressable onPress={() => navigation.goBack()} style={styles.botaoVoltar}>
@@ -213,6 +216,7 @@ export function CriarServicoScreen() {
       </Pressable>
       </ScrollView>
     </View>
+    </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 }
